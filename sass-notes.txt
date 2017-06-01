@@ -1,0 +1,273 @@
+////////////////////////////////////////////////
+        0.WHAT IS SASS?
+
+    Sass is a css preprocessor. That means you
+write out Sass enhanced css in a .scss file and 
+then compile it into a .css file.
+    This allows you to take advantage of sass
+things like variables, mixins, and functions, 
+nut still output a regular .css file any browser
+could read. 
+
+////////////////////////////////////////////////
+        1. INSTALL ON LINUX AND MAC
+
+    In both cases, you need to install Ruby 
+first, since Sass is a Ruby gem.
+
+LINUX
+    In the command line:
+  sudo gem install sass --no-user-install
+
+MAC
+    It's just:
+  gem install sass 
+    If that gives you trouble use sudo
+
+To double check Sass is installed, do:
+  sass -v
+to check the version and see that it's there
+
+////////////////////////////////////////////////
+        2. USE SASS
+
+    Super simple, to convert a Sass file (.scss)
+into a .css file, go into command line in the 
+folder with the .scss file and:
+  sass input-file.scss output-file.css
+
+WATCH COMMAND 
+    Typing out the Sass command each time is 
+tedious. the --watch command has Sass watch a
+file or folder for changes to the scss files, and
+then auto updates the css file of the same name.
+    So, assuming you set up your project right,
+with a /scss root folder for all .scss, and a 
+/css folder for all css, you would use the 
+watch command on a single file like this:
+
+  sass --watch sccs/style.scss:css/style.css
+
+To watch all scss files, use:
+  
+  sass --watch scss:css 
+
+    Basically, the colon separates the watch
+from the set. you can just use a single
+  
+  sass --watch .
+
+if your sccs and css are in the same folder, but
+this is poor organization. The folders can be 
+anywhere, just give absolute path names.
+
+////////////////////////////////////////////////
+                VARIABLES
+    Sass allows you to use variables like real
+code. In the .scss file:
+
+_____________________________________.scss_____
+$font-stack:  Helvetica, sans-serif;
+$primary-color: #333;
+
+body {
+  font-family: $font-stack;
+  color: $primary-color;
+}
+________________________________________________
+
+which will compile to:
+
+_____________________________________.css_______
+body {
+  font-family: Helvetica, sans-serif;
+  color: #333;
+}
+_________________________________________________
+
+the formula is $name: value;
+
+Use this to save so much time and make DRY (Don't
+Repeat Yourself) code.
+
+VARIABLE TYPES
+  numbers: 10 10.1, even 10px is treated as a
+          number (em and rem too)
+  strings: "anything in quotes"
+  booleans: true or false
+  null: which is considered empty
+  lists: this is a list; so, is, this; (so is me)
+         (same, here). Lists can be separated by
+         commas or just spaces, and can be inside
+         () or not.
+  maps: (key: value, key2: value2), so basically
+        a dictionary
+  NOTE: lists and maps can be nested. Also if the
+        css variable needs commas (like a font
+        stack), use them in the list. If it 
+        doesn't (like border values) don't use
+        them.
+/////////////////////////////////////////////////
+                   3. NESTING
+
+    css is hard to read because it doesn't match
+the DOM heirarchy visually. Sass puts nesting
+into css:
+
+------------------------------------- .scss ---  
+nav {
+  li {
+    font-family: serif;
+    text-size: 12px;
+    a {
+      display: block;
+      padding: 0;
+    }
+  }
+}
+-----------------------------------------------
+Easy to see the relationship, but compiles
+perfectly to:
+------------------------------------- .css ---  
+nav li {
+    font-family: serif;
+    text-size: 12px;
+}
+nav li a {
+ display: block;
+ padding: 0;
+}
+}
+
+/*Assume I remembered to put in a ul*/
+-----------------------------------------------
+
+///////////////////////////////////////////////
+            4.MIXINS
+
+    A mixin is a repeated code block that should
+accept a variable. That way, you write the main 
+block once, then use the argument to change it 
+each time (like when applying lots of gradients)
+    To use ,ixins, just start with @mixin
+
+-------------------------------------- .scss - 
+@mixin border-gradient($col, $col2) {
+ background: -webkit-linear-gradient($cl, $cl2)
+ background: -o-linear-gradient($cl, $cl2)
+ background: -moz-linear-gradient($cl, $cl2)
+ background: -linear-gradient($cl, $cl2)
+}  
+.box {
+ @include border-gradient(red, pink);
+}
+---------------------------------------------
+So you create a mixin, and then you insert it
+with @include(arguments). and it compiles
+to:
+-------------------------------------- .css -
+.box { 
+ background: -webkit-linear-gradient(red, yello)
+ background: -o-linear-gradient(red, yello)
+ background: -moz-linear-gradient(red, yellow)
+ background: -linear-gradient(red, yellow)
+}
+---------------------------------------------
+MIXINS AND DEFAULT VALUES
+
+    Mixin parameters can have default values
+in case they have a default value. 
+--------------------------------------.scss --
+@mixin border-rad($radius: 10px) {
+   border-radius: $radius;
+}
+.border {
+  @include border-radius; //this will default
+                          //to 10px
+}
+----------------------------------------------
+now, you can always override default values by
+entering a variable that's different.
+///////////////////////////////////////////////
+        5. THE & CHARACTER 
+
+    It's basically sass's version of 'this' and
+its used with pseudo-classes.
+-------------------------------------- .scss - 
+.notecard {
+  color: red;
+  &:hover{ 
+    color: blue;
+  }
+}
+---------------------------------------------
+Since the & is in the nested element, it refers 
+to the parent, in this case the .notecard class.
+It compiles in css to the following:
+ ------------------------------------- .css -
+.notecard {
+  color: red;
+}  
+.notecard:hover{ 
+  color: blue;
+}
+ ---------------------------------------------
+much more efficient, just don't forget the :
+
+///////////////////////////////////////////////
+-------------------------------------- .scss - 
+@mixin border-radius($radius) {
+ 
+---------------------------------------------
+ ------------------------------------- .css -
+ ---------------------------------------------
+/
+///////////////////////////////////////////////
+-------------------------------------- .scss - 
+@mixin border-radius($radius) {
+ 
+---------------------------------------------
+ ------------------------------------- .css -
+ ---------------------------------------------
+/
+///////////////////////////////////////////////
+-------------------------------------- .scss - 
+@mixin border-radius($radius) {
+ 
+---------------------------------------------
+ ------------------------------------- .css -
+ ---------------------------------------------
+/
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

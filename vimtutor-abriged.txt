@@ -1,0 +1,649 @@
+////////////////////////////////////////////////////
+	Lesson 1.1:  MOVING THE CURSOR/ESC KEY
+
+
+   To move the cursor, press the h,j,k,l keys as indicated. 
+  ^
+  k     The h key is at the left and moves left.
+<h l>   The l key is at the right and moves right.
+  j     The j key looks like a down arrow.
+  v
+
+ NOTE: If you are ever unsure about something you
+ typed, press <ESC> to place you in Normal mode.
+ Then retype the command you wanted.
+
+////////////////////////////////////////////////////
+	 Lesson 1.2: EXITING VIM
+
+  Type:	:q! <ENTER>.
+
+  This exits the editor, DISCARDING any changes
+  you have made.
+  
+  Type :q to exit if you didn't make any changes.
+
+  ALSO instead of typing :q!, you can also type ZZ. 
+
+////////////////////////////////////////////////////
+         Lesson 1.3: TEXT EDITING - DELETION
+
+  ** Press x to delete the character under the
+  cursor. **
+
+////////////////////////////////////////////////////
+         Lesson 1.4: TEXT EDITING - INSERTION
+
+	** Press  i  to insert text. **
+ (this is the basic way to edit text) 
+////////////////////////////////////////////////////
+	Lesson 1.5: TEXT EDITING - APPENDING
+
+	** Press  A  to append text. **
+
+
+  Press "A"  and type in the necessary additions at
+  the end of the line, type "a"to append text at the
+  cursor.
+
+////////////////////////////////////////////////////
+	Lesson 1.6: EDITING A FILE
+
+  Use  :wq  to save a file and exit. 
+  Use :w FILENAME to save and keep working
+  (can use tab and arrow shortcuts)
+
+////////////////////////////////////////////////////
+	Lesson 1.7: MOVING AROUND QUICKLY
+
+  w  -move forward to the start of the next word
+  e  -move forward to the end of the next word
+  b  -move backward to the start of previous word
+  CAPITALIZE  -if you capitalize those, they igmore
+  punctuation
+
+  $  -Skip to the end of a line
+  -  -you mapped the dash to be the same as $
+  0  -Skip to the beginning of a line
+////////////////////////////////////////////////////
+	Lesson 1 SUMMARY
+
+  1. The cursor is moved using either the arrow keys
+  or the hjkl keys.
+
+  h (left) j (down) k (up) l (right)
+
+  2. To start Vim from the shell prompt type:
+  vim FILENAME <ENTER>
+
+  3. To exit Vim type: <ESC> :q! <ENTER>  
+  to trash all changes (OR use ZZ).
+  OR type: <ESC> :wq <ENTER>  to save the changes.
+
+  4. To delete the character at the cursor type:  x
+
+  5. To insert or append text type:
+	 
+  i  /type inserted text/  <ESC> to insert before
+  the cursor
+  A  /type appended text/  <ESC> to append after
+  the line
+  
+  NOTE: Pressing <ESC> will place you in Normal mode   or will cancel an unwanted and partially completed 
+  command.
+
+////////////////////////////////////////////////////
+	Lesson 2.1: DELETION COMMANDS
+
+  Type   dw   to make from the cursor to the end 
+  of the word disappear.
+
+////////////////////////////////////////////////////
+	Lesson 2.2: MORE DELETION COMMANDS
+
+  Type  d$ to delete to the end of the line.
+
+////////////////////////////////////////////////////
+	Lesson 2.3: ON OPERATORS AND MOTIONS
+
+  	d   motion
+
+  Where:
+    d      - is the delete operator.
+    motion - is what the operator will operate on 
+
+  A short list of motions:
+    w - until the start of the next word, 
+     EXCLUDING its first character.
+    e - to the end of the current word, 
+     INCLUDING the last character.
+    $ - to the end of the line, 
+     INCLUDING the last character.
+
+////////////////////////////////////////////////////
+	Lesson 2.4: USING A COUNT FOR A MOTION
+
+  Typing a number before a motion repeats it that 
+  many times. 
+
+  Type  2w  to move the cursor two words forward.
+
+  Type  3e  to move the cursor to the end of the
+  third word forward.
+
+  (or just keep typing w and e repeatedly)
+
+  Type  0  (zero) to move to the start of the line.
+
+  Type  $ to move to the end of the line
+
+////////////////////////////////////////////////////
+	Lesson 2.5: USING A COUNT TO DELETE MORE
+
+
+   ** Typing a number with an operator repeats it that many times. **
+
+	 d   number   motion
+	     ex: d2w  
+
+////////////////////////////////////////////////////
+	Lesson 2.6: OPERATING ON LINES
+
+  Type  dd   to delete a whole line.
+
+////////////////////////////////////////////////////
+	Lesson 2.7: THE UNDO COMMAND
+
+   Press  u  to undo the last commands,  U  to fix a whole line. 
+  Type CTRL-R to redo the commands 
+  (undo the undo's).
+
+////////////////////////////////////////////////////
+	Lesson 2 SUMMARY
+
+  To delete from the cursor up to the next word type:    dw
+  To delete from the cursor to the end of a line type    d$
+  To delete a whole line type:    dd
+
+  To repeat a motion prepend it with a number:   2w
+  The format for a change command is:
+      operator   [number]   motion
+  where:
+  operator - is what to do, such as  d  for delete
+  [number] - an optional count to repeat the motion
+  motion   - moves over the text to operate on, 
+
+  To move to the start of the line use a zero:  0
+
+  To move to the end of a line type $
+
+  To undo previous actions, type: u 
+
+  To undo all the changes on a line, type:  U 
+
+  To undo the undo's, type: CTRL-R
+
+////////////////////////////////////////////////////
+	Lesson 3.1: THE PUT COMMAND
+
+
+  Type  p  to put previously deleted text after 
+  the cursor. 
+
+
+////////////////////////////////////////////////////
+	Lesson 3.2: THE REPLACE COMMAND
+
+  Type  rx  to replace the character at the cursor 
+  with  x, x being any single character. 
+
+////////////////////////////////////////////////////
+	Lesson 3.3: THE CHANGE OPERATOR
+
+  To change until the end of a word, type  ce . 
+
+  Notice that  ce  deletes the word and places
+  you in Insert mode.
+
+////////////////////////////////////////////////////
+	Lesson 3.4: MORE CHANGES USING c
+
+  The change operator is used with the same motions 
+  as delete. 
+
+         c    [number]   motion
+
+  The motions are the same, such as w (word) and
+  $ (end of line).
+
+////////////////////////////////////////////////////
+	Lesson 3 SUMMARY
+
+  To put back text that has just been deleted, 
+  type   p .  This puts the deleted text AFTER 
+  the cursor 
+
+  (if a line was deleted it will go on the line 
+  below the cursor).
+
+  To replace the character under the cursor, 
+  type   r   and then the character you want 
+  to have there.
+
+  The change operator allows you to change from 
+  the cursor to where the motion takes you.  
+    eg. Type  ce  to change from the cursor to 
+    the end of the word,  c$  to change to the 
+    end of a line.
+
+  The format for change is:
+	 c   [number]   motion
+
+////////////////////////////////////////////////////
+	Lesson 4.1: CURSOR LOCATION AND FILE STATUS
+
+  Type  gg  to move you to the start of the file.
+  
+  Press  G  to move you to the bottom of the file.
+
+  Type CTRL-G to show your location in the file and 
+  the file status.
+
+  Type 23G  to move to a line 23 in the file
+  (23 could be any num in the file) 
+
+  NOTE:  You may see the cursor position in the 
+  lower right corner of the screen. This happens 
+  when the 'ruler' option is set (see :help ruler)
+
+////////////////////////////////////////////////////
+	Lesson 4.2: THE SEARCH COMMAND
+
+  Type  /  followed by a phrase to search for 
+  the phrase moving forward in the file.   
+
+  To search for a phrase in the backward direction,
+  use  ?  instead of  / .
+
+  To search for the same phrase again, 
+  simply type  n , if you typed /, n  will move 
+  you forward examples, ?  and n  will go backwards.
+
+  To search for the same phrase in the opposite
+  direction, type  N .
+
+  To go back to where you came from press  CTRL-O  
+  (Keep Ctrl down while pressing the letter o).  
+  Repeat to go back further.  CTRL-I goes forward.
+
+ NOTE: When the search reaches the end of the file 
+ it will continue at the start, unless the 'wrapscan'
+ option has been reset.
+
+////////////////////////////////////////////////////
+	Lesson 4.3: MATCHING PARENTHESES SEARCH
+
+  Type  %  to find a matching ),], or } .
+  Meaning if you place cursor on the opener, press %
+  to jump to the closer. Hit it again to go back 
+  to where you were.  
+
+  NOTE: This is very useful in debugging a program 
+  with unmatched parentheses (although, vim always
+  highlights sets, so if it doesnt highlight,
+  tat means it doesn't close)!
+
+////////////////////////////////////////////////////
+	Lesson 4.4: THE SUBSTITUTE COMMAND
+
+
+  Type  :s/old/new/g  to substitute 'new' for 'old'.
+
+  Type   :%s/old/new/g  to change every occurrence
+  in the whole file.
+
+  Type   :%s/old/new/gc  to find every occurrence 
+  in the whole file, with a prompt whether to 
+  substitute or not.
+  
+  Type  :s/thee/the/g .  Adding the  g  flag means 
+  to substitute globally in the line.
+
+  To change every occurrence of a character string 
+  between two lines, type   :#,#s/old/new/g    
+  where #,# are the line numbers of the range of
+  lines where the substitution is to be done.
+  
+///////////////////////////////////////////////////
+	Lesson 4 SUMMARY
+
+  CTRL-G  displays your location in the file and 
+  the file status.
+             G  moves to the end of the file.
+     number  G  moves to that line number.
+            gg  moves to the first line.
+
+  Typing  / followed by a phrase searches FORWARD 
+  for the phrase.
+  
+  Typing  ?  followed by a phrase searches 
+  BACKWARD for the phrase.
+
+  After a search type  n  to find the next 
+  occurrence in the same direction or  N  to 
+  search in the opposite direction.
+
+  CTRL-O takes you back to older positions, 
+  CTRL-I to newer positions.
+
+  Typing  %  while the cursor is on a (,),[,],
+  {, or } goes to its match.
+
+  To substitute new for the first old in a line type    :s/old/new
+     To substitute new for all 'old's on a line type	   :s/old/new/g
+     To substitute phrases between two line #'s type	   :#,#s/old/new/g
+     To substitute all occurrences in the file type	   :%s/old/new/g
+     To ask for confirmation each time add 'c'		   :%s/old/new/gc
+
+////////////////////////////////////////////////////
+	Lesson 5.1: EXECUTE AN EXTERNAL COMMAND
+
+   Type  :!  followed by an external command 
+
+  Type :  to set the cursor at the bottom of the 
+  screen.  
+  This allows you to enter a command-line command.
+
+  Now type the  !  character.  This allows you to
+     execute any external shell command.
+
+
+  NOTE:  you can use any command this way, also with
+       arguments.
+
+////////////////////////////////////////////////////
+	Lesson 5.2: MORE ON WRITING FILES
+
+     To save changes made to the text, 
+     type  :w FILENAME. 
+
+////////////////////////////////////////////////////
+	Lesson 5.3: SELECTING TEXT WITH VISUAL MODE 
+
+  NOTE:  Pressing  v  starts Visual selection.  
+  You can move the cursor around to make the 
+  highlighted selection bigger or smaller.  
+
+  Then you can use an operator. For example,  
+  d  deletes the text, w and e select words.
+
+  Press ESC to get out of visual.
+
+  To save part of the file, type  
+  v  motion  :w FILENAME 
+
+////////////////////////////////////////////////////
+	Lesson 5.4: RETRIEVING AND MERGING FILES
+
+  To insert the contents of a file, type :r FILENAME  
+  NOTE:  You can also read the output of an external 
+  command.  For example, :r !ls   reads the output 
+  of the ls command and puts it below the cursor.
+
+keyboard.sh
+practice.txt
+shortcut-vim.txt
+test.txt
+vimtutorAbriged.txt
+
+////////////////////////////////////////////////////
+	Lesson 5 SUMMARY
+
+
+  :!command  executes an external command.
+  (Unix) :!ls  -shows a directory listing.
+	 :!rm FILENAME   -removes file FILENAME.
+
+  :w FILENAME  writes the current Vim file to disk 
+  with name FILENAME.
+
+  v  motion  enters visual mode, use with commands 
+  to jump words or save Visually selected lines in 
+  file FILENAME.
+
+  :r FILENAME  retrieves disk file FILENAME and 
+  puts it below the cursor position.
+
+  :r !ls  reads the output of the dir command and 
+  puts it below the cursor position.
+
+////////////////////////////////////////////////////
+	Lesson 6.1: THE OPEN COMMAND
+
+  Type  o  to open a line below the cursor and 
+  place you in Insert mode. **
+
+  Type the lowercase letter  o  to open up a line 
+  BELOW the cursor and place you in Insert mode.
+
+  To open a line ABOVE, type capital O
+
+////////////////////////////////////////////////////
+	Lesson 6.2: THE APPEND COMMAND
+
+  Type  a  to insert text AFTER the cursor. 
+
+NOTE:  a, i and A all go to the same Insert mode, the only difference is where
+       the characters are inserted.
+  a = after the cursor
+  A = after the entire line
+  i = at the cursor
+ 
+////////////////////////////////////////////////////
+	Lesson 6.3: ANOTHER WAY TO REPLACE
+
+  Type a capital  R  to replace more than one 
+  character. 
+
+  This enters you into Replace mode. Replace mode 
+  is like Insert mode, but every typed character 
+  deletes an existing character.
+
+////////////////////////////////////////////////////
+	Lesson 6.4: COPY AND PASTE TEXT
+
+
+  Use the  y  "yank" operator to copy text and  p  
+  to paste it 
+
+  If you just hit y, it copies the entire line the
+  cursor is on.
+
+  When you paste a full line, it appears on the line
+  immediately beneath the cursor. if you copied only
+  a few words it appears at the cursor.
+
+  To yank, either do y, y(operator) like
+  e or w), y3w, or go into Visual mode
+
+////////////////////////////////////////////////////
+	Lesson 6.5: SET OPTION
+
+  Set an option so a search or substitute ignores 
+  case, highlights, or searces incrementally.
+
+  Set the 'ic' (Ignore case) option by entering:   
+  :set ic
+
+  To disable ignoring case enter:  :set noic
+
+  If you want to ignore case for just one search 
+  command, use  '\c'  /ignore\c 
+
+  Set the 'hlsearch' options:  
+  :set hls 
+
+  To remove the highlighting of matches enter:   
+  :nohlsearch 
+
+  Normally, / searches only once you hit enter,
+  to have the search refine as each letter is typed,
+  uses :set 'incsearch' and :noincsearch to undo
+ 
+////////////////////////////////////////////////////
+	Lesson 6 SUMMARY
+
+  Type  o  to open a line BELOW the cursor and 
+  start Insert mode.
+  Type  O  to open a line ABOVE the cursor.
+
+  Type  a  to insert text AFTER the cursor.
+  Type  A  to insert text after the end of the line.
+
+  The  e  command moves to the end of a word.
+
+  The  y  operator yanks (copies) text,  p  puts 
+  (pastes) it.
+
+  Typing a capital  R  enters Replace mode until  
+  <ESC>  is pressed.
+
+  Typing ":set xxx" sets the option "xxx".  
+  Some options are:
+  'ic' 'ignorecase' -ignore upper/lower case 
+                     when searching
+  'is' 'incsearch' -show partial matches for a 
+                    search phrase
+  'hls' 'hlsearch' -highlight all matching phrases
+   
+   You can either use the long or the short 
+   option name.
+
+  Prepend "no" to switch an option off:  :set noic
+
+///////////////////////////////////////////////////
+	TEASE: Using :split
+
+  Use the command :split to add a new frame of a
+  document. Use :split FILENAME to open another
+  document in the new window.(or :sp for short)
+  
+  :sp :split is a horizontal split, 
+  :vsp :vsplit makes a vertical split
+  you can create vertical and horizontal splits
+  within each other
+
+  To move between windows, 
+  use CTRL-w then the arrow/letter direction 
+  or CTRL-w CTRL-w to toggle through screens
+
+  To resize window use:
+  CTRL-w +  to increase current window size by one line
+  CTRL-w -  to decrease current window size by one
+  CTRL-w =  to make all windows equal
+
+
+  Close a window with ZZ or :q!  
+
+
+
+///////////////////////////////////////////////////
+	Lesson 7.1: GETTING HELP
+
+  Use the on-line help system 
+
+  Vim has a comprehensive on-line help system.  
+  To get started, try one of these three:
+	- press the <HELP> key (if you have one)
+	- press the <F1> key (if you have one)
+	- type   :help <ENTER>
+
+  Read the text in the help window to find out how 
+  the help works.
+
+  Type  CTRL-W CTRL-W to jump from one window to 
+  another.
+  Type    :q <ENTER>    to close the help window.
+
+  You can find help on just about any subject, 
+  by giving an argument to the
+  
+  ":help" command.  Try these 
+
+	:help w
+	:help c_CTRL-D
+	:help insert-index
+	:help user-manual
+
+////////////////////////////////////////////////////
+	Lesson 7.2: CREATE A STARTUP SCRIPT
+
+  Enable Vim features 
+
+  Vim has more features than Vi, but most of 
+  them are disabled by default. To start using 
+  them you have to create a "vimrc" file.
+
+  Start editing the "vimrc" file.  
+	:e ~/.vimrc		for Unix
+
+  Now read the example "vimrc" file contents:
+	:r $VIMRUNTIME/vimrc_example.vim
+
+  Write the file with:	:w
+
+  For more information type  :help vimrc-intro
+
+////////////////////////////////////////////////
+    Lesson 7.3: COMPLETION
+
+  Command line completion with CTRL-D and <TAB> 
+
+  Make sure Vim is not in compatible mode:  
+   :set nocp
+
+  Press  CTRL-D  and Vim will show a list of 
+  commands 
+
+  Press <TAB>  and Vim will complete the 
+  command 
+
+////////////////////////////////////////////////
+			       Lesson 7 SUMMARY
+
+
+  Type  :help  or press <F1> or <Help>  to open a help window.
+
+  Type  :help cmd  to find help on  cmd .
+
+  Type  CTRL-W CTRL-W  to jump to another window
+
+  Type  :q  to close the help window
+
+  Create a vimrc startup script to keep your preferred settings.
+
+  When typing a  :  command, press CTRL-D to see possible completions.
+     Press <TAB> to use one completion.
+
+
+////////////////////////////////////////////////
+  This concludes the Vim Tutor.  It was intendeddG to give a brief overview of
+  the Vim editor, just enough to allow you to use the editor fairly easily.
+  It is far from complete as Vim has many many more commands.  Read the user
+  manual next: ":help user-manual".
+
+  For further reading and studying, this book is recommended:
+	Vim - Vi Improved - by Steve Oualline
+	Publisher: New Riders
+  The first book completely dedicated to Vim.  Especially useful for beginners.
+  There are many examples and pictures.
+  See http://iccf-holland.org/click5.html
+
+  This book is older and more about Vi than Vim, but also recommended:
+	Learning the Vi Editor - by Linda Lamb
+	Publisher: O'Reilly & Associates Inc.
+  It is a good book to get to know almost anything you want to do with Vi.
+  The sixth edition also includes information on Vim.
+
+
+////////////////////////////////////////////////
