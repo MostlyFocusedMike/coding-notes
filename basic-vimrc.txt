@@ -1,0 +1,62 @@
+" Use Vim settings, rather than Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+                
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+set history=50	" keep 50 lines of cmdline hist
+syntax enable	" enable syntax processing
+filetype indent on   " filetype specific indent 
+set lazyredraw  " redraw screen only when needed
+
+" edit vimrc {{{
+" edit and load changes in vimrc file 
+" seems to open up a side split scree
+nnoremap <leader>ev :split $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+"}}}
+
+" folds {{{
+set foldenable   "enable folding
+set foldlevelstart=10 "start with most folds open
+
+" hitting space opens/closes folds
+nnoremap <space> za
+set foldmethod=indent " fold based on indent lev.
+" :help foldmethod to see other possible optioms
+"}}}
+
+" mouse {{{
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mouse=a
+endif
+" }}}
+
+" search {{{
+set incsearch   "incremental search
+set hlsearch    "highlight searches
+
+"turn off search highlight with mapped shortcut
+"<leader> is the \ key, so type \ space to
+"turn off the highlighted search
+nnoremap<leader><space> :nohlsearch<CR>
+" }}}
+    
+" tabs {{{
+set expandtab    " tabs are spaces
+set tabstop=4	" number of visual spaces per tab
+set shiftwidth=4 " number of space characters inserted
+" }}}    
+
+" looks {{{
+set ruler " show the cursor position all the time
+set showcmd	" display incomplete commands
+set number    " show line numbers
+set cursorline
+set showmatch   " highlight matching []{}()
+set wildmenu    " visual autocomplete tab menu
+" }}}
+
+set modelines=1
+" vim:foldmethod=marker:foldlevel=0
