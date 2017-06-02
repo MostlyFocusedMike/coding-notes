@@ -1,3 +1,34 @@
 /////////////////////////////////////////////////
- de/CAPITALIZE LETTERS       
-~  = Letter on cursor switches capital state 
+HOW TO QUIT
+:q   -quit 
+:q!  -force quit and lose changes 
+:wq  -save changes and quit
+ZZ   -save changes and quit
+
+
+SAVE
+:w  -saves current file(can add file name)
+
+
+
+CUT AND PASTE
+dd  +   p   - cuts a line, then y to paste it
+v  + dd + p -visual mode to select, delete, paste
+
+
+
+COPY AND PASTE 
+v + y  -visual mode select, yank a line.
+
+
+DELETE STUFF
+dd  -delete whole line
+dw  -delete cursor to begin of next word
+de  -delete from cursor to end of word
+d3w -delete number of words
+
+
+
+
+DE/CAPITALIZE LETTERS       
+~  = letter on cursor switches capital state 
