@@ -535,13 +535,16 @@ NOTE:  a, i and A all go to the same Insert mode, the only difference is where
 
   To move between windows, 
   use CTRL-w then the arrow/letter direction 
-  or CTRL-w CTRL-w to toggle through screens
+  or CTRL-w w to toggle through screens
 
-  To resize window use:
+  To move/resize window use:
   CTRL-w +  to increase current window size by one line
   CTRL-w -  to decrease current window size by one
   CTRL-w =  to make all windows equal
-
+  CTRL-w _  to maximaize current window
+  CTRL-w H  to go from horizontal to vertical layout.
+  CTRL-w J  to go from vertical to horizontal layout.
+  CTRL-w r  to swap windows content, but layout the same.
 
   Close a window with ZZ or :q!  
 

@@ -9,6 +9,10 @@ things like variables, mixins, and functions,
 nut still output a regular .css file any browser
 could read. 
 
+
+
+
+
 ////////////////////////////////////////////////
         1. INSTALL ON LINUX AND MAC
 
@@ -28,6 +32,10 @@ To double check Sass is installed, do:
   sass -v
 to check the version and see that it's there
 
+
+
+
+
 ////////////////////////////////////////////////
         2. USE SASS
 
@@ -35,7 +43,7 @@ to check the version and see that it's there
 into a .css file, go into command line in the 
 folder with the .scss file and:
   sass input-file.scss output-file.css
-
+71G
 WATCH COMMAND 
     Typing out the Sass command each time is 
 tedious. the --watch command has Sass watch a
@@ -61,8 +69,12 @@ if your sccs and css are in the same folder, but
 this is poor organization. The folders can be 
 anywhere, just give absolute path names.
 
+
+
+
+
 ////////////////////////////////////////////////
-                VARIABLES
+                3. VARIABLES
     Sass allows you to use variables like real
 code. In the .scss file:
 
@@ -107,8 +119,13 @@ VARIABLE TYPES
         stack), use them in the list. If it 
         doesn't (like border values) don't use
         them.
+
+
+
+
+
 /////////////////////////////////////////////////
-                   3. NESTING
+                  4. NESTING
 
     css is hard to read because it doesn't match
 the DOM heirarchy visually. Sass puts nesting
@@ -142,8 +159,13 @@ nav li a {
 /*Assume I remembered to put in a ul*/
 -----------------------------------------------
 
+
+
+
+
+
 ///////////////////////////////////////////////
-            4.MIXINS
+            5.MIXINS
 
     A mixin is a repeated code block that should
 accept a variable. That way, you write the main 
@@ -188,10 +210,55 @@ in case they have a default value.
 ----------------------------------------------
 now, you can always override default values by
 entering a variable that's different.
-///////////////////////////////////////////////
-        5. THE & CHARACTER 
 
-    It's basically sass's version of 'this' and
+MIXINS FACTS: 
+1. Mixins can take multiple arguments.
+2. Sass allows you to explicitly define each 
+   argument in your @include statement.
+3. When values are explicitly specified you 
+   can send them out of order.
+4. If a mixin definition has a combination of 
+   arguments with and without a default value, 
+   you should define 
+   the ones with no default value first.
+5. Mixins can be nested.
+
+Here are some examples of those facts: 
+
+-------------------------------------.scss ------
+@mixin dashed-border($width, $color: #FFF) {
+  border: {
+     color: $color;
+     width: $width;
+     style: dashed;
+  }
+}
+
+span { //only passes non-default argument
+    @include dashed-border(3px);
+}
+
+p { //passes both arguments
+    @include dashed-border(3px, green);
+}
+
+div { // out of order but explicitly defined
+   @include dashed-border(color: purple, 
+    width: 5px); 
+}
+-------------------------------------------------
+
+
+
+
+
+
+
+///////////////////////////////////////////////
+        6. THE & CHARACTER 
+
+    The & selector is a sass constructor. 
+It's basically sass's version of 'this' and
 its used with pseudo-classes.
 -------------------------------------- .scss - 
 .notecard {
@@ -214,36 +281,109 @@ It compiles in css to the following:
  ---------------------------------------------
 much more efficient, just don't forget the :
 
+
+
+
+
 ///////////////////////////////////////////////
+        7. LISTS AND MAPS AS VARIABLES
+
+     Sass allows you to pass maps and lists as
+variables:  
 -------------------------------------- .scss - 
-@mixin border-radius($radius) {
- 
+$college-ruled-style: ( 
+    direction: to bottom,
+    width-percent: 15%,
+    stripe-color: blue,
+    stripe-background: white
+);  //this map holds all variables for stripes
+
+ @mixin stripes($direction, $width-percent, 
+  $stripe-color, $stripe-background: #FFF) {
+  background: repeating-linear-gradient(
+    $direction,
+    $stripe-background,
+    $stripe-background ($width-percent - 1),
+    $stripe-color 1%,
+    $stripe-background $width-percent
+  );
+}   //this mixin's parameter order match 
+    //match $college-ruled-styled
+
+.definition {
+      width: 100%;
+      height: 100%;
+      @include stripes($college-ruled-style...);
+ } //DO NOT FORGET the "..." no space
 ---------------------------------------------
- ------------------------------------- .css -
- ---------------------------------------------
-/
+It's very simple, just don't forget to add the 
+"..." immediately the map variable 
+
+
+
+
+
 ///////////////////////////////////////////////
+            8. STRING INTERPOLATION
+
+    String concatenation isn't the only way to
+add a variable to a string, you can also use 
+interpolation: 
 -------------------------------------- .scss - 
-@mixin border-radius($radius) {
- 
+ @mixin photo-content($file) {
+  content: url(#{$file}.jpg); 
+  //that #{variable} is string interpolation
+  object-fit: cover;
+}
+
+.photo { 
+  @include photo-content('titanosaur');
+  width: 60%;
+  margin: 0px auto; 
+  }
 ---------------------------------------------
- ------------------------------------- .css -
- ---------------------------------------------
-/
+So now the word "titanosaur" is passed as an 
+argument/variable into a string that tells the
+css what the jpg file name is.
+
+
+
+
+
 ///////////////////////////////////////////////
--------------------------------------- .scss - 
-@mixin border-radius($radius) {
- 
----------------------------------------------
- ------------------------------------- .css -
- ---------------------------------------------
-/
-///////////////////////////////////////////////
-///////////////////////////////////////////////
-///////////////////////////////////////////////
-///////////////////////////////////////////////
-///////////////////////////////////////////////
-///////////////////////////////////////////////
+            9.SASSY FUNCTIONS
+    Sass can use functions, and if you ever learn
+Ruby, you can even write your own. Here are a few
+built in functions you can use: 
+
+-fade-out  
+    fade-out makes a color more transparent by 
+taking a number between 0 and 1 and decreasing 
+opacity, or the alpha channel, by that amount.
+--------------------------------------------------
+  $color: rgba(39, 39, 39, 0.5);
+   $amount: 0.1;
+   $color2: fade-out($color, $amount);
+   //rgba(39, 39, 39, 0.4) 
+--------------------------------------------------
+
+-fade in
+    Does the opposite thing as fade-out
+-------------------------------------------------
+$color: rgba(55,7,56, 0.5);
+$amount: 0.1;
+$color2: fade-in($color, $amount); 
+//rgba(55,7,56, 0.6)
+-------------------------------------------------
+
+
+
+
+
+
+
+
+
 
 
 
