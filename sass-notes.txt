@@ -120,6 +120,7 @@ VARIABLE TYPES
         doesn't (like border values) don't use
         them.
 
+NOTE: LISTS START AT 1 NOT 0!!
 
 
 
@@ -378,17 +379,230 @@ $color2: fade-in($color, $amount);
 
 
 
+        
+/////////////////////////////////////////////////
+            10. ARITHMATIC
+Sass also allows us to perform mathematical 
+functions to compute measurements— including 
+colors.
+
+Here is how Sass computes colors:
+With RGB and HSL it just adds the various colors
+together as you'd expect. With hex, it breaks 
+the 6 digits down to the three colors, 2 digits 
+each:
+
+$color: #010203 + #040506;
+
+        01 + 04 = 05
+        02 + 05 = 07
+        03 + 06 = 09
+
+and gets compiled to> color: #050709;
+
+-Sass takes 
+addition +
+subtraction -
+multiplication *
+division /
+modulo %
+
+-NOTE: 10px, em, rem all units are ignored. Sass
+would take that 10px as just 10 for arithmatic
+
+DIVISION IS WEIRD
+In CSS the / character can be used as a separator.
+In Sass, the character is also used in division.
+
+Here are the specific instances / counts as 
+division:
+
+1. If the value, or any part of it, is stored in 
+a variable or returned by a function.
+
+2. If the value is surrounded by parentheses, 
+unless those parentheses are outside a list 
+and the value is inside.
+
+3. If the value is used as part of another 
+arithmetic expression.
+
+Here are some actual examples of that:
+
+    width: $variable/6; //division
+    line-height: (600px)/9; //division
+    margin-left: 20-10 px/ 2; //division
+    font-size: 10px/8px; //not division
 
 
 
 
 
+/////////////////////////////////////////////////
+            11. LOOPS
 
+    Sass lets you use loops with your css:
 
+@each loops
+    These are basically "for each" loops and they
+apply the code block to each item in a list.
+String interpolation is helpful with this.
+-------------------------------------------.scss-
+        $list: (orange, purple, teal);
 
+        @each $item in $list {
+          .#{$item} {
+            background: $item;
+          }
+        }
+-------------------------------------------------
+which compiles to:
+------------------------------------------.css --
+.orange {
+  background: orange;
+}
 
+.purple {
+  background: purple;
+}
 
+.teal {
+  background: teal;
+}
 
+-------------------------------------------------
+
+@for loops
+    You know what a for loop is, here's syntax:
+
+@for $i from $begin through $end {
+   //some rules and or conditions
+}
+In the example above:
+
+$i is just a variable for the index, 
+or position of the element in the list
+
+$begin and $end are placeholders for the start 
+and end points of the loop.
+
+The keywords through and to are interchangeable 
+in Sass
+
+here's an example:
+-------------------------------------.scss ------
+$total: 10; //Number of .ray divs in our html
+$step: 360deg / $total; //Used to compute the hue based on color-wheel
+
+@for $i from 1 through $total {
+  .ray:nth-child(#{$i}) {
+    background: adjust-hue(blue, $i * $step);
+    width: if($i % 2 == 0, 300px, 350px);
+        margin-left: if($i % 2 == 0, 0px, 50px);
+   }
+}
+.ray {
+  height: 30px;
+  
+}
+-------------------------------------------------
+Here's the compiled css
+
+--------------------------------------,css ------
+.ray:nth-child(1) {
+  background: #9900ff;
+  width: 350px;
+  margin-left: 50px;
+}
+
+.ray:nth-child(2) {
+  background: #ff00cc;
+  width: 300px;
+  margin-left: 0px;
+}
+
+.ray:nth-child(3) {
+  background: #ff0033;
+  width: 350px;
+  margin-left: 50px;
+}
+
+.ray:nth-child(4) {
+  background: #ff6600;
+  width: 300px;
+  margin-left: 0px;
+}
+
+.ray:nth-child(5) {
+  background: yellow;
+  width: 350px;
+  margin-left: 50px;
+}
+
+.ray:nth-child(6) {
+  background: #66ff00;
+  width: 300px;
+  margin-left: 0px;
+}
+
+.ray:nth-child(7) {
+  background: #00ff33;
+  width: 350px;
+  margin-left: 50px;
+}
+
+.ray:nth-child(8) {
+  background: #00ffcc;
+  width: 300px;
+  margin-left: 0px;
+}
+
+.ray:nth-child(9) {
+  background: #0099ff;
+  width: 350px;
+  margin-left: 50px;
+}
+
+.ray:nth-child(10) {
+  background: blue;
+  width: 300px;
+  margin-left: 0px;
+}
+
+.ray {
+  height: 30px;
+}
+
+-------------------------------------------------
+As you can see, this saves a ton of space.
+
+/////////////////////////////////////////////////
+            12. CONDITIONALS
+
+    You can also use conditionals with Sass
+
+Here's a single line version to define width:
+width: if( $condition, $value-if-true, $value-if-false);
+
+Here are options with more than one conditonal:
+
+@mixin deck($suit) {
+ @if($suit == hearts || $suit == spades){
+   color: blue;
+ }
+ @else-if($suit == clovers || $suit == diamonds){
+   color: red;
+ }
+ @else{
+   //some rule
+ }
+}
+
+Notice that the strings aren't using quotes,
+and it uses the or || pipes, and is &&, notice
+also that it uses an if, else-if, else chain, not
+a case statment.
+Mixins are good for condtionals 
 
 
 

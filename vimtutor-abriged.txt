@@ -650,3 +650,13 @@ NOTE:  a, i and A all go to the same Insert mode, the only difference is where
 
 
 ////////////////////////////////////////////////
+            EXTRA: SHIFTING TEXT
+
+    >> and << to indent text according to your
+shift width.
+
+<<, >>  -no visual section affects current line
+v <<, v >>  -v select and indent selected lines
+5>>  -indents five lines 
+>> .  -periods repeat the shift 
+>> u  -u undoes the shift 
