@@ -15,6 +15,12 @@ CUT AND PASTE
 dd  +   p   - cuts a line, then y to paste it
 v  + dd + p -visual mode to select, delete, paste
 
+NDENT TEXT
+>>, <<   -indent single line 
+>> .     -indent single line multiple times
+u    -undo indent
+v selection >>   -indent whole selection
+3>>  -indent x number of lines
 
 
 COPY AND PASTE 

@@ -1,0 +1,71 @@
+////////////////////////////////////////////////
+        JS/JQUERY BOOK: CH 1
+
+review:
+
+OBJECT ORIENTED: objects are MODELED with data
+    and each time one appears it is called an 
+    INSTANCE.
+
+PROPERTIES: characteristcs of an object, each
+    property has a variable and a value.
+
+EVENT: When a user interacts with a program and 
+    triggers a reaction
+
+METHODS: functions that are defined in an object
+
+
+*Web browsers are object oriented*
+    -the browser represents each window and tab 
+     using a WINDOW OBJECT 
+        -The location property has the URL as 
+         the value
+    -The current web page loaded in the 
+     browser is modeled using the 
+     DOCUMENT OBJECT
+
+
+*The Document Object represents an HTML page*
+    -Using the Document Object you can access
+     and change what the user sees on the page.
+    -It has properties, events, and methods from
+     the HTML code
+    -The Document Object is just one of a set of
+     objects all browsers support. 
+    -When a browser creates the document object
+     of a webpage, it also creates a new object
+     for every element on the page
+    -together, all thes objects create the 
+     DOCUMENT OBJECT MODEL (ch. 5 for more)
+
+
+*How a browser sees a page*
+1. recieve page html code
+    -these are the individual HTML documents
+2. create the DOM (document object model) of 
+   the page and store it in memory:
+
+    DOCUMENT   top is the DOCUMENT OBJECT, each
+       |       item below is both a node and an
+    <HTML>     object.
+       |-----------------------|
+    <HEAD>                  <BODY>
+       |--------|              |---------|
+    <TITLE>  <LINK>           <h1>      <p>
+       |        |              |         |
+     name      css            text     text 
+
+3. Use a rendering engine to display the page
+    -if no css is linked to it, it will display
+     presets
+
+
+
+
+
+
+
+
+
+
