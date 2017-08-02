@@ -43,7 +43,7 @@ to check the version and see that it's there
 into a .css file, go into command line in the 
 folder with the .scss file and:
   sass input-file.scss output-file.css
-71G
+
 WATCH COMMAND 
     Typing out the Sass command each time is 
 tedious. the --watch command has Sass watch a
@@ -609,18 +609,222 @@ Mixins are good for condtionals
 
 
 
+///////////////////////////////////////////////////////
+            13. SASS FILE STRUCTURE
+
+    Here's a typical file system for sass
+
+/sass
+    /components
+        _butons.scss
+        _carousel.scss
+    /helpers
+        _variables.scss
+        _functions.scss
+        _mixins.scss
+    /layout
+        _grid.scss
+        _header.scss
+        _footer.scss
+    /pages 
+        _home.scss
+        _about.scss
+        ...
+    main.scss
+
+/css
+    styles.css
+
+    All those _files.scss are called PARTIALS.
+Partials in Sass are the files you split up to 
+organize specific functionality in the codebase.
+
+    They use a _ prefix notation in the file name 
+that tells Sass to hold off on compiling the file 
+individually and instead import it.
+    To import this partial into the main file - or the
+file that encapsulates the important rules and the 
+bulk of the project styles - omit the underscore.
+
+    For example, to import a file named 
+
+_variables.scss,
+
+    add the following line of code:
+
+@import "variables";
+
+The global file imports all the components and 
+centralizes the logic.
+
+@import
+
+    To gain access to these partials, use @import
+-Typically, all imported SCSS files are imported 
+into a main SCSS file which is then combined to 
+make a single CSS output file.
+-The main/global SCSS file has access to any 
+ variables or mixins defined in its imported 
+ files. 
+-The `@import command takes a filename to import.
+
+By default, @import looks for a Sass file in the
+same or otherwise specified directory but there 
+are a few circumstances where it will behave 
+just like a  CSS @import rule:
+
+        If the file’s extension is .css.
+
+        If the filename begins with http://.
+
+        If the filename is a url().
+
+        If the @import has any media queries.
+
+    In addition to keeping code organized, importing
+files can also save you from repeating code. 
+For example, if multiple SCSS files reference the same 
+variables, importing a file with variables partial
+would save the trouble of redefining them each time.
 
 
 
 
 
 
+////////////////////////////////////////////////
+                14. @EXTEND
+
+    @extend is basically Sass's version of inheritance.
+Here it is: 
+.lemonade {
+  border: 1px yellow;
+  background-color: #fdd;
+}
+.strawberry {
+  @extend .lemonade;
+  border-color: pink;
+}
+
+That saves you from having to label an item with 
+both .lemonade, and strawberry. You can just add 
+strawberry, since it will have all of .lemonade's
+rules now. 
+
+This works great if you need the lemonade class
+and a strawberry class, but what if you just 
+wanted a basic "drink" class that you could add
+to all other drinks, but never needed as a 
+standalone class? Use a % placeholder.
 
 
 
 
 
+///////////////////////////////////////////////
+                15. %PLACEHOLDERS
 
+    %placeholders are used for groups of rules
+that are used in other classes, but never as a 
+class itself. 
+
+ %drink {
+    font-size: 2em;
+    background-color: $lemon-yellow;
+ }
+
+ .lemonade {
+  @extend %drink;
+  //more rules
+ }
+ 
+ .coffee {
+ @extend %drink;
+ //more rules
+ }
+
+    Placeholders prevent rules from being 
+rendered to CSS on their own and only become 
+active once they are extended anywhere an id or 
+class could be extended.
+ 
+PLACEHOLDERS VS. MIXINS 
+@mixin blocks will always be rendered into it's
+own rule, even if another element uses the same
+@mixin. See how @extend pairs elements instead:
+
+-----------------------------------------------
+@mixin no-variable {
+  font-size: 12px;
+  color: #FFF;
+  opacity: .9;
+}
+
+%placeholder {
+  font-size: 12px;
+  color: #FFF;
+  opacity: .9;
+}
+
+span {
+  @extend %placeholder;
+}
+
+div {
+  @extend %placeholder;
+}
+
+p {
+  @include no-variable;
+}
+
+h1 {
+  @include no-variable;
+}
+
+-----------------------------------------------
+
+-----------------------------------------------
+span, div{
+  font-size: 12px;
+  color: #FFF;
+  opacity: .9;
+}
+
+p {
+  font-size: 12px;
+  color: #FFF;
+  opacity: .9;
+  //rules specific to ps
+}
+
+h1 {
+  font-size: 12px;
+  color: #FFF;
+  opacity: .9;
+  //rules specific to ps
+} 
+-----------------------------------------------
+see how span and div use extend so they are 
+combined, while p and h1 are identical, but still
+get listed out separately.
+
+As a general rule of thumb, you should
+
+    Try to only create mixins that take in an 
+    argument, otherwise you should extend.
+    (since placeholders don't take variables)
+
+    Always look at your CSS output to make sure 
+    your extend is behaving as you intended.
+
+
+
+
+
+////////////////////////////////////////////////
+END OF CODE ACADEMY BASICS 
+////////////////////////////////////////////////:
 
 
 
