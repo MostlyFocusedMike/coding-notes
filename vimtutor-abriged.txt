@@ -537,18 +537,28 @@ NOTE:  a, i and A all go to the same Insert mode, the only difference is where
   use CTRL-w then the arrow/letter direction 
   or CTRL-w w to toggle through screens
 
+  NOTE: When moving from a vsplit to an adjacent horiz.
+  split, the right or left arrow will jump into the
+  split that it's next to, so move the cursor so it's 
+  next to the window you want to jump to before jumping.
+
   To move/resize window use:
   CTRL-w +  to increase current window size by one line
-  CTRL-w -  to decrease current window size by one
+  CTRL-w -  to decrease current window size by one line
+  CTRL-w >   to increase current window size by one col
+  CTRL-w <   to decrease current window size by one col
   CTRL-w =  to make all windows equal
-  CTRL-w _  to maximaize current window
+  CTRL-w 10 +/-/>/<  use any number to multiply command 
+  CTRL-w CTRL- -   to maximaize current window horiz. 
+  CTRL-w CTRL- |   to maximaize current window vertical
+  (hold CTRL then hit "w" then "-")
   CTRL-w H  to go from horizontal to vertical layout.
   CTRL-w J  to go from vertical to horizontal layout.
   CTRL-w r  to swap windows content, but layout the same.
 
   Close a window with ZZ or :q!  
 
-
+  
 
 ///////////////////////////////////////////////////
 	Lesson 7.1: GETTING HELP
