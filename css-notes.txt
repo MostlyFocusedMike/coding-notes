@@ -1,0 +1,389 @@
+   _____  _____ _____                
+  / ____|/ ____/ ____|               
+ | |    | (___| (___                 
+ | |     \___ \\___ \                
+ | |____ ____) |___) |               
+  \_____|_____/_____/ ______  _____  
+ | \ | |/ __ \__   __|  ____|/ ____| 
+ |  \| | |  | | | |  | |__  | (___   
+ | . ` | |  | | | |  |  __|  \___ \  
+ | |\  | |__| | | |  | |____ ____) | 
+ |_| \_|\____/  |_|  |______|_____/ 
+
+////////////////////////////////////////////////
+123456789012345678901234567890123456789012345678
+    WIDTH OF MINI PI SCREEN
+////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////
+                -CSS ANIMATIONS- 
+    CSS animations have 2 main ways:
+        -Transitions
+        -Keyframe animations 
+    Here are the differences between the two: 
+Triggering:
+    Transitions can be triggered by hovering 
+or adding a class. Animations don't need to be
+triggered, they play automatically (you can 
+"trigger" by adding the class in js)
+
+Looping:
+    Animations have the 
+"animation-iteration-count" property that can
+specify times or be infinite. Transitions 
+can't loop.
+
+Fine control: 
+    Keyframes allow for deep control of motion,
+transitions do have some linear control, but 
+not nearly as much. 
+
+    Before we get into animation, here are some
+properties designed to work very well with 
+animation:
+-----------------------------------------------
+TRANSFORMS
+    Most properties are animated/transitioned, 
+but the transform property is one of the one 
+that works best. Here it is:
+
+
+There are a few different methods you can use:
+
+                translate()
+                rotate()
+                scale()
+                skewX()
+                skewY()
+                matrix()
+
+translate(10px, 20px)
+-The translate() method moves an element from 
+its current position (according to the 
+parameters given for the X-axis and the Y-axis).
+-positve x = right, positive y = down
+-px, em, rem are accepted values
+
+    -ms-transform: rotate(20deg);
+    -webkit-transform: rotate(20deg); 
+    transform: translate(1rem, 3rem);
+
+rotate(20deg);
+The rotate() method rotates an element 
+clockwise or counter-clockwise according to a 
+given degree.
+-positive is clockwise, neg. is counter
+
+    -ms-transform: rotate(-20deg); 
+    -webkit-transform: rotate(-20deg);
+    transform: rotate(-20deg);
+
+scale(2, 3);
+The scale() method increases or decreases the 
+size of an element (according to the parameters 
+given for the width and height). Use whole 
+numbers to increase size and decimals to 
+decrease size, no units of measure needed.
+
+    -ms-transform: scale(2, 3); 
+    -webkit-transform: scale(2, 3); 
+    transform: scale(2, 3);
+
+
+skewX(20deg);
+The skewX() method skews an element along the 
+X-axis by the given angle.
+
+    -ms-transform: skewX(20deg); /* IE 9 */
+    -webkit-transform: skewX(20deg); /* Saf */
+    transform: skewX(20deg);
+
+skewY(20deg):
+    same exact syntax as X, it's just this does
+the Y axis
+
+skew(20deg, 10deg);
+    This one does the X, Y axis in a single line
+just puth the x first, comma, then y. 
+Otherwise, it's the same exact syntax.
+
+
+matrix(1, -0.3, 0, 1, 0, 0);
+    The matrix() method combines all the 2D 
+transform methods into one.
+
+The matrix() method take six parameters, 
+containing mathematic functions, which allows 
+you to rotate, scale, move (translate), 
+and skew elements.
+
+The parameters are as follow: 
+matrix(scaleX(),skewY(),skewX(),scaleY(),
+translateX(),translateY())
+
+-ms-transform: matrix(1, -0.3, 0, 1, 0, 0); 
+/* IE 9 */
+
+-webkit-transform: matrix(1, -0.3, 0, 1, 0, 0);
+ /* Safari */
+
+transform: matrix(1, -0.3, 0, 1, 0, 0);
+
+
+
+Below are the 3 basic (really 2) 3D transforms
+that allow you to rotate the object into 
+virtual space:
+
+rotateX(150deg) //this does a summersault 
+rotateY(150deg) //this flips like a coin
+rotateZ(105deg) //indistinguishable from 
+                //regulare rotate()
+
+Of these, it seems only safari's webkit needs
+special syntax:
+
+    -webkit-transform: rotateY(130deg);
+
+that syntax works for X,Y. and Z rotate
+
+-----------------------------------------------
+PERSPECTIVE
+    This is a cool animatable property that
+allows you to control the way an element is 
+viewed. There are 2 properties to deal with:
+
+    perspective: 500px;
+    perspective-origin: 10% 10%;
+
+
+perspective: 500px;
+    The perspective property defines how many 
+pixels a 3D element is placed from the view. 
+This property allows you to change the 
+perspective on how 3D elements are viewed.
+
+When defining the perspective property for an 
+element, it is the CHILD elements that get the 
+perspective view, NOT the element itself.
+
+Note: The perspective property only affects 
+3D transformed elements!
+
+Tip: Use this property together with the 
+perspective-origin property, which allows you 
+to change the bottom position of 3D elements.
+
+        -webkit-perspective: 500px; 
+        /* Chrome, Safari, Opera */
+
+        perspective: 500px;
+
+It seems the higher the unit, the more normal
+it appears, while going down to 1 unit makes a
+very crazy looking object.
+
+perpective-origin: 10% 10%;
+
+    The perspective-origin property defines 
+where a 3D element is based in the x- and the 
+y-axis. This property allows you to change the 
+bottom position of 3D elements.
+
+When defining the perspective-origin property 
+for an element, it is the CHILD elements that 
+are positioned, NOT the element itself.
+
+Note: This property must be used together with 
+the perspective property, and only affects 3D 
+transformed elements!
+
+        -webkit-perspective: 150px; 
+        /* Chrome, Safari, Opera */
+        -webkit-perspective-origin: 10% 10%; 
+        /* Chrome, Safari, Opera */
+        perspective: 150px;
+        perspective-origin: 10% 10%;
+
+
+Honestly, it's hard to describe these two
+with words, I suggest you play around with them
+to actually get a feel for what they do.
+    Remember, they are animatable, which is 
+neat.
+
+
+-----------------------------------------------
+OK! Now that we have some properties that look
+good when moved, lets move on to animation:
+
+
+
+-----------------------------------------------
+TRANSITIONS 
+
+    the transition property allows you to
+tell an element "hey, if a property on you
+changes from a hover effect, here's how quick
+you should morph into that new property".
+    Its syntax is thus: 
+
+transition: [prop. name] [time] [speed] [delay]
+    
+transition: width 2s linear 1s;
+
+    In that example it means watch the width
+property for changes, if it changes, take 2 
+seconds to do it, move at a linear speed, but
+only after a delay of one second. 
+    You MUST specify the property name and 
+the length of time, otherwise nothing will
+happen becuase the default time is 0s. The 
+other two are optional (the delat is default
+0s and the speed is "ease")
+
+    If you want to watch multiple properties, 
+just separate them with a comma: 
+
+transition: width 2s, height 2s, transform 2s;
+
+    These expamples use the single line version,
+you can also split up each element of the 
+property into it's own property:
+
+    transition-property: width;
+    transition-duration: 2s;
+    transition-timing-function: linear;
+    transition-delay: 1s;
+    // However, this isn't really necessary.
+
+
+The speed of the transition
+    There are several presets to choose from,
+as well as a customizable one:
+
+#div1 {transition-timing-function: linear;}
+#div2 {transition-timing-function: ease;}
+#div3 {transition-timing-function: ease-in;}
+#div4 {transition-timing-function: ease-out;}
+#div5 {transition-timing-function: ease-in-out;}
+
+ease
+-specifies a transition effect with a slow start
+ then fast, then end slowly (this is default)
+
+linear
+-specifies a transition effect with the same 
+ speed from start to end
+
+ease-in
+-specifies a transition effect with a slow 
+ start
+
+ease-out 
+-specifies a transition effect with a slow end
+
+ease-in-out 
+-specifies a transition effect with a slow 
+ start and end
+
+cubic-bezier(n,n,n,n) 
+-lets you define your own values in a 
+ cubic-bezier function. Here is an excellent
+ tool that allows you to edit your curves:
+
+https://googlesamples.github.io/web-fundamentals/fundamentals/design-and-ui/animations/curve-playground.html
+
+(the cubic-bezier function is slightly better
+performance wise than the presets, so use it)   
+
+
+
+Transitions in context:
+
+    You place the transition property on the
+object you want to monitor for changes.
+    Then, you use either a hover or new class
+activated by JS to change another property on
+that element.
+    The transition property will then control
+how that element changes.
+
+    Hover ~~~~~~~
+
+.box {
+    width: 200px;
+    transition: width 2s ease;
+}
+
+.box:hover {
+    width: 400px;
+}
+
+    So if you mouse over that div.box, it will
+stretch by 200px. However, the box itself is a
+trigger, so if you animated say, a move, the 
+instant the box moves off the mouse, the 
+animation would stop. reverse, or jitter. 
+
+    That is why you often use a separate trigger
+element that is a parent of the animated 
+element: 
+
+.trigger {
+    //it's a bigger box
+}
+
+.box {
+    width: 200px;
+    transition: translate 2s ease;
+}
+
+.trigger:hover .box {
+    translate: (400px, 200px);
+    //so now when you hover over trigger, 
+    //the .box class changes
+}
+
+    Now when there is no jitters since the 
+target trigger doesn't move, just the box. 
+However, since transition is inherited (ie, if 
+you hover over the box in its new position) that
+is still technically a trigger and will keep
+the box in its new animated postion. 
+    If you don't want this, add
+
+    pointer-events: none;
+
+to the .box class, which tells css to ignore
+any hovers or clicks on the .box class. Now, you
+can hover over the box and it won't be
+triggered. 
+
+    Class Change ~~~~~~
+
+    Use JS to add a class to the trigger 
+element (.clicked class for example) to toggle
+on and off with each click. Then use a similar
+syntax as before, but replace :hover with the 
+new JS class: 
+
+.trigger {
+    //it's a bigger box
+}
+
+.box {
+    width: 200px;
+    transition: translate 2s ease;
+}
+
+.trigger,clicked .box {
+    translate: (400px, 200px);
+    //so now when you hover over trigger, 
+    //the .box class changes
+}
+
+
+

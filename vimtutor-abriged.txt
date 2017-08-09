@@ -1,3 +1,7 @@
+////////////////////////////////////////////////
+123456789012345678901234567890123456789012345678
+    WIDTH OF MINI PI SCREEN
+////////////////////////////////////////////////
 ////////////////////////////////////////////////////
 	Lesson 1.1:  MOVING THE CURSOR/ESC KEY
 
@@ -670,3 +674,95 @@ v <<, v >>  -v select and indent selected lines
 5>>  -indents five lines 
 >> .  -periods repeat the shift 
 >> u  -u undoes the shift 
+
+
+////////////////////////////////////////////////
+            EXTRA: PLUGINS
+    
+    Below are some rough outlines of the plugins
+
+------------------------------------------------
+VUNDLE
+-mangages all your plugins in an easy folder
+-It must come first in vimrc, after filter off
+and nocompatible set
+    
+    Vundle adds plugins by simply adding a line
+of text into your vimrc in the vundle section.
+So,if a plugin is on github, all you have to 
+do is:
+
+    " Added NERDTree
+    Plugin 'scrooloose/nerdtree'
+
+Then save the file, source the vimrc,
+then run the vundle command: 
+
+    :PluginInstall
+
+which opens a buffer and shows all plugins.
+-note, other load location formats are saved in
+your vimrc, but most downloads come from github
+-Some plugins require other plugins to work,
+like Snipmate, so you will see multiple plugins
+underneath one comment
+
+              Handy Vundle commands
+
+    :PluginInstall   -installs plugins 
+    :PluginInstall!  -updates plugins
+    :PluginSearch foo  -searches for foo plugin
+    :PluginSearch!     -refresh local cache
+    :PluginClean    -confirms removal of unused
+    :PluginClean!   -no prompt to remove
+    :h vundle   -more details
+
+-This is how you install all other plugins,
+but to install Vundle itself, you jsut followed
+the github instructions by cloning the
+repository.
+------------------------------------------------
+
+
+
+------------------------------------------------
+NERDTree
+
+    A file tree system that lets you navigate
+with ease.
+
+        Handy NERDTree commands
+
+    :NERDTree  -opens a vertical split window
+    \nt     -mapped shortcut to open it
+    ?       -see all the possible buttons
+    o       -open in preview window
+    i       -open horiz split
+    s       -open in vsplit
+    r       -refressh file tree to show new file
+    R       -refresh root
+    C       -Chage tree root to selected dir
+    cd      -change the CWD to selected dir
+    CD      -change tree root to CWD
+    x       -minimize current dir
+    p       -move cursor to folder your in
+    P       -go to current Root of tree
+    K       -go to first child of dir
+    J       -go to last child of dir 
+    I       -toggle hidden files 
+    (you have this set automatically in vimrc)
+    q       -close nerdtree
+    
+    
+    Bookmark stuff
+    B       -Open up bookmarks 
+    :bookmark  -file/direc that cursor is on 
+                is now a bookmark
+    D          -delete bookmark 
+    o          -open bookmark
+    ENTER      -also opens bookmark
+
+------------------------------------------------
+
+
+
