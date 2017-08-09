@@ -299,7 +299,7 @@ https://googlesamples.github.io/web-fundamentals/fundamentals/design-and-ui/anim
 (the cubic-bezier function is slightly better
 performance wise than the presets, so use it)   
 
-
+---------------------
 
 Transitions in context:
 
@@ -384,6 +384,11 @@ new JS class:
     //so now when you hover over trigger, 
     //the .box class changes
 }
+
+-------------------------
+
+
+
 
 
 
