@@ -395,7 +395,137 @@ new JS class:
     //the .box class changes
 }
 
--------------------------
+------------------------------------------------
+
+ANIMATION
+
+    Another way to do animations is with 
+@keyframes and the animation suite of properties
+which allow for far greater control. Here is 
+what that looks like: 
+
+@keyframes example {
+    from {background-color: red;}
+    to {background-color: yellow;}
+}
+
+div {
+    animation-name: example;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-delay: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-fill-mode: both;
+    animation-play-state: running;
+}
+
+Roughly, you set up what the animation sequence
+will be in the keyframes rule, give it a name,
+then call it on the object you want to change.
+    The fine control for speed is defined in
+the object that is changing, in this case
+the div.
+    
+    Those six properties can be done in a 
+single line like so: 
+
+div {
+    animation: example 5s linear 2s infinite alternate both running;
+}
+a//the order matches the listed out version
+
+-Keyframes 
+	@keyframes is a powerful tool, you can 
+either use the from (start) and to (end) 
+keywords for simple animations, OR you can use
+percentages to specify exact timings of the 
+animation: 
+
+@keyframes example {
+    0%   {background-color:red; left:0px; top:0px;}
+    25%  {background-color:yellow; left:200px; top:0px;}
+    50%  {background-color:blue; left:200px; top:200px;}
+    75%  {background-color:green; left:0px; top:200px;}
+    100% {background-color:red; left:0px; top:0px;}
+}
+
+Notice that each percent's values are listed 
+out in matching order, in brackets, in key/value
+pairs, separated by colons and semi-colons. 
+It's basically the CSS format inside. 
+
+Now, lets break down each of those animation 
+properties: 
+
+animation-name: 
+	-You have to specify which animation to 
+	 bind to the element, The values are the
+	 names of your animations. One per element,
+	 if you want multiple effects, put them 
+	 in the animation itself.
+
+animation-duration: 
+	-a specifed number of seconds. This info
+	 is critical becuase the default value for 
+	 an animation is 0s, meaning nothing happens
+	 at all. You can also use "ms" as a value,
+	 which stands for milliseconds, to get more
+	 control. 
+
+animation-timing-function: 
+	-Same as with transitions and accepts the 
+	 same values, with cubic-bezier being 
+	 the most performant.
+
+animation-delay: 
+	-What length of time should transpire before
+	 the animation actually starts. Takes unit
+	 s and ms. default value is 0 if skipped
+
+animation-iteration-count: 
+	-Tell the animation to go a set number of
+	 times by giving it a value of an integer,
+	 or tell it to go forever with "infinite" as
+	 the value. Can also be set to "inherit" or
+	 "initial" (initial is the default value of
+	 once)
+
+animation-direction: 
+	-Control if the animation plays "normal"
+	 every cycle, "alternate" with every cycle,
+	 "reverse" order every cycle,
+	 "alternate-reverse" which is normal on the
+ 	 odd cycles and reverse on the even, or set
+	 it to "initial" (normal in this case) or 
+	 "inherit". It'll probably be normal or 
+	 alternate most times.
+
+animation-fill-mode: forwards;
+	-animation only affects an element while it
+	 is playing, so animation fill allows you to
+	 control it once it is done or before it 
+	 is started (pausing it counts as running)
+	-none;
+		default value, animation does not affect
+	-forwards;
+		after the animation ends, it holds the 
+		values it last had
+	-backwards;
+		goes back to the first keyframe values
+		and holds it
+	-both
+		the element will hold the first keyrame
+		properties until it starts, then the 
+		last values when it stops 
+	-initial, inherit 
+		you know these
+
+animation-play-state: paused;
+	-set it to "paused" or "running" 
+	(or initial which is running) or inherit
+
+
 
 
 ////////////////////////////////////////////////

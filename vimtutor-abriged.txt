@@ -43,6 +43,7 @@
 ////////////////////////////////////////////////////
 	Lesson 1.5: TEXT EDITING - APPENDING
 
+    
 	** Press  A  to append text. **
 
 
@@ -711,6 +712,7 @@ underneath one comment
     :PluginInstall   -installs plugins 
     :PluginInstall!  -updates plugins
     :PluginSearch foo  -searches for foo plugin
+
     :PluginSearch!     -refresh local cache
     :PluginClean    -confirms removal of unused
     :PluginClean!   -no prompt to remove
@@ -759,9 +761,55 @@ with ease.
                 is now a bookmark
     D          -delete bookmark 
     o          -open bookmark
+
     ENTER      -also opens bookmark
+
+
+------------------------------------------------
+
+------------------------------------------------
+EasyMotion
+
+    This plugin lets you easily jump to specific
+words by typing a single letter. 
+
+HOW IT WORKS:
+    \\w[then specific letter you want]
+    press \\ (<leader><leader>) and then "w" to
+have easy motion mark each word after the cursor
+with a letter that's a different color. To jump
+
+to that word, just press the letter.
+    If there are more than 26 words then it will
+just add more letters to the sequence, or ";" 
+characters. (as you press the characters, you 
+will see the choices narrow)
+
+    \\f{letter to search for}
+is easymotions version of searching. 
+So say you only wanted to search for the "r" 
+characters, you'd type \\fr and then
+easy motion would only allow you to jump to
+those words. 
+
+(you can add another plugin to allow for fuzzy
+incsearch later. For now just keep it simple, 
+but the links to that one are on the main git 
+hub page)
+
+VERSION DIFFERENCES 
+    In the original version, you only needed
+to type \ once, now you need to press it twice
+
+NOTE: There are a lot of configurations that
+you can custom map to make easyMotion even 
+more powerful. They are all on the github page,
+once you get more comfortable, check them out. 
 
 ------------------------------------------------
 
 
 
+------------------------------------------------
+
+------------------------------------------------
