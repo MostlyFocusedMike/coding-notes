@@ -67,7 +67,6 @@
   punctuation
 
   $  -Skip to the end of a line
-  -  -you mapped the dash to be the same as $
   0  -Skip to the beginning of a line
 ////////////////////////////////////////////////////
 	Lesson 1 SUMMARY
@@ -88,12 +87,12 @@
 
   5. To insert or append text type:
 	 
-  i  /type inserted text/  <ESC> to insert before
-  the cursor
-  A  /type appended text/  <ESC> to append after
-  the line
+  i  to insert before the cursor
+  a  to insert after the cursor
+  A  to append after the line
   
-  NOTE: Pressing <ESC> will place you in Normal mode   or will cancel an unwanted and partially completed 
+  NOTE: Pressing <ESC> will place you in Normal mode
+  or will cancel an unwanted and partially completed 
   command.
 
 ////////////////////////////////////////////////////

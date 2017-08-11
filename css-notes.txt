@@ -15,7 +15,17 @@
     WIDTH OF MINI PI SCREEN
 ////////////////////////////////////////////////
 
+GOOD VIDEOS: 
+        ---------------------------
+CSS Transition (CSS Animations Series Part 1)
+    DevTips 
+    
+    This is a good video that covers the basics
+    of using the transition property.
 
+  https://www.youtube.com/watch?v=8kK-cA99SA0
+
+        ---------------------------
 
 ////////////////////////////////////////////////
                 -CSS ANIMATIONS- 
@@ -379,7 +389,7 @@ new JS class:
     transition: translate 2s ease;
 }
 
-.trigger,clicked .box {
+.trigger.clicked .box {
     translate: (400px, 200px);
     //so now when you hover over trigger, 
     //the .box class changes
@@ -388,6 +398,7 @@ new JS class:
 -------------------------
 
 
+////////////////////////////////////////////////
 
 
 
