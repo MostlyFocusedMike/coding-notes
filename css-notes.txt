@@ -58,7 +58,10 @@ TRANSFORMS
     Most properties are animated/transitioned, 
 but the transform property is one of the one 
 that works best. Here it is:
-
+    
+    -ms-transform: rotate(20deg);
+    -webkit-transform: rotate(20deg); 
+    transform: translate(1rem, 3rem);
 
 There are a few different methods you can use:
 
@@ -454,6 +457,50 @@ Notice that each percent's values are listed
 out in matching order, in brackets, in key/value
 pairs, separated by colons and semi-colons. 
 It's basically the CSS format inside. 
+    However, if you want to remove the brackets,
+it works just as well like this: 
+@keyframes example {
+    0%   
+        background-color:red;
+        left:0px; top:0px;
+    25%  
+        background-color:yellow 
+        left:200px
+        top:0px
+    50%  
+        background-color:blue
+        left:200px 
+        top:200px
+    75%  
+        background-color:green 
+        left:0px 
+        top:200px
+    100% 
+        background-color:red 
+        left:0px 
+        top:0px
+}
+//HOWEVER just for readability, and since you
+//can't see if it actually causes problems,
+//use this spacing but keep the brackets and ; 
+
+There's also a trick where you can specify 
+how long a part of an animation should last:
+
+    0% 
+        height: 100px;
+    20%, 50%
+        width: 400px;
+    100%
+        height: 600px;
+
+So while height is specified and grows the
+whole time, width is told only to change 
+20% to 40% and then stop. This method
+can also introduce pauses into your 
+animations.
+
+
 
 Now, lets break down each of those animation 
 properties: 
@@ -529,6 +576,8 @@ animation-play-state: paused;
 
 
 ////////////////////////////////////////////////
+
+
 
 
 
