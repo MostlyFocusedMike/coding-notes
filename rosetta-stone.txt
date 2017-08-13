@@ -612,8 +612,8 @@ CREATING MANY OBJECTS
     var quayHotel = new Hotel("quay", 40, 25);
     var lHotel = new Hotel("L", 133, 124);
 
-    -object functions like this should have 
-     capital names
+    -object constructor functions like this 
+     should have capital names
     -Don't forget the "new" keyword
     -Access stuff with dot or bracket: 
         quayHotel.name //would be "quay"

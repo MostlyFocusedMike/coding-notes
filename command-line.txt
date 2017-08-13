@@ -1,6 +1,70 @@
+-patorjk.com-
+
+////////////////////////////////////////////////
+123456789012345678901234567890123456789012345678
+    WIDTH OF MINI PI SCREEN
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+        BASH SCRIPTING BASICS 
+
+    You can write code or simple scripts using
+bash. This is a simple introduction.
+
+-----SIMPLE EXAMPLE 
+#!/bin/bash
+
+# simple script showing basics 
+
+echo Here are all the files:
+ls
+touch $1
+echo See your new file $1
+ls
+
+
+------HASHBANG LINE--
+    The first line of your script is always the
+shebang line, it just provides the absolute 
+path to the Bash interpreter (of zsh or fsh)
+
+#!/bin/bash 
+
+(it is also called the hashbang or poundbang)
+
+-----COMMENTS--
+    Shell script comments use the # for lines
+
+-----ARGUMENTS--
+    Passing arguments into your script from
+the outside command line is easy:
+
+./myScript.sh argument1 argument2
+
+just put the arguments separated by spaces 
+after the shell script name. Then, they
+appear in that order as their number
+$1 would be argument1 
+$2 would be argument2
+$0 is the actual name of the file FYI
+$# shows the number of arguments entered
+
+-----EXECUTE A SCRIPT
+    A bash script needs to be made executable by
+using the chmod command to alter permissions on
+the file. For this, you only need to modify the
+owners permission.
+
+$ chmod u+x filename
+
+that lets you, the user, execute the script by
+typing out the filename and any arguments 
+needed in the command line.
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
 IN DEPTH PS1 ASSIGNMENT
-
-
 The bash prompt (stefano@linux:~$) is only the 
 first of a couple of prompts you might see:
 
@@ -86,3 +150,10 @@ BASIC MAC ONE
 
 EDITED SO HOSTNAME NOT SHOWN:
 '\[\033[00;32m\][\033[00;34m\] [\w]\[\033[00m\]'
+
+////////////////////////////////////////////////
+
+
+
+
+

@@ -159,7 +159,7 @@
 	Lesson 2.7: THE UNDO COMMAND
 
    Press  u  to undo the last commands,  U  to fix a whole line. 
-  Type CTRL-R to redo the commands 
+  Type CTRL-r to redo the commands 
   (undo the undo's).
 
 ////////////////////////////////////////////////////
@@ -786,6 +786,26 @@ v <<, v >>  -v select and indent selected lines
 >> u  -u undoes the shift 
 
 
+////////////////////////////////////////////////
+            EXTRA: FOLDING
+
+    You can fold or collapse sections of your
+code or vimrc by using the spacebar while 
+inside the section to be folded. 
+    Check your vimrc for what each setting is.
+Check below for notes on language specific folds
+
+
+--JavaScript-------------------
+You can collapse/fold functions by pressing the
+space bar
+-it will collapse anything inside that is 
+ indented, so don't indent the top comment of a
+ function that explains what it is
+
+
+
+////////////////////////////////////////////////
 ////////////////////////////////////////////////
             EXTRA: PLUGINS
     
