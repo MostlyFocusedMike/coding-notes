@@ -1,7 +1,73 @@
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
-                
+filetype off                
+" vundle stuff {{{
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" THE FOLLOWING ARE EXAMPLES OF DIFFERENT FORMATS SUPPORTED.
+
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+" Plugin 'tpope/vim-fugitive'
+
+" plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+" Git plugin not hosted on GitHub
+"Plugin 'git://git.wincent.com/command-t.git'
+
+" git repos on your local machine (i.e. when working on your own plugin)
+"Plugin 'file:///home/gmarik/path/to/plugin'
+
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+" Plugin 'ascenator/L9', {'name': 'newL9'}
+
+
+" YOUR PLUGINS HERE
+
+" Added Nerdtree
+Plugin 'scrooloose/nerdtree'
+" Added Syntastic
+Plugin 'vim-syntastic/syntastic'
+" Added Snipmate and other dependencies
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+
+" Optional:
+Plugin 'honza/vim-snippets'
+
+" Added EasyMotion
+Plugin 'easymotion/vim-easymotion'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+" }}} 
+
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 set history=50	" keep 50 lines of cmdline hist
@@ -9,11 +75,12 @@ syntax enable	" enable syntax processing
 filetype indent on   " filetype specific indent 
 set lazyredraw  " redraw screen only when needed
 
-" edit vimrc {{{
+
+" edit vimrc {{{   
 " edit and load changes in vimrc file 
 " seems to open up a side split scree
-nnoremap <leader>ev :split $MYVIMRC<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
+nnoremap <leader>vrc :vsplit $MYVIMRC<CR>
+nnoremap <leader>svrc :source $MYVIMRC<CR>
 "}}}
 
 " folds {{{
@@ -23,20 +90,6 @@ set foldlevelstart=10 "start with most folds open
 " hitting space opens/closes folds
 nnoremap <space> za
 set foldmethod=indent " fold based on indent lev.
-
-" enable sytax specific folding
-set foldmethod=syntax
-set foldlevelstart=1
-
-let javaScript_fold=1         " JavaScript
-let perl_fold=1               " Perl
-let php_folding=1             " PHP
-let r_syntax_folding=1        " R
-let ruby_fold=1               " Ruby
-let sh_fold_enabled=1         " sh
-let vimsyn_folding='af'       " Vim script
-let xml_syntax_folding=1      " XML
-
 " :help foldmethod to see other possible optioms
 "}}}
 
@@ -70,6 +123,27 @@ set number    " show line numbers
 set cursorline
 set showmatch   " highlight matching []{}()
 set wildmenu    " visual autocomplete tab menu
+" }}}
+
+" paste {{{  
+" :set paste and :set nopaste allow you to 
+" turn off auto indent to paste from an 
+" outside program, then turn it back on when
+" you're writing in the program normally
+set pastetoggle=<F3> "toggle while in insert mode
+" }}}
+
+" plugin settings are below 
+" NERDTree Stuff  {{{
+let NERDTreeShowHidden=1
+nnoremap <leader>nt :NERDTree<CR>
+
+" }}}
+
+" remap escape key {{{
+" now if you hit shift and enter together it's
+" the same as hitting the esc key
+:inoremap jj <Esc>
 " }}}
 
 set modelines=1

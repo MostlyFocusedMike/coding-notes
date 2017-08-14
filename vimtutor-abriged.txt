@@ -771,8 +771,30 @@ used to these basic commands.
 
 ////////////////////////////////////////////////
 
+////////////////////////////////////////////////
+            EXTRA: SESSIONS
 
+    You can create some complicated setups with
+tabs and splits that would be a pain to have to
+re-setup each time you open the file back up.
+    To get around this, use: 
 
+    :mksession
+        or just :mks for short
+
+This creates a Sessions.vim file in the dir. 
+that tells vim what the settings were. So, 
+to open up the editing file you were working on
+with sessions intact do: 
+
+    vim -S 
+
+to open up to those settings.
+
+NOTE:  :mksession! overrides and saves new 
+settings if you change your layout.
+
+////////////////////////////////////////////////
 ////////////////////////////////////////////////
             EXTRA: SHIFTING TEXT
 
