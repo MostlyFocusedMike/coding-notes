@@ -157,9 +157,73 @@ USES
     Number(x3) // mS since jan 1st 1970
     Number(x4) // 999
     Number(x5) // NaN
+
+
+
 ------------------------------------------------
+.toString()
+
+    Convert a number to a string. It can also
+    convert a number into a string of binary,
+    octal, or hexidecimal value 
+
+SYNTAX
+number.toString(radix)
+
+    radix - OPTIONAL. Which base to use for 
+    representing a numeric value. Must be an 
+    integer between 2 and 36.
+
+    2 - The number will show as a binary value
+    8 - The number will show as an octal value
+    16 - The number will show as an hexadecimal 
+         value
+
+
+
 ------------------------------------------------
+.split()
+
+    Split a string object into an array of 
+    substrings using a specified separator
+
+SYNTAX
+
+str.split(separator, limit)
+
+
+
+
+
+
+
+
 ------------------------------------------------
+.reverse()
+
+    Reverse the order of the elements in an 
+    array 
+
+
+SYNTAX 
+arr.reverse()
+    
+    It takes no arguments. It just reverses an
+    array 
+
+    ["one", "two", "three"]  is the start
+    ["three", "two", "one"]  is what you'd get
+
+
+
+------------------------------------------------
+
+
+
+
+
+
+
 ------------------------------------------------
 ------------------------------------------------
 ------------------------------------------------
