@@ -1,3 +1,4 @@
+
 ////////////////////////////////////////////////
         JS/JQUERY BOOK: CH 1
 
@@ -69,3 +70,99 @@ METHODS: functions that are defined in an object
 
 
 
+
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+            USEFUL FUNCTIONS 
+
+
+------------------------------------------------
+.indexOf() 
+
+  Find the first index of a value in an array.
+  It will return the number of the index of a
+  given value, or a -1 if the value is not in
+  the array.
+
+SYNTAX
+array.indexOf(item, start) 
+
+    item 
+        -REQ. This is the value you are 
+         searching for. 
+  start
+    -OPT. Tells the program on what index to 
+     start looking. The index is inclusive.
+     Negative values will search from that
+     position from the end (-2 is 2nd from
+     the last index)
+
+USES 
+    .indexOf() is used for what you think, but
+    by including a start argument, you can find
+    a duplicate values next index:
+    
+    arr.indexOf(value, 1st-values-index)
+    //this tells it to find the next instance
+    //of that value 
+
+   
+------------------------------------------------
+.lastIndexOf()
+
+  Find the last index of a value in an array.
+
+SYNTAX
+array.indexOf(item, start) 
+
+    The only difference is that the search 
+    goes right to left, instead of left to
+    right. 
+    The start argument will start there and 
+    go to the beginning 
+
+USES 
+    
+    For what you'd think, operates the same
+    as indexOf, just in a mirrored direction.
+
+
+------------------------------------------------
+Number()
+
+    Convert a non-number object to a numberical
+    value. If no number can be returned, it will
+    produce Nan. If no object is provided, it 
+    will return 0.
+
+SYNTAX
+Number(object)
+
+USES 
+    Look at the values that will be returned when
+    they are plugged into Number():
+
+    var x1 = true;
+    var x2 = false;
+    var x3 = new Date();
+    var x4 = "999";
+    var x5 = "999 888";
+
+    Number(x1) // 1 
+    Number(x2) // 0 
+    Number(x3) // mS since jan 1st 1970
+    Number(x4) // 999
+    Number(x5) // NaN
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
