@@ -75,7 +75,79 @@ METHODS: functions that are defined in an object
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
-////////////////////////////////////////////////
+        JS SPEED OPTIMIZATION
+
+1. Reduce activity in loops 
+
+    ie. Don't make js evaluate stuff in a loop 
+    it doesn't have to: 
+
+BAD:
+    for (var i = 0; i < arr.length; i++) {
+    //it re evalues arr.length everytime, 
+    //even though it doesn't change
+
+GOOD
+    var i;
+    var l = arr.length;
+    for (i = 0; i < l; i++) {
+    //now it evaluates once then uses the value
+    //for each loop
+
+2. Reduce DOM access
+
+    Accessing the DOM takes time, if you are 
+    going to do it more than once, assign
+    it to a variable: 
+
+    var obj;
+    obj = document.getElementById("demo");
+    obj.innerHTML = "Hello";
+
+
+3. Smaller DOMs
+
+    Just make the page as small as it needs 
+    to be, eliminate bloat. 
+
+
+4. Avoid Unnecessary variables 
+
+    Only create variables that save new values,
+    if one variable is just a combination of 
+    other variables, try to add them only where
+    they need to be:
+
+BAD
+
+    var fullName = firstName + " " + lastName;
+    document.getElementById("demo").innerHTML 
+        = fullName;
+    // do you really need that fullName vari?
+
+GOOD
+    
+    document.getElementById("demo").innerHTML 
+        = firstName + " " + lastName
+    //same effect, much faster 
+
+
+5. Put your script at the end of the page 
+
+    This means the elements of the page that 
+    the user can see always load before the
+    js does. You can also wrap your code in 
+    an onLoad() function to ensure that no
+    matter where it is placed, it loads last
+
+6. Don't use the with keyword
+
+    It's just bad for speed and isn't even
+    allowed in strict mode
+
+
+
+
 ////////////////////////////////////////////////
             USEFUL FUNCTIONS 
 
@@ -185,16 +257,40 @@ number.toString(radix)
 .split()
 
     Split a string object into an array of 
-    substrings using a specified separator
+    substrings using a specified separator. 
+    If the string is empty, it will return an
+    empty array.
 
 SYNTAX
 
 str.split(separator, limit)
 
+    separator -REQ. This string is the mark
+        separates out the array. 
+    limit -OPT. This int. decides how many 
+        values in the new array there will
+        be. 
 
+USES
+    Split a word into letters by doing
 
+    word.split('')
+    // ["c", "a", "t", "s"]
 
+    split a sentance into words:
+    sent.split(' ')
+    //["hi,", "how", "are", "you?"]
+    //notice punctuation is included
 
+    remove spaces:
+    var names = 'Harry Trump ;Fred Barney; 
+    Helen Rigby ; Bill Abel ;Chris Hand ';
+    var re = /\s*;\s*/;
+    var nameList = names.split(re);
+    // that removes any spaces befor or 
+    // after the semi colon character
+    // the formula for spaces is \s*
+    // and then surround them with /  /
 
 
 
@@ -217,14 +313,76 @@ arr.reverse()
 
 
 ------------------------------------------------
+.join()
+    
+    Combine an array into a string. The new 
+    string will have each value separated by
+    a comma unless specified otherwise. If an
+    emptry array is joined, it will creat an
+    empty string.
+
+SYNTAX
+arr.join(separator)
+
+    separator - OPT. This character(s) will be
+        what goes inbetween the values in the 
+        new string. use "" an empty string if
+        you don't want anything between the 
+        values (ie, joining a word)
 
 
+USES
+    most commonly used to reverse a string:
 
+    str.split('').reverse().join('')
+    //splits it, reverses the array, then
+    //joins it back together in a chain
 
+    
+    can format lists into nice strings 
+
+    var a = ['Wind', 'Rain', 'Fire'];
+    a.join();      // 'Wind,Rain,Fire'
+    a.join(', ');  // 'Wind, Rain, Fire'
+    a.join(' + '); // 'Wind + Rain + Fire'
+    a.join('');    // 'WindRainFire'
 
 
 
 ------------------------------------------------
+Math.ceil() and Math.floor()
+
+    The Math.ceil() function returns the 
+    smallest integer greater than or equal to a 
+    given number. Basically, it rounds up every 
+    time unless the the number is x.0, then
+    it returns the given number x.
+
+    Math.ceil() always rounds up
+    
+    Math.ceil(.95);    // 1
+    Math.ceil(4);      // 4
+    Math.ceil(7.004);  // 8
+    Math.ceil(-0.95);  // -0
+    Math.ceil(-4);     // -4
+    Math.ceil(-7.004); // -7
+
+    
+    The Math.floor() function returns the 
+    largest integer less than or equal to a given 
+    number.
+    Math.floor() always rounds down:
+
+    Math.floor( 45.95); //  45
+    Math.floor( 45.05); //  45
+    Math.floor(  4   ); //   4
+    Math.floor(-45.05); // -46 
+    Math.floor(-45.95); // -46
+
+    NOTE: don't just use ceil() or .floor(), 
+    you have to use Math.ceil() or Math.floor()
+
+
 ------------------------------------------------
 ------------------------------------------------
 ------------------------------------------------
