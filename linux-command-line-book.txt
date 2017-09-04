@@ -1,0 +1,181 @@
+/////////////////////////////////////////////////
+WIDTH OF MINI PI SCREEN
+
+/////////////////////////////////////////////////
+        CH. 1- WHAT IS THE SHELL?
+ -When we talk about the command line we are 
+  really referring to the "shell" which is a 
+  program command that takes keyboard vommands 
+  and pass them to the OS to carry out.
+ -Almost all linux distrobutions support the 
+  shell program "bash", which is provided by the
+  GNU project
+ -Bash stands for "bourne again shell" since
+  it replaces the unix shell program "sh" by
+  Steve bourne
+
+**terminal emulators**
+ -when using a gui, you need a "terminal emulator
+  to interact with the shell.
+  -KDE uses "konsole" and GNOME uses "gnome-
+   terminal" (likely just labeled "terminal")
+ -there are many types to choose from
+
+
+**your first keystrokes**
+ -the input prompt in a terminal is called a 
+  shell prompt
+ -usually its your username, machine name, and
+  current working directory, but it can be edited
+
+    mike@linux-machine ~$ 
+
+ -if the last character is a # not $,
+  the terminal has "superuser" priveleges" so
+  you have administrator priveleges
+
+
+**command history**
+ -press the up arrow to see the previous command 
+  entered. most linux distros save the last 500
+  commands entered by default
+ -use up and down arrows to navigate
+
+
+**cursor movement**
+ -use the arrow left and right keys to move along
+  and edit commands
+ -you can use the mouse with the terminal 
+  emulator, the X window system events supports
+  a quick copy paste mechanic. If you left click
+  and drag over words, X copies them into a 
+  buffer. click down with the middle mouse button
+  to paste
+ -ctl c and ctrl v don't work to copy and paste
+  in some terminals
+ -in ubuntu you can use shift ctrl c and v 
+ -your GUI probably has a "focus policy" set to
+  "click to focus" to match Windows, but X can
+  set it to "focus follows mouse" which allows 
+  you to mouse over a program without clicking 
+  to add input, and it will come to the front 
+  only if you click it
+ -find this setting in the config program 
+  for your window manager.
+
+**try some simple commands
+ -$ cal   
+  this displays a calendar of the month
+ -$ date
+  this displays the current time and date
+ -$df
+  shows free space on disk drives
+ -$free 
+  shows free memory
+
+**ending a terminal session**
+ -$exit
+  closes the terminal emulator
+
+**the console behind the curtain**
+ -there are "virtual terminals" running behind 
+  the gui scenes in most linux distros
+ -these can be accessed by hitting ctrl alt F1 
+  through F6
+ -to switch between them, usealt f1-f6 
+ -to get back to gui, use alt f7
+ -NOTE: mini pi seems not to be able to switch
+  from gui, but can switch between f1, 3, and 5
+  like most systems  
+
+
+/////////////////////////////////////////////////
+                CH2 NAVIGATION
+
+**understanding the filesystem tree**
+ -unix-like systems like linux use a 
+  heirarchical directory structure, meaning 
+  the "root" directory holds all subdirectories 
+ -the root file is just /, as if you wrote root/
+ -unlike Windows, which has separate file 
+  systems for each storage device, unix and linux
+  have all drives on one tree, with the admin
+  deciding where on the tree devices and drives
+  are "mounted" (stored)
+ 
+
+**the current working directory**
+ -the folder you are in is your "current working
+  directory" 
+ -$pwd 
+  this Prints Working Directory you are in
+ -when you first log in to a terminal, you are
+  in the home directory (~ is the shorthand for
+  /home/[username here]) 
+ -each user is given their own home directory 
+  and it is the only place they can write files
+  without admin priveleges
+
+
+**listing the contents of a directory**
+ -$ls
+  lists contents of a directory, more on this 
+  in ch3
+ 
+
+**changing current working directory (cwd)**
+ -$cd directory-name
+  this changes working directory to new 
+  specified directory 
+ -the shell prompt will change to reflect your
+  new cwd (unless you took it off default)
+ -can use either absolute or relative pathnames 
+  to move:
+ *absolute*:
+ -the file location in relation to the root
+    
+    /home/pi/Desktop/test.txt
+ 
+ *relative*:
+ -the relative pathname of a file is the location
+  in relation to your cwd
+ -there are two symbols you can use with 
+  relative pathnames . and ..
+ -the . symbol refers to your cwd and the ..
+  symbol refers to your cwd's parent directory
+ 
+  cd ./file (file in cwd)
+  cd ../file (file in the parent of cwd
+ 
+ -note ./ is almost always omited, if no 
+  absolute pathname is given, cwd is implied
+ -you can use multiple .. at once 
+ 
+    cd ../../file/goal
+
+ -that takes you up two files etc.
+
+**facts about filenames**
+ -if there's a . in front of a file name, it is 
+  hidden. you need to do $ls -a to see them
+ -this is done for config and other files, 
+  we will do more of this later
+ -filenames in linux are case sensitive
+ -limit punctuation in filenames to -, _, and .
+ -do not use spaces, even though they are 
+  technically allowed
+ -file extensions don't technically matter either
+ you can use any extension you want to name, 
+  since programs parse files, not linux itself
+ -so a file named "thing" works just as well as
+  "thing.txt" as a name
+
+
+
+
+
+
+
+
+
+
