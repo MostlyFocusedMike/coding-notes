@@ -63,14 +63,10 @@ To watch all scss files, use:
     Basically, the colon separates the watch
 from the set. you can just use a single
   
-  sass --watch .
-
-if your sccs and css are in the same folder, but
-this is poor organization. The folders can be 
-anywhere, just give absolute path names.
-
-
-
+NOTE:
+    --watch is an active process, so when
+you are in VIM you will need to have the
+process going in a separate shell.
 
 
 ////////////////////////////////////////////////
@@ -599,6 +595,7 @@ Here are options with more than one conditonal:
 }
 
 Notice that the strings aren't using quotes,
+
 and it uses the or || pipes, and is &&, notice
 also that it uses an if, else-if, else chain, not
 a case statment.

@@ -1,0 +1,244 @@
+PHP PHP PHP PHP
+  \_____|_____/_____/ ______  _____  
+ | \ | |/ __ \__   __|  ____|/ ____| 
+ |  \| | |  | | | |  | |__  | (___   
+ | . ` | |  | | | |  |  __|  \___ \  
+ | |\  | |__| | | |  | |____ ____) | 
+ |_| \_|\____/  |_|  |______|_____/ 
+
+////////////////////////////////////////////////
+123456789012345678901234567890123456789012345678
+    WIDTH OF MINI PI SCREEN
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+          PHP Basics 
+-PHP stands for "Hypertext Preprocessor"
+-.php files can contain html, css, js, php, and
+  text
+-.php files are executed on the server and 
+  returned to the browser as plain HTML
+
+What can PHP do? 
+-PHP can generate dynamic page content
+-PHP can create, open, read, write, delete, 
+  and close files on the server
+-PHP can collect form data
+-PHP can send and receive cookies
+-PHP can add, delete, modify data in your 
+  database
+-PHP can be used to control user-access
+-PHP can encrypt data
+
+Why use PHP?
+-free, runs on all major OS's, compatible with
+  almost all servers, supports a wide range of
+  databases, and it's free.
+
+How to get started
+-most web hosts support PHP and MySQL already,
+  so you just put PHP files into your project
+  and they will run like normal
+
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+          PHP 5 Syntax
+
+BASIC FILE ACCESS 
+-.php files can go anywhere in the script
+-here is the syntax for a .php script:
+
+        <?php
+          echo "hello world!";
+        ?>
+
+-Notice the semicolon for the line, and the 
+  opening "tags" 
+-That example prints text to your screen, but
+  you can add html tags to style it.
+
+COMMENTS
+Below are examples of the types of comments:
+
+    <!DOCTYPE html>
+    <html>
+    <body>
+
+    <?php
+    // This is a single-line comment
+
+    # This is also a single-line comment
+
+    /*
+    This is a multiple-lines comment block
+    that spans over multiple
+    lines
+    */
+
+    // You can also use comments to leave out parts of a code line
+    $x = 5 /* + 15 */ + 5;
+    echo $x; //10 since the 15 is blocked
+    ?>
+
+    </body>
+    </html>
+-// and # are single /**/ are multiple
+-note the inline comment that uses /**/ to block
+  out the 15
+
+CASE SENSITIVITY
+-In PHP, all keywords (e.g. if, else, while, 
+echo, etc.), classes, functions, and 
+user-defined functions are NOT case-sensitive.
+
+    <!DOCTYPE html>
+    <html>
+    <body>
+
+    <?php
+    ECHO "Hello World!<br>";
+    echo "Hello World!<br>";
+    EcHo "Hello World!<br>";
+    ?>
+
+
+    </body>
+    </html>
+-All those examples work 
+
+-HOWEVER, variable names ARE case sensitive:
+
+    <!DOCTYPE html>
+    <html>
+    <body>
+
+    <?php
+    $color = "red";
+    echo "My car is " . $color . "<br>";
+    echo "My house is " . $COLOR . "<br>";
+    echo "My boat is " . $coLOR . "<br>";
+    ?>
+
+    </body>
+    </html>
+
+-In this example only $color would print to
+  screen, the others would simply be left 
+  as if nothing were there
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+        PHP 5 VARIABLES 
+
+-Like Sass, PHP uses $ to denote a variable
+-You don't need a keyword to create a 
+  variable, it is created the moment you assign
+  a value to it.
+
+<?php
+$txt = "Hello world!";
+$x = 5;
+$y = 10.5;
+?>
+
+NAMING RULES 
+-Here they are: 
+-A variable starts with the $ sign, 
+  followed by the name of the variable
+-A variable name must start with a letter or 
+  the underscore character
+-A variable name cannot start with a number
+-A variable name can only contain alpha-
+  numeric characters and underscores 
+(A-z, 0-9, and _ )
+-Variable names are case-sensitive 
+($age and $AGE are two different variables)
+
+PHP IS LOOSELY TYPED
+-It's like JS, so be aware of this 
+
+VARIABLE SCOPE 
+-PHP can declare variables at any point in the 
+  script. there are 3 different scopes:
+    -local
+    -global
+    -static
+
+GLOBAL AND LOCAL SCOPE
+-A variable declared OUTSIDE a function is in 
+  the global scope and can only be accessed
+  outside a function:
+
+		<?php
+    $x = 5; // global scope
+
+    function myTest() {
+        // using x inside this function will generate an error
+        echo "<p>Variable x inside function is: $x</p>";
+    } 
+    myTest();
+
+    echo "<p>Variable x outside function is: $x</p>";
+    ?>
+
+
+-a variable declared WITHIN a function has 
+  Local Scope and can only be accessed within
+  that funciton: 
+
+    <?php
+    function myTest() {
+        $x = 5; // local scope
+        echo "<p>Variable x inside function is: $x</p>";
+    } 
+    myTest();
+
+    // using x outside the function will generate an error
+    echo "<p>Variable x outside function is: $x</p>";
+    ?>
+
+-Normally, when a function is completed/
+  executed, all of its variables are deleted. 
+  However, sometimes we want a local variable 
+  NOT to be deleted. We need it for a further
+  job.
+
+-To do this, use the static keyword when you 
+  first declare the variable:
+
+    <?php
+    function myTest() {
+        static $x = 0;
+        echo $x;
+        $x++;
+    }
+
+myTest(); //returns 0
+myTest(); //returns 1
+myTest(); //returns 2
+    ?>
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+

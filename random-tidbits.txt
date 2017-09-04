@@ -1,0 +1,30 @@
+RANDOM TIDBITS 
+////////////////////////////////////////////////
+123456789012345678901234567890123456789012345678
+    WIDTH OF MINI PI SCREEN
+////////////////////////////////////////////////
+-When aligning <ul> elements, the <li> won't be 
+properly centered unless you set the <ul> pad to
+0. They have a weird offset
+-remove cirlces from the <li> by setting 
+list-style: none
+-If you're using flex to center your list items,
+  you don't need to set them to inline, but set 
+  them to block if you want more control about
+  spacing 
+
+-With justify-content: space-around it will 
+  decide the distance between items, if you
+  want to control it, use justify-content: 
+  center, and then assign each item your
+  desired margin
+
+-when using flex, all containers must 
+  have discernable widths and heights to get 
+  the alignments right
+
+-When alignment is weird,
+  - make sure it's block (or if
+    you were looking for inline, that) 
+  - and make sure the padding is 0 
+  - and the margin is 0 if needed

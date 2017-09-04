@@ -33,6 +33,19 @@ dw  -delete cursor to begin of next word
 de  -delete from cursor to end of word
 d3w -delete number of words
 
+EDIT TEXT 
+i   -insert before cursor
+I   -insert at start of line 
+a   -insert after cursor 
+A   -insert at end of line 
+
+MOVE CURSOR
+$   -jump to end of line 
+0   -jump to beginning of line 
+G   -jump to end of document
+gg  -jump to beginning of document
+45G -jumpt to line 45 (or any line, give num)
+
 
 
 

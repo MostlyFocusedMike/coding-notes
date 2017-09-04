@@ -1,3 +1,4 @@
+
 ////////////////////////////////////////////////
         JS/JQUERY BOOK: CH 1
 
@@ -69,3 +70,601 @@ METHODS: functions that are defined in an object
 
 
 
+
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+        JS SPEED OPTIMIZATION
+
+1. Reduce activity in loops 
+
+    ie. Don't make js evaluate stuff in a loop 
+    it doesn't have to: 
+
+BAD:
+    for (var i = 0; i < arr.length; i++) {
+    //it re evalues arr.length everytime, 
+    //even though it doesn't change
+
+GOOD
+    var i;
+    var l = arr.length;
+    for (i = 0; i < l; i++) {
+    //now it evaluates once then uses the value
+    //for each loop
+
+2. Reduce DOM access
+
+    Accessing the DOM takes time, if you are 
+    going to do it more than once, assign
+    it to a variable: 
+
+    var obj;
+    obj = document.getElementById("demo");
+    obj.innerHTML = "Hello";
+
+
+3. Smaller DOMs
+
+    Just make the page as small as it needs 
+    to be, eliminate bloat. 
+
+
+4. Avoid Unnecessary variables 
+
+    Only create variables that save new values,
+    if one variable is just a combination of 
+    other variables, try to add them only where
+    they need to be:
+
+BAD
+
+    var fullName = firstName + " " + lastName;
+    document.getElementById("demo").innerHTML 
+        = fullName;
+    // do you really need that fullName vari?
+
+GOOD
+    
+    document.getElementById("demo").innerHTML 
+        = firstName + " " + lastName
+    //same effect, much faster 
+
+
+5. Put your script at the end of the page 
+
+    This means the elements of the page that 
+    the user can see always load before the
+    js does. You can also wrap your code in 
+    an onLoad() function to ensure that no
+    matter where it is placed, it loads last
+
+6. Don't use the with keyword
+
+    It's just bad for speed and isn't even
+    allowed in strict mode
+
+
+
+
+////////////////////////////////////////////////
+            USEFUL FUNCTIONS 
+
+
+------------------------------------------------
+.indexOf() 
+
+  Find the first index of a value in an array.
+  It will return the number of the index of a
+  given value, or a -1 if the value is not in
+  the array.
+
+SYNTAX
+array.indexOf(item, start) 
+
+    item 
+        -REQ. This is the value you are 
+         searching for. 
+  start
+    -OPT. Tells the program on what index to 
+     start looking. The index is inclusive.
+     Negative values will search from that
+     position from the end (-2 is 2nd from
+     the last index)
+
+USES 
+    .indexOf() is used for what you think, but
+    by including a start argument, you can find
+    a duplicate values next index:
+    
+    arr.indexOf(value, 1st-values-index)
+    //this tells it to find the next instance
+    //of that value 
+
+   
+------------------------------------------------
+.lastIndexOf()
+
+  Find the last index of a value in an array.
+
+SYNTAX
+array.indexOf(item, start) 
+
+    The only difference is that the search 
+    goes right to left, instead of left to
+    right. 
+    The start argument will start there and 
+    go to the beginning 
+
+USES 
+    
+    For what you'd think, operates the same
+    as indexOf, just in a mirrored direction.
+
+
+------------------------------------------------
+Number()
+
+    Convert a non-number object to a numberical
+    value. If no number can be returned, it will
+    produce Nan. If no object is provided, it 
+    will return 0.
+
+SYNTAX
+Number(object)
+
+USES 
+    Look at the values that will be returned when
+    they are plugged into Number():
+
+    var x1 = true;
+    var x2 = false;
+    var x3 = new Date();
+    var x4 = "999";
+    var x5 = "999 888";
+
+    Number(x1) // 1 
+    Number(x2) // 0 
+    Number(x3) // mS since jan 1st 1970
+    Number(x4) // 999
+    Number(x5) // NaN
+
+
+
+------------------------------------------------
+.toString()
+
+    Convert a number to a string. It can also
+    convert a number into a string of binary,
+    octal, or hexidecimal value 
+
+SYNTAX
+number.toString(radix)
+
+    radix - OPTIONAL. Which base to use for 
+    representing a numeric value. Must be an 
+    integer between 2 and 36.
+
+    2 - The number will show as a binary value
+    8 - The number will show as an octal value
+    16 - The number will show as an hexadecimal 
+         value
+
+
+
+------------------------------------------------
+.split()
+
+    Split a string object into an array of 
+    substrings using a specified separator. 
+    If the string is empty, it will return an
+    empty array.
+
+SYNTAX
+
+str.split(separator, limit)
+
+    separator -REQ. This string is the mark
+        separates out the array. 
+    limit -OPT. This int. decides how many 
+        values in the new array there will
+        be. 
+
+USES
+    Split a word into letters by doing
+
+    word.split('')
+    // ["c", "a", "t", "s"]
+
+    split a sentance into words:
+    sent.split(' ')
+    //["hi,", "how", "are", "you?"]
+    //notice punctuation is included
+
+    remove spaces:
+    var names = 'Harry Trump ;Fred Barney; 
+    Helen Rigby ; Bill Abel ;Chris Hand ';
+    var re = /\s*;\s*/;
+    var nameList = names.split(re);
+    // that removes any spaces befor or 
+    // after the semi colon character
+    // the formula for spaces is \s*
+    // and then surround them with /  /
+
+
+
+------------------------------------------------
+.reverse()
+
+    Reverse the order of the elements in an 
+    array 
+
+
+SYNTAX 
+arr.reverse()
+    
+    It takes no arguments. It just reverses an
+    array 
+
+    ["one", "two", "three"]  is the start
+    ["three", "two", "one"]  is what you'd get
+
+
+
+------------------------------------------------
+.join()
+    
+    Combine an array into a string. The new 
+    string will have each value separated by
+    a comma unless specified otherwise. If an
+    emptry array is joined, it will creat an
+    empty string.
+
+SYNTAX
+arr.join(separator)
+
+    separator - OPT. This character(s) will be
+        what goes inbetween the values in the 
+        new string. use "" an empty string if
+        you don't want anything between the 
+        values (ie, joining a word)
+
+
+USES
+    most commonly used to reverse a string:
+
+    str.split('').reverse().join('')
+    //splits it, reverses the array, then
+    //joins it back together in a chain
+
+    
+    can format lists into nice strings 
+
+    var a = ['Wind', 'Rain', 'Fire'];
+    a.join();      // 'Wind,Rain,Fire'
+    a.join(', ');  // 'Wind, Rain, Fire'
+    a.join(' + '); // 'Wind + Rain + Fire'
+    a.join('');    // 'WindRainFire'
+
+
+
+------------------------------------------------
+Math.ceil() and Math.floor()
+
+    The Math.ceil() function returns the 
+    smallest integer greater than or equal to a 
+    given number. Basically, it rounds up every 
+    time unless the the number is x.0, then
+    it returns the given number x.
+
+    Math.ceil() always rounds up
+    
+    Math.ceil(.95);    // 1
+    Math.ceil(4);      // 4
+    Math.ceil(7.004);  // 8
+    Math.ceil(-0.95);  // -0
+    Math.ceil(-4);     // -4
+    Math.ceil(-7.004); // -7
+
+    
+    The Math.floor() function returns the 
+    largest integer less than or equal to a given 
+    number.
+    Math.floor() always rounds down:
+
+    Math.floor( 45.95); //  45
+    Math.floor( 45.05); //  45
+    Math.floor(  4   ); //   4
+    Math.floor(-45.05); // -46 
+    Math.floor(-45.95); // -46
+
+    NOTE: don't just use ceil() or .floor(), 
+    you have to use Math.ceil() or Math.floor()
+
+
+------------------------------------------------
+MORE QUICK MATH FUNCTIONS
+
+Math.round(4.7);    // returns 5
+Math.round(4.4);    // returns 4
+
+Math.pow(8, 2);      // returns 64 (x, y) is x^y
+
+Math.sqrt(64);      // returns square root of 8
+
+Math.abs(-4.7);     // returns absolute value 4.7
+
+Math.min(0, 150, 30, 20, -8, -200);  // returns -200
+
+arr = [0, 150, 30, 20, -8, -200];
+Math.max(...arr)
+Math.min(...arr)
+Math.max.apply(null, arr)
+Math.min.apply(null, arr) 
+-if you want to apply min or max to a list you
+  need to either use ... operator which is the
+  spread operator, OR use Function.protoype.apply()
+which allows you to apply a this value to your 
+array
+
+------------------------------------------------
+LOOPING THROUGH OBJECT 
+var obj = {a: 1, b: 2, c: 3};
+    
+for (var prop in obj) {
+  console.log(`obj.${prop} = ${obj[prop]}`);
+}
+
+// Output:
+// "obj.a = 1"
+// "obj.b = 2"
+// "obj.c = 3"
+
+it's syntax: 
+for (var variable in object) {
+
+}
+
+for (var k in target){
+  if (typeof target[k] !== 'function') {
+     alert("Key is " + k + ", value is" + target[k]);
+    }
+}
+-getting key/value pairs works how you'd think.
+-To check if target has a property:
+
+for (var k in target){
+  if (target.hasOwnProperty(k)) { 
+    alert("Key is " + k + ", value is" + target[k]);
+    }
+}
+-that checks if k property (like "name") is in an
+object;
+------------------------------------------------
+LOOPING THROUGH LIST WITH FOR EACH
+
+var a = ['a', 'b', 'c'];
+
+a.forEach(function(element) {
+    console.log(element);
+});
+
+// a
+// b
+// c
+
+-It's basically a pythnon for loop
+
+------------------------------------------------
+QUICK AND DIRTY REFERENCE FUNCTIONS/COMMON STUFF
+
+
+
+document.body = the body of the document 
+document.getElementById("id-name")
+-returns one element 
+
+document.querySelector(".class:last-child")
+-returns the FIRST element that matches the
+  css style selector, that one above is just
+  an example
+
+document.getElementsByClassName("class-name"),
+document.getElementsByTagName('div"),
+document.querySelectorAll(".class > id-name"),
+-these all return node lists, which are 
+  array-like objects, so to get them into a 
+  classic array use 
+
+  Array.prototype.slice().call(nodeListName) 
+
+arr.valueOf(index)
+-gets value at index
+
+arr.push(value)
+-adds a value to an array at the last index
+
+arr.unshift(value) 
+-adds a value to an array at the first index
+
+arr.pop()
+-removes last item in a list, but saves it as a
+  return value if you want to store it
+
+arr.splice(index, howmany, item1,...itemX)
+-index of item to be removed from list, howmany
+  is an integer that specifies what needs to be
+  added or removed
+-if 0 is howmany, nothing is removed and you 
+  can specify what items to add at that index
+-or remove some, then put some in, or just remove
+-negative values go from the end of an array 
+  (-2 is second from the last, example)
+
+arr.slice(start, end)
+-create a new list that is a slice of an old one
+  if only the start index is given, it will 
+  assume you want the slice to go to the end of 
+  the array. if no indexes are given, it's just a
+  full copy
+-negative values go from the end of an array 
+  (-2 is second from the last, example)
+
+arr.length = 0 
+-This is the only way to clear a lits since: 
+  arr = {}
+  creates a duplicate version of the list that is
+  blank
+
+element.focus()
+-gives focus to an input
+
+input.value 
+-gets the value of an input NO () 
+
+document.createElement('tag')
+-creates an empty element
+document.createTextNode("text"//variable)
+-creates just a text node
+element.appendChild(elementChild)
+-appends an element to another 
+element.innerHTML("<p>html stuff")
+-get or set the value of html
+element.textContent("stuff")
+-get or set the elements text content 
+
+Math.floor((Math.random() * 10) + 1);
+-generates a random number between 1 and 10
+-you need the floor to keep from rounding errors)
+
+element.id = the id or set it
+element.className = get/set classname
+element.className += " otherClass"
+-that last one is how you add a class name 
+  instead of setting it's total string 
+
+var d = new Date()
+new Date()
+new Date(milliseconds)
+new Date(dateString) //the default value actually
+new Date(year, month, day, hours, minutes, seconds, milliseconds)
+//use those parameters to set the date if you need
+to
+
+var d = new Date().getDay()
+//returns number 1-31
+~,getFullYear //gets year
+~.getHours() //gets 0-23 for hour
+~.getMonth() //gets 0-11
+
+-remember, if no timezone is specified, the 
+  browser returns the time/date for its own
+  specific timezone
+
+element.style.camelCaseProperty = "value"
+newDiv.style.backgroundColor = "red"
+-this is how you style css 
+
+element.setAttribute(name, value)
+newDive.setAttribute("id", "car")
+-set a tag's attribute 
+
+element.getAttribute(name)
+-gets a tag's attribute
+
+element.removeAttribute(name);
+-Removes an entire attribute object from 
+  element
+
+var elmnt = document.getElementById("myAnchor");   // Get the <a> element with id="myAnchor"
+var attr = elmnt.getAttributeNode("href");         // Get the href attribute node from <a>
+elmnt.removeAttributeNode(attr);
+-this removes an attribute node 
+
+
+------------------------------------------------
+SWITCH STATEMENT SYNTAX: 
+
+switch(expression) {
+    case n:
+        code block
+        break;
+    case n:
+        code block
+        break;
+    default:
+        code block
+}
+switch(favCar) {
+    case "BMW":
+      text = "German car";
+      break;
+    case "Ford":
+      text = "American car";
+      break;
+    case "Peugeot":
+      text = "French car";
+      break;
+    default:
+      text = "Unknown car name";
+  }
+-the default needs no break; statement
+-in fact, you can ditch the default if you 
+don't want a catchall
+-you can't use < or > logical or ranges, the 
+case must only have a single possibility per
+case
+------------------------------------------------
+------------------------------------------------
+array vs Node list vs HTML collection 
+
+an array is an array, you know what it does.
+node lists and html collections are array like,
+meaning they can't use a lot of the functions
+by default. they do use [0] and .length off the
+bad though
+
+HTML Collections can be accessed by name, id, or
+index number, Node Lists can only be accessed by
+index number.
+
+convert it into an array if you want to use any
+array functions:
+valueOf(), push(), pop(), indexOf(), join()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////
+      SELECTING THE CHILDREN OF AN ELEMENT
+
+  document.(element).nowSelectsFromChildren
+
+    SO:
+  document.getElementById("k").getElementsByTag
+    Name("img")[0]
+
+  Now, that getElementsByTagName will only 
+  return those tags that are the children of 
+  the element whose id is "k".
+  -the chain would continue with each . 
+
+  doc.(element).(child).(grandchild)
+
+
+////////////////////////////////////////////////

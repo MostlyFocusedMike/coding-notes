@@ -1,3 +1,7 @@
+////////////////////////////////////////////////
+123456789012345678901234567890123456789012345678
+    WIDTH OF MINI PI SCREEN
+////////////////////////////////////////////////
 ////////////////////////////////////////////////////
 	Lesson 1.1:  MOVING THE CURSOR/ESC KEY
 
@@ -39,6 +43,7 @@
 ////////////////////////////////////////////////////
 	Lesson 1.5: TEXT EDITING - APPENDING
 
+    
 	** Press  A  to append text. **
 
 
@@ -63,7 +68,6 @@
   punctuation
 
   $  -Skip to the end of a line
-  -  -you mapped the dash to be the same as $
   0  -Skip to the beginning of a line
 ////////////////////////////////////////////////////
 	Lesson 1 SUMMARY
@@ -84,12 +88,12 @@
 
   5. To insert or append text type:
 	 
-  i  /type inserted text/  <ESC> to insert before
-  the cursor
-  A  /type appended text/  <ESC> to append after
-  the line
+  i  to insert before the cursor
+  a  to insert after the cursor
+  A  to append after the line
   
-  NOTE: Pressing <ESC> will place you in Normal mode   or will cancel an unwanted and partially completed 
+  NOTE: Pressing <ESC> will place you in Normal mode
+  or will cancel an unwanted and partially completed 
   command.
 
 ////////////////////////////////////////////////////
@@ -155,7 +159,7 @@
 	Lesson 2.7: THE UNDO COMMAND
 
    Press  u  to undo the last commands,  U  to fix a whole line. 
-  Type CTRL-R to redo the commands 
+  Type CTRL-r to redo the commands 
   (undo the undo's).
 
 ////////////////////////////////////////////////////
@@ -297,14 +301,17 @@
 	Lesson 4.4: THE SUBSTITUTE COMMAND
 
 
-  Type  :s/old/new/g  to substitute 'new' for 'old'.
+  Type  :s/old/new/g  
+    to substitute 'new' for 'old' in that line.
 
-  Type   :%s/old/new/g  to change every occurrence
-  in the whole file.
+  Type   :%s/old/new/g  
+    to change every occurrence in the 
+    whole file.
 
-  Type   :%s/old/new/gc  to find every occurrence 
-  in the whole file, with a prompt whether to 
-  substitute or not.
+  Type   :%s/old/new/gc  
+     to find every occurrence in the 
+     whole file, with a prompt whether to 
+     substitute or not.
   
   Type  :s/thee/the/g .  Adding the  g  flag means 
   to substitute globally in the line.
@@ -379,6 +386,14 @@
 
   Press ESC to get out of visual.
 
+  CTRL v 
+    this is the visual block mode. It lets you
+    move down the cursor taking up only a 
+    column, not highlighting the whole line
+    with each down/up stroke as usual. BUT,
+    it then lets you highlight each row across
+    column by colum.  
+ 
   To save part of the file, type  
   v  motion  :w FILENAME 
 
@@ -537,18 +552,28 @@ NOTE:  a, i and A all go to the same Insert mode, the only difference is where
   use CTRL-w then the arrow/letter direction 
   or CTRL-w w to toggle through screens
 
+  NOTE: When moving from a vsplit to an adjacent horiz.
+  split, the right or left arrow will jump into the
+  split that it's next to, so move the cursor so it's 
+  next to the window you want to jump to before jumping.
+
   To move/resize window use:
   CTRL-w +  to increase current window size by one line
-  CTRL-w -  to decrease current window size by one
+  CTRL-w -  to decrease current window size by one line
+  CTRL-w >   to increase current window size by one col
+  CTRL-w <   to decrease current window size by one col
   CTRL-w =  to make all windows equal
-  CTRL-w _  to maximaize current window
+  CTRL-w 10 +/-/>/<  use any number to multiply command 
+  CTRL-w CTRL- -   to maximaize current window horiz. 
+  CTRL-w CTRL- |   to maximaize current window vertical
+  (hold CTRL then hit "w" then "-")
   CTRL-w H  to go from horizontal to vertical layout.
   CTRL-w J  to go from vertical to horizontal layout.
   CTRL-w r  to swap windows content, but layout the same.
 
   Close a window with ZZ or :q!  
 
-
+  
 
 ///////////////////////////////////////////////////
 	Lesson 7.1: GETTING HELP
@@ -650,6 +675,127 @@ NOTE:  a, i and A all go to the same Insert mode, the only difference is where
 
 
 ////////////////////////////////////////////////
+            EXTRA: TABBED PAGES 
+
+    You can create tabs inside the shell with
+vim. This is tremendously helpful for organizing
+and speed.
+
+OPENING FILES IN TABS 
+    -to start a session with each file in its
+     own tab do:
+            vim -p first.txt second.txt
+
+     which opens all files in their own tabs.
+
+TAB MANIPULATION
+    -There are lots of commands to use to 
+     manipulate tabs:
+
+-----OPENING/CLOSING TABS    
+:tabedit {file}   
+    edit specified file in a new tab
+
+:tabfind {file}   
+    open a new tab with filename given, 
+    searching the 'path' to find it
+
+:tabclose    close current tab
+    (NOTE: closing the last window in
+     a tab will also close the tab)
+
+:tabclose {i}     
+    close i-th tab
+
+:tabonly          
+    close all other tabs but the one you're in
+
+:tab sp
+    Take current split window section and 
+    COPY it to a new tab
+
+CTRL w T
+    Take current split window section and 
+    MOVE it out from the current tab
+    and into its own tab
+ 
+:tab ball         
+    show each buffer in a tab 
+    (up to 'tabpagemax' tabs)
+
+:tab help         
+    open a new help window in its own tab page
+
+:tab drop {file}  
+    open {file} in a new tab, or jump to a 
+    window/tab containing the file if there 
+    is one    
+
+------MOVING BETWEEN TABS
+(if in normal mode)
+gt  
+    move to the next tab
+
+gT    
+    move to previous tab
+
+{number} gt
+    move to that tab number (1 go to 1st
+    tab, 2 to 2nd etc.)
+(if not in normal mode)
+:tabn         go to next tab
+:tabp         go to previous tab
+:tabfirst     go to first tab
+:tablast      go to last tab
+
+
+-----SEE/CHANGE TAB ORDER
+:tabs         
+    list all tabs including their displayed 
+    windows
+
+:tabm 0       move current tab to first
+:tabm         move current tab to last
+:tabm {i}     move current tab to position i+1
+
+
+REMEMBER, as with any Vim commands, 
+you only need type enough characters in the 
+command for Vim to be able to unambiguously 
+identify it. For example, you could use :tabe 
+and :tabf instead of :tabedit and :tabfind.
+
+ALSO, the VIM wikia has a bunch of great 
+shortcuts ready once you get a little more
+used to these basic commands.
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+            EXTRA: SESSIONS
+
+    You can create some complicated setups with
+tabs and splits that would be a pain to have to
+re-setup each time you open the file back up.
+    To get around this, use: 
+
+    :mksession
+        or just :mks for short
+
+This creates a Sessions.vim file in the dir. 
+that tells vim what the settings were. So, 
+to open up the editing file you were working on
+with sessions intact do: 
+
+    vim -S 
+
+to open up to those settings.
+
+NOTE:  :mksession! overrides and saves new 
+settings if you change your layout.
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
             EXTRA: SHIFTING TEXT
 
     >> and << to indent text according to your
@@ -660,3 +806,195 @@ v <<, v >>  -v select and indent selected lines
 5>>  -indents five lines 
 >> .  -periods repeat the shift 
 >> u  -u undoes the shift 
+
+
+////////////////////////////////////////////////
+            EXTRA: FOLDING
+
+    You can fold or collapse sections of your
+code or vimrc by using the spacebar while 
+inside the section to be folded. 
+    Check your vimrc for what each setting is.
+Check below for notes on language specific folds
+
+
+--JavaScript-------------------
+You can collapse/fold functions by pressing the
+space bar
+-it will collapse anything inside that is 
+ indented, so don't indent the top comment of a
+ function that explains what it is
+
+
+
+////////////////////////////////////////////////
+			EXTRA: VIMRC
+
+	The vimrc file has its own syntax and 
+whatnot, here's some tips on how to do that: 
+
+
+map – makes the key mapping work in normalmode, 
+while “imap” makes it work in insert mode.
+
+<silent> – tells vim not to echo to the 
+statusline what its doing during the execution 
+of the mapping.
+
+<Leader> – tells vim to use my personal 
+mapleader key to activate key mappings. I use 
+the default key, which is the backslash (“\”), 
+so when I want to activate one of these 
+mappings, I press backslash, then ‘c’, then one 
+of ‘l’, ‘c’, ‘t’, ‘o’, or ‘n’.
+
+! – an exclamation point at the end of a 
+setting variable tells Vim to toggle the value. 
+In otherwords, if it’s currently off, switch it 
+on; if it’s currently on, switch it off.
+
+
+
+
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+            EXTRA: PLUGINS
+    
+    Below are some rough outlines of the plugins
+
+------------------------------------------------
+Vundle
+-mangages all your plugins in an easy folder
+-It must come first in vimrc, after filter off
+and nocompatible set
+    
+    Vundle adds plugins by simply adding a line
+of text into your vimrc in the vundle section.
+So,if a plugin is on github, all you have to 
+do is:
+
+    " Added NERDTree
+    Plugin 'scrooloose/nerdtree'
+
+Then save the file, source the vimrc,
+then run the vundle command: 
+
+    :PluginInstall
+
+which opens a buffer and shows all plugins.
+-note, other load location formats are saved in
+your vimrc, but most downloads come from github
+-Some plugins require other plugins to work,
+like Snipmate, so you will see multiple plugins
+underneath one comment
+
+              Handy Vundle commands
+
+    :PluginInstall   -installs plugins 
+    :PluginInstall!  -updates plugins
+    :PluginSearch foo  -searches for foo plugin
+
+    :PluginSearch!     -refresh local cache
+    :PluginClean    -confirms removal of unused
+    :PluginClean!   -no prompt to remove
+    :h vundle   -more details
+
+-This is how you install all other plugins,
+but to install Vundle itself, you jsut followed
+the github instructions by cloning the
+repository.
+------------------------------------------------
+
+
+
+------------------------------------------------
+NERDTree
+
+    A file tree system that lets you navigate
+with ease.
+
+        Handy NERDTree commands
+
+    :NERDTree  -opens a vertical split window
+    \nt     -mapped shortcut to open it
+    ?       -see all the possible buttons
+    o       -open in preview window
+    i       -open horiz split
+    s       -open in vsplit
+    r       -refressh file tree to show new file
+    R       -refresh root
+    C       -Chage tree root to selected dir
+    cd      -change the CWD to selected dir
+    CD      -change tree root to CWD
+    x       -minimize current dir
+    p       -move cursor to folder your in
+    P       -go to current Root of tree
+    K       -go to first child of dir
+    J       -go to last child of dir 
+    I       -toggle hidden files 
+    (you have this set automatically in vimrc)
+    q       -close nerdtree
+    t       -open file in new tab and switch to
+             that tab
+    T       -open file in new tab, but don't 
+             go to it (this is called "silent")
+    
+    Bookmark stuff
+    B       -Open up bookmarks 
+    :bookmark  -file/direc that cursor is on 
+                is now a bookmark
+    D          -delete bookmark 
+    o          -open bookmark
+
+    ENTER      -also opens bookmark
+
+
+------------------------------------------------
+
+------------------------------------------------
+EasyMotion
+
+    This plugin lets you easily jump to specific
+words by typing a single letter. 
+
+HOW IT WORKS:
+    \\w[then specific letter you want]
+    press \\ (<leader><leader>) and then "w" to
+have easy motion mark each word after the cursor
+with a letter that's a different color. To jump
+to that word, just press the letter.
+    If there are more than 26 words then it will
+just add more letters to the sequence, or ";" 
+characters. (as you press the characters, you 
+will see the choices narrow)
+
+    \\f{letter to search for}
+is easymotions version of searching. 
+So say you only wanted to search for the "r" 
+characters, you'd type \\fr and then
+easy motion would only allow you to jump to
+those words. 
+
+(you can add another plugin to allow for fuzzy
+incsearch later. For now just keep it simple, 
+but the links to that one are on the main git 
+hub page)
+
+VERSION DIFFERENCES 
+    In the original version, you only needed
+to type \ once, now you need to press it twice
+
+NOTE: There are a lot of configurations that
+you can custom map to make easyMotion even 
+more powerful. They are all on the github page,
+once you get more comfortable, check them out. 
+
+------------------------------------------------
+
+
+
+------------------------------------------------
+
+------------------------------------------------
