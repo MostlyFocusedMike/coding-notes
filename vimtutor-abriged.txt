@@ -828,6 +828,37 @@ space bar
 
 
 ////////////////////////////////////////////////
+			EXTRA: VIMRC
+
+	The vimrc file has its own syntax and 
+whatnot, here's some tips on how to do that: 
+
+
+map – makes the key mapping work in normalmode, 
+while “imap” makes it work in insert mode.
+
+<silent> – tells vim not to echo to the 
+statusline what its doing during the execution 
+of the mapping.
+
+<Leader> – tells vim to use my personal 
+mapleader key to activate key mappings. I use 
+the default key, which is the backslash (“\”), 
+so when I want to activate one of these 
+mappings, I press backslash, then ‘c’, then one 
+of ‘l’, ‘c’, ‘t’, ‘o’, or ‘n’.
+
+! – an exclamation point at the end of a 
+setting variable tells Vim to toggle the value. 
+In otherwords, if it’s currently off, switch it 
+on; if it’s currently on, switch it off.
+
+
+
+
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
 ////////////////////////////////////////////////
             EXTRA: PLUGINS
     
