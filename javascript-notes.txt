@@ -387,4 +387,148 @@ Math.ceil() and Math.floor()
 ------------------------------------------------
 ------------------------------------------------
 ------------------------------------------------
+QUICK AND DIRTY REFERENCE FUNCTIONS/COMMON STUFF
+
+
+
+document.body = the body of the document 
+document.getElementById("id-name")
+-returns one element 
+
+document.querySelector(".class:last-child")
+-returns the FIRST element that matches the
+  css style selector, that one above is just
+  an example
+
+document.getElementsByClassName("class-name"),
+document.getElementsByTagName('div"),
+document.querySelectorAll(".class > id-name"),
+-these all return node lists, which are 
+  array-like objects, so to get them into a 
+  classic array use 
+
+  Array.prototype.slice().call(nodeListName) 
+
+arr.valueOf(index)
+-gets value at index
+
+arr.push(value)
+-adds a value to an array at the last index
+
+arr.unshift(value) 
+-adds a value to an array at the first index
+
+arr.pop()
+-removes last item in a list, but saves it as a
+  return value if you want to store it
+
+arr.splice(index, howmany, item1,...itemX)
+-index of item to be removed from list, howmany
+  is an integer that specifies what needs to be
+  added or removed
+-if 0 is howmany, nothing is removed and you 
+  can specify what items to add at that index
+-or remove some, then put some in, or just remove
+-negative values go from the end of an array 
+  (-2 is second from the last, example)
+
+arr.slice(start, end)
+-create a new list that is a slice of an old one
+  if only the start index is given, it will 
+  assume you want the slice to go to the end of 
+  the array. if no indexes are given, it's just a
+  full copy
+-negative values go from the end of an array 
+  (-2 is second from the last, example)
+
+element.focus()
+-gives focus to an input
+
+input.value 
+-gets the value of an input NO () 
+
+document.createElement('tag')
+-creates an empty element
+document.createTextNode("text"//variable)
+-creates just a text node
+element.appendChild(elementChild)
+-appends an element to another 
+element.innerHTML("<p>html stuff")
+-get or set the value of html
+element.textContent("stuff")
+-get or set the elements text content 
+
+Math.floor((Math.random() * 10) + 1);
+-generates a random number between 1 and 10
+-you need the floor to keep from rounding errors)
+
+var d = new Date()
+new Date()
+new Date(milliseconds)
+new Date(dateString) //the default value actually
+new Date(year, month, day, hours, minutes, seconds, milliseconds)
+//use those parameters to set the date if you need
+to
+
+var d = new Date().getDay()
+//returns number 1-31
+~,getFullYear //gets year
+~.getHours() //gets 0-23 for hour
+~.getMonth() //gets 0-11
+
+-remember, if no timezone is specified, the 
+  browser returns the time/date for its own
+  specific timezone
+
+
+
+
 ------------------------------------------------
+SWITCH STATEMENT SYNTAX: 
+
+switch(expression) {
+    case n:
+        code block
+        break;
+    case n:
+        code block
+        break;
+    default:
+        code block
+}
+switch(favCar) {
+    case "BMW":
+      text = "German car";
+      break;
+    case "Ford":
+      text = "American car";
+      break;
+    case "Peugeot":
+      text = "French car";
+      break;
+    default:
+      text = "Unknown car name";
+  }
+-the default needs no break; statement
+-in fact, you can ditch the default if you 
+don't want a catchall
+-you can't use < or > logical or ranges, the 
+case must only have a single possibility per
+case
+------------------------------------------------
+------------------------------------------------
+array vs Node list vs HTML collection 
+
+an array is an array, you know what it does.
+node lists and html collections are array like,
+meaning they can't use a lot of the functions
+by default. they do use [0] and .length off the
+bad though
+
+HTML Collections can be accessed by name, id, or
+index number, Node Lists can only be accessed by
+index number.
+
+convert it into an array if you want to use any
+array functions:
+valueOf(), push(), pop(), indexOf(), join()

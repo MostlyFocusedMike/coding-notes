@@ -216,9 +216,9 @@ GLOBAL AND LOCAL SCOPE
         $x++;
     }
 
-    myTest(); //returns 0
-    myTest(); //returns 1
-    myTest(); //returns 2
+myTest(); //returns 0
+myTest(); //returns 1
+myTest(); //returns 2
     ?>
 
 

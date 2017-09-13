@@ -15,6 +15,40 @@
     WIDTH OF MINI PI SCREEN
 ////////////////////////////////////////////////
 
+////////////////////////////////////////////////
+          FLEXBOX
+FLEX
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  //align-self: flex-end, align-self: flex-start
+  //on the child elements to start at bottom or
+  //top
+
+display: flex;
+  -This makes all the children of the selected
+    element display in a horizontal line 
+flex-wrap: wrap;
+  -ensures that before any child goes outside 
+    the container, it will wrap downwards like 
+    an inline element (without being one)
+justify-content: center;
+  -All children will be treated as if they were
+    in a container, and that container will be 
+    centered horizontally, even when wrapping
+align-items: center;
+  -this aligns items centered vertically, and 
+   if you want a child item to be aligned with
+   the top or bottom, you give the CHILD element
+   the value of align-self: flex-start, 
+   or align-self: flex-end. Either one overides
+   the vertical centering
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+ANIMATION SECTION ANIMATION SECTION 
+
 GOOD VIDEOS: 
         ---------------------------
 CSS Transition (CSS Animations Series Part 1)

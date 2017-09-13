@@ -1,0 +1,169 @@
+HTML NOTES 
+  \_____|_____/_____/ ______  _____  
+ | \ | |/ __ \__   __|  ____|/ ____| 
+ |  \| | |  | | | |  | |__  | (___   
+ | . ` | |  | | | |  |  __|  \___ \  
+ | |\  | |__| | | |  | |____ ____) | 
+ |_| \_|\____/  |_|  |______|_____/ 
+
+////////////////////////////////////////////////
+123456789012345678901234567890123456789012345678
+    WIDTH OF MINI PI SCREEN
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+HTML/CSS BOOK (HTML PARTS)
+------------------------------------------------
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+          BOOTSTRAP BASICS
+
+BOOTSTRAP
+-Bootstrap is a framework for CSS/HTML/JS 
+-To use it, link to the cdn in the <head> before
+  your CSS link:
+  <link rel="stylesheet" href="bootstrap">
+  <link rel="stylesheet" href="css/styles.css">
+-You must also put a link to jquery in a 
+  <script> tag
+-You could also download the source files as 
+  well.
+-Bootrstrap uses a 12 column system, with each
+  container taking up the full 12, then you put
+  a row inside that, then you assign various 
+  elements to take up a certain number of the 
+  containers on each screen size. 
+
+-jumbotrons also take up the full 12 columns
+
+|1 |2 |3 |4 |5 |6 | 7| 8| 9| 10| 11| 12|
+|------------container------------------|
+| .col-sm-6       |.col-sm-3|.col-sm-3  |<-row
+
+USING THE GRID 
+
+  <div class="container">
+    <div class="row">
+    <h1 class="col-sm-4">header site</h1>
+    <nav class="col-sm-8 text-right">
+      <p>nav 1</p>
+      <p>nav 2</p>
+    </nav>
+
+-There's always a container, then a row, then 
+  inside that are the elements. 
+-the class name of the elements decides how 
+  much horizontal space it takes up. like this:
+    col-screenSize-#ofColumns
+    -so for viewport size x, # of columns
+-You can control the exact size for each screen:
+  <p clas="col-xs-10 col-sm-8"
+-If no larger screen is specified, then the 
+  largest one given is used for all subsequent
+  screens (ie lg will go from the sm measure)
+-The screen breakpoints are: 
+  lg=1200+
+  md=992+
+  sm=768+
+  xs=480+/-
+  (phone screens use the xs specifier)
+-Columns always start at the left unless you
+  use offset, or use text-right class 
+-If you don't specify what to do on a smaller
+  screen, then all elements in the row will 
+  default to take up all 12 columns, centered
+
+CONTAINER CLASS
+-container adds padding around your stuff so it
+  wont go to the edge of your page 
+-class="container-fluid" removes the padding
+
+OFFSETS 
+  class="col-lg-2 col-lg-offset-2"
+-adding an offset tells bootstrap to add # of
+  null columns to push your content over
+
+CHROME DEV TOOLS
+-chrome>inspect element lets you see the exact
+  pixel count of your viewport and lets you
+  simulate various phones and tablets to see the
+  breakpoints you'd need
+
+BUILDING A NAV BAR
+<nav class="nav"> //no container needed
+  <a class="nav-link active" href="#">one</a>
+  <a class="nav-link active" href="#">two</a>
+</nav>
+  OR the non HTML5 //notice the new nav-item
+<ul class="nav">
+  <li class="nav-item active">
+    <a class="nav-link" href="#">one</a>
+  </li>
+...
+
+-Be aware, these bars go in containers and rows,
+  they just don't need to have col lengths
+
+NAV CENTERING
+class="nav //then:
+justify-content-center //center nav bar
+justify-content-right //right instead of left default
+flex-comum //vertial center nav
+nav-tabs //adds tabs NEEDS JS TO WORK
+nav-pills //gives each nav item a button look
+   -can also use a dropdown feature, check the 
+    docs
+
+JUMBOTRON
+<div class="jumbotron">
+  <h1>this text will be huge and centered</h1>
+</div>
+
+-this container thing is the giant picture you 
+  always see. It has padding, rounded corners.
+  to get no padding use jumbotron-fluid class,
+  or put a container/container-fluid inside
+
+-style your jumbotrons with css to add 
+  background images: 
+
+BUTTONS
+-Anything can be made into a button by using the
+  btn class, but for screen readers and taste, 
+  only apply buttons to <button> <a> tags
+-buttons come with a variety of standard colors,
+  but you should always style them yourself:
+<button class="btn btn-default">gray button</but
+
+-check docs to see all the colors but, btn-color
+  is the syntax
+
+BUTTON SIZING
+<a class="btn-sm"> is the syntax, it doesn't
+  apply to columns, but rather literally
+  the buttons size, the options of xs,sm,md,lg 
+  are your options 
+-To make a button as wide as the contianer it
+  sits in, use class="btn-block"
+-Or make groups with btn-groups
+-check docs for styling options
+
+GLYPHS IN BOOTSTRAP
+<span class="glyphicon nameOfGlyph"></span>
+-These icons are treated as text, so you can
+  change the size, color, background etc just 
+  like anything. Can even be put into a link
+-Do not put anything in the <span>
+
+OFFSET/ALIGNMENT
+-Remember, offset doesn't mean the element
+  starts at the column, it means there are 
+  X number of null columns right before it.
+-Offsets can go in the middle of other elements
+-to add margins to top or bottom, you must add
+  them to the element that contains the 
+  col-x-x class. Altering elements inside wont 
+  change the actual rows height
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+////////////////////////////////////////////////
