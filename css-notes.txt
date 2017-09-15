@@ -15,6 +15,36 @@
     WIDTH OF MINI PI SCREEN
 ////////////////////////////////////////////////
 
+@font-face {
+  font-family: 'MyWebFont';
+  src: url('../fonts/webfont.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/webfont.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../fonts/webfont.woff') format('woff'), /* Pretty Modern Browsers */
+       url('../fonts/webfont.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+  font-weight: normal;
+  font-style: normal;
+}
+This is the format for importing fonts in CSS
+if you use a CDN, like google: 
+<link href="https://fonts.googleapis.com/css?family=Oswald:300, 400" rel="stylesheet">
+<link> in <head> with rel, and href attributes
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+MEDIA QUERIES 
+
+@media screen and (min-width: 450px) {
+//rules for this screen size
+//for any screen with a min-width of 450
+}
+so that "and" means if it's being viewed on 
+a screen AND has a min width. 
+
+remember to put media queries so they cascade 
+over main rules, media queries should go at the 
+end of a document
+
 ////////////////////////////////////////////////
           FLEXBOX
 FLEX
@@ -44,6 +74,17 @@ align-items: center;
    the value of align-self: flex-start, 
    or align-self: flex-end. Either one overides
    the vertical centering
+
+BROWSER CHANGES 
+-it only takes the -webkit- add on and its ont
+  these ones: 
+
+  display: -webkit-flex
+  -webkist-flex-wrap: wrap;
+  -webkit-justify-content: 
+  -webkit-align-items
+  -webkit-align self
+
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
@@ -83,8 +124,7 @@ Fine control:
     Keyframes allow for deep control of motion,
 transitions do have some linear control, but 
 not nearly as much. 
-
-    Before we get into animation, here are some
+Before we get into animation, here are some
 properties designed to work very well with 
 animation:
 -----------------------------------------------

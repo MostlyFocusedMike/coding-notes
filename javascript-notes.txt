@@ -384,8 +384,78 @@ Math.ceil() and Math.floor()
 
 
 ------------------------------------------------
+MORE QUICK MATH FUNCTIONS
+
+Math.round(4.7);    // returns 5
+Math.round(4.4);    // returns 4
+
+Math.pow(8, 2);      // returns 64 (x, y) is x^y
+
+Math.sqrt(64);      // returns square root of 8
+
+Math.abs(-4.7);     // returns absolute value 4.7
+
+Math.min(0, 150, 30, 20, -8, -200);  // returns -200
+
+arr = [0, 150, 30, 20, -8, -200];
+Math.max(...arr)
+Math.min(...arr)
+Math.max.apply(null, arr)
+Math.min.apply(null, arr) 
+-if you want to apply min or max to a list you
+  need to either use ... operator which is the
+  spread operator, OR use Function.protoype.apply()
+which allows you to apply a this value to your 
+array
+
 ------------------------------------------------
+LOOPING THROUGH OBJECT 
+var obj = {a: 1, b: 2, c: 3};
+    
+for (var prop in obj) {
+  console.log(`obj.${prop} = ${obj[prop]}`);
+}
+
+// Output:
+// "obj.a = 1"
+// "obj.b = 2"
+// "obj.c = 3"
+
+it's syntax: 
+for (var variable in object) {
+
+}
+
+for (var k in target){
+  if (typeof target[k] !== 'function') {
+     alert("Key is " + k + ", value is" + target[k]);
+    }
+}
+-getting key/value pairs works how you'd think.
+-To check if target has a property:
+
+for (var k in target){
+  if (target.hasOwnProperty(k)) { 
+    alert("Key is " + k + ", value is" + target[k]);
+    }
+}
+-that checks if k property (like "name") is in an
+object;
 ------------------------------------------------
+LOOPING THROUGH LIST WITH FOR EACH
+
+var a = ['a', 'b', 'c'];
+
+a.forEach(function(element) {
+    console.log(element);
+});
+
+// a
+// b
+// c
+
+-It's basically a pythnon for loop
+
 ------------------------------------------------
 QUICK AND DIRTY REFERENCE FUNCTIONS/COMMON STUFF
 
@@ -441,6 +511,12 @@ arr.slice(start, end)
 -negative values go from the end of an array 
   (-2 is second from the last, example)
 
+arr.length = 0 
+-This is the only way to clear a lits since: 
+  arr = {}
+  creates a duplicate version of the list that is
+  blank
+
 element.focus()
 -gives focus to an input
 
@@ -462,6 +538,12 @@ Math.floor((Math.random() * 10) + 1);
 -generates a random number between 1 and 10
 -you need the floor to keep from rounding errors)
 
+element.id = the id or set it
+element.className = get/set classname
+element.className += " otherClass"
+-that last one is how you add a class name 
+  instead of setting it's total string 
+
 var d = new Date()
 new Date()
 new Date(milliseconds)
@@ -480,7 +562,25 @@ var d = new Date().getDay()
   browser returns the time/date for its own
   specific timezone
 
+element.style.camelCaseProperty = "value"
+newDiv.style.backgroundColor = "red"
+-this is how you style css 
 
+element.setAttribute(name, value)
+newDive.setAttribute("id", "car")
+-set a tag's attribute 
+
+element.getAttribute(name)
+-gets a tag's attribute
+
+element.removeAttribute(name);
+-Removes an entire attribute object from 
+  element
+
+var elmnt = document.getElementById("myAnchor");   // Get the <a> element with id="myAnchor"
+var attr = elmnt.getAttributeNode("href");         // Get the href attribute node from <a>
+elmnt.removeAttributeNode(attr);
+-this removes an attribute node 
 
 
 ------------------------------------------------

@@ -10,11 +10,616 @@ HTML NOTES
 123456789012345678901234567890123456789012345678
     WIDTH OF MINI PI SCREEN
 ////////////////////////////////////////////////
-////////////////////////////////////////////////
-HTML/CSS BOOK (HTML PARTS)
-------------------------------------------------
-////////////////////////////////////////////////
-////////////////////////////////////////////////
+    HTML W3 NOTES 
+
+BASICS------------------------------------------
+
+**HTML Documents**
+ -All HTML documents must start with a document 
+  type declaration: 
+    <!DOCTYPE html>
+ -The HTML document itself begins with <html> 
+  and ends with </html>
+ -The visible part of the HTML document is 
+  between <body> and </body>
+ -Here's an example of a simple document:
+
+    <!DOCTYPE html>
+    <html>
+    <body>
+
+    <h1>My First Heading</h1>
+    <p>My first paragraph.</p>
+
+    </body>
+    </html>
+
+
+**HTML Headings **
+ -HTML headings are defined as <h1> to <h6> tags
+ -<h1> defines the most important heading and 
+  <h6> defines the least important heading:
+
+      <h1>This is heading 1</h1>
+      <h2>This is heading 2</h2>
+      <h3>This is heading 3</h3>
+
+
+**HTML Paragraphs**
+ -HTML paragraphs are defined with the <p> tag
+
+    <p>This is a paragraph.</p>
+    <p>This is another paragraph.</p>
+
+
+**HTML Links**
+ -HTML links are defined with the <a> tag:
+
+    <a href="https://www.w3schools.com">
+      This is a link
+    </a>
+
+ -a stands for anchor by the way
+ -The link's destination is specified in the 
+  href attribute. 
+ -Attributes are used to provide additional 
+  information about HTML elements.
+
+
+**HTML Images**
+ -HTML images are defined with the <img> tag.
+ -The source file (src), alternative text (alt),
+  width, and height are provided as attributes:
+
+    <img src="w3schools.jpg" alt="W3Schools.com"
+     width="104" height="142">
+
+ -You should give the width and height 
+  attributes in the HTML becuase it will let 
+  the page load properly without things jumping 
+  around 
+ -Those numbers for height and width are pixels
+ -This can all be overridden in CSS anyway
+
+
+
+HTML ELEMENTS ----------------------------------
+
+**HTML Elements**
+ -An HTML element usually consists of a start 
+  tag and end tag, with the content inserted in 
+  between:
+
+    <tagname>Content goes here...</tagname>
+
+ -The HTML element is everything from the start 
+  tag to the end tag:
+
+    <p>My first paragraph.</p>
+
+ -HTML elements with no content are called 
+  empty elements. Empty elements do not have 
+  an end tag, such as the <br> element (which 
+  indicates a line break).
+
+
+**Nested HTML Elements**
+ -HTML elements can be nested (elements can 
+  contain elements).
+ -All HTML documents consist of nested HTML 
+  elements.
+
+    <html>
+    <body>
+
+      <h1>My First Heading</h1>
+      <p>My first paragraph.</p>
+
+    </body>
+    </html>
+
+ -body is nested between html tags, but isn't 
+  indented due to style. Normally, nested 
+  elements are indented 2 spaces to keep things
+  easy to read.
+
+
+**Do Not Forget The End Tag**
+ -Some HTML elements will display correctly, 
+  even if you forget the end tag:
+
+    <html>
+    <body>
+
+    <p>This is a paragraph
+    <p>This is a paragraph
+
+    </body>
+    </html>
+
+ -The example above works in all browsers, 
+  because the closing tag is considered optional
+
+ -Never rely on this. It might produce
+  unexpected results and/or errors if you
+  forget the end tag.
+
+
+**Empty HTML Elements**
+ -HTML elements with no content are called 
+  empty elements.
+ - <br> is an empty element without a closing 
+  tag (the <br> tag defines a line break).
+ -Empty elements can be "closed" in the opening 
+  tag like this: <br />.
+ -HTML5 does not require empty elements to be 
+  closed. But if you want stricter validation, 
+  or if you need to make your document readable
+  by XML parsers, you must close all HTML 
+  elements properly.
+
+
+**Use Lowercase Tags**
+ -HTML tags are not case sensitive: <P> means 
+  the same as <p>.
+ -The HTML5 standard does not require lowercase 
+  tags, but W3C recommends lowercase in HTML, 
+  and demands lowercase for stricter document 
+  types like XHTML.
+ -At W3Schools we always use lowercase tags.
+
+
+
+HTML ATTRIBUTES --------------------------------
+
+**HTML Attributes**
+ -Attributes provide additional information 
+  about HTML elements.
+ -All HTML elements can have attributes
+ -Attributes provide additional information 
+  about an element
+ -Attributes are always specified in the start 
+  tag
+ -Attributes usually come in name/value pairs 
+  like: name="value"
+
+
+**The Lang Attribute**
+ -The language of the document can be declared 
+  in the <html> tag.
+ -The language is declared with the lang 
+  attribute.
+ -Declaring a language is important for 
+  accessibility applications (screen readers) 
+  and search engines:
+
+    <!DOCTYPE html>
+    <html lang="en-US">
+    <body>
+    ...
+    </body>
+    </html>
+
+ -The first two letters specify the language 
+  (en). If there is a dialect, use two more 
+  letters (US).
+
+
+**The Title Attribute**
+ -Here, a title attribute is added to the <p> 
+  element. The value of the title attribute 
+  will be displayed as a tooltip when you 
+  mouse over the paragraph:
+
+    <p title="I'm a tooltip">
+    This is a paragraph.
+    </p>
+
+
+
+**The href attribute**
+ -HTML links are defined with the <a> tag. The 
+  link address is specified in the href 
+  attribute:
+
+  <a href="https://www.w3schools.com">
+    This is a link</a>
+
+ -The href attribute is also used in <link> tags
+  and is not to be confused with src attribute
+
+
+**Size attributes**
+ -HTML images are defined with the <img> tag.
+ -The filename of the source (src), and the 
+  size of the image (width and height) are all 
+  provided as attributes:
+
+      <img src="w3schools.jpg" width="104" 
+        height="142">
+
+ -The image size is specified in pixels: 
+  width="104" means 104 screen pixels wide.
+
+
+**The alt Attribute**
+ -The alt attribute specifies an alternative 
+  text to be used, when an image cannot be 
+  displayed.
+ -The value of the attribute can be read by 
+  screen readers. This way, someone "listening"
+  to the webpage, e.g. a blind person, can 
+  "hear" the element.
+
+  <img src="w3schools.jpg" alt="W3Schools.com" 
+  width="104" height="142">
+
+
+**Lowercase Attributes**
+ -While HTML5 does not require lowercase 
+  attributes, it's non case sensitive, W3 
+  does lowercase for HTML and requires it for 
+  xhtml
+
+
+**Quotes suggested**
+ -HTML5 does not require the use of quotes for 
+  attribute values, but W3 style recommends them
+  for HTML and demands for xhtml
+ -Also, quotes ARE necessary for attributes with
+  spaces inside, so just use them
+ -Remember, use " to surround ' and ' to 
+  surround ". 
+ -Though " are more common in HTML doccuments
+
+
+**Review of Attributes** 
+ Here are some common attributes: 
+  alt:
+  -Specifies an alternative text for an image, 
+    when the image cannot be displayed
+
+  disabled
+  -Specifies that an input element should be 
+    disabled
+
+  href
+  -Specifies the URL (web address) for a link
+
+  id
+  -Specifies a unique id for an element
+
+  class 
+  -specifies a class of elements 
+
+  src
+  -Specifies the URL (web address) for an image
+
+  style
+  -Specifies an inline CSS style for an element
+
+  title
+  -Specifies extra info about an element
+    (displayed as a tool tip)
+
+
+
+HTML HEADINGS/HEAD -----------------------------
+
+**HTML headings**
+ -headings are the <h1> throught <h6> tags from
+  most to least important
+ -NOTE: Browsers automatically add some white 
+  space (a margin) before and after a heading.
+
+
+**Headings are important**
+ -Search engines use the headings to index the
+  structure and content of your web pages.
+ -Users skim your pages by its headings. It is 
+  important to use headings to show the 
+  document structure.
+ -<h1> headings should be used for main 
+  headings, followed by <h2> headings, then 
+  the less important <h3>, and so on.
+ -Note: Use HTML headings for headings only. 
+  Don't use headings to make text BIG or bold.
+
+
+**HTML Horizontal Rules**
+ -The <hr> tag defines a thematic break in an 
+  HTML page, and is most often displayed as a 
+  horizontal rule.
+
+ -The <hr> element is used to separate 
+  content (or define a change) in an HTML page:
+
+    <h1>This is heading 1</h1>
+    <p>This is some text.</p>
+    <hr>
+
+ -<hr> tags can be styled further with css to 
+  ensure that browsers display them correctly.
+ -They are like divs in terms of coloring with
+  the background-color property
+
+
+**The HTML <head> Element**
+ -The HTML <head> element has nothing to do 
+  with HTML headings.
+ -The <head> element is a container for 
+  metadata. HTML metadata is data about the 
+  HTML document. Metadata is not displayed.
+ -The <head> element is placed between the 
+  <html> tag and the <body> tag:
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>My First HTML</title>
+      <meta charset="UTF-8">
+    </head>
+    <body>
+
+
+
+**HTML Tag reference**
+ <html>
+ -Defines the root of an HTML document
+
+ <body>
+ -Defines the document's body
+
+ <head>
+ -A container for all the head elements 
+  (title, scripts, st yles, meta information, 
+  and more)
+
+ <h1> to <h6>
+ -Defines HTML headings
+
+ <hr>
+ -Defines a thematic change in the content  
+
+
+
+HTML PARAGRAPHS --------------------------------
+ -<p> is the paragraph tag
+ -NOTE: browsers automatically add whitespace 
+  to paragraph tags, before and after 
+
+
+**HTML Display**
+ -With HTML, you cannot change the output by 
+  adding extra spaces or extra lines in your 
+  HTML code.
+
+ -The browser will remove any extra spaces and 
+  extra lines when the page is displayed:
+
+    <p>
+    This paragraph
+    contains a lot of lines
+    in the source code,
+    but the browser 
+    ignores it.
+    </p>
+
+    <p>
+    This paragraph
+    contains         a lot of spaces
+    in the source         code,
+    but the        browser 
+    ignores it.
+    </p>
+
+ -Don't forget the closing tag, even though 
+  the HTML will still display without it.
+
+
+**HTML Line Breaks**
+ -The HTML <br> element defines a line break.
+ -Use <br> if you want a line break (a new 
+  line) without starting a new paragraph:
+
+  <p>This is<br>a paragraph<br>with line breaks.</p>
+
+ -The <br> tag is an empty tag, which means 
+  that it has no end tag.
+
+
+**The HTML <pre> Element**
+ -The HTML <pre> element defines preformatted 
+  text.
+ -The text inside a <pre> element is displayed 
+  in a fixed-width font (usually Courier), 
+  and it preserves both spaces and line breaks:
+
+    <pre>
+      My Bonnie lies over the ocean.
+
+      My Bonnie lies over the sea.
+
+      My Bonnie lies over the ocean.
+
+      Oh, bring back my Bonnie to me.
+    </pre>
+
+ -You can style the <pre> tag style with CSS 
+  so you can pick the font
+
+
+**HTML Tag Reference**
+  <p>
+  -Defines a paragraph
+
+  <br>
+  -Inserts a single line break
+
+  <pre>
+  -Defines pre-formatted text
+
+
+
+HTML STYLE -------------------------------------
+ -They style attribute can assign styles to 
+  you tags and elements, but honestly this is 
+  bad practice:
+
+  <h1 style="color:blue;">This is a blue</h1>
+
+ -Use css for styling, you just might see inline
+  styles on older pages
+
+
+
+HTML FORMATTING ================================
+
+**Formatting tags**
+  <b>
+  -Defines bold text
+
+  <strong>
+  -Defines important text
+
+  <i>
+  -Defines italic text
+
+  <em>
+  -Defines emphasized text 
+
+  <small>
+  -Defines smaller text
+
+  <sub>
+  -Defines subscripted text
+
+  <sup>
+  -Defines superscripted text
+
+  <ins>
+  -Defines inserted text
+
+  <del>
+  -Defines deleted text
+
+  <mark>
+  -Defines marked/highlighted text
+
+
+**Semantic Tags**
+ -<em> and <strong> display italics,
+
+HTML QUOTATION AND CITATION ELEMENTS ===========
+
+**HTML <q> for Short Quotations**
+ -The HTML <q> element defines a short 
+  quotation.
+ -Browsers usually insert quotation marks 
+  around the <q> element.
+
+    <p>WWF's goal is to: 
+      <q>Build a future where people live in 
+      harmony with nature.
+      </q>
+    </p>
+
+
+**HTML <blockquote> for Quotations**
+ -The HTML <blockquote> element defines a 
+  section that is quoted from another source.
+ -Browsers usually indent <blockquote> elements.
+
+    <p>Here is a quote from WWF's website:</p>
+    <blockquote cite="http://www.worldwildlife.org/who/index.html">
+    For 50 years, WWF has been protecting the future of nature.
+    The world's leading conservation organization,
+    WWF works in 100 countries and is supported by
+    1.2 million members in the United States and
+    close to 5 million globally.
+    </blockquote>
+ 
+ -note the cite attribute. It won't generate 
+  anything in the browser or display weird, but 
+  search engines use this when ranking pages 
+
+**HTML <abbr> for Abbreviations**
+ -The HTML <abbr> element defines an 
+  abbreviation or an acronym.
+ -Marking abbreviations can give useful 
+  information to browsers, translation systems 
+  and search-engines.
+
+  <p>The <abbr title="World Health Organization">WHO</abbr> was founded in 1948.</p>
+
+ -The title attr is a nice touch for readers 
+  it displays the full name
+
+
+**HTML <address> for Contact Information**
+ -The HTML <address> element defines contact 
+  information (author/owner) of a document or 
+  an article.
+ -The <address> element is usually displayed 
+  in italic. Most browsers will add a line 
+  break before and after the element.
+
+    <address>
+    Written by John Doe.<br> 
+    Visit us at:<br>
+    Example.com<br>
+    Box 564, Disneyland<br>
+    USA
+    </address>
+
+
+**HTML <cite> for Work Title**
+ -The HTML <cite> element defines the title of 
+  a work.
+ -Browsers usually display <cite> elements in 
+  italic.
+
+    <p><cite>The Scream</cite> by Edvard 
+      Munch. Painted in 1893.</p>
+
+
+**HTML <bdo> for Bi-Directional Override**
+ -The HTML <bdo> element defines bi-directional 
+  override.
+ -The <bdo> element is used to override the 
+  current text direction:
+
+    <bdo dir="rtl">This text will be written 
+    from right to left</bdo>
+
+ -As in the letters are printed the right way,
+  but their letter by letter order is reversed.
+ -If you try to copy/paste it though, it will 
+  past in the way it is written in the HTML code
+
+
+**HTML Quotation and Citation Elements**
+  <abbr>
+  -Defines an abbreviation or acronym
+
+  <address>
+  -Defines contact information for the 
+    author/owner of a document
+
+  <bdo>
+  -Defines the text direction
+
+  <blockquote>
+  -Defines a section that is quoted from 
+   another source
+
+  <cite>
+  -Defines the title of a work
+
+  <q>
+  -Defines a short inline quotation
+
+//////////////////////////////////////////////
 ////////////////////////////////////////////////
           BOOTSTRAP BASICS
 
@@ -36,7 +641,7 @@ BOOTSTRAP
 
 -jumbotrons also take up the full 12 columns
 
-|1 |2 |3 |4 |5 |6 | 7| 8| 9| 10| 11| 12|
+  e1 |2 |3 |5 |6 | 7| 8| 9| 10| 11| 12|
 |------------container------------------|
 | .col-sm-6       |.col-sm-3|.col-sm-3  |<-row
 
