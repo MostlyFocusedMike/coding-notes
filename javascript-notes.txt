@@ -632,3 +632,39 @@ index number.
 convert it into an array if you want to use any
 array functions:
 valueOf(), push(), pop(), indexOf(), join()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////
+      SELECTING THE CHILDREN OF AN ELEMENT
+
+  document.(element).nowSelectsFromChildren
+
+    SO:
+  document.getElementById("k").getElementsByTag
+    Name("img")[0]
+
+  Now, that getElementsByTagName will only 
+  return those tags that are the children of 
+  the element whose id is "k".
+  -the chain would continue with each . 
+
+  doc.(element).(child).(grandchild)
+
+
+////////////////////////////////////////////////
