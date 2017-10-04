@@ -4,7 +4,7 @@ set nocompatible
 filetype off                
 " vundle stuff {{{
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/vundle.vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
@@ -45,12 +45,14 @@ Plugin 'vim-syntastic/syntastic'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
-
 " Optional:
 Plugin 'honza/vim-snippets'
 
 " Added EasyMotion
 Plugin 'easymotion/vim-easymotion'
+            
+" Added MatchTagAlways 
+Plugin 'Valloric/MatchTagAlways'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -76,6 +78,11 @@ filetype indent on   " filetype specific indent
 set lazyredraw  " redraw screen only when needed
 
 
+runtime macros/matchit.vim " lets % jump between html tags
+let g:mta_filetypes = {
+    \ 'html' : 1,
+    \}
+let g:mta_use_matchparen_group = 1
 " edit vimrc {{{   
 " edit and load changes in vimrc file 
 " seems to open up a side split scree
@@ -112,15 +119,20 @@ nnoremap<leader><space> :nohlsearch<CR>
     
 " tabs {{{
 set expandtab    " tabs are spaces
-set tabstop=4	" number of visual spaces per tab
-set shiftwidth=4 " number of space characters inserted
+set tabstop=2	" number of visual spaces per tab
+set shiftwidth=2 " number of space characters inserted
 " }}}    
 
 " looks {{{
-set ruler " show the cursor position all the time
+" set ruler " show the cursor position all the time
 set showcmd	" display incomplete commands
 set number    " show line numbers
-set cursorline
+set nocursorline
+:hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+:hi CursorColumn cterm=NONE ctermbg=yellow ctermfg=white guibg=darkred guifg=white
+
+:nnoremap <Leader>l :set cursorline! <CR>
+:nnoremap <Leader>c :set cursorcolumn!<CR>
 set showmatch   " highlight matching []{}()
 set wildmenu    " visual autocomplete tab menu
 " }}}

@@ -45,23 +45,7 @@ remember to put media queries so they cascade
 over main rules, media queries should go at the 
 end of a document
 
-////////////////////////////////////////////////
-      SELECTING THE CHILDREN OF AN ELEMENT
-
-  document.(element).nowSelectsFromChildren
-
-    SO:
-  document.getElementById("k").getElementsByTag
-    Name("img")[0]
-
-  Now, that getElementsByTagName will only 
-  return those tags that are the children of 
-  the element whose id is "k".
-  -the chain would continue with each . 
-
-  doc.(element).(child).(grandchild)
-
-
+///////////////////////////////////////////////
 ////////////////////////////////////////////////
           FLEXBOX
 FLEX
