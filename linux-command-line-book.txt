@@ -171,11 +171,288 @@ WIDTH OF MINI PI SCREEN
   "thing.txt" as a name
 
 
+/////////////////////////////////////////////////
+        CH3 EXPLORING THE SYSTEM 
+
+**more fun with ls**
+ -$ ls 
+  shows the contnts of your cwd 
+ -$ ls Desktop/folder
+  use an argument of a folder name to list out 
+  that folders contents without moving your cwd
+ -$ ls Desktop/folder Desktop/folder2
+  separate folders with spaces to see multiple
+  contents   
 
 
+**options and arguments**
+ -you can alter the effects of commands with 
+  options and arguments: 
+
+    $ command -option arguments
+
+ -options alter what the command does and the 
+  arguments affect what the command acts on
+ -options can be case sensitive, so watch out
+ -most options are a dash followed by a letter,
+  but there are "long options" which are two 
+  dashes followed by words 
+ 
+    ls -a // ls --all 
+
+ -the above options do the same thing 
+ -short options can be strung together, just use
+  a single dash, then multiple short options: 
+
+    ls -alt // the -a, -l, and -t combine
+
+ -short and long options can be used together if
+  you want: 
+
+    ls -alt --reverse 
 
 
+**common ls options**
+  -a, --all
+  lists all files, even those that are hidden
+
+  -d, --directory 
+  ls normally shows you info on files in a dir, 
+  but using -d with -l, you can get info on the 
+  directory itself (like permissions and links)
+
+  -F, --classify
+  append an indecator character to the end of 
+  file names (so directories get a / at the end)
+
+  -h, --human-readable
+  list file sizes in things like mb and k instead
+  of raw bytes
+  
+  -l 
+  display long format (this gives permeisions,  
+  file sizes, owners and more, v useful)
+
+  -r, --reverse 
+  display results in reverse order, ls normally
+  displays files in ascending alphanumeric order
+  unless sorted otherwise
+
+  -S
+  sort results by file size
+
+  -t 
+  sort by when the last modification was, more 
+  recent mods at the top
 
 
+**a longer look at long format**
+
+drw-r--r--  1 root root  6472 Sep 15 14:04 test
+1           2 3    4     5    6            7
+
+ -see below for what each field means 
+
+  1
+  Access rights to the file, the first character
+  says what type of file it is, a - means a 
+  regular file, a d is a directory. the next 3 
+  are access rights for the files owner, the 
+  next 3 are for members of the files group,
+  the last three are everyone else. more in ch9
+
+  2 number of hard links to file 
+
+  3 user name of files owner
+
+  4 name of group that owns the file 
+
+  5 size of file in bytes 
+
+  6 date of the files last modification
+
+  7 name of the file 
 
 
+**determining a files type with file**
+ -since filenames are not required to determine 
+  an actual file's filetype (ie a .jpg file might
+  not actually containg a JPG file), you can 
+  double check with the $file command: 
+
+    $ file picture.jpg
+    //picture.jpg: JPEG image data, JFIF standard 1.01
+
+  -the file to analyze is an argument for the 
+  command
+
+
+**viewing file contents with LESS**
+ -the less command helps you view text files 
+ -text files are just one to one mappings of  
+  characters to numbers (each char. is a byte)
+ -ASCII and unicode are common text types 
+ -the less command takes the file to read as 
+  an argument: 
+ 
+    $ less /etc/passwd 
+
+ -less is a play on words, since the old unix 
+  program was called "more", both programs are 
+  examples of "pager" programs 
+**less commands**
+
+  PAGE UP key, b
+  back one page 
+
+  PAGE DOWN key, SPACE key
+  down one page
+
+  UP ARROW, DOWN ARROW  
+  up one line, down one line 
+  (there is no cursor, its jsut a page view)
+
+  G, g 
+  move to end of file, move to sart of file
+  
+  /characters 
+  search for selected characters 
+  n
+  go to next character set match
+  
+  h
+  display help screen
+ 
+  q
+  quit less 
+
+  -notice the similar commands to vi 
+
+
+**a guided tour**
+ -most linux systems are similar and try to 
+  conform to the "linux filesystem heirarchy 
+  standard" 
+ -below are some brief descriptions of the dirs:
+
+ /
+  the root dir, where everything is stored 
+
+ /bin
+  contains binaries (programs) that must be 
+  present for system to boot 
+
+ /boot 
+  comtains the linux kernel, initial RAM disk 
+  image, and boot loader 
+
+ /dev 
+  linux's philosophy of "everything is a file"
+  applies to devices, and here is where the 
+  kernel maintains a list of all devices it 
+  understands 
+
+ /etc 
+  contains all system wide config files, and a
+  collection of shell scrips that run at boot
+
+ /home 
+  each user gets a dir in /home, and here is 
+  where they can write files without admin 
+  priveleges. this is a safety feature 
+
+ /lib
+  contains shared libraries used by core system
+  programs 
+
+ /lost+found 
+  used in the case of system corruption events 
+
+ /media 
+  on modern linux distros, this contains all 
+  mountable devices like CDs and USBs that are 
+  mounted automaticaly at insertion 
+ 
+ /mnt 
+  on older systems, mountable devices are here
+
+ /opt
+  used to install "optional" or commercial 
+  hardware 
+
+ /proc
+  this is a weird dir, it isn't real, it's 
+  virtual and maintained by the linux kernel.
+  files are readable and gives a view of the 
+  the kernel
+
+ /root 
+  home directory for the root account 
+
+ /sbin
+  contains "system" binaries, these are programs
+  that perfom vital tasks reserved for the super
+  user
+
+ /tmp
+  used for programs that create temporary files,
+  some distros clear this each time on boot 
+
+ /usr
+  contains all programs and support files used 
+  by regular users
+
+ /usr/bin 
+  contains executable programs installed by your
+  linux distro, can contain 1000s of programs
+
+ /usr/lib
+  shared libraries for /usr/bin
+
+ /usr/local 
+  where programs that are not included with your
+  distro, but indended for system-wide use are 
+  stored. it's empty until admin puts stuff here
+
+ /usr/sbin
+  contains more sysadmin programs 
+
+ /usr/share
+  contains all shared data used by /usr/bin 
+  programs like icons and defualt config files,
+  background imgs etc etc
+
+ /usr/share/doc
+  the documentation for all /usr packages
+
+ /var
+  unlike most static directories, this is where
+  variable changing data goes, like email and 
+  databases
+
+ /var/log
+  log files, need to be a superuser to monitor 
+  them
+
+
+**symbolic links**
+ -more later, but basically these are like 
+  shortcuts that reference files
+ -so if you need to referece a file that keeps 
+  getting updated, instead of changing all files
+  that reference that file with each update, 
+  use a symbolic link, then reference that 
+ -this means with each update, you just need 
+  to change the symbolic link's destinations 
+
+    file > symbolic link foo > mainfile1.0 
+
+      Add updated version of file:
+
+    file > symbolic link foo > mainfile1.1
+                              mainfile1.0
+ 
+ -this also lets you keep older versions for 
+  easy rollback in case the new version has bugs
+ -hard links are similar but more clunky, more 
+  on these in next chapter 
