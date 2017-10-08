@@ -2,7 +2,7 @@
 WIDTH OF MINI PI SCREEN
 
 /////////////////////////////////////////////////
-        CH. 1- WHAT IS THE SHELL?
+        CH1- WHAT IS THE SHELL?
  -When we talk about the command line we are 
   really referring to the "shell" which is a 
   program command that takes keyboard vommands 
@@ -456,3 +456,54 @@ drw-r--r--  1 root root  6472 Sep 15 14:04 test
   easy rollback in case the new version has bugs
  -hard links are similar but more clunky, more 
   on these in next chapter 
+
+
+/////////////////////////////////////////////////
+  CH4 MANIPULATING FILES AND DIRECTORIES
+
+**wildcards*** 
+ -wildcards are special characters that help you 
+  select files 
+ -using wildcards is known as "globbing"
+
+ *table 4-1 wildcards*
+  * = any characters 
+  ? = any single character
+  [characters] = any characters in set characters
+    NOTE: these are not strings, treat them as 
+    arrays for finding a single char. in a set
+  [!characters] = any NOT in set characters 
+  [0-9] = any integer 0 through 9
+  [[:class:]] = any char. in a specified class
+
+ *table 4-2 commonly used character classes
+  [:alnum:] = any alphanumerica character char.
+  [:alpha:] = any alphabetic character
+  [:digit:] = any numeral 
+  [:lower:] = any lowercase letter
+  [:upper:] = any uppercase letter
+
+ -here are some examples: 
+  * = all files 
+  g* = any file starting with g 
+  b* = any .txt file starting with b
+  Data??? = files beginning with data and ending 
+            with any 3 characters 
+  [abc]* = files beginning with a, b, or c
+  BACKUP.[0-9][0-9] = beggining with BACKUP 
+                      followed by . then any 2 
+                      digits
+  [[:upper:]]* = any file starting with uppercase
+                 letter
+  [![:digit:]]* = files not starting with a digit
+  *[[:lower:]123] = files ending with a lower
+                    case letter OR the numerals 
+                    1, 2, or 3
+
+ -NOTE: in unix, you may come across [A-Z] [a-z]
+  which work in older linux, but have dif results
+  in modern. use the upper and lower classes 
+  instead 
+ -in a lot of linux distros, wildcards work in 
+  gui searches too 
+ 
