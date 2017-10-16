@@ -506,4 +506,407 @@ drw-r--r--  1 root root  6472 Sep 15 14:04 test
   instead 
  -in a lot of linux distros, wildcards work in 
   gui searches too 
+
+
+**mkdir -create directories**
+ -$ mkdir new1
+  the mkdir command creates a new directory
+ -$ mkdir new1 new2 new3...
+  make multiple at once by giving more than 
+  one dir. name 
+
+
+**cp -copy files and directories**
+ -cp can be used in two main ways: copying 
+  individual files, or copying files into 
+  directories: 
+ -$ cp item1 item2 
+  this copies item1 to a new file called item2,
+  if item2 already exists it gets overwritten
+ -$ cp item1 item2 directory1
+  this copies as many items into a new directory
  
+ *cp options* //just a few of them
+  -a, --archive 
+    copy files and dir. with all their attributes
+    including ownerships and permissions. the 
+    default is to copy with the own. and perms.
+    of user performing cp
+  -i, --interactive
+    before overwriting an existing file, 
+    ask permission, default is to do it silently
+    (as in not ask for permission)
+  -r, --recursice
+    recursively copy directories and their 
+    contents. this or -a is required when 
+    copying dir.
+  -u, --update 
+    when copying files from one directory to 
+    another, only add the files that either 
+    exist or are newer versions 
+  -v, --verbose 
+    display info messages as it does stuff
+    these are not confirmations, just messages 
+    that alert you to what step of the 
+    process you are in
+
+  *cp examples*
+  cp file1 file2
+    copies file, if fil2 exists it's overwritten
+  cp -i file1 file2 
+    if file2 exists, it asks for confirm 
+    of overwrite 
+  cp file1 file2 dir1
+    copy files to directory
+  cp dir1/* dir2
+    use a wildcard to copy each file from 
+    dir1 into dir2 
+  cp -r dir1/ dir2
+    same effect as above
+  cp -r dir1 dir2
+    copies the directory and its files (not just
+    the loose files) into dir2. if dir2 does not
+    exist, then it is created, and the loose 
+    files inside dir1 will be in dir2 (without 
+    being contained in dir1)
+  cp /home/file1 . 
+    copy file from another dir. into your cwd
+    (use -r if it's a directory your copying)
+
+**mv -move and rename files**
+ -use mv to move and rename files:
+ -$ mv item1 item2
+  now item1 is called item2, if item2 exists it 
+  is overwritten by item1. either way, item1 is 
+  no longer a thing 
+ -$ mv item1 dir1
+  now item1 is in dir1 instead of where it was 
+ *mv options*
+  -i, --interactive
+    same thing as cp's version
+  -u, --update
+    when moving files to new dir, it only moves 
+    files that dont exist or are newer than the 
+    dir's version
+  -v, --verbose 
+    same thing as usual 
+  NOTE: you do not need to use -r ever with mv, 
+    since it is basically designed to work with
+    directories 
+
+ *mv examples*
+    mv file1 file2
+      renames/overwittes file1 to be file2 (this
+      works on files and directories)
+    mv -i file1 file2
+      if file2 exists, must confirm overwrite
+    mv file1 file2 dir1
+      move files to dir1 (any number of files)
+    mv dir1 dir2
+      move dir1 into dir2, if dir2 does not 
+      exist, you have to make it first, otherwise
+      this will just rename dir1 to dir2
+
+
+**rm -remove files and directories**
+ -$ rm item1 item2 ite...
+  this permanently deletes the file 
+ -BE FUCKING CAREFUL rm is instant and permanent
+  if you are using wildcards, test it with ls 
+  first to see what files you are deleting since:
+  
+    $ rm *.html
+    $ rm * .html
+  
+  the second one will accidentally delete every
+  file in your cwd then complain that there is 
+  no file called ".html" to delete
+
+ *rm options*
+  -i, -interactive 
+    same as usual
+  -r, --recursive 
+    needed for directories, same as usual
+  -f, --force
+    ignore nonexistent files and do not prompt
+    this overrides the -i option
+  -v, --verbose 
+    display messages as usual 
+
+ *rm examples*
+  rm file1
+    removes file
+  rm -i file1
+    asks for confirm before deletion
+  rm -r file1 dir1 
+    -r lets you delete directories 
+  rm -rf file1 dir1
+    same as above, but now if one of those 
+    files doesn't exist, rm will continue 
+    silently (otherwise it sends a little 
+    warning message about the error even though
+    both styles delete any real files they find)
+  
+
+**ln -create links**
+ -create either hard of symbolic links with ln:
+ -$ ln file link //hard link
+ -$ ln -s file-or-dir link //symbolic links
+  // ln test.txt hard //hard is the name of link
+  // ln -s tip.txt sym //sym is the name of link
+ -hard links are the original way to make links
+  in unix. A link is just a new directory entry
+  for a file. So instead of copying a file and 
+  all it's space, a link is the same file that 
+  can now be accessed from more than one  
+  location on your computer
+ -hard links can't reference a directory and they
+  cant reference a file outside their disk 
+  partition as the link itself 
+ -links of both types can't have the same name 
+  as a pre existing file or link. to overwrite
+  a file/link to become a new link, you need to 
+  use the -f (--force) option. 
+ -symbolic links are the new way to make links 
+  they can reference directories now 
+ -another difference between symbolic and hard
+  links is how they treat the deletion of the 
+  file they link to: 
+    -hard links literally ARE the file, so 
+     the original file contents will not be 
+     removed until all hard links are removed
+    -symbolic links are just pointers, so if the 
+     original file gets deleted, the link is 
+     said to be broken and will come up as an 
+     error (ls will ussually display them in 
+     different colors once broken)
+ -the links will act like what they are linking
+  to, so if you link a file, you can edit the
+  file or the link and both change. If the 
+  symbolic link is to a directory, you can cd 
+  into the dir. and it will contain the same 
+  files as the original 
+ 
+**telling links apart from sources**
+ -symbolic links are obvious, when you ls -l, 
+  they have an arrow from the link to the source
+  file
+ -hard links are harder, they don't look any 
+  different from a regular file, to spot a 
+  hard link, use ls -i, that -i shows each 
+  file's "inode" (often used with -l option) 
+ -to think about it in another way, all files 
+  have 2 parts, a data part which holds the files
+  content and a name part, which hold the file's 
+  name and meta data. when you create a hard link
+  your creating an additional name part that 
+  refers to the same content
+ -an inode is a chain of disk blocks that the 
+  system assigns to it 
+ -to find all links to a file, search for the 
+  inode: 
+
+    $ find ~/ -xdev -inum [inode num here]
+
+**creating symlinks with the gui**
+ -you can make symlinks in linux guis
+ -usually there will be an option in the drop
+  down menu when you right click an item, in 
+  GNOME you hold ctrl+shift while dragging 
+ -ubuntu, ctrl + drag + shift and then drop the
+  now symbolic link where you want it (ctl + drag
+   is how to make a copy of a file in the gui)
+
+
+
+/////////////////////////////////////////////////
+        CH5 WORKING WITH COMMANDS 
+**what exactly are commands**
+ -they are one of 4 things:
+  -an executable program:
+   like the files we saw in /usr/bin, they are 
+   either "compiled binaries" written in C, c++
+   or programs written in scripted languages like
+   python, perl, ruby etc
+  -a command built into the shell itself:
+   bash supports a bunch of built in commands
+   called "shell builtins" cd is this 
+  -a shell function:
+   "shell functions" are mini shell scripts built
+   right into the environment
+  -an alias 
+   "alias" is a command that we configured 
+   ourselves
+
+
+**identifying Commands**
+ -use $ type to figure out which of the 4 types 
+  a command is: 
+  
+  $ type ls
+  ls is /bin/ls
+  $ type cd
+  cd is a shell builtin
+  $ type ll
+  ll is aliased to 'ls -alt'
+
+ -we can see some exampls, ls and cd, though they
+  look similar, are actually different types 
+ 
+
+**which -display an executables location
+ -sometimes more than one version of an 
+  executable is on a system, so to know the
+  exact location of the exectuable use which: 
+
+    $ which ls
+    /bin/ls
+
+ -only works on executables, but on macs, it 
+  might work on other types of commands as well
+  on linux it will give an error or no response
+
+
+**Getting a commands documentation**
+ -bash has help pages for each of the shell 
+  builtins 
+
+    $ help cd 
+    //a bunch of stuff 
+
+ -NOTE: when square brackets appear, they show 
+  optional items, the | indicates mutally 
+  exclusive terms 
+ 
+  [-L|-D] [dir] 
+ 
+ -the above means either L or D, then dir
+
+ -for executable programs, use --help 
+
+  $ mkdir --help 
+  //bunch of stuff 
+
+ -some programs dont support --help, but if you
+  try --help, most cases the error message will 
+  list all the options you'd need anyway
+
+
+**man -display a programs manual page**
+ -use: 
+
+  $ man ls 
+  $ man 5 ls
+
+ -the first one opens up the full man page for 
+  the command, the second opens only up one 
+  section. the 8 possible section are below. 
+  Not every command has every one of the sections
+ -note: man stands for manual 
+
+  1 user commands
+  2 proframming interface for kernal system calls
+  3 programming interface for C library
+  4 special files for device nodes and drivers
+  5 file formats
+  6 games and extra fun stuff
+  7 miscellaneous
+  8 system admin commands 
+
+
+**apropos -display approtiate commands**
+ -search the man pages for a word, very crude but
+  it can come up with relevant commands 
+
+  $ apropos web
+  cheese (1)  -details about program
+  firefox(1)  -details about program
+  //more programs 
+
+ -the first field is the command, the second is
+  the section the word comes up in first 
+ -NOTE $ man -k  does the same thing as apropos
+
+
+**whatis -display a brief description**
+ -get a brief description of command: 
+
+    $ whatis ls 
+
+
+**info -display program's info entry**
+ -the GNU project has an alternative to man pages
+  called "info pages" and you read them with the 
+  info program
+ -the info pages are called info files, with 
+  tree structures and each 'node' contains a 
+  single topic. 
+ -the notes are hyperlinked like webpages 
+  
+    $ info ls 
+
+ -here are the info commands:
+  ?   -display command help
+  PAGE UP or BACKSPACE
+    display previous page
+  PAGE DOWN or SPACEBAR
+    display next page
+  n
+    Next -display next node
+  p
+    Previous -diplay previous node
+  u
+    up- display parent node 
+  ENTER
+    follow hyperlink under cursor
+  q
+    quit 
+
+
+**README and other program documentation**
+ -most documentation is in /usr/share/doc
+ -most are plaintext, so you can be viewed with 
+  less
+ -some are .html so view them as with browsers
+ -some are .gz files, which have been compressed
+  with the gzip compression, which you view with
+  the zless program, which views compressed files
+  
+
+**Creating your own commands with alias**
+ -it is possible to put more than one command
+  on a line: 
+
+    $ cd ..; ls; cd -
+
+ -simply separate each command with a semicolon
+  and a space 
+ -alias lets you turn a sequence of commands or 
+  a long command into a short cut that you can 
+  type instead 
+ -before making an alias, use type to check
+  
+  $ type test
+  test is a shell builtin
+  $type foo
+  bash: type: foo: not found 
+
+ -so like, test would be bad since it's taken, 
+  but foo would be fine
+ -you make a foo like this: 
+
+    alias foo="cd /usr; ls; cd -"
+    alias name="actual command in quotes"
+
+ -you can now just type foo to get those 3 ones 
+ -if you use the type command on foo, now it says
+  
+    $ type foo
+    foo is aliased to 'cd /usr; ls; cd -'
+
+ -you can also use an alias to override a command
+  that does exist, if you want.
+ -to see all aliases set up in your environment,
+  just type alias into the command line 
+
+    $ alias 
