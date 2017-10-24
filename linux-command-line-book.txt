@@ -183,6 +183,9 @@ WIDTH OF MINI PI SCREEN
  -$ ls Desktop/folder Desktop/folder2
   separate folders with spaces to see multiple
   contents   
+ -$ ls -l thing.txt
+  shows info about the specific file thing.txt
+  
 
 
 **options and arguments**
@@ -910,3 +913,1050 @@ drw-r--r--  1 root root  6472 Sep 15 14:04 test
   just type alias into the command line 
 
     $ alias 
+
+
+/////////////////////////////////////////////////
+      CH6 REDIRECTION
+
+ -i/o stands for input/output
+ -with this facility you can redirect the input 
+  and output of commands to and from files, 
+  as well as connect multiple commands 
+  to make powerful "command pipelines."
+
+**Standard Input, Output, and Error**
+ -many of the programs we've been using have 
+  2 types of output, first the programs results,
+  and second, the status and error messages 
+ -in Unix, "everything is a file" so things like 
+  ls actually send their results to a special 
+  file called "standard output" (stdout) and 
+  their status/error messages to a file called
+  standard error (stderr)
+ -by defualt, both files are linked to the screen
+  and not saved to disk
+ -in addition, programs take input from a
+  facility called standard input (stdin)
+ -I/O redirection allose us to change where this
+  all works and goes 
+
+
+**Redirecting Standard Output**
+ -to redirect standard output to another file 
+  use  the rediection > operator 
+
+    $ ls -l /usr/bin > ls-output.txt
+
+ -this redirects the output into the file 
+  ls-output.txt, if the file does not exist it 
+  is created 
+ - the > operator overwrites a file, so if there
+  is no output, it will create a blank file (or 
+  truncate an existing file and making it empty)
+
+    $ > test.txt 
+  
+ -this is a quick way to create a new file 
+ -to append more data onto the end of a file, 
+  use the >> operatror 
+
+    $ ls -l /usr/bin >> ls-output.txt
+
+
+**Redirecting Standard Error**
+ -the thre file streams, stdin, stdout, stderr
+  the shell references them internally as file 
+  descriptors 0, 1, and 2 respectively
+ -to redirect an error/status message to a file 
+  use the shell reference before the operator:
+  
+    $ ls -l /bin/usr 2> ls-error.txt
+
+ 
+**Redirecting stdout and stderr to One File**
+ -this is the old way to output both to a file
+
+    $ ls -l /bin/usr > ls-output.txt 2>&1
+
+ -note the order: stderr must be redirected 2nd
+  otherwise it will output to the screen 
+ -Below is the modern way to do this: 
+
+    & ls -l /bin/usr &> ls-output.txt
+
+
+**Disposing of Unwanted Output**
+ -to simply throw away output or errs, you can
+  send the them to the "bit bucket" which is 
+  /dev/null 
+ -the system accepts the input and then just 
+  does nothing with it 
+ -this example silences error messages: 
+
+    $ ls -l /bin/usr 2> /dev/null 
+
+ -in unix culture, this is slang for throwing
+  away an idea 
+
+
+**Redirecting stdin**
+ -cat -concatenate files 
+  the cat command reads one or more files 
+  and copies them to standard output: 
+
+    $ cat ls-output.txt
+ 
+ -this displays the file, often used to show 
+  small text files
+ -it can also take more than one argument, 
+  so it is also used to join multiple files
+  together: 
+
+    $ cat movie.mpeg.0* > movie.mpeg
+
+ -since wildcards expand in order, that will  
+  combine all the ordered mpeg files and 
+  stitch them together
+ -if cat is given no arguments, it will instead
+  read from standard input 
+ -so it will take what you type below it and 
+  then output it, OR put it into a file 
+  if you redirected it 
+ -to stop the stdin, use the ctl-D interrupt 
+  to tell cat is has reached end-of-file (EOF)
+  of stdin
+ 
+    $ cat > lazy_dog.txt
+    words words words 
+    $ cat lazy_dog.txt
+    words words words 
+
+ -you can also redirect the input of cat as 
+  a file by using the < operator: 
+
+    $ cat < lazy_dog.txt
+  
+  -this doesn't do much, but it shows that 
+  you can redirect input 
+
+
+
+**Pipelines**
+ -The ability of commands to read data from 
+  standard input and send to standard output 
+  is utilized by a shell feature called 
+  pipelines.
+ -Using the pipe operator | (vertical bar), 
+  the standard output of one command can be 
+  piped into the standard input of another.
+  
+    $ ls -l /usr/bin | less
+
+ -you can use many pipelines back to back
+
+
+**Filters**
+ sort
+  
+    $ ls /bin /usr/bin | sort | uniq | less
+
+ -the sort command creates a single sorted list
+ -here are some good options: 
+   -f, --ignore-case
+    use this so that it ignores captials
+    (default is to put all captials first, then
+    lower case)
+   -g, --general-numeric-sort
+   -b, --ignore-leading-blanks
+              ignore leading blanks
+   -d, --dictionary-order
+              consider only blanks and alphanu-
+              meric characters
+  See the man page for more 
+
+
+  uniq -report or omit repeated lines 
+ -uniq is used in conjution with sort since 
+  uniq removes the 2nd back to back repeated 
+  line 
+ -if the lines are not next to each other,
+  the duplicate will not be recognized
+ -if you want ONLY the duplicates in a file, 
+  use the -d option 
+
+    $ ls /bin /usr/bin | sort | uniq | less
+    //removes duplicates 
+    $ ls /bin /usr/bin | sort | uniq -d | less
+    //shows only duplicates 
+
+  wc—Print Line, Word, and Byte Counts
+ -The wc (word count) command is used to display
+  the number of lines, words, and bytes 
+  contained in files. For example:
+  
+    $ wc ls-output.txt
+    7902 64566 503634 ls-output.txt
+    //lines, words, and bytes in file 
+
+  use wc -l, for just lines, wc -c for just 
+  bytes, and wc -w for just words 
+ -if no file is specified, it will just work on
+  the keyboard input like cat, until EOF is 
+  given
+ -lines start at 0 for wc 
+
+
+**grep—Print Lines Matching a Pattern**
+ -grep is a powerful program used to find text 
+  patterns within files, like this:
+    
+    $ grep pattern [file...]
+  ls /bin /usr/bin | sort | uniq | grep zip
+  //searches our list and reprints any line with
+  //"zip" in it 
+
+ -grep -i is case insensitive and grep -v 
+  prints only lines that DON'T match the pattern
+
+
+**head/tail—Print First/Last Part of Files**
+ -head outputs the first 10 lines of a file, 
+  and tail outputs the last ten, use -n option
+  to modify the number of lines you want: 
+
+    $ head -n 5 ls-output.txt
+    $ tail -n 5 ls-output.txt
+
+ -tail has an option that lets you see the 
+  lines in real time, .eg see log lines as 
+  they are printed. use -f option 
+
+    $ tail -f /var/log/messages
+
+ -tail will continue to monitor and print until 
+  you use ctrl-C interupt
+
+
+**tee—Read from Stdin and Output to Stdout and Files**
+ -the tee command is like a t pipe in plumbing 
+ -the tee program reads the standard input, 
+  then copies it to one or more files AND 
+  stdout for the next command: 
+
+  $ ls /usr/bin | tee ls.txt | grep zip
+
+ -so before out grep output is printed to the 
+  screen, tee copies the grep input to a file 
+  that is just the ls /usr/bin output
+
+
+
+////////////////////////////////////////////////
+   CH7 SEEING THE WORLD AS THE SHELL SEES IT
+
+**Expansion**
+ -when you hit enter in bash, it carries out 
+  several processes on the text before it 
+  carries out your command 
+ -this is called "expansion", it's what happens
+  with * for example
+
+**echo command**
+ -echo is a shell builtin that prints text 
+  arguments on stdout 
+
+**expansion (cont)**
+ -so look at these two examples:
+
+    [me@linuxbox ~]$ echo this is a test
+    this is a test
+    [me@linuxbox ~]$ echo *
+    Desktop Documents ls-output.txtdd etc etc 
+    //pretend i wrote all files
+
+ -in this instance the shell expanded * to 
+  be "match any characters in a file name" which
+  then printed each file name in your cwd 
+ -when enter is pressed, expansion occurs, so 
+  echo never even saw the * 
+
+
+**Pathname Expansion**
+ -The mechanism by which wildcards work is 
+  called pathname expansion.
+ -you can get creative with how you do this: 
+
+  echo *s
+  echo D*
+  echo [[:upper:]]*
+  echo /usr/*/share
+  ls -d .[!.]?* //shows hidden files, not includ                // the . and .. symbols 
+
+
+**Tilde Expansion**
+ -the ~ character expandes do the home dir of 
+  the named user, or ~user to expand to the 
+  home dir of specified user
+
+    $ echo ~
+    /home/me
+    $ echo ~foo
+    /home/foo
+
+**Arithmetic Expansion**
+ -you can do some basic math with expansion:
+
+    $ echo $((2 + 2))
+    //$((expression)) is the expansion part 
+
+ -you can do +, -, *, / 
+ -NOTE expansion only supports integer 
+  arithmetic, results are integers 
+ -modulo %, and exponention ** work as well
+ -spaces INSIDE the expression do not matter 
+  and you can nest: 
+
+    $ echo $(($((5**2)) * 3))
+
+ -but you can also use parentheses like normal: 
+  
+    $ echo $(((5**2) * 3))
+
+ -heres an example of what integer div will do:
+
+    $ echo Five divided by two equals $((5/2))
+    Five divided by two equals 2
+    $ echo with $((5%2)) left over.
+    with 1 left over.
+
+
+**Brace Expansion**
+ -brace expansion is weird but very powerful
+ -it's kind of like a primitive for loop: 
+
+    $ echo Front-{A,B,C}-Back
+    Front-A-Back Front-B-Back Front-C-Back
+
+ -the patterns inside the braces, separated by
+  commas NOT spaces, will print one at a time 
+ -you may have a "preamble" and "postscript" 
+  connected to the space. NO SPACES 
+ -the braces may contain, list of comma
+  separated strings, or a range of integers 
+  or single characters: 
+
+    $ echo Number_{1..5}
+Number_1 Number_2 Number_3 Number_4 Number_5
+    $ echo {Z..A}
+Z Y X W V U T S R Q P O N M L K J I H G F E D C B A
+    $ echo a{A{1,2},B{3,4}}b
+    aA1b aA2b aB3b aB4b
+
+  -you can also use braces in braces as above
+  or multiple braces as multiple arguments 
+
+  $ mkdir {2009..2011}-0{1..9} {2009..2011}-{10..12}
+  $ ls
+2009-01 2009-07 2010-01 2010-07 2011-01 2011-07
+2009-02 2009-08 2010-02 2010-08 2011-02 2011-08
+2009-03 2009-09 2010-03 2010-09 2011-03 2011-09
+2009-04 2009-10 2010-04 2010-10 2011-04 2011-10
+2009-05 2009-11 2010-05 2010-11 2011-05 2011-11
+2009-06 2009-12 2010-06 2010-12 2011-06 2011-12
+
+  -this is most helpful for making files and 
+  directories quickly 
+
+
+**parameter expansion**
+ -parameter expansion shows you certain 
+  variables that are saved in your environement 
+  
+    $ echo $USER
+    mike
+    
+ -to quickly see all environment variables use 
+  the printenv command (with less for ease):
+
+    $ printenv | less 
+
+ -parameter expansion is case sensitve 
+
+
+**command substitution**
+ -use $(command) to deal with the output of a 
+  command as an expansion: 
+
+    $ ls -l $(which cp)
+    -rwxr-xr-x 1 root root 71516 2012-12-05 08:58 /bin/cp
+
+ -that one is great because it gives you details
+  on a dir without having to know the full 
+  pathname 
+ -you can use pipelines as well 
+  
+  $ file $(ls /usr/bin/* | grep zip)
+
+ -older shells used ` back quotes (on the tilde
+  key) instead, like so: 
+
+    $ ls -l `which cp`
+
+
+**quoting**
+ -word splitting is when the shell removes 
+  extra white space: 
+
+    $ echo this is a       test
+    this is a test
+
+ -parameter expansion can also cause issues: 
+
+    echo The total is $100.00
+    The total is 00.00
+
+ -it will try to fine the variable $1, come up
+  with nothing, then print the rest 
+ -to get around these issues, use " or ' 
+
+
+**double quotes**
+ -with double quotes, all special characters are
+  ignored except $, \, and `
+ -good for filenames with spaces 
+
+    less "two words.txt"
+ 
+ -note: Parameter expansion, 
+  arithmetic expansion, and command substitution
+  still take place within double quotes:
+
+    $ echo "$USER $((2+2)) $(cal)"
+    me 4 February 2012
+    Su Mo Tu We Th Fr Sa
+    1 2 3 4
+    5 6 7 8 9 10 11
+    12 13 14 15 16 17 18
+    19 20 21 22 23 24 25
+    26 27 28 29
+
+ -word splitting looks for presence of spaces,
+  tabs, newlines, and treats them as 
+  "delimiters" 
+ -since they are condidered as spaces, not text,
+  the shell ignored them. with "" these spaces
+  become a part of a single argument 
+ -this is most notable with cal: 
+
+  [me@linuxbox ~]$ echo $(cal)
+  February 2012 Su Mo Tu We Th Fr Sa 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29
+  [me@linuxbox ~]$ echo "$(cal)"
+    February 2012
+  Su Mo Tu We Th Fr Sa
+  1 2 3 4
+  5 6 7 8 9 10 11
+  12 13 14 15 16 17 18
+  19 20 21 22 23 24 25
+  26 27 28 29
+
+ -without quotes, each number is treated as it's
+  own arg. with the echo command, with quotes,
+  the whole cal and it's newline characters are
+  treated as a single argument and printed in 
+  the proper format 
+
+
+**single quotes**
+ -single quotes supress all expressions 
+ -here's the difference between them all: 
+
+$ echo text ~/*.txt {a,b} $(echo foo) $((2+2)) $USER
+text /home/me/ls-output.txt a b foo 4 me
+$ echo "text ~/*.txt {a,b} $(echo foo) $((2+2)) $USER"
+text ~/*.txt {a,b} foo 4 me
+$ echo 'text ~/*.txt {a,b} $(echo foo) $((2+2)) $USER'
+text ~/*.txt {a,b} $(echo foo) $((2+2)) $USER
+
+
+**escaping characters**
+ -if you only want to ignore one character at a 
+  time, you can use the backslash \ called the
+  escape character: 
+
+    $ mv bad\&filename good_filename
+    //that ignores the & symbol
+    $ echo "The price for user $USER is: \$5.00"
+    The price for user me is: $5.00
+    //notice the $ for 5 is escaped, but not 
+    //for $USER so we can see which user 
+
+
+**Backslash escapse sequences**
+ -the \ is also used to represent special 
+  characters called "control codes" like tabs 
+  and new lines or alerts 
+ -the first 32 char. in ASCII are used to 
+  transmit commands to teletype like devices 
+ -here are some common ones you'd know: 
+
+  \a =Bell (“alert”—causes the computer to beep)
+  \b =Backspace
+  \n =Newline (on Unix-like systems, 
+    this produces a linefeed)
+  \r =Carriage return
+  \t =Tab
+
+ -to used them, use echo -e and then put the 
+  escape sequences in double or single quotes: 
+
+    $ sleep 10; echo -e "Time's up\a"
+    $ sleep 10; echo "Time's up" $'\a'
+
+
+////////////////////////////////////////////////
+        CH8 ADVANCED KEYBOARD TRICKS
+ 
+**Command Line Editing**
+ -bash uses a library (a shared collection 
+  of routines that different programs can use) 
+  called Readline to implement command line 
+  editing.
+ -here are some of the most useful hotkeys: 
+ -NOTE: some of these might get intercpeted 
+  weirdly with your GUI, but if you use 
+  virtual terminals, they should all work 
+  perfectly
+
+**Cursor Movement**
+  Table 8-1: Cursor Movement Commands
+Key     Action
+CTRL-A  Move cursor to the beginning of 
+        the line.
+CTRL-E  Move cursor to the end of the line.
+CTRL-F  Move cursor forward one character; 
+        same as the right arrow key.
+CTRL-B  Move cursor backward one character; 
+        same as the left arrow key.
+ALT-F   Move cursor forward one word.
+ALT-B   Move cursor backward one word.
+CTRL-L  Clear the screen and move the cursor 
+        to the top left corner. The clear 
+        command does the same thing.
+
+**Cutting/Pasting (Killing/Yanking) Text**
+ -Readline refers to cut/pase as kill/yank 
+ -items that are cut are stored in a buffer 
+  called the "kill-ring"
+ -here are the main commands: 
+
+**Table 8-3: Cut and Paste Commands**
+Key     Action
+CTRL-K  Kill text from the cursor location to 
+        the end of line.
+CTRL-U  Kill text from the cursor location to 
+        the beginning of the line.
+ALT-D   Kill text from the cursor location to 
+        the end of the current word.
+ALT-BACKSPACE   Kill text from the cursor 
+                location to the beginning of 
+        the current word. If the cursor is at 
+        the beginning of a word, kill the 
+        previous word.
+CTRL-Y  Yank text from the kill-ring and 
+        insert it at the cursor location.
+
+**Table 8-2: Text Editing Commands**
+Key     Action
+CTRL-D  Delete the character at the cursor 
+        location.
+CTRL-T  Transpose (exchange) the character at 
+        the cursor location with the one 
+        preceding it.
+ALT-T   Transpose the word at the cursor 
+        location with the one preceding it.
+ALT-L   Convert the characters from the cursor 
+        location to the end of the word to 
+        lowercase.
+ALT-U   Convert the characters from the cursor 
+        location to the end of the word to 
+        uppercase.
+
+
+**The Meta Key**
+ -basically, old terminal keyboards were all 
+  differenct, so the ASCII standard didn't call
+  for specific control keys, but called for 
+  a single "meta" key that would function as 
+  intended. Now, it ussually refers to the 
+  alt key
+
+
+**Completion**
+ -hit tab to autocomplete the first command on 
+  a line, then any files. you have to give 
+  enough of a clue so that only one file will
+  match it 
+
+  $ ls l (hit tab, and you'd get list.txt)
+
+ -completion works on hosts in /etc/hosts, 
+  commands, usernames, and variables 
+
+  Table 8-4: Completion Commands
+  ALT-?, tab-tab 
+    Display list of possible completions. 
+    On most systems you can also do this by 
+    pressing the TAB key a second time, which is
+    much easier.
+
+  ALT-* 
+    Insert all possible completions. This is 
+    useful when you want to use more than one 
+    possible match.
+
+ -you can create your own completion rules, this
+  is called "programmable completion" ubuntu 
+  has a lot and you can see it by $ set | less
+
+
+**using history**
+ -your history is saved in ~/.bash_history 
+
+**searching history**
+  $ history | less
+    -good way to search history and will show 
+     you the line number of each command from 
+     the last 500 (or more if you specified)
+  $ history | grep /usr/bin
+    -search history using grep 
+  $ !88
+    -this will expand the command on line 88 
+    of your history
+
+ -you can search your history incrementally,
+  as each character enters the search is refined
+ -to start, hit ctrl-R and start typing
+ -when you fined the command you want, type 
+  ENTER or ctrl-J to copy the line from your 
+  history to ythe current command line  
+
+    (reverse-i-search)`': 
+    //as you type, it appears between ` and '
+    (reverse-i-search)`ls >': ls > thing.txt 
+
+  Table 8-5: History Commands
+  CTRL-P 
+    Move to the previous history entry. 
+    Same action as the up arrow.
+  CTRL-N i
+    Move to the next history entry. 
+    Same action as the down arrow.
+  ALT-< 
+    Move to the beginning (top) of the 
+    history list.
+  ALT-> 
+    Move to the end (bottom) of the 
+    history list; i.e., the current command line
+  CTRL-R 
+    Reverse incremental search. Searches 
+    incrementally from the current command line 
+    up the history list.
+  ALT-P 
+    Reverse search, non-incremental. With this 
+    key, type the search string and press ENTER 
+    before the search is performed.
+  ALT-N 
+    Forward search, non-incremental.
+  CTRL-O 
+    Execute the current item in the history list
+    and advance to the next one. This is handy 
+    if you are trying to re-execute a sequence 
+    of commands in the history list.
+
+
+**history Expansion**
+ -using the ! you can expand items in the 
+  history, there are more options below,
+  but be careful using the !string !?string 
+  options unless you really know what's in your
+  history: 
+
+  Table 8-6: History Expansion Commands
+  !! 
+    Repeat the last command. It is probably 
+    easier to press the up arrow and ENTER.
+  !number 
+    Repeat history list item number.
+  !string 
+    Repeat last history list item starting 
+    with string.
+  !?string 
+    Repeat last history list item containing 
+    string.
+
+
+**script**
+
+  $ script [filename]
+
+ -the script command saves your entire shell 
+  session in a file. if no filename is given it 
+  will create a file called "typescript" in 
+  your home directory
+ -it works in linux, in mac, it starts a record
+  from that moment, then saves it. linux way is 
+  retro active 
+
+
+/////////////////////////////////////////////////
+              CH9 PERMISSIONS 
+
+ -unix is designed to be multi-task and 
+  multi-user, unlike MS-DOS, which was just 
+  multi task 
+ -so things like remote access with ssh are 
+  possible, becuase back in the day, there was 
+  one main computer with many terminals 
+ 
+**Owners, Group Members, and Everybody Else**
+ -in unix, users can own files and directories 
+  and belong to a group of one or more users who
+  are given access to those files and dirs 
+ -an owner can grant access to other people 
+ -use the id command to find info about your 
+  currnt user identity: 
+
+  [me@linuxbox ~]$ id
+  uid=500(me) gid=500(me) groups=500(me)
+
+ -when user accounts are created, they are given
+  assigned a user ID (uid) 
+ -the user is also assigned to a primary group id
+  (gid) 
+ -there meay be other groups assigned to
+ -this looks a little different with each distro
+  the above is fedora, below is ubuntu: 
+
+[me@linuxbox ~]$ id
+uid=1000(me) gid=1000(me)
+groups=4(adm),20(dialout),24(cdrom),25(floppy),
+29(audio),30(dip),44(video),46(plugdev),
+108(lpadmin),114(admin),1000(me)
+
+ -notice the uid's are different, fedora starts 
+  at 500 while ubuntu starts at 1000, ubuntu
+  has way more groups because it manages 
+  permissions differently
+ -all this data is in the following files: 
+  -/etc/passwd -where user accounts are defined
+  -/etc/group  -where groups are defined 
+  -/etc/shadow howld info on users passwords 
+
+ -for each user account the /etc/passwd file 
+  defines the user (login)name, the uid, gid, 
+  the accounts real name, home dir., and login
+  shell
+ -notice there are many other users and the 
+  superuser has a uid of 0 
+ -more on this is chapter 10
+
+
+**Reading, Writing, and Executing**
+ -Access rights to files and directories are 
+  defined in terms of read access, write 
+  access, and execution access.
+ -we see this with ls -l: 
+
+-rw-rw-r-- 1 me me 0 2012-03-06 14:52 foo.txt
+12  3  4
+    1- spot is file type
+    2- 2nd three are owner permissions 
+    3- next 3 are group permissions 
+    4- the last three are world permissions 
+
+ -below is a table of each symbol/letter meaning:
+  
+  
+**Table 9-1: File Types**
+ - 
+  a regular file 
+ d 
+  a directory
+ l 
+  A symbolic link. Notice that with symbolic 
+  links, the remaining file attributes are always
+  rwxrwxrwx and are dummy values. The real
+  file attributes are those of the file the 
+  symbolic link points to.
+ c
+  A character special file. This file type refers
+  to a device that handles data as a stream
+  of bytes, such as a terminal or modem.
+ b
+  A block special file. This file type refers 
+  to a device that handles data in blocks, 
+  such as a hard drive or CD-ROM drive.
+
+
+**Table 9-2: Permission Attributes**
+  r 
+  -file:
+    Allows a file to be opened and read. 
+  -dir:
+    Allows a directory’s contents to be listed if
+    the execute attribute is also set.
+  w 
+  -file:  
+    Allows a file to be written to or truncated;
+    however, this attribute does not allow files 
+    to be renamed or deleted. The ability to 
+    delete or rename files is determined by 
+    directory attributes.
+  -dir:  
+    Allows files within a directory to be 
+    created, deleted, and renamed if the 
+    execute attribute is also set.
+  x 
+  -file:
+    Allows a file to be treated as a program
+    and executed. Program files written in 
+    scripting languages must also be set as 
+    readable to be executed.
+  -dir:
+    Allows a directory to be entered; e.g.,
+    cd directory.
+
+
+**chmod -Change File Mode**
+ -use chmod to change the permissions of a 
+  file or dir. 
+ -only the owner or the superuser can modify 
+  a file/dir
+ -chmod supports 2 ways of changing: octal or 
+  symbolic
+
+
+**octal representation**
+ -octal noation uses octal digits to set the 
+  permission
+ -since each octal digit represents 3 binary 
+  digits, it works well. here's a table:
+
+  Table 9-4: File Modes in Binary and Octal
+    Octal Binary File Mode
+      0    000     ---
+      1    001     --x
+      2    010     -w-
+      3    011     -wx
+      4    100     r--
+      5    101     r-x
+      6    110     rw-
+      7    111     rwx
+
+ -NOTE: octal means base 8
+  and it and hex (base 16) are used largely for 
+  human convenience 
+ -this is how octal permissions work: 
+
+[me@linuxbox ~]$ ls -l foo.txt
+-rw-rw-r-- 1 me me 0 2012-03-06 14:52 foo.txt
+[me@linuxbox ~]$ chmod 600 foo.txt
+[me@linuxbox ~]$ ls -l foo.txt
+-rw------- 1 me me 0 2012-03-06 14:52 foo.txt
+
+ -so for the owner the permission is 6, 
+  the group is 0, and world is 0. 
+ -it's 3 octal digits together for each group
+ -it may seem inconvenient to remember this 
+  but you will mainly only use 7, 6, 5, 4, 0
+
+
+**symbolic Representation**
+ -this method uses 3 parts: who the change 
+  affects, what operation (add, remove) is being
+  used, and what permissions are affected. 
+  below are the symbols used
+
+**table 9-5 chmod symbolic notation**
+  u
+    Short for user but means the file or 
+    directory owner.
+  g
+    Group owner.
+  o
+    Short for others but means world.
+  a 
+    Short for all; the combination of u, g, and o
+
+ -if no user is specifed, a is assumed 
+ -so you can add (+) take away (-) or set (=)
+  specific permission and remove all others
+  here are some examples: 
+ -think of + - like editing, and = as resetting 
+  specifically to exactly what you want
+
+
+**Table 9-6: chmod Symbolic Notation Examples**
+  u+x 
+    Add execute permission for the owner.
+  u-x 
+    Remove execute permission from the owner.
+  +x
+     Add execute permission for the owner, 
+     group, and world. Equivalent to a+x.
+  o-rw 
+    Remove the read and write permissions from 
+    anyone besides the owner and group owner.
+  go=rw 
+    Set the group owner and anyone besides the 
+    owner to have read and write permission. 
+    If either the group owner or world previously
+    had execute permissions, remove them.
+  u+x,go=rx 
+    Add execute permission for the owner and 
+    set the permissions for the group and 
+    others to read and execute. Multiple 
+    specifications may be separated by commas.
+
+
+ -look at chmod's man page for more, but be 
+  careful of the recursion option, since it 
+  makes both files and directories the same
+  which is useless
+ -some prefer octal, others symbolic, symbolic
+  does offer a less invasive approach
+
+
+**setting file mode with GUI**
+ -jsut right click and it's ussually an option
+  to mess with it. in ubuntu it's under 
+  properties
+
+
+**umask—Set Default Permissions**
+ -the umask command controls the default 
+  permissions given to a file 
+ -it uses octal notations to create a mask of 
+  bits to be removed from a file's mode 
+  attributes (the mask picks what permissions to 
+  take away)
+
+[me@linuxbox ~]$ rm -f foo.txt
+[me@linuxbox ~]$ umask
+0002
+[me@linuxbox ~]$ > foo.txt
+[me@linuxbox ~]$ ls -l foo.txt
+-rw-rw-r-- 1 me me 0 2012-03-06 14:53 foo.txt
+
+ -ignore the first zero, those are special 
+  permissions, but the last three match user,
+  group, and world. as you can see the basic
+  mask removes "2" which is write, while 
+  not affecting the others
+ -you can set the mask, like this, in this 
+  case to remove nothing from files: 
+
+[me@linuxbox ~]$ rm foo.txt
+[me@linuxbox ~]$ umask 0000
+[me@linuxbox ~]$ > foo.txt
+[me@linuxbox ~]$ ls -l foo.txt
+-rw-rw-rw- 1 me me 0 2012-03-06 14:58 foo.txt
+ -NOTE: we removed the file to ensure that 
+  the created file doesn't pick up old permission -the basic file without a mask is that all 
+  users can read and write the file
+ -when you set the mask, it will stay at that 
+  value for your session only. you can set it 
+  in to stay permanently with bash profiles 
+
+
+**SOME SPECIAL PERMISSIONS**  
+ -so that first zero is for special permissions 
+  for the file, here are some examples: 
+ 4000
+  the setuid bit, which makes it so the file, 
+  if executable, has the same permissions as the 
+  real user, that is the person running the file.
+  this is given to superuser files so they have 
+  access to whatever the superuser does. this 
+  is a security hazard in cases and should be 
+  used sparingly
+ 2000
+  this is the setgid bit, and it changes the 
+  effective group ID to the file owner. 
+  this is handy when sharing a file and all new 
+  files need to be accesed by everyone in the 
+  group, not just the creator
+ 1000
+  this is the sticky bit, from ancient unix. 
+  in linux it is ignored unless it is on a 
+  directory. if on a dir. it prevents users from
+  deleting or renaming files unles the user 
+  is the owner of the directory or file, or the 
+  superuser 
+
+ -Here are some examples of using chmod with 
+  symbolic notation to set these special 
+  permissions. 
+  First, assign setuid to a program:
+      chmod u+s program
+  Next, assign setgid to a directory:
+      chmod g+s dir
+  Finally, assign the sticky bit to a directory:
+      chmod +t dir
+  By viewing the output from ls, you can 
+  determine the special permissions.
+
+  Here are some examples. First, a program that 
+  is setuid:
+      -rwsr-xr-x
+  Now, a directory that has the setgid attribute:
+      drwxrwsr-x
+  Finally, a directory with the sticky bit set:
+      drwxrwxrwt
+
+
+***INTERLUDE: adding/deleting users***
+ -use the adduser command with either root access
+  or the sudo. 
+ -remember, in ubuntu you can't function as the 
+  root user, so you'll need to use sudo: 
+
+    $ sudo adduser new-user-name
+
+ -you will then be asked for your password to 
+  set this up, then for info on this user like
+  phone and whatnot, then finally a password for 
+  the new user 
+
+ -to delete a user use 
+
+    $ sudo deluser new-user-name
+
+ -however to delete their home directory as well,
+  use --remove-home 
+
+    $ sudo deluser --remove-home new-user-name
+
+**changing identities**
+ -use the su command to become another user 
+  and the sudo command to become the superuser 
+ -the su/sudo commands can be used to run single 
+  commands or whole sessions 
+ 
+
+**su—Run a Shell with Substitute User and Group IDs**
+
+ -the su command lets you use the shell as 
+  another user: 
+
+    $ su [-[l]] [user]
+
+ -if the -l option is included it will run a 
+  login shell, 
+
+
+
+
+
+
+
