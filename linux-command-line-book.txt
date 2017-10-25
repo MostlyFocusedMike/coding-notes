@@ -1861,8 +1861,11 @@ groups=4(adm),20(dialout),24(cdrom),25(floppy),
 [me@linuxbox ~]$ > foo.txt
 [me@linuxbox ~]$ ls -l foo.txt
 -rw-rw-rw- 1 me me 0 2012-03-06 14:58 foo.txt
+
  -NOTE: we removed the file to ensure that 
-  the created file doesn't pick up old permission -the basic file without a mask is that all 
+  the created file doesn't pick up old 
+  permission 
+ -the basic file without a mask is that all 
   users can read and write the file
  -when you set the mask, it will stay at that 
   value for your session only. you can set it 
@@ -1937,6 +1940,36 @@ groups=4(adm),20(dialout),24(cdrom),25(floppy),
 
     $ sudo deluser --remove-home new-user-name
 
+ -to add a group, use addgroup command
+
+    $ sudo addgroup fun-guys
+ 
+ -to delete a group use: 
+
+    $ sudo delgroup fun-guys 
+
+ -groups are created without any members, so you
+  add them with adduser again: 
+
+    $ adduser mike fun-guys
+    //ubuntu assigns the GID for you, but you 
+    //can assign it yourself with the option
+
+ -to find the members of a group, you can: 
+    -use the id command to see what groups the 
+      user belongs to
+    -use 
+      $ grep group-name /etc/group
+    -or install the members command
+      $ sudo apt-get install members
+      $ members group-name 
+      
+
+
+
+
+
+
 **changing identities**
  -use the su command to become another user 
   and the sudo command to become the superuser 
@@ -1944,7 +1977,7 @@ groups=4(adm),20(dialout),24(cdrom),25(floppy),
   commands or whole sessions 
  
 
-**su—Run a Shell with Substitute User and Group IDs**
+**su—Run a Shell with Substitute User/Group IDs**
 
  -the su command lets you use the shell as 
   another user: 
@@ -1952,11 +1985,91 @@ groups=4(adm),20(dialout),24(cdrom),25(floppy),
     $ su [-[l]] [user]
 
  -if the -l option is included it will run a 
-  login shell, 
+  login shell 
+ -if you just do su - with no user, it will log
+  you in as root 
+  
+    $ su -
+
+ -if you are going as root or another user, 
+  in both cases it will ask for their password
+ -use the exit command to go back to your  
+  previous shell
+
+    $ exit 
+ 
+ -you can also execute a single command 
+ 
+    $ su -c 'command'
+ 
+ -it is important to put it into single quotes 
+  because we dont want the expansion to mess up
+ 
+**sudo—Execute a Command as Another User**
+ -the sudo command lets you execute a command 
+  as another user, and can be configured for your
+  distro to be the super user. 
+ -it can be configured to run only certain  
+  commands as well
+
+    $ sudo backup_script
+
+ -you are then prompted for YOUR password, not
+  the superuser's
+ -sudo does NOT start a new shell, nor does it 
+  start a new environment like su does 
+ -meaning you do not need quotes with sudo 
+ -privileges granted by sudo are different with 
+  distros, so 
+    
+    $ sudo -l 
+  
+  to see what commands are allowed 
 
 
+**ubuntu and sudo**
+ -ubuntu doesn't let you operate as the root 
+  account with su for security reasons, 
+  so Ubuntu disables the login for the root by
+  failing to set a password for it, and instead
+  uses sudo for superuser privileges 
+ -the "superuser" for ubuntu is the primary 
+  account you created when you first booted the 
+  machine, so you must be logged in as that 
+  user to use sudo, 
+ -unless you configure it otherwise 
 
 
+**chown—Change File Owner and Group**
 
+    $ chown [owner][:[group]] file...
+
+ -the chown (change owner) command lets you
+  change the owner and group owner of a file
+ -it requires super user privileges, so in 
+  ubuntu its: sudo chown  
+ -here is a table with all the options: 
+
+**Table 9-7: chown Argument Examples**
+chown bob 
+    Changes the ownership of the file from its 
+    current owner to user bob. the group is 
+    unchanged
+chown bob:users 
+    Changes the ownership of the file from its 
+    current owner to user bob and changes the 
+    file group owner to group users.
+:admins 
+    Changes the group owner to the group admins. 
+    The file owner is unchanged.
+bob: 
+    Change the file owner from the current owner 
+    to user bob and changes the group owner to 
+    the login group of user bob.
+
+
+ -in older versions of Unix, chown was only for 
+  changing file, not group ownership, to do that
+  you used to use the chrgrp
 
 
