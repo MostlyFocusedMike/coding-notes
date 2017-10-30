@@ -2112,4 +2112,377 @@ bob:
 /////////////////////////////////////////////////////////////////////////////////////
                                     CH10 PROCESSES 
 
+ -modern systems use multitasking, which is when the CPU rapidly switches between 
+  programs to give the illusion that it's doing more than one thing at a time 
+ -linux kernel manages this through "processes" 
 
+
+**How a Process Works**
+ -on boot, the kernel initiates some of it's own processes and one of those is called 
+  init, which in turn runs some init scripts found in /etc directory
+ -many of these are daemon programs, which operate independent of the user interface 
+  or logins
+ -a process that launches another is a "parent process" and the "child process" is 
+  what launched 
+ -the kernel keeps track of all processes, and assigns them Process ID's (PIDs)
+ -PIDs are assigned ascending, so init is always PID #1
+ -processes also have owners, user IDs, memory assignments and more 
+
+**Viewing Processes with ps**
+ -$ ps is the most common command used to track processes: 
+
+    [me@linuxbox ~]$ ps
+    PID   TTY   TIME     CMD
+    5198  pts/1 00:00:00 bash
+    10129 pts/1 00:00:00 ps
+
+ -here is the basic: 
+    -PID = process ID
+    -TTY = stands for "teletype" from ancient unix, and now refers to the controlling 
+     terminal 
+    -TIME = the CPU time consumed by the process 
+    -CMD = the command in question. so from ps to firefox, every program has 1 or more
+ -ps alone just shows the programs done by the current terminal, to see all processes:
+  
+    [me@linuxbox ~]$ ps x
+    PID  TTY   STAT TIME  COMMAND
+    2799 ?     Ssl  0:00  /usr/libexec/bonobo-activation-server –ac
+    2820 ?     Sl   0:01  /usr/libexec/evolution-data-server-1.10 --
+    //and many more... 
+
+ -by adding the x option (note, no leading dash here) we see more info as well:
+    STAT = the "state" of the program, check table for more info
+
+**Table 10-1: Process States**  
+    R 
+      Running. The process is running or ready to run.
+    S   
+      Sleeping. The process is not running; rather, it is waiting for an event,
+      such as a keystroke or network packet.
+    D 
+      Uninterruptible sleep. Process is waiting for I/O such as a disk drive.
+    T 
+      Stopped. Process has been instructed to stop (more on this later).
+    Z 
+      A defunct or “zombie” process. This is a child process that has
+      terminated but has not been cleaned up by its parent.
+    <   
+      A high-priority process. It’s possible to grant more importance to a
+      process, giving it more time on the CPU. This property of a process is
+      called niceness. A process with high priority is said to be less nice
+      because it’s taking more of the CPU’s time, which leaves less for
+      everybody else.
+    N 
+      A low-priority process. A process with low priority (a nice process)
+      will get processor time only after other processes with higher priority
+      have been serviced.
+
+ -sometimes the STAT may be followed by other characters, see the man page for more 
+  info on what these mean for the processes
+ -another popular option for ps is the aux (again, no leading dash), which emulates 
+  a "BSD-style" behavior and shows all processes from all users: 
+
+  [me@linuxbox ~]$ ps aux
+  USER PID %CPU %MEM VSZ  RSS  TTY STAT START  TIME COMMAND
+  root 1   0.0  0.0  2136 644  ?   Ss   Mar05  0:31 init
+  root 2   0.0  0.0  0    0    ?   S<   Mar05  0:00 [kt]
+  root 3   0.0  0.0  0    0    ?   S<   Mar05  0:00 [mi]
+  root 4   0.0  0.0  0    0    ?   S<   Mar05  0:00 [ks]
+  //and many more...
+
+ -here are what all the terms mean in this emulated BSD style output: 
+
+**Table 10-2: BSD-Style ps Column Headers**
+  USER 
+      User ID. This is the owner of the process.
+  %CPU 
+      CPU usage as a percent.
+  %MEM 
+      Memory usage as a percent.
+  VSZ 
+      Virtual memory size.
+  RSS 
+      Resident Set Size. The amount of physical memory (RAM) the process is 
+      using in kilobytes.
+  START 
+      Time when the process started. For values over 24 hours, a date
+      is used.
+
+
+**Viewing Processes Dynamically with top**
+ -ps is a static shot, to see dynamic version that updates at least every 3 seconds,
+  use the top command: 
+
+   [me@linuxbox ~]$ top
+    top - 14:59:20 up 6:30, 2 users, load average: 0.07, 0.02, 0.00
+    Tasks: 109 total, 1 running, 106 sleeping, 0 stopped, 2 zombie
+    Cpu(s): 0.7%us, 1.0%sy, 0.0%ni, 98.3%id, 0.0%wa, 0.0%hi, 0.0%si
+    Mem: 319496k total, 314860k used, 4636k free, 19392k buff
+    Swap: 875500k total, 149128k used, 726372k free, 114676k cach
+    
+    PID   USER   PR   NI   VIRT   RES   SHR   S   %CPU  %MEM  TIME+      COMMAND
+    6244  me     39   19   31752  3124  2188  S   6.3   1.0   16:24.42   trackerd
+    11071 me     20   0    2304   1092  840   R   1.3   0.3   0:00.14    top
+    6180  me     20   0    2700   1100  772   S   0.7   0.3   0:03.66    dbus-dae
+    1     root   20   0    2976   528   476   S   0.0   0.2   0:03.14    init
+    2     root   15   -5   0      0     0     S   0.0   0.0   0:00.00    kthreadd
+    //and many more 
+
+ -the top command has 2 parts, the system summary at the top, and the table of 
+  processes sorted in order of descending CPU activity 
+ -here are what the system summary means: 
+  
+**Table 10-3: top information fields**
+ROW 1 
+  top
+    Name of the program.
+  14:59:20 
+    Current time of day.
+  up 
+    6:30 This is called uptime. It is the amount of time since
+    the machine was last booted. In this example, the
+    system has been up for 6½ hours.
+  2 users 
+    Two users are logged in.
+  load average: 
+    Load average refers to the number of processes
+    that are waiting to run; that is, the number of processes
+    that are in a runnable state and are sharing
+    the CPU. Three values are shown, each for a different
+    period of time. The first is the average for the
+    last 60 seconds, the next the previous 5 minutes,
+    and finally the previous 15 minutes. Values under
+    1.0 indicate that the machine is not busy.
+ROW 2
+  Tasks: 
+    This summarizes the number of processes and their
+    various process states.
+  0.7%us 
+    0.7% of the CPU is being used for user processes.
+    This means processes outside of the kernel itself.
+  1.0%sy 
+    1.0% of the CPU is being used for system (kernel) processes.
+  0.0%ni 
+    0.0% of the CPU is being used by nice (low-priority) processes.
+  98.3%id 
+    98.3% of the CPU is idle.
+  0.0%wa 
+    0.0% of the CPU is waiting for I/O.
+ROW 4
+  Mem: i
+    Shows how physical RAM is being used.
+ROW 5 
+  Swap: 
+    Shows how swap space (virtual memory) is being used.
+
+ -use h for help, and q to quit
+ -top is better than a gui task manager because it uses less resources 
+
+
+**Controlling Processes**
+ -now that we can monitor processes let's control them 
+ -xlogo is a simple command that shows an x logo in a resizable window
+ -to launch a program from the command line in linux, just type it into the 
+  command line 
+ -however, when you do this, notice there is no shell prompt, the shell is busy 
+  running our program 
+
+
+**Interrupting a Process**
+ -interrup a process in a terminal by typing CTRL-C
+ -interrupts "politely" tells a program to terminate
+ -most programs respond to this, but not all 
+
+
+**Putting a Process in the Background**
+ -shells have foregrounds and backgrounds, to launch a program in the background, 
+  use the &: 
+
+    $ xlogo &
+    [1] 28236
+    $
+ 
+ -those numbers are part of the shell feature "job control", that message tells us 
+  the job number [1] and the PID 28236
+ -use the jobs command to see all jobs in the shell currently going: 
+
+    $ jobs
+    [1]+ Running              xlogo &
+ 
+ 
+**Returning a Process to the Foreground**
+ -jobs in background are immune to keyboard input, so CTRL-C wont work
+ -to bring it to the front use the fg command: 
+
+    $ fg %1
+    xlogo
+
+ -this brings the process to the foreground and removes our prompt, it can now 
+  be interrupted 
+
+
+**Stopping (Pausing) a Process**
+ -sometimes you want to pause a program so you can then get the prompt back and move 
+  the program to the background
+ -to stop (pause) a foreground program, use CTRL-Z, then use the bg command: 
+
+    [me@linuxbox ~]$ xlogo
+    //type CTRL-Z
+    [1]+ Stopped xlogo
+    [me@linuxbox ~]$
+    [me@linuxbox ~]$ bg %1
+    [1]+ xlogo &
+    [me@linuxbox ~]$
+ 
+ -the fg and bg commands both use the same syntax, %[jobspec]
+ -if there is only one process running in the shell, you do not need the job number
+ -NOTE: job numbers are static in the session, if you deleted job 1, job 2 doesn't 
+  become job one
+ -launching from command line is useful as some programs (like xlogo) aren't listed 
+  in the window manager's memus, and when launched from the shell you can see 
+  error messages that you might not get to otherwise 
+
+
+**Signals**
+ -the kill command is used to "kill" (terminate) programs
+
+    [me@linuxbox ~]$ xlogo &
+    [1] 28401
+    [me@linuxbox ~]$ kill 28401
+    [1]+ Terminated xlogo
+
+ -you can also use the jobspec to terminate (eg kill %2)
+ -the kill command sends signals, which are one of the ways the OS communicates with 
+  the program
+ -the other signals we know are CTRL-Z called TSTP (terminal stop) and CTRL-C 
+  (interrupt), the kill command default to the TERM signal (ternimate)
+ -programs listen for signals, which let them do things like save when they are told 
+  to terminate
+
+
+**Sending Signals to Processes with kill**
+ -the most common syntax for kill: 
+
+    $ kill [-signal] PID...
+ 
+ -if no signal is given TERM (terminate) is the default. below are the signals:
+
+**Table 10-4: Common Signals**
+  1 HUP 
+    Hang up. This is a vestige of the good old days
+    when terminals were attached to remote computers
+    with phone lines and modems. The signal is used
+    to indicate to programs that the controlling terminal
+    has “hung up.” The effect of this signal can
+    be demonstrated by closing a terminal session.
+    The foreground program running on the terminal
+    will be sent the signal and will terminate.
+    This signal is also used by many daemon
+    programs to cause a reinitialization. This means
+    that when a daemon is sent this signal, it will
+    restart and reread its configuration file. The
+    Apache web server is an example of a daemon
+    that uses the HUP signal in this way.
+  2 INT 
+    Interrupt. Performs the same function as the CTRL-C
+    key sent from the terminal. It will usually terminate
+    a program.
+  9 KILL 
+    Kill. This signal is special. Whereas programs may
+    choose to handle signals sent to them in different
+    ways, including by ignoring them altogether, the
+    KILL signal is never actually sent to the target
+    program. Rather, the kernel immediately terminates
+    the process. When a process is terminated in
+    this manner, it is given no opportunity to “clean
+    up” after itself or save its work. For this reason, the
+    KILL signal should be used only as a last resort
+    when other termination signals fail.
+    15 TERM Terminate. This is the default signal sent by
+    the kill command. If a program is still “alive”
+    enough to receive signals, it will terminate.
+  18 CONT 
+    Continue. This will restore a process after a STOP
+    signal.
+  19 STOP 
+    Stop. This signal causes a process to pause
+    without terminating. Like the KILL signal, it is not
+    sent to the target process, and thus it cannot be
+    ignored.
+
+ -so in context it goes: 
+
+    [me@linuxbox ~]$ xlogo &
+    [1] 13546
+    [me@linuxbox ~]$ kill -1 13546
+    [1]+ Hangup xlogo
+
+ -you can use the signal numbers, name, or name and prefix SIG (signal): 
+
+    [me@linuxbox ~]$ xlogo &
+    [1] 13601
+    [me@linuxbox ~]$ kill -INT 13601
+    [1]+ Interrupt xlogo
+    [me@linuxbox ~]$ xlogo &
+    [1] 13608
+    [me@linuxbox ~]$ kill -SIGINT 13608
+    [1]+ Interrupt xlogo
+
+ -while the 10.4 table signals are often used with kill, here are some other 
+  common ones: 
+
+
+**Table 10-5: Other Common Signals**
+  3 QUIT  
+    Quit.
+  11 SEGV 
+    Segmentation violation. This signal is sent if a
+    program makes illegal use of memory; that is, it
+    tried to write somewhere it was not allowed to.
+  20 TSTP 
+    Terminal stop. This is the signal sent by the terminal
+    may choose to ignore it.
+  28 WINCH 
+    Window change. This is a signal sent by the system
+    when a window changes size. Some programs,
+    like top and less, will respond to this signal by
+    redrawing themselves to fit the new window
+    dimensions.
+
+ -do $ kill -l to see a full list of signals used with kill
+
+**Sending Signals to Multiple Processes with killall**
+ -you can also kill programs by name with the killall command
+ -killall will kill every instance of a program by name or name and user 
+  but it's also useful to just kill a program you know the name of, but not 
+  the PID, ie "killall firefox"
+ -useful for scripting 
+
+  $ killall [-u user] [-signal] program-name...
+
+  [me@linuxbox ~]$ xlogo &
+  [1] 18801
+  [me@linuxbox ~]$ xlogo &
+  [2] 18802
+  [me@linuxbox ~]$ killall xlogo
+  [1]- Terminated xlogo
+  [2]+ Terminated xlogo
+
+**More Process-Related Commands**
+ -here are other common commands to monitor processes: 
+
+**Table 10-6: Other Process-Related Commands**
+  pstree 
+    Outputs a process list arranged in a tree-like pattern showing
+    the parent/child relationships between processes.
+  vmstat 
+    Outputs a snapshot of system resource usage including
+    memory, swap, and disk I/O. To see a continuous display,
+    follow the command with a time delay (in seconds) for updates
+    (e.g., vmstat 5). Terminate the output with CTRL-C.
+xload 
+    A graphical program that draws a graph showing system load
+    over time.
+tload 
+    Similar to the xload program, but draws the graph in the
+    terminal. Terminate the output with CTRL-C.
