@@ -2072,4 +2072,44 @@ bob:
   changing file, not group ownership, to do that
   you used to use the chrgrp
 
+**Exercising Your Privileges**
+ -lets say we want to create a shared music folder and have members of music able to 
+  edit it
+ -create a group using either the gui or by using the commands given in the interlude
+ -then create a directory, in a shared folder: 
+  
+    $ sudo mkdir /usr/local/share/Music
+
+ -this creates a directory with root permissions, so we need to change this: 
+
+    [bill@linuxbox ~]$ sudo chown :music /usr/local/share/Music
+    //makes it so root is still the owner of the file, but the group owner is music
+    [bill@linuxbox ~]$ sudo chmod 775 /usr/local/share/Music
+    //this sets the file to rwx rwx r-x (the others can execute since it's a dir)
+    [bill@linuxbox ~]$ ls -ld /usr/local/share/Music
+    drwxrwxr-x 2 root music 4096 2012-03-21 18:05 /usr/local/share/Music
+
+ -this is fine, but now when each user makes a file or dir. in the music folder, 
+  that file\dir will belong to them, not the group, so we need to add special 
+  permissions 
+ -we need to set the setgid bit on the directory: 
+
+    [bill@linuxbox ~]$ sudo chmod g+s /usr/local/share/Music
+    [bill@linuxbox ~]$ ls -ld /usr/local/share/Music
+    drwxrwsr-x 2 root music 4096 2012-03-24 20:03 /usr/local/share/Music
+
+ -remember the setgid bit makes it so that all files and dir. inside a directory
+  have the same permsissions as the parent dir.
+ -NOTE: make sure the umask is set correctly to 0002, we learn how to do this for 
+  all sessions later in chapter 11
+ 
+
+**Changing Your Password**
+ -passwd [user] is how you change your password 
+ -some distro of linux will enforce strong passwords that have to be a certain length
+  and can't be too close to your old one (ubuntu doesn't seem to do this) 
+
+/////////////////////////////////////////////////////////////////////////////////////
+                                    CH10 PROCESSES 
+
 
