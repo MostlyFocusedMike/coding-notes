@@ -222,23 +222,214 @@ myTest(); //returns 2
     ?>
 
 
+//////////////////////////////////////////////////////////////////////////////
+      CODESHCHOOL NOTES:
+
+ -you can't use php code in an html file, the server won't know that it needs
+  to process and render the php lines in an html file
+ -you just change your .html file to a .php file 
+ -.php files read html and js perfectly, they just allow the server to render
+  the page before sending it to the browser 
+ -the server validates the php to make sure it's formatted, then processes it
+  and then renders it 
+
+**Writing php code**
+
+ -all php must go within the php tags like so: 
+
+  ...
+    <?php 
+      //your php goes in here
+    ?>
+  ..
+ 
+ -php the main bulk of your php code is ussually on top of the html in a .php 
+  file, with some of the php variables being sprinkled as needed in the 
+  html part of the file:
+
+  <?php 
+    $vari = 'hello world';
+    $vari_2 = 'goodbye world';
+  ?>
+  <html>
+  <body>
+    <h1><?php echo $vari ?></h1>
+    <p>Welcome to my site</p>
+  </body>
+  </html>
+
+ -note: each line of php ends with a semi-colon unless it is only one line long
+  like the example in the <h1> tags
+ -all php in a file can reference the php elsewhere in that file without any 
+  special references, just put the code you want to use in a <?php ?> tag and 
+  it will run 
+
+
+**php variables**
+ -php variables are always assigned and called with a $
+ -they can only start with letters or underscores (_), dashes (-) are not
+  allowed anywhere in the variable, underscores can be used where ever, and 
+  numbers can be used anywhere except the first space 
+ -variable names are case sensitive so be aware
+
+    $acceptable_name3 = 'ok'
+ 
+
+**strings, concatenation, and quotes**
+ -single and double quotes mean different things in php
+ -like bash, ' ' means that anything inside is not to be processed at all, 
+  while anything inside " " will be processed 
+ -this means there are two ways to concatenate a variable into a string: 
+
+    echo 'hi my name is ' . $name; //this is concatenation
+    echo "hi my name is $name"; //this is called string evaluation
+
+ -the single quotes need the concatenation operator, the period, since the 
+  strings are not processed at all
+ -the double quotes do not, since the server knows that the things inside the
+  string could be a variable that needs to be processed 
+ -php is ever so slightly faster when using the single quotes and concatenation
+  since the server doesn't waste time interpreting things that don't need to be
+ -you can use double quotes and concatenation, it's just redundant
+ -to use a single quote character inside a single quote string, use the / to 
+  escape the character 
+
+    echo 'how/'s your day?'
+    echo 'use two // to escape the second //"
+
+
+**echo and print to put words on screen**
+ -echo can use () or not, generally it does not 
+ -echo technically prints words into your .php file, so without putting 
+  the echo statement into tags, or tags into the echo statement, 
+  it would be like just writing text into an html file. they will appear 
+  on screen with not formatting 
+ -also, multiple echo statements next to each other will print together 
+  with no spaces, unless separated by other tags 
+
+    echo 'hello world'; //orders of magnitude more common 
+    echo('hello world'); 
+    echo $var; //you don't need quotes if there are no strings in the echo
+    //these two will print "hello worldhello world" to the screen, so: 
+
+    echo '<h1>hello world</h1>';
+    ehco '<br />';
+    <p><?php echo 'this will be a paragraph now' ?></p>
+
+ -notice you do not need to do anything special to echo when putting tags 
+  inside it.
+ -in addition to echo, you can also use the print function, it works identical:
+
+    print 'this is the same sytax as echo'
+
+ -the differences between print and echo are: 
+    -print is eeeever so slightly slower than echo
+    -print has a successful return value of 1, so it can be used in expressions
+      echo has no return value
+    -echo can take multiple arguments, though this is exceedingly rare
+
+
+**php data types**
+ -here are the basic data types for php: 
+
+  $strings = 'text';
+  $integers = 1;
+  $floats = 12.22;
+  $booleans = true; //or false, just use no capitals or quotes 
+  //if you echo a false boolean, nothing will appear, if you echo a true 
+  //true boolean, a 1 will print
+  $arrays = array('hey', 'there', 'world');
+  $also_array = ['this', 'works', 'too'];
+  $associative_array = array('name' => 'michael', 'age' => 25)
+  $associative_array_2 = ['name' => 'michael', 'age' => 25];
+
+**more on arrays**
+ -arrays are just a map of values at indexes, those indexes are either the 
+  actual number of the index, or a key in a key value pair
+ -there are index arrays that are accessed by index, and associative arrays 
+  that are accessed by key value pairs 
+ -to create an empty array do: 
+
+      $arr = array();
+      $or_arr = [];
+ 
+ -to create an index array, just separate values with commas, but to make
+  an associative array, use the => operator (in js it's a : instead) to 
+  create key value pairs, then commas after each pair
+
+      $arr = array('ham' => 'cheese', 'cat' => 'dog')
+      //you could also use the brackets shorthand to do this
+
+ -you access data in an array by index, or key: 
+
+      $arr[0];
+      $or_arr['key'];
+
+ -to print an array, echo and print will not work: 
+
+      echo $arr //this will print "Array" to the screen
+ 
+ -to print the contents of an array, you must use the print_r function: 
+
+      print_r($arr);
+        Array (
+        [0] => Hoba
+        [1] => Cape York
+        )
+
+ -print_r will print both associative and indexed arrays 
+ -however, echo does work on single indexes of an array: 
+
+    echo $arr[0];
+    echo $or_arr['key'];
+
+ -modifying an array: just re assign that index like so: 
+
+    $arr[2] = 'loco';
+    $arr['bye'] = 'saying farewell';
+___________
+ -adding to the end of an array: with index, use an empty bracket: 
+
+    $arr[] = 'new item';
+    //now 'new item' is the new last item in the array 
+
+   -to add a new key/value pair in an assosciative array, just define them:
+
+    $arr['new key'] = 'new value';
+    //the new key/value will be added to the end of the array 
+________________
+ -adding to the beginning of an array: use the array_unshift function: 
+
+    array_unshift($arr, 'value'); //you can also add multiple values in order
+    array_unshift($arr, 'value', 'value2', 'value3'...); 
+
+  -array_unshift also has a return value of the new number of items in
+    the array, so if it's in the definition of a variable, it will be the 
+    number of items in the array, not the array itself
+    $array_count = array_unshift($other_arr, 'values')
+    echo $array_count //this would display "4", not the actual array
+                      //and you can use echo in this case, or print_r
+
+  -It's slightly more tricky to add an key/value pair to the beginning of an
+   array.
+  -what you have to do is create a new array with the key/value pairs you 
+  want to add to the beginning, them use array_merge with the new array in 
+  front and the old array in back 
 
 
 
+**array differences to python**
+ -unlike python which separates lists and dictionaries, it's clear to see 
+  in php (and js) that both of those objects are just arrays 
+ -associative arrays, unlike dictionaries do NOT default to a random order,
+  they maintain the order of when each pair was added
+ -you can actual use both index and association to add items to a single 
+  array, since an index and associative array combined outputs to: 
 
-
-
-
-
-
-////////////////////////////////////////////////
-
-
-
-
-
-
-
-
+    $arr = [0 => 'value 0', 1 => 'value 1', 'ham' => 'cheese', 2 => 'value 2']
+ 
+ -note that the key/value simply goes between the indexes, it does not occupy
+  a numerical index, no matter how many you insert. The next numerical 
+  index will pick up where the last one left off.
 
 
