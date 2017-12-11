@@ -359,6 +359,7 @@ myTest(); //returns 2
 
       $arr = array('ham' => 'cheese', 'cat' => 'dog')
       //you could also use the brackets shorthand to do this
+      // that => is called an array operator
 
  -you access data in an array by index, or key: 
 
@@ -416,6 +417,9 @@ ________________
   want to add to the beginning, them use array_merge with the new array in 
   front and the old array in back 
 
+    $a=array('color1'=>"red",'color2'=>"green");
+    $b = ['a', 'b', 'c'];
+    $c = array_merge($a, $b); 
 
 
 **array differences to python**
@@ -433,3 +437,243 @@ ________________
   index will pick up where the last one left off.
 
 
+**multi-dimensional arrays**
+ -you can put arrays in arrays no problem: 
+
+  <?php
+  $games = array(
+    'tabletop' => array(
+      'sorry',
+      'monopoly',
+      'scrabble'
+    ),
+  );
+  
+  $games['tabletop'][0] //this would be 'sorry'
+  $games['tabletop'][0] = 'ice breaker' // now 'sorry' becomes 'ice breaker'
+  print_r($games{'tabletop']) //this would print: 
+    //Array ( [0] => 'ice breaker'
+              [1] => 'monopoly'
+              [2] => 'scrabble' )
+
+ -as you can see, all the regular functions and syntax sticks when you use 
+  another level of array, and you can go as deep as you want 
+
+**array functions**
+ -find number of items in an array: 
+  
+  echo count($arr); //this would lets say be 5 
+  //you could also take advantage of array_unshift return value 
+
+ -join values of an array into a string: 
+
+    echo implode(' ', $arr) // that first argument is the character that 
+        //will go between the values, in this case a blank space 
+
+ -randomize the order of elements in an array 
+  (remember, unlike python, arrays stay in their entered order):
+
+    shuffle($arr)
+    echo implode(' ', $arr) //this would show the new array order as a string
+
+ -to sort an array in alphabetical order: 
+
+    asort($arr);
+    echo implode(' ', $arr) 
+
+
+___________________________________________________________________________
+        Level 3 Conditionals and operators
+
+ -arithmetic operators are exactly what you'd expect: 
+
+    +, -. *, /, **, % = add, subtract, divide, exponents, modulo
+
+ -conditional statements are also the same as js: 
+
+    == = equal 
+    >= = greater than or equal
+    <= = less than or equal 
+    != = not equal to
+    === = equal value andi data type 
+    // so 10 == '10' is true, but 10 === '10' is false, 
+    // since its str and int and they don't match
+    // >== and <== do not exist in php 
+
+  -When converting to boolean, the following values are considered FALSE:
+
+    the boolean FALSE itself
+    the integer 0 (zero)
+    the float 0.0 (zero)
+    the empty string, and the string "0"
+    an array with zero elements
+    the special type NULL (including unset variables)
+    SimpleXML objects created from empty tags
+  
+  Every other value is considered TRUE (including any resource and NAN).
+
+
+**control flow**
+ - if statements are the same as js : 
+
+    if ($year == 2001) {
+      echo 'neat';
+    }
+
+ -if else are the same too: 
+
+    if ($year == 2001) {
+      echo 'neat';
+    } else {
+      echo 'dang';
+    }
+
+ -you can use elseif with or withou brackets, and else if only if you 
+  have brackets. with brackets, the two are basically the same, there 
+  seems to be some minor differences that you can look up if it ever 
+  becomes relevant (it seems a descendent of the C language): 
+
+     if ($year == 2001) {
+        echo 'neat';
+      } elseif ($year == 1990) {
+        echo 'ok';
+      } else {
+        echo 'dang';
+      }
+ 
+ -you can put as many else if statements in as you want, but be aware, the 
+  first true one that the program finds will be executed while all others 
+  are ignored 
+
+**logical operators**
+
+  same as js again: 
+
+    && = and
+    || = or
+    !  = not 
+
+ -they are used in conditionals like: 
+
+  if ($year >= 1990 && $year != 2010) {
+    //do stuff
+  }
+
+**setting variables inside if conditionals**
+ -you can set a variable's value inside an if statement like so: 
+  
+    if ($ham = 'hello there') {
+      echo $ham // this will print hello there
+    }
+
+ -since the variable will be given a value, that is evaluated to be true,
+  HOWEVER, you can assign that variable a "falsey" value, like '0' and 
+  the if statment will not run, like so: 
+
+      $thing = '0';
+      if ($ham = $thing) {
+        echo $ham;
+      } else {
+        echo 'general kenobi';
+      } // this time it will print general kenobi becuase the value of '0' is
+        // false 
+
+____________________________________________________________________________
+        LEVEL 4 LOOPS 
+    
+ -you know what loops do, here are how they look in php: 
+
+**while loops**
+ 
+    $i = 0; //initialize an integer 
+    
+    while($i <= 10) { //test the condition is true 
+      echo $i; // run code as long as the condition is true
+      $i++ // increment tells your code what to do to the integer 
+    } // notice there is no space for while(  and the (
+
+ -the increment has 4 options: 
+
+  $i++ = return $i value, then increase by one 
+  ++$i = increase i value by one, then return the new value
+  $i-- = return $i value, then decrease by one 
+  --$i = decrease i value by one, then return the new value 
+
+ -you could also use something like: 
+
+    $i += 2 //increase each time by two 
+
+ -while loops do not have to rely on numbers either, they can be any 
+  conditional that relies on user input: 
+
+    while ($answer = 'hello') {
+      // user input that can change the value of answer 
+      // to avoid an infinite loop
+    }
+
+**do while loops**
+ -while loops will not execute even once if the original condition is 
+  found to be false. 
+ -a do while loop wil execute the code block once, no matter if the 
+  condition is true or not, becuase the test comes after the block has 
+  been executed: 
+
+      $i = 0;
+      do {
+          echo $i;
+      } while ($i > 0);
+      // this will echo 0, then go on to the next part of the code 
+
+
+**for loop**
+ -for loops have the same syntax as JS: 
+
+  for($i = 0; $i < 10; $i++) {
+    $value = $i * 12;
+    echo value;
+  }
+
+
+**foreach loops**
+ -to loop through index arrays and associative arrays, you need to 
+  use a foreach loop
+
+  -index array/just the associative values syntax: 
+   -it's basically the array, then as, then the variable name that 
+    will store the value of the index's value: 
+  
+      foreach($arr as $value) {
+        echo $value //this will show not the index, 
+                    //but the value stored there
+      }
+
+  -key/value syntax 
+   -it's basically the same, you still use the as keyword,
+    but then you use two variables, the key variable then 
+    an array operator, then the value variable
+
+    foreach($arr as $key => $value) {
+      //this will let you access the variables at the index and 
+      // at the value stored in that index 
+    }
+
+ NOTE: you can of course call the arrays, indexes, and values 
+  whatever you want 
+  
+    
+**combining**
+ -of course you can combine all of these types (and more) together 
+  quite easily: 
+
+  $meteors = array('hoba' => 60000000 //more stuff);
+  $epic = 600000000;
+  $huge = 400000000;
+  foreach($meteors as $name => $weight) {
+      if ($weight > $epic) {
+        echo 'damn';
+      } elseif ($weight >= $huge) {
+        echo 'shoot';
+      } else {
+        echo 'sorry, ' . $name . ' is just too small';
+      }
+  }
