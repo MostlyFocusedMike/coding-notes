@@ -85,8 +85,11 @@ WIDTH OF MINI PI SCREEN
  -to switch between them, usealt f1-f6 
  -to get back to gui, use alt f7
  -NOTE: mini pi seems not to be able to switch
-  from gui, but can switch between f1, 3, and 5
-  like most systems  
+  to all 6 options, but can switch between f1, 3, and 5
+  like most systems 
+ -also, the ctrl key is only required when switchting
+  from the gui to a virtual console, when going from 
+  virtual consoles, you only need the alt key  
 
 
 /////////////////////////////////////////////////
@@ -153,7 +156,7 @@ WIDTH OF MINI PI SCREEN
  
     cd ../../file/goal
 
- -that takes you up two files etc.
+ -that takes you up two directories etc.
 
 **facts about filenames**
  -if there's a . in front of a file name, it is 
@@ -207,7 +210,7 @@ WIDTH OF MINI PI SCREEN
  -short options can be strung together, just use
   a single dash, then multiple short options: 
 
-    ls -alt // the -a, -l, and -t combine
+    ls -alt // the -a, -l, and -t combined
 
  -short and long options can be used together if
   you want: 
@@ -2933,6 +2936,69 @@ Table 13-3: Escape Sequences Used to Set Background Color
             COMMON TASKS AND ESSENTIAL TOOLS    
 /////////////////////////////////////////////////////////////////////
               CH14 PACKAGE MANAGEMENT
+ -one of the big differences in linux distros is how they deal with 
+  packages
+ -packages are a collection of files that are necessary for a program
+  to run
+   -this is how virtually all linux programs are recieved, which is 
+    better than how it used to be, when people would have to download
+    and compile programs from source code
+   -which is still technically An option 
+ -there are two main package file types:
+    .deb -for Debian, Ubuntu, Xandros, Linspire
+    .rpm -for Fedora, CentOS, Red Hat Enterprise Linux, openSUSE,
+      Mandriva, PCLinuxOS
+    -there are other types for distros like gentoo and slackware,
+     but these are the main ones 
+
+**how the package system works**
+ -unlike mac and pc, which use installation wizards, linux software
+  is found online
+ -a package manager takes the source files and makes them easier to 
+  load, and then gives them to sent to a repository
+ -repositores often have several different versions of the repositories
+  for the different stages of software development
+ -sometimes packages will have dependencies on shared libraries, things 
+  like programs that handle i/o 
+   -if this is the case, most packages will have dependency resolution
+    that deals with this problem and installs everything needed
+
+
+**high and low level tools**
+ -low-level tools that handle tasks such as installing 
+  and removing package files, 
+ -and high-level tools that perform metadata searching and 
+  dependency resolution.
+ -here are the high and low level programs for debian and red hat 
+  flavors of linux
+                             low          high 
+Debian style                 dpkg       apt-get , aptitude
+Fedora, Red Hat
+Enterprise Linux, CentOSi    rpm        yum
+
+ -note that low level tools also let you create packages, that's just
+  not in this book
+
+ -NOTE from here on out package_name refers to the actual name of the
+  package, while package_file refers to the actual file
+
+**finding packages**
+ -By using the high-level tools to search repository metadata, 
+  one can locate a package based on its name or description
+
+ deb    apt-get update
+        apt-cache search search_string
+
+ hat    yum search search_string
+
+
+ 
+
+
+
+
+
+
 /////////////////////////////////////////////////////////////////////
 VIEWING PDFS IN TERMINAL 
  -the fbi program is used for viewing images, but it has a sister 
