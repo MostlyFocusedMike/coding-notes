@@ -200,6 +200,23 @@ GLOBAL AND LOCAL SCOPE
     echo "<p>Variable x outside function is: $x</p>";
     ?>
 
+ -however, there are two ways to get access to global variables inside
+  a function: the global keyword and the $GLOBALS superglobal variable
+
+    function myTest() {
+        global $x, $y;
+        $y = $x + $y;
+    }
+
+ -using the global keyword, you now have access to the global variables
+  that were defined in the global scope 
+ -you could also use $GLOBALS['your variable name here'], since all 
+  global variables are stored in the superglobal variable $GLOBALS: 
+
+    function myTest() {
+      $GLOBALS['y'] = $GLOBALS['x'] + $GLOBALS['y'];
+    } 
+
 -Normally, when a function is completed/
   executed, all of its variables are deleted. 
   However, sometimes we want a local variable 
@@ -677,3 +694,806 @@ ____________________________________________________________________________
         echo 'sorry, ' . $name . ' is just too small';
       }
   }
+
+-----------------------------------------------------------------------------
+                      CLOSE ENCOUNTERS WITH PHP NOTES 
+                          PLUS SOME EXTRA STUFF
+
+**GET requests**
+ -GET is used to request data from a source, here are some attributes: 
+    -shows query strings and values in the URL
+    -GET request can be bookmarked, cached, remain in history
+    -they are only for retrieving data
+
+**POST request**
+ -POST is a more secure way to request data from a source: 
+    -techically, it's used to send data to a resource 
+    -the query names and values are only in the body of the request, no URL
+    -never cached, bookmarked or in history
+
+
+**example POST method**
+ -here's a typical post request 
+ 
+  <form class="" action="state.php" method="post"> 
+    //action is what .php file will rocess the data
+  <label for="state-input">State Name</label>  
+    //remember, labels 'for' attribute refers to the id of the input 
+  <input type="text" name="state" id="state-input" value="" />
+    //the "name" will be our post variable name, and "value" it's value
+    // which will be entered by the user
+  <br />
+  <input type="submit" value="submit" /> 
+    // the <button> tag also works to submit a form when it is  
+  </form>
+
+ -you can set the action to be the page you are on  (eg index.php) 
+ -if you leave action blank, the data will automatically be sent to 
+  the .php file the form exists on
+
+
+**quick note about what action actually does**
+ -when you  set the action attribute to be another page, 
+  once you hit submit, then that is the page that will load
+ -it will have access to the GET and POST variables from the previous 
+  page where the form was 
+ -think of it like an <a> tag and it links to the page 
+ -this new page can be an absolute or relative link, can be php or html
+  and can even be a page from another site  
+------------------------------------------------------------------------------
+              LEVEL 1 working with form data 
+
+ **superglobals and var_dump**
+ -Several predefined variables in PHP are "superglobals", which means that 
+  they are always accessible, regardless of scope - and you can access 
+  them from any function, class or file without having to do anything 
+  special.
+
+    The PHP superglobal variables are:
+
+    $GLOBALS
+    $_SERVER
+    $_REQUEST
+    $_POST
+    $_GET
+    $_FILES
+    $_ENV
+    $_COOKIE
+    $_SESSION
+
+ -superglobals store multiple values and you access them via index and 
+  with bracket notation, like this 
+
+    $GLOBALS['variable']
+
+ -var_dump is a function that dumps out a bunch of info about the passed
+  argument and it can do objects and arrays. It prints this info to the 
+  screen and will indent with each level of recursion 
+
+
+**_POST superglobal**
+ -all the variables that are sent via the POST method are stored in the 
+  $_POST superglobal and you can access them using brackets: 
+
+    echo $_POST['email'] // the 'name' atribute of the form input 
+                         // in this case was 'email' 
+
+**avoiding errors on refresh**
+ -if you try to access variables before they have been defined, you can get 
+  an error
+ -this means if you rely on post variables that haven't been defined yet, 
+  you could run into trouble, so the first step to avoiding this 
+  is using the $_SERVER superglobal to see if the request method has been
+  set to POST: 
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      echo $_POST['date'];
+      echo $_POST['email'];
+      $site = $_POST['site'];
+      ...
+    }
+
+ -we will learn other ways to further validate forms with php
+
+    
+------------------------------------------------------------------------------
+    LEVEL 2: includes and requires 
+
+ -we can keep our .php much neater by separating sections out into their 
+  own files 
+ -we can also have a neater directory structure by placing things in the 
+  following order
+ -NOTE: i am not sure how this works with burying the index.php file into
+  seemingly random names of folders, there does not seem to be a standard 
+  way to name files for servers to understand, or if that even matters 
+  It would be great if future me could figure this out 
+
+    app/ //this is your root folder 
+      src/
+        app.php code -this is where the code part of php goes  
+      views/ 
+        content.php -html sections written as part of php files 
+        header.php
+        footer.php
+      public/
+        index.php -this will reference all other .php files 
+
+ -so our content is now 
+    /app/views/content.php 
+    /app/views/header.php
+    /app/views/footer.php
+ -our code (the actual php code, not just html parts) is 
+    /app/src/app.php
+ -and our index.php is: 
+    /app/public/index.php
+ 
+ -each of those files are just cut and copied sections of our original 
+  index.php
+ -so header.php is just: 
+  
+  <header class="row row--a">
+    <div class="cell well--l tci">
+      <h1 class="mbf">Form to Log</h1>
+    </div>
+  </header>
+ 
+ -notice that even though it's a .php file, it does not need the php tag 
+ 
+**the includes keyword**
+ -the idea is to copy all the pieces of your site into their own files 
+  so that if you edit somehting on one page, all its counterparts elsewhere
+  will update too
+ -to include these sperate parts back into a page, use the include keyword:
+
+    include('../path/name/here')
+    include 'this/also/works'
+
+ -so here is our new index.php file: 
+    <?php
+    //php app code still here 
+    ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>PHP Demo</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link rel="stylesheet" href="css/application.css" />
+    </head>
+    <body>
+    <?php
+      include('../app/views/header.php');
+      include('../app/views/content.php');
+      include('../app/views/footer.php');
+    ?>
+    </body>
+    </html>
+
+ -all content inside the <body> tag has been included from elsewhere
+ -however, lets say one of those files is not available, if this happens
+  the include keyword will throw a warning to the page, but will load 
+  the rest of the code that it can get access to
+ -do not try to include pages from external servers, this is a huge 
+  security risk and not worth it 
+
+**requires** 
+ -as for our actual php code, we should use the require keyword instead: 
+
+    require '../path/name/here/'
+    require('this/also/works')
+
+ -the reason for this is that if the required file is missing, the 
+  page simply will not load at all
+
+ -NOTE: so with these new files, if a .php file has ONLY php code in it, 
+  you need an opening php tag, but not a closing one
+ -so your index will look like this 
+
+
+ <?php
+   require 'something.php'
+
+ ?>
+
+ and something.php will look like this: 
+
+<php 
+  //all your code but no closing php tag 
+
+ -you need the opening php tag in the something.php file so the server 
+  knows to execute php code, but since it's going into an index.php 
+  file that already has a closing php tag, adding another in something.php
+  is redundant 
+
+**magic constants**
+ -brief interlude becuase you may see something like: 
+
+    require __DIR__ . '/../app/src/app.php';
+
+ -that __DIR__ is something called a magic constant, and there are several
+ -these constants basically expand to be things like the pathname of the 
+  file or the line of the code
+ -__DIR__ expands to the full path of the directory that the file is in
+ -notice it's concatenated with /../app, that initial / doesn't mean root 
+  in thiscase because it's concatenated with the actual root from __DIR__: 
+
+     __DIR__ . /../app/src/app.php -> /root/public/../app/src/app.php
+     //without that / before .. it would be: /root/public../app/src/app.php
+     // which would be an error since there is no public.. folder 
+
+ -here are the other magic constants: 
+
+    __FILE__ – The full path and filename of the file.
+    __DIR__ – The directory of the file.
+    __FUNCTION__ – The function name that this is in
+    __CLASS__ – The class name that this is in
+    __METHOD__ – The class method name that this is in
+    __LINE__ – The current line number of the file.
+    __NAMESPACE__ – The name of the current namespace
+
+
+
+______________________________________________________________________________
+          LEVEL 3 Validation always 
+
+  -validation is important for security reasons but also just keeping your 
+  database from getting wrecked 
+ -validation avoids empty or null values, and html/js from getting maliciously
+  inserted into your page, and you need properly formatted output 
+
+**Validation checklist**
+ 1.check that variables needed actually exist 
+ 2.remove whitespace
+ 3.sanitize output (escape characters)
+ 4.validate emails/dates
+
+1. check that variables exist
+ -there are two main ways to do this: empyt() and isset()
+ -the empty() function checks if a variable does not exist OR is set to a 
+  boolean value of false 
+  -be careful with this one, as a variable set to 0 would count as empty
+
+    if (!empty($vari) {
+      //so if the variable is not empty, do stuff
+    }
+
+ -the other way is the isset() function, which is a little harder to 
+  fool as the only way to get a false value is to set a variable to have
+  a value of null or to use the unset() function
+
+    if (isset($var) {
+      //if the var is set, do stuff
+    }
+    unset($var)
+    // the $var is now set to null 
+
+ -NOTE: it's !empty and isset, they are opposite when checking if something
+  exists, like, you're making sure it's NOT empty but IS set 
+ -i think you should use isset() since it's only false if the value is NULL
+ -if you have multiple values to check, use and statements OR just put 
+  all the variables to be checked into an isset()
+  -isset() only returns true if every single variable exists 
+
+   if (!empty($vari) && !empty($thing) && !empty($third)) {
+    //do stuff
+   }
+  
+   if (isset($vari, $thing, $third)){
+    //do stuff
+   }
+
+2.remove whitespace on either side 
+ -this one is easy, just use the trim() function: 
+
+    $date = trim($_POST['date']);
+ 
+ -just be sure to do it on the $_POST variable itself so that at no point
+  in your code is there an unexpected white space 
+
+3.sanitize output 
+ -php has the builtin function htmlspecialchars() 
+ -this turns any code entered (<,>,/,{,[) into the encoded html special 
+  characters (&lt; &gt, &apos etc etc) so that your html wont parse it 
+  as valid code, but it will still display as code to the user if you 
+  put the posted data onto your page 
+
+4.validate email and dates 
+ -we must have properly formatted (ie usable) emails and dates
+ -just use the filter_var() functions with the email settings like so: 
+
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      //do stuff 
+    }
+
+ -converting dates is a little more involved 
+ -first use the strtotime() function, which turns strings of varying 
+  complexity into unix timestamps
+  fun fact: a unix timestamp is the number of seconds since the unix epoch
+  which is jan 1 1970
+
+ -anyway, here are all the strings that strtotime() can convert:
+
+  strtotime('today'); //midnight of current day
+  strtotime('yesterday'); //midnight yesterday
+  strtotime('tomorrow'); //midnight tomorrow
+  strtotime('last saturday of March 2010'); //midnight of that day
+  strtotime('30-June-2001')
+  strtotime('2001/7/30')
+  strtotime('June 30th 2001'); //you get the idea 
+
+ -now, to convert the timestamp into a human readable and consistend output,
+  use the date() function
+
+  if ($time = strtotime($date)) { //rmbr: set variables in if statements
+    echo "<p>Date: date('F jS Y',$time)</p>";
+  }
+
+date('m/d/Y', $timestamp) 
+> 03/14/2015
+
+date('F jS Y', $timestamp);
+> March 14th 2015
+
+date('l \t\h\e jS \o\f F', $timestamp); // use \ to escape characters
+> Saturday the 14th of March
+
+date(DATE_ATOM, $timestamp); //ATOM is the MySQL format
+> 2015-03-14T00:00:00+00:00
+
+ -go.codeschool.com/php-date has all the various combos if you 
+  need further customization 
+
+**creating functions in php**
+ -the syntax is: 
+
+  function func_name($val_1, val_2, $etc) {
+    $product = $val_1 * $val_2
+    return $product
+  } //see the opening for more info about variable scope 
+
+
+**making a function to validate dates**
+ -here is a useful template for validating dates: 
+
+  function validate_date($date_string) {
+    if ($time = strtotime($date_string) { //if the str is in the wrong
+      return date('m/d/Y', $time);        //format, strtotime returns false
+    } else {
+      return $date_string . ' looks invalid.';
+    }
+  }
+  
+  echo validate_date($date);
+
+ -this is just an example of code you could use, and should be incorporated
+  into further validation, but you get the idea 
+**EXTRA STEP FOR TIMES**
+ -PHP now requires you to do more than this, you must make sure that your
+  server has its timezone properly set 
+ -on a mac, you will need to do this by first moving the php.ini file to
+  its correct location and set it with a timezone it knows 
+    -in your case its 'America/New_York' 
+ -here are the three steps, from stack overflow: 
+  https://stackoverflow.com/questions/27861720/how-to-set-default-php-ini-to-be-used-osx-yosemite
+  
+move the configuration file to the right spot and update the timezone.
+
+  $ sudo cp /etc/php.ini.default /etc/php.ini
+
+Open the config file /etc/php.ini, find the line that sets your 
+  timezone and update it correspondingly.
+
+    date.timezone = "America/New_York"
+
+Do not forget to remove the ; at the beginning. Restart the Apache 
+  server to have PHP load the new .ini file.
+
+  sudo apachectl restart
+
+ -once you have done that to your sever (hopefully the real world servers 
+  have a correct timezone set) you can either set the timezone for the 
+  scipt with 
+
+  date_default_timezone_set('America/New_York'); //or other timezone 
+
+ -or user the date_default_timzeon_get() to pull it from the server: 
+
+  $script_tz = date_default_timezone_get();
+
+ -A handy way to see if your internal and server times match is the 
+  following code snippet: 
+
+    date_default_timezone_set('America/New_York');
+    $script_tz = date_default_timezone_get();
+
+    if (strcmp($script_tz, ini_get('date.timezone'))){
+        echo 'Script timezone differs from ini-set timezone.';
+    } else {
+        echo 'Script timezone and ini-set timezone match.';
+    }
+
+ -for most scripts, i assume the servers have the proper timezone as you
+  so the get timezone method might be best, or set it if you need to 
+
+ -http://php.net/manual/en/timezones.america.php
+ -that's all the php timezones you can find
+
+**terminology**
+ -user SUBMITS data
+ -filter and validate code before storing in database 
+ -sanitize, format, strip, encode data from database before displaying it 
+
+ -POST is typically for INPUTING data into your database 
+ -GET is typically for REQUESTING data from your database 
+
+____________________________________________________________________________
+  LEVEL 4 refactoring and style 
+
+ -the PHP Standards Recomendations (PSRs) are recomended by the 
+  PHP Framework interop group (PHP-FIG) and there are 7 
+  standards (or more) that commonly tell developers the best practices: 
+
+                    PSR-1. Basic Coding Standard
+                    PSR-2. Coding Style Guide
+                    PSR-3. Logger Interface
+                    PSR-4. Autoloading Standard
+                    PSR-6. Caching Interface
+                    PSR-7. HTTP Message Interface
+
+ -PSR-1 sets a standard for what and how the code should behave with
+  proper tags and classes etc, and PSR-2 is how the code should read
+  like tabs and white space 
+ -the big thing to take away here is that a PHP file should either 
+  "declare symbols" (have functions) or "cause side effects" 
+  (generate output to screen) but NOT do both
+ -meaning, put all your functions and working code into one file,
+  and all your echos and prints and code in tags in another
+ -in the code school example, they move the function part into a file 
+  called validation.php, but again there seems to be no consistency 
+  across servers for how it all get structured (in my limited search)
+ NOTE: in this part you learn about magic constants in code school, 
+  but you were curious and already learned it in the previous section
+ 
+
+**installing composer onto your server**
+ -a library (or package) in php is a collection of code that is meant to be
+  reusable and single purpose 
+ -packages are open source, and the primary package management too in php
+  is called Composer 
+ -here are the commands needed to install it in the mac environment 
+  (go.codeschool.com/composer-install for other OS)
+ 
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+mv composer.phar /usr/local/bin/composer
+
+ -what that code salad does is this: 
+    Download the installer to the current directory
+    Verify the installer SHA-384 which you can also cross-check here
+    Run the installer
+    Remove the installer
+    Move composer file to our local bin for the user 
+
+**using composer**
+ -just typing 
+   
+  $ composer 
+
+  into a terminal will bring up the main composer page with all sorts of 
+  info
+ -so what composer does is set up everything you need for your project, 
+  meaning, you have to be IN your main project folder before doing any
+  of the following commands
+ -once in your project root folder, run these commands and composer will 
+  create all files and directories you need to use those packages
+
+ -to find packages user composer's search argument: 
+
+  //                change this word to search obviously
+  $ composer search validation 
+  illuminate/validation The Illuminate Validation package.
+  respect/validation The most awesome validation engine ever created for PHP
+  // this is the package we want to help with validation for our project
+  siriusphp/validation Data validation library. Validate arrays, array 
+    objects, domain ...
+  intervention/validation Additional Validator Functions for the Laravel 
+    Framework
+
+ -the search will bring up the package/name description
+ -once you have that package/name that you want, use the require argument
+  to load it: 
+
+  $ composer require respect/validation
+  // a bunch of code for this 
+
+**file structure** 
+ -so when your run the composer commands in your project folder, it will
+  create everything it needs
+ -these are the composer.json file, the composer.lock file, and a new 
+  directory called vendor, which will hold many more files and folders 
+  that contain the libraries and dependencies you need 
+
+
+**looking at composer.json**
+ -while you CAN create and configure this file on your own, it's not 
+  recomended due to syntax errors and no obvious benefit (except maybe 
+  speed if you know the library by heart)
+ -however, editing it so that it only accepts certain versions of the 
+  package might be necessary down the road: 
+
+  {
+    "require": {
+        "respect/validation": "^1.1"
+    }
+  }
+ 
+ -here we see we only need a single package, and that ^1.1 is the 
+  package version we want
+ -specifically, that ^ is a wildcard which means "accept any minor release
+  greater than 1.1, but no major releases 
+  -so 1.2, 1.1.1 etc, but NOT 2.0
+ -this is a .json file, so if you add packages, don't forget to put 
+  a comma after the first key value pair 
+
+**the autoload file**
+ -inside the Vendor directory is a file called autoload.php and that is 
+  responsible for loading and managing everything we need in the vendor 
+  folder 
+ -in your main app.php file, you MUST remember to put a require statement
+  with the __DIR__ constant to this autoload file FIRST for things to work:
+
+  <?php 
+    require __DIR__ . '/../../vendor/autoload.php';
+    require __DIR__ . '/validation.php'; //all other packages come second
+    //followed by the rest of your php code 
+
+**using packages**
+ -since you required the packages you need (in this case validation), 
+  you can use the "use" keyword in all subsequent php files to access 
+  the functions from this library 
+ -place the use statement at the top of the file you are using it in,
+  in this case the file called validation.php. heres what that looks like:
+
+    <?php 
+  use Respect\Validation\Validator //notice the back slashes 
+                                   // and caps 
+
+  $v = new Validator //the "new" keyword creates a new instance of the 
+                     // the "Validator" class in a variable 
+
+ -php uses the "new" keyword like JS to create new instances of objects 
+  from classes 
+ -i don't know what that Validator (notice the capitalization matches JS
+  too) so put it in a var_dump($v) to see what it is
+  -it will reveal that it is an object with protected rules that are used 
+    to check customized error strings and other stuff
+  -i think we'll learn more about validator in the next section
+
+
+
+----------------------------------------------------------------------------
+          INTERLUDE: Classes and objects in php
+https://www.killerphp.com/tutorials/php-objects-page-1/
+http://php.net/manual/en/language.oop5.paamayim-nekudotayim.php
+https://stackoverflow.com/questions/1206105/what-does-php-keyword-var-do
+http://php.net/manual/en/language.oop5.visibility.php
+ -these are the primary sites you cobled this section together 
+
+**Making a simple class**
+ -like all Object Oriented Languages, you can encapsulate like data into 
+  a class, and then create instances of that class called objects 
+ -when put into a class, a function is called a method, and variables 
+  are called properties
+ -here is the basic class structure for php: 
+
+  <?php 
+    class person {
+      public $name;
+        //a declared variable that has a get and set function to 
+        // decide what it's actual value is 
+      function set_name($new_name) {
+        $this->name = $new_name;
+      }
+      function get_name() {
+        return $this->name;
+      }
+    }
+ 
+    $steve = new person();
+    $craig = new person; // both instances work, the () are optional
+    
+    $steve->set_name('Steve Clairborne');
+    echo $steve->get_name();
+    //
+
+ -so a lot is going on here, we'll get into what that public means in 
+  a second, for now just know that it is necessary when creating each 
+  new property and don't forget to label the functions! 
+ -with php, you have two important genres of methods, getters and setters
+ -set methods SET your properties to be certain values, while get methods 
+  actually GET, ie display/access in some way, those properties 
+ -NOTE: this is a slightly different way of thinking than python, which 
+  was either becuase you didn't know what you were doing, or it's not 
+  the pythonic way 
+ -Also, notice that when you declare a property, you use the $, but then
+  at any point after when getting or setting or accessing, you do NOT use 
+  the $
+
+
+ -But how do you get access methods and properties? 
+ -you access them via the arrow operator (->) 
+   -THIS IS NOT THE ASSOSCIATIVE ARRAY OPERATOR (=)
+ -so if you want to access an property or method, you use this: 
+
+    $instance_of_obj->property_or_method_name 
+
+ -Think of the -> replacing the dot notation used to access things in 
+  objects used in other language (apparently this is how the C lang.
+  does it)
+ -this means that while getter functions are typically used to format 
+  and display properties, you can also just access the 'name' property
+  like so: 
+
+    echo $steve->name;
+    echo $steve->gat_name(); 
+    //these will both just output 'Steve Clairborne'
+
+ -the $this built in variable 
+ -like python, the $this variable is just a stand in for the eventual 
+  obect name 
+    
+    $this->name;
+    // means basically $steve->name
+
+ -the 'new' keyword 
+ -this is how you create/instantiate each new instance of the class, 
+  either with or without the parenthesis
+
+    new object()
+    new object // both work, and no '' needed! 
+ 
+
+**initialising an objects properties** 
+ -you use setter functions to give your object attributes, OR you could 
+  use the builtin __construct() method, which is basically the python
+  __init__() method
+ -using this will let you define some of the object's properties
+  at its initialization like you did in python: 
+
+  class person {
+      var $name;
+      function __construct($persons_name) {		
+        $this->name = $persons_name;		
+      }		
+   
+      function set_name($new_name) {
+         $this->name = $new_name;
+      }	
+      // this function can now be used to reset the value, but 
+      // not its initial value since it will already be set by
+      // the __construct() method 
+   
+      function get_name() {		
+         return $this->name;		
+       }		
+    }
+  
+  $steve = new person('steve clairbone');
+  echo $steve->get_name() 
+    //this will output steve clairbone'
+ 
+ -the __construct() function can have more than one variable 
+
+   ...
+    public $name, $age, $job;
+    //notice that php and js use the same syntx for listing out 
+    // multiple variables, but php can only use this multi declared 
+    // variables method inside a class
+    function  __construct($given_name, $given_age, $given_job) {
+      $this->name = $given_name;
+      $this->age = $given_age;
+      $this->job = $given_job;
+    }
+   
+   $steve = new person('steve rogers', 15, 'mechanic');
+
+ -be careful to always include the proper number of arguments needed and 
+  that they are in the exact order, otherwise they could be assigned wrong
+  or not at all and mess things up
+ 
+**A note on directly accessing properties**
+ -while it is possible to assign property values to variables, this 
+  can get tricky down the road, so make it a habit to always deal with 
+  the properties through getter functions or the object itself: 
+
+    //bad way 
+    $steve = new person('steve rogers', 15, 'mechanic');
+    $steve_job = $steve->job;
+    echo 'Steve works as a ' . $steve_job;
+
+    //better ways 
+    $steve = new person('steve rogers', 15, 'mechanic');
+    echo 'Steve works as a ' . $steve->job; // OR use a getter: 
+    echo 'Steve works as a ' . $steve->get_job();
+    
+
+**Restricting access to properties using ‘access modifiers’**
+ -so what does that 'public' thing? it's called an access modifier and 
+  there are actually 3:
+    public,
+    protected,
+    private
+
+ -both properties and methods can be declared any of those three,
+ -properties MUST be assigned one, however if you just say:
+
+    function method_name() {...}
+
+  that is the same thing as: 
+    
+    public function method_name() {...}
+
+  and you should know that 
+
+    var $property_name
+  
+  is just an old way of saying something is public, it is no longer 
+  how it is done, but modern php is backwards compatible 
+ -What these things actually do is this: 
+   -public $var
+      public methods and propertys are accessible anywhere 
+   -protected 
+      protected props and methods are only accessible INSIDE the class 
+      itself and any children. 
+   -private 
+      private props and methods are only accessible INSIDE the class
+      that they are defined in, no children
+
+ -that means that protected and private props/methods can't be called 
+  using the arrow operator: 
+
+    $foo->private_prop //this causes a fatal error and nothing after 
+                        // this point in the script will run
+
+  BUT, they can be used normally inside the class itself, so you could 
+  set a property to private, then create a public function which 
+  echoes/returns the private property without issue: 
+
+
+    class bar {
+     private $thing = 'ham'; 
+
+     function show() {
+        echo $this->thing;
+     }
+    }
+
+    $foo = new bar();
+    $foo->show() //this would echo 'ham' to the screen 
+    echo $foo->thing //this would cause a fatal error 
+
+  this isn't a super beginner topic, so don't worry if it seems a little 
+  foreign right now, just start thinking about it 
+ -this feature is useful for working in teams and making sure no one is 
+  accidentally calling things that they shouldn't be 
+ -by the way the syntax for access modifiers on properties is the exact 
+  same as functions: 
+
+    private $var 
+    private function
+
+  just in case that wasn't clear 
+
+
+**Inheritance – reusing code the OOP way**
+
+
+
+----------------------------------------------------------------------------
+          LEVEL 5 object oriented validation
+
+
+
+
+
