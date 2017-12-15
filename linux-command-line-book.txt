@@ -2933,4 +2933,14 @@ Table 13-3: Escape Sequences Used to Set Background Color
             COMMON TASKS AND ESSENTIAL TOOLS    
 /////////////////////////////////////////////////////////////////////
               CH14 PACKAGE MANAGEMENT
+/////////////////////////////////////////////////////////////////////
+VIEWING PDFS IN TERMINAL 
+ -the fbi program is used for viewing images, but it has a sister 
+  program called fbgs, which lets you view pdf
+ -for the pi screen, you need to view at -xxl resolution, which is
+  150 dpi
+ -so this is the command:
+
+    $ fbgs -xxl thing.pdf
+    // to view images its just fbi file.png or fbi fil.jpg
 
