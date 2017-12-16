@@ -1,4 +1,5 @@
 PHP PHP PHP PHP
+youtube
   \_____|_____/_____/ ______  _____  
  | \ | |/ __ \__   __|  ____|/ ____| 
  |  \| | |  | | | |  | |__  | (___   
@@ -1404,7 +1405,7 @@ http://php.net/manual/en/language.oop5.visibility.php
  
 **A note on directly accessing properties**
  -while it is possible to assign property values to variables, this 
-  can get tricky down the road, so make it a habit to always deal with 
+ can get tricky down the road, so make it a habit to always deal with 
   the properties through getter functions or the object itself: 
 
     //bad way 
@@ -1490,10 +1491,19 @@ http://php.net/manual/en/language.oop5.visibility.php
 
 
 
-----------------------------------------------------------------------------
+----------------------------------------------------------------------
           LEVEL 5 object oriented validation
+ -inheritance is the creation of a child class that inherits the 
+  props/methods of the parent but then it also has its own
+  props and methods, this new class is called a "type" of the 
+  parent class
+ -below is the syntax for an inherited class:
 
-
-
-
+    // 'extends' is the keyword that enables inheritance
+    class employee extends person 
+    {
+      function __construct($employee_name) {
+        $this->set_name($employee_name);
+      }
+    }
 
