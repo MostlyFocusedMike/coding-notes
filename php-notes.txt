@@ -439,7 +439,35 @@ ________________
     $b = ['a', 'b', 'c'];
     $c = array_merge($a, $b); 
 
+**The list() function**
+ -the list() function is a handy way to assign many variables to 
+  the values of an indexed array: 
 
+      $new_arr = array('val1', 'val2', 'val3');
+      list($var1, $var2, $var3) = $new_arr;
+      //$var1 = val1 and so on
+
+ -the list function assigns values for each variable in order, so the
+  order that you lis the variables is crucial
+ -you can skip values like so: 
+
+      list($var1, , var3) = $new_arr;
+      // the values and variables will match, since that blank
+      // comma skips over the second value 
+
+ -list() can also nest just like arrays
+
+    list($var1, list($var2, $var3) = array('val1', array('val2', 'val3');
+
+ -list() can also create a new list out of another by sort of hand 
+  stitching it, here we see it create the 'a' array one index at a time:
+
+     $info = array('coffee', 'brown', 'caffeine');
+     list($a[0], $a[1], $a[2]) = $info;
+     var_dump($a); // this would show the $a array
+
+ -note: list() assigns variables in the opposite order in some older
+  versions of php, so be aware of this
 **array differences to python**
  -unlike python which separates lists and dictionaries, it's clear to see 
   in php (and js) that both of those objects are just arrays 
@@ -1279,6 +1307,7 @@ https://www.killerphp.com/tutorials/php-objects-page-1/
 http://php.net/manual/en/language.oop5.paamayim-nekudotayim.php
 https://stackoverflow.com/questions/1206105/what-does-php-keyword-var-do
 http://php.net/manual/en/language.oop5.visibility.php
+https://www.techflirt.com/tutorials/oop-in-php/php-method-chaining.html
  -these are the primary sites you cobled this section together 
 
 **Making a simple class**
@@ -1291,8 +1320,10 @@ http://php.net/manual/en/language.oop5.visibility.php
   <?php 
     class person {
       public $name;
-        //a declared variable that has a get and set function to 
+        // a null, declared variable that has a get and set function to 
         // decide what it's actual value is 
+        // and that "public" is an access modifier, see the end of this
+        // section for more info
       function set_name($new_name) {
         $this->name = $new_name;
       }
@@ -1322,9 +1353,9 @@ http://php.net/manual/en/language.oop5.visibility.php
   the $
 
 
- -But how do you get access methods and properties? 
+**But how do you get access methods and properties?**
  -you access them via the arrow operator (->) 
-   -THIS IS NOT THE ASSOSCIATIVE ARRAY OPERATOR (=)
+   -THIS IS NOT THE ASSOSCIATIVE ARRAY OPERATOR (=>)
  -so if you want to access an property or method, you use this: 
 
     $instance_of_obj->property_or_method_name 
@@ -1340,14 +1371,18 @@ http://php.net/manual/en/language.oop5.visibility.php
     echo $steve->gat_name(); 
     //these will both just output 'Steve Clairborne'
 
- -the $this built in variable 
+**the $this built in variable**
  -like python, the $this variable is just a stand in for the eventual 
-  obect name 
+  obect name
+ -the $this variable allows you to set/get methods and properties while
+  inside the variable
     
     $this->name;
     // means basically $steve->name
+    $this->function_name();
+    // this would call the specified function from within the class
 
- -the 'new' keyword 
+**the 'new' keyword**
  -this is how you create/instantiate each new instance of the class, 
   either with or without the parenthesis
 
@@ -1356,14 +1391,35 @@ http://php.net/manual/en/language.oop5.visibility.php
  
 
 **initialising an objects properties** 
- -you use setter functions to give your object attributes, OR you could 
-  use the builtin __construct() method, which is basically the python
-  __init__() method
+ -if you just want to set up a class with a specific variable (eg a car 
+  class that has it's no_of_wheels property just always defaulted to 4)
+  just define it at the top: 
+
+  class car {
+    public no_of_wheels = 4;
+    ...
+ 
+ -If there are more than one variable to list, you can separate them
+  by comma like JS does (assuming each variable has the same 
+  access modifier, ie all publics listed together, all protected, and 
+  all private)
+
+    class car {
+      public color = 'red', no_of_wheels = 4, model, make;
+      protected = manufactur_year = 1990, warantee;
+    ...
+ 
+ -to create an object with custom parameters, you have two options:
+   -you use setter functions to give your object attributes after
+    it's been made, 
+   -you could use the builtin __construct() method, which is basically 
+    the python
+      __init__() method
  -using this will let you define some of the object's properties
   at its initialization like you did in python: 
 
   class person {
-      var $name;
+      public $name;
       function __construct($persons_name) {		
         $this->name = $persons_name;		
       }		
@@ -1488,9 +1544,165 @@ http://php.net/manual/en/language.oop5.visibility.php
 
 
 **Inheritance – reusing code the OOP way**
+ -one of the powerful features of OOP is that when you make a class,
+  you can then have other types of classes from that base class
+ -like a base class of car, then other types for sports_car, suv, etc
+ -this allows the new types to use all the code from the base class 
+  without repeating it, along with adding or over riding new features
+ -the child classes will have access to the base class's protected 
+  functions as well (but not private)
+ -the php syntax for this is simple: 
+
+  // this is our base class
+  class car {
+    public $wheels = 4;
+    public $transmission = 'auto';
+    public $used;
+    public $model;
+    function __construct($car_model, $used_status) {
+      $this->used = $used_status;
+      $this->model = $car_model;
+    }  
+    function set_model($new_model_type) {
+      $this->$model = $new_model_type;
+    }
+    function info() {
+      return array($this->transmission, $this->used, $this->model);
+      // returning an array is how you get multiple values 
+      // out of a function
+    }
+  }
+  // the new "extends" keyword is how you tell what class 
+  // that sports_car inherits from
+  class sports_car extends car{ 
+    public $transmission = 'manual';
+    function info() {
+      return array($this->transmission, $this->used, $this->model, 
+        ' and that makes me better than you.');
+    }
+  }
+
+  $my_car = new car('Mercury Villager', 'used');
+  list($transmission, $used, $model) = $my_car->info();
+  echo 'My ' . $used . ' ' . $model . ' is an ' . $transmission;  
+  // and now we make a sports_car object
+  $my_sports_car = new sports_car('Ferrari', 'new');
+  list($transmission, $used, $model, $brag) = $my_sports_car->info();
+  echo 'my ' . $used . ' ' . $model . ' is an ' . $transmission;  
+  echo $brag; 
+
+ -so as you can see making a new type of class is easy just use: 
+
+    class new_class extends old_class 
+
+ -from there, do whatever you want knowing that it's as if all the old 
+  class's code is already written into this new class
+ -so even though sports_car has no construct function in it, it uses the 
+  one from the car class 
+ -but, you can see that the info() function has been overridden to 
+  add a little part to brag 
+ -renaming functions overrides them in the new class, but if you ever
+  need to go back and use the base class's version of a function, 
+  you can use the scope resolution operator (::)
+
+**The scope resolution operator**
+ -this operator, which is two colon (::) does two primary things, 
+  it lets you access a class's functions and it lets you access a 
+  functions constants 
+ -we'll mainly talk about accessing the functions, since constants 
+  seem like something you don't need yet, just be aware of their 
+  existence when the time comes 
+ -the :: operator lets you access a class's public functions WITHOUT
+  creating an object first: 
+
+  class foo {
+    function hello() {
+      echo 'hello world!'
+    }
+  }
+  
+  foo::hello();
+  // this will print hello world to the screen 
+  $thing = new foo();
+  $thing::hello();
+  // this would also print to the screen 
+
+ -what the resolution operator actually does is it tells php in which 
+  class to look for the function, so if you have a set_name function 
+  in both a base class and an overridden version in its child, you 
+  can use the :: to regain access to the base version: 
+
+  class par {
+    ...
+    function set_name($new_name) {
+      $this->name = $new_name;
+    } 
+  }
+  
+  class chi extends par {
+    function set_name($new_name) {
+      if ($new_name === 'kenobi') {
+        $this->name = strtoupper($new_name);
+      } else {
+        par::set_name($new_name);
+      }
+    }
+  }
+  
+ -you can use the name of the class OR the shortcut parent:: when inside
+  the child class. 
+    
+    parent::set_name($new_name);
+    // you obviously can't use this shortcut outside of the child 
+    // class, since php would have no idea to which parent you refer
 
 
+**method chaining**
+ -sometimes with objects you will want to chain methods together in
+  quick succession, like chaining with jQuery methods: 
 
+    $a = new Order();
+    $a->CreateOrder()->sendOrderEmail()->createShipment();
+    // or you could do: 
+    // $a->CreateOrder()
+    // ->sendOrderEmail() 
+    // ->createShipment();
+    // either syntax works fine, just note the locations of -> and ;
+
+ -this is not quite as straightforward as just linking methods together,
+  each method that you want to be chainable must end with a 
+    return $this; 
+  statement: 
+
+    class order {
+      public $order_status;
+      public function createOrder() {
+        //Apply logic to create order
+        $this->order_status = 'Order Created';
+        return $this;
+      }
+      public function sendOrderEmail() {
+        //Apply logic for sending email to order
+        $this->order_status = 'Email Sent';
+        return $this;
+      }
+      public function createShipment() {
+        //Apply logic for creating shipment
+        $this->order_status = 'Shipment Create';
+        return $this;
+      }
+    }
+
+ -the reason is because that way, each function does it's work, then 
+  returns the object itself, so that you could call the next function
+  from that object, as if you'd written: 
+
+  obj->func1
+         obj->func2
+               obj->func3
+
+ -this is useful for saving code but also showing the logic of each move
+  a little clearer
 ----------------------------------------------------------------------
           LEVEL 5 object oriented validation
  -inheritance is the creation of a child class that inherits the 
