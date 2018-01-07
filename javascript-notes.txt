@@ -343,9 +343,9 @@ USES
 
     var a = ['Wind', 'Rain', 'Fire'];
     a.join();      // 'Wind,Rain,Fire'
+    a.join('');    // 'WindRainFire'
     a.join(', ');  // 'Wind, Rain, Fire'
     a.join(' + '); // 'Wind + Rain + Fire'
-    a.join('');    // 'WindRainFire'
 
 
 

@@ -406,6 +406,24 @@ myTest(); //returns 2
 
     $arr[2] = 'loco';
     $arr['bye'] = 'saying farewell';
+
+___________
+**count the number of items in an array, find the length**
+ -it's super easy, just use the count() function: 
+
+    $arr = array('a', 'b', 'c');
+    echo count($arr) //this would give you 3
+    
+    $a_arr = array('a'=>'A', 'b'=>'B', 'c'=>'C');
+ 
+    echo count($a_arr) //this would also give you 3 since it counts the keys
+                
+    $food = array('fruits' => array('orange', 'banana', 'apple'),
+                  'veggie' => array('carrot', 'collard', 'pea'));
+    // recursive count of each item (all keys + all values)
+    echo count($food, COUNT_RECURSIVE); // output 8
+
+
 ___________
  -adding to the end of an array: with index, use an empty bracket: 
 
@@ -438,6 +456,9 @@ ________________
     $a=array('color1'=>"red",'color2'=>"green");
     $b = ['a', 'b', 'c'];
     $c = array_merge($a, $b); 
+
+ -just be sure that all items in array_merge are actually arrays, empty
+  arrays are just fine, the type just needs to be declared
 
 **The list() function**
  -the list() function is a handy way to assign many variables to 
@@ -706,7 +727,15 @@ ____________________________________________________________________________
  NOTE: you can of course call the arrays, indexes, and values 
   whatever you want 
   
-    
+ -it's also possible to keep count of the iterations in a for each loop
+  like so: 
+
+    $i = 0; // or any number really
+    foreach ($arr as $key=>$value) {
+      // code here
+      $i++;
+      // the $i++ can go anywhere inside the foreach loop run, btw
+    }
 **combining**
  -of course you can combine all of these types (and more) together 
   quite easily: 
@@ -746,13 +775,13 @@ ____________________________________________________________________________
  
   <form class="" action="state.php" method="post"> 
     //action is what .php file will rocess the data
-  <label for="state-input">State Name</label>  
+    <label for="state-input">State Name</label>  
     //remember, labels 'for' attribute refers to the id of the input 
-  <input type="text" name="state" id="state-input" value="" />
+    <input type="text" name="state" id="state-input" value="" />
     //the "name" will be our post variable name, and "value" it's value
     // which will be entered by the user
-  <br />
-  <input type="submit" value="submit" /> 
+    <br />
+    <input type="submit" value="submit" /> 
     // the <button> tag also works to submit a form when it is  
   </form>
 
@@ -1656,6 +1685,9 @@ https://www.techflirt.com/tutorials/oop-in-php/php-method-chaining.html
     // you obviously can't use this shortcut outside of the child 
     // class, since php would have no idea to which parent you refer
 
+ -it's also important to know that any function you want to call outside 
+  of an object can't reference $this, since there is no object that $this 
+  could refer to 
 
 **method chaining**
  -sometimes with objects you will want to chain methods together in
@@ -1703,6 +1735,11 @@ https://www.techflirt.com/tutorials/oop-in-php/php-method-chaining.html
 
  -this is useful for saving code but also showing the logic of each move
   a little clearer
+ -NOTE: i am not sure why, but chaining doesn't seem to work when using 
+  a scope resolution operator, it should on principle, since that's 
+  how the Validator class functions in the next code school part, 
+  so future me should figure out why my own classes work great 
+  once they're objects for chaining, but not with :: 
 ----------------------------------------------------------------------
           LEVEL 5 object oriented validation
  -inheritance is the creation of a child class that inherits the 
@@ -1719,3 +1756,46 @@ https://www.techflirt.com/tutorials/oop-in-php/php-method-chaining.html
       }
     }
 
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+        Sorting Multidimensional Arrays
+
+-to sort multidimensional arrays use usort() and uasort() 
+-the way they each work is by taking an array of arrays: 
+
+  $store_items = array( 
+    'ham' => array(
+      'name' => 'food',
+      'price' => 19.99
+    ),
+    'chips' => array(
+      'name' => 'junk',
+      'price' => 12.00
+    )
+  )
+
+ -usort() and uasort() take two arguments, the array it will sort
+  (in this case $store_items) and the function that will determine
+  how that array gets sorted
+ -what u/asort() does is it takes two values, then determining on
+  whether it gets a value of -1, 1, or 0, flips or leaves the items
+  in place 
+ -here is the basic format for high to low: 
+
+  uasort($this->gifts, function ($a, $b) {
+      //those $a and $b will stand for the individual keys, whatever 
+      //they are, so it will be $a['price'] === 'ham'['price']
+      // and they will rotate and switch 
+      return ($a["price"] <= $b["price"]) ? 1 : -1;
+      // low to high is 1 -1, high to low is -1 1
+    });
+    // use uasort not usort so that that final array keeps its key/value
+    // pairs intact
+
+ -NOTE: that ? : part at the end is a fancy way of saying 
+ (test) ? is (test) true? then 1 is the value : otherwise, use -1;
+ 
+ -here's the place that helped explain this if i wasn't clear (or go
+  back and edit this section latert
+https://www.codepunker.com/blog/3-solutions-for-multidimensional-array-sorting-by-child-keys-or-values-in-PHP
