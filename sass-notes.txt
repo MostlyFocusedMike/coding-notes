@@ -5,7 +5,7 @@
 write out Sass enhanced css in a .scss file and 
 then compile it into a .css file.
     This allows you to take advantage of sass
-things like variables, mixins, and functions, 
+things like variables, ixins, and functions, 
 nut still output a regular .css file any browser
 could read. 
 
