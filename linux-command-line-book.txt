@@ -2986,19 +2986,44 @@ Enterprise Linux, CentOSi    rpm        yum
  -By using the high-level tools to search repository metadata, 
   one can locate a package based on its name or description
 
- deb    apt-get update
-        apt-cache search search_string
+     deb    apt-get update
+            apt-cache search search_string
 
- hat    yum search search_string
+     hat    yum search search_string
 
-
+ so searching for vim is:
  
+   apt-cache search vim // after updating for best results
+
+**Installing a Package from a Repository**
+ -High-level tools permit a package to be downloaded from a 
+  repository and installed with full dependency resolution 
+
+    Style          Command(s)
+    Debian         apt-get update
+                   apt-get install package_name
+
+    Red Hat        yum install package_name
+
+ -so installing vim-gtk (eg for clipboard access) :
+
+    sudo apt-get install vim
 
 
+ **nstalling a Package from a Package File**
+ -If a package file has been downloaded from a source other than 
+  a repository, it can be installed directly (though without 
+  dependency resolution) using a low-level tool 
 
+    Style            Command
+    Debian           dpkg --install package_file
+    Red Hat          rpm -i package_file 
 
+ -so if you downloaded a package file from the internet:
 
-
+    dpkg --install ~/Downloads/emacs-22.1-7.fc7-i386.deb 
+   
+ -
 /////////////////////////////////////////////////////////////////////
 VIEWING PDFS IN TERMINAL 
  -the fbi program is used for viewing images, but it has a sister 
