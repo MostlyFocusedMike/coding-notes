@@ -189,6 +189,48 @@ ES 6 / ES2015
   never happens to need to change is just fine
 
 
+//////////////////////////////////////////////////////////////////
+       ARROWS 
+ -the arrows syntax lets you do shorthand for functions, it also 
+  changes the binding of the this keyword 
+
+**the old way to deal with functions**
+
+class TaskCollection() {
+
+  constructor(tasks = []) {
+    // that's a default parameter, you'll learn later 
+    this.tasks = tasks;
+  }
+
+  log() {
+    this.tasks.forEach(function(task) {
+      console.log(task);
+    });
+  }
+} 
+
+ -that log uses a forEach loop to carry out a function on each
+  value in the array, in this case, loging the task.
+ -with the => you can do this 
+
+  log() {
+    this.tasks.forEach(task => console.log(task));
+  }
+
+ -basically, the => replaces the function keyword, and if it's
+  only one line, you don't need the function brackets, and if
+  there's only one argument, you don't need the () around the 
+  argument 
+
+  function(arg, arg2) {
+    //one line 
+    // more lines 
+  }
+ 
+  (arg, arg2
+  
+//////////////////////////////////////////////////////////////////
 
 
 
