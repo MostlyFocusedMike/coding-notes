@@ -1,0 +1,254 @@
+//////////////////////////////////////////////////////////////////
+
+ES 6 / ES2015
+-these are the same thing, they just changed the name to clearer
+ shows what year the version was released 
+
+**what's ECMAscript compared to JS?**
+ -think of ecma script like the underlying language, and JS and 
+  node and whatnot as subsets 
+ 
+
+//////////////////////////////////////////////////////////////////
+  What's babel? 
+ -browsers have not yet 100% implemented the new js syntax, so 
+  babel is a compiler that converts your ES6 files into 
+  plain old JS to ensure compatibility 
+
+**installing Babel**
+ -before you install babel, you needed to install node.js and 
+  npm
+ -npm is a package manager, and it's written in node, but when 
+  you download node, you get npm too,
+ -easiest way on a mac is homebrew: 
+
+    $ brew install node 
+    // installs 
+    $ node -v // check you have node now 
+    $ npm -v // check that you have npm as well
+
+ -now that you have node and npm, you can install babel
+ -installing babel per project is best use, since then each
+  project is not dependent on the system its on
+ -mkdir your project, then cd into 
+ -before installing babel, make a package.json file with an {}: 
+  
+  $ echo {} > package.json
+ 
+ -it's super important you do this step BEFORE install
+ -now install babel using: 
+
+  $ npm install --save-dev babel-cli
+
+ -now that package.json file looks like this: 
+
+  {
+    "devDependencies": {
+      "babel-cli": "^6.0.0"
+    }
+  }
+
+ -now to make things easier, we're going to add basicaly an 
+  alias so that when you do: 
+  
+  npm run build 
+
+ -it will work, so here's what do add: 
+
+  {
+    "scripts": {                        // add these
+      "build": "babel src -d lib"       // three
+    },                                  // lines 
+    "devDependencies": {
+      "babel-cli": "^6.0.0"
+    }
+  }
+
+ -what that build line actually does is 
+
+    "build": "babel sourceBabelJsFolder -d outputMainJSFolder"
+
+ -so if you have a file called person.js in src folder, when 
+  you run babel, it will compile and create a regular js style
+  file called person.js in the output folder 
+ -meaning create a src and output file, not sure if this is 
+  a naming convention or what, you might want the output file
+  to be your JS folder
+
+**all this doesn't actually do anything**
+ -as it stands, if you run babel, it will just create a duplicate
+  file, babel hasn't been configured 
+ -you have to install it with presets ready and create a babel.rc
+  file
+ -here is the way to install with the env preset, which enables 
+  transforms for ES2015+: 
+
+    npm install babel-preset-env --save-dev
+ 
+ -then create a .babelrc file with this in it: 
+
+  {
+    "presets": ["env"]
+  }
+
+ -now when you run build, it will truly compile your js 
+ -as it stands, you have to compile as you make each change,
+  you need to figure out how to get it to automatically 
+  save and watch for changes
+ 
+ 
+//////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////
+   var VS let VS const 
+
+**var and hoisting**
+ -as you know when you declar variables with var, they get 
+  hoisted to the top of its scope: 
+
+  // so this: 
+
+  function foo(bool) {
+    if (bool) {
+      var bar = "hello there";
+      console.log(bar);
+      // this logs "hello there"
+    } else {
+      console.log(bar);
+      // this logs undefined, not give an error, even though
+      // it wasn't even declared right? 
+      console.log(asdadferg);
+      // like this would give us an error since that variable 
+      // was never defined 
+    }
+  }
+
+  // the reason that bar is just undefined is becuase hoisting 
+  // hoists all var declarations to the top of the scope before
+  // running the script, so behind the scenes we get: 
+
+  function foo(bool) {
+    var bar;
+    if (bool) {
+      bar = "hello there"
+      ...
+ 
+ -apparently this hoisting mechanic is super weird and throws 
+  a lot of developers off, so new declaration keywords that 
+  go by code block, not scope, were created
+
+**let**
+ -the let keyword prevents hoisting and only allows the variable
+  to be used within it's block: 
+
+  function foo(bool) {
+      if (bool) {
+        let bar = "hello there";
+        console.log(bar);
+        // this logs "hello there"
+      } else {
+        console.log(bar);
+        // now this throws an error, since bar is in another 
+        // code block and is not hoisted 
+      }
+    }
+
+**const** 
+ -the const keyword also restricts variables to their block,
+  BUT it also restricts reassignment of the variable within
+  each scope: 
+
+  let tomato = "fruit";
+  tomato = "veggie";
+  // this is fine
+  var potato = "potayto";
+  potato = "potahto";
+  // obvi fine all along
+  const ham = "cheese";
+  ham = "turkey";
+  // this throws an error 
+
+ -note that const blocks re assignment, but that does not mean 
+  the variable is immutable: 
+
+  const arr = ["a", "b", "c"];
+  arr.push("d");
+  // this works fine 
+  arr = ["x", "y", "z"];
+  // this throws an error
+
+**which do you use?**
+ -honestly the jury is still out
+ - most agree to avoid var unless you NEED it for some reason
+ -then some say default to const unless you need the variable
+  to change, then use let
+ -others say default to let, then change to const if it turns out
+  the variable doesn't need to change
+ -the second school makes slightly more sense since making a 
+  variable a const incorrectly throws an error, but a let that 
+  never happens to need to change is just fine
+
+
+//////////////////////////////////////////////////////////////////
+       ARROWS 
+ -the arrows syntax lets you do shorthand for functions, it also 
+  changes the binding of the this keyword 
+
+**the old way to deal with functions**
+
+class TaskCollection() {
+
+  constructor(tasks = []) {
+    // that's a default parameter, you'll learn later 
+    this.tasks = tasks;
+  }
+
+  log() {
+    this.tasks.forEach(function(task) {
+      console.log(task);
+    });
+  }
+} 
+
+ -that log uses a forEach loop to carry out a function on each
+  value in the array, in this case, loging the task.
+ -with the => you can do this 
+
+  log() {
+    this.tasks.forEach(task => console.log(task));
+  }
+
+ -basically, the => replaces the function keyword, and if it's
+  only one line, you don't need the function brackets, and if
+  there's only one argument, you don't need the () around the 
+  argument 
+
+  function(arg, arg2) {
+    //one line 
+    // more lines 
+  }
+ 
+  (arg, arg2
+  
+//////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////

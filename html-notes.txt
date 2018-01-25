@@ -2371,3 +2371,30 @@ OFFSET/ALIGNMENT
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
+
+
+
+GA NOTES //////////////////////////////////////////
+teacher taka$ga.co
+
+
+**HOW THE WEB WORKS**
+ -two (or more) comps connecting over http requests and response cycle 
+  -browser does request, server does the response 
+ -sometimes a 3rd step triggers, a database query 
+
+ -sublime might be the industry standard 
+ -dropbox paper is something that does google docs but with markdown
+   -maybe check it out
+
+ -writing good html is how you get simpler css
+ -cmd + alt + i opens up dev tools in chrome  
+
+ -alt tags apparently help with seo? need to check
+ -semantic block elements are just naming conventions for divs 
+  -header, footer, main, aside, nav, article 
+ -hipster ipsum is a fun replacement for the latin
+
+ -people are confused about what divs are compared to 
+  the semantic editing
+ -learn how to do that multi cursor typing thing with vim

@@ -1,0 +1,81 @@
+OVERVIEW 
+
+-browsers can open .html files from the desktop because the browser can read html, css,
+and js
+-to use php, you have to use a .php file, you can’t just put php code in an html file
+ php has to be read by the server 
+-mac has PHP and Apache installed, you just needed to turn them on
+-to access that local server, put your index.php file in /Library/WebServer/Documents 
+ and in your browser type localhost 
+-if theres a folder that you want to parse, it would be localhost/your-folder 
+-this server can read .html and whatnot 
+-you DO need to download mySQL
+
+
+
+Use just apache on MacBook: 
+
+https://ole.michelsen.dk/blog/setup-local-web-server-apache-php-osx-yosemite.html
+-this site gives step by step instructions on setting up a local Sites folder in ~/ 
+ which keeps you from needing to sudo everything in the /Library/WebServer folder 
+
+
+XAMPP
+-this seems to be an app used more by linux and windows users since mac has the above 
+	built in apache 
+-start the program, start the stuff, volumes tab then hit mount, then explore and then
+ copy whatever file you want to run on the server into htdocs 
+-now to access do localhost:8080/your-directory-name
+-if you just do localhost:8080 it goes to the index already in there, which is an xampp
+ help page, but you could delete it 
+
+LOADING MYSQL THE RIGHT WAY
+
+
+brew install mysql
+// let it do it’s thing and download 
+// then do
+mysql.server start 
+// this is what the video does in the GUI by waiting for it to show up in preferences 
+
+Directions from the youtube video 
+
+
+- sudo apachectl start  ( start apache )
+- sudo nano /etc/apache2/httpd.conf ( opening editor, scroll down and delete hashtag in line "LoadModule php_5_module ... "
+ - sudo apachectl restart ( restart apache )
+- Download MySQL and install it, note the password given during the installation
+- Start MySQL in the system preferences
+- cd /usr/local/mysql/bin ( navigate to mysql bin folder)
+- ./mysql -u root -p ( then password given in installation) ( starting MySQL)
+- alter user "root"@"localhost" identified by "NEW PASSWORD"; ( changes mysql password to password in last field )
+- Download phpMyAdmin
+- Extract in /Library/WebServer/Documents and rename phpmyadmin
+- cd /Library/WebServer/Documents ( navigate to webserver)
+- sudo chmod o+x phpmyadmin/ ( give folders some rights )
+- cd phpmyadmin ( navigate into phpmyadmin)
+- mkdir config ( create config folder )
+- sudo chmod o+x config ( give folder some rights )
+- Open browser and go to localhost/phpmyadmin/setup
+- Click on "New Server" and in the authentication tab, enter the password in the password field under "root"
+- sudo mkdir /var/mysql ( create mysql folder in /var)
+- sudo ln -s /tmp/ var/mysql/mysql.sock ( create symlink ) 
+
+
+
+this was your temporary password
+Gw_n!pVKn8oq
+as of this writing it has been changed to the best one you know at 11/6/17
+
+
+here are all the sites you used when messing around:
+
+https://www.youtube.com/watch?v=b_6g_5S_bVo
+-main video you used, except you downloaded xampp instead of phpadmin
+
+https://jason.pureconcepts.net/2015/10/install-apache-php-mysql-mac-os-x-el-capitan/
+-helped get apache going 
+
+
+https://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/
+-this one was where you understood how to use local host 
