@@ -228,8 +228,136 @@ class TaskCollection() {
     // more lines 
   }
  
-  (arg, arg2
+  (arg, arg2) => {
+    //bunch of stuff
+  }
+
+ -the => also affects the binding of this. if you were to use 
+  the TaskCollection() class without a variable: 
+
+  class TaskCollection() {
+
+    constructor(tasks = []) {
+      // that's a default parameter, you'll learn later 
+      this.tasks = tasks;
+    }
+
+    log() {
+      this.tasks.forEach(function(task) {
+        console.log(this);
+      });
+    }
+  } 
+
+  new TaskCollection("a", "b", "c").log;
+  // this would cause an issue with the this keword since it 
+  // now refers to nothing or worse, the Window Object itself
+
+ -with the arrow operator, the this is now bound to where it 
+  was created, not where it's run, so if we used it the this 
+  would refer to TaskCollection if there were no other object
+
+    class TaskCollection() {
+
+      constructor(tasks = []) {
+        // that's a default parameter, you'll learn later 
+        this.tasks = tasks;
+      }
+
+      log() {
+        this.tasks.forEach(task => console.log(this));
+      }
+    }
+
+**return is implicit**
+ -if you do the single line syntax, just know that the 
+  return keyword is implicit: 
+
+  // old way 
+  let names = ['a','b','c'];
+  names.map(function(name) {
+    return name + " is a letter";
+  })
+
+  // new way
+  let names = ['a','b','c'];
+  names.map(name => name + " is a letter");
+
+**you can also use template strings**
+ -skip ahead to the template strings sections, but basically, 
+  use the `` to create a piece of text that uses interpolation
+  instead of concatenation  
   
+
+  
+//////////////////////////////////////////////////////////////////
+    DEFAULT PARAMETERS 
+-ES6 now has support for default parameters, which is when a function
+  takes a default argument if none is provided 
+
+  //old way 
+  function applyDiscount(cost, discount) {
+    discount = discount || .10;
+    return cost * discount; 
+  }
+
+  //new way 
+  function applyDiscount(cost, discount = .10) {
+    // now if no dsicount is given, it defaults to a .10 value
+    return cost * discount; 
+  }
+
+ -what's interesting about ES6, is it doesn't need to be primitive 
+  values, it can be objects or functions: 
+
+  
+  function applyDiscount(cost, discount = defaultDisc()) {
+    // now if no dsicount is given, it defaults to a .10 value
+    return cost * discount; 
+  }
+  
+  function applyDiscount(cost, discount = {}) {
+    // now if no dsicount is given, it defaults to a .10 value
+    return cost * discount; 
+  }
+
+
+//////////////////////////////////////////////////////////////////
+    REST AND SPREAD OPERATORS 
+ -we can now use an unknown number of arguments in functions 
+  
+**rest operator**
+ -the rest operator is just an ellipse ...
+function sum(...numbers) {
+  // numbers will be an array of all arguments given, any length
+  console.log(numbers.map((a,b) => a + b, 0));
+}
+
+sum(1,2,3,4)
+sum(1,5); // any number of arguments works 
+sum(1,2,2,3,4,5,4) 
+
+ -the rest operator must come LAST in the parameter list, it 
+  can't go first, since all arguments would be sucked into it
+
+ func thing(param, ...arr) { 
+    ///stuff
+  }
+
+**spread operator**
+ -it works in reverse, it takes an array and converts it into
+  single arguments: 
+
+  let arr = [1,2,3];
+
+  sum(...arr);
+  // now the array values will be split up into individual 
+  // arguments, which is what the sum function is expecting 
+
+ -the two of these operators are companions, the rest 
+  operator works on parameters, and the spread operator 
+  works on arguments 
+
 //////////////////////////////////////////////////////////////////
 
 
