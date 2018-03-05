@@ -971,13 +971,21 @@ ____________________________________________________________________________
  -these constants basically expand to be things like the pathname of the 
   file or the line of the code
  -__DIR__ expands to the full path of the directory that the file is in
+ -this is important because if you have a file that gets called from another file
+  , like an app.php file that calls an about.views.php file, then suddenly that 
+  about.views.php file, which is in root/views folder, all its code will be run
+  from root/app/src
+  -however, if you use the __DIR__ inside the about.view.php file, then it will
+   able to reference things as if it were where it is supposed to be
+  -basically, without the __DIR__ keyword, when you reference a relative path, that 
+   path will start from whatever file that code is being run, not where it was written
  -notice it's concatenated with /../app, that initial / doesn't mean root 
   in thiscase because it's concatenated with the actual root from __DIR__: 
 
      __DIR__ . /../app/src/app.php -> /root/public/../app/src/app.php
      //without that / before .. it would be: /root/public../app/src/app.php
      // which would be an error since there is no public.. folder 
-
+     // remember that . after __DIR__ is not a file shortcut, it's string concat
  -here are the other magic constants: 
 
     __FILE__ – The full path and filename of the file.
@@ -1799,3 +1807,13 @@ https://www.techflirt.com/tutorials/oop-in-php/php-method-chaining.html
  -here's the place that helped explain this if i wasn't clear (or go
   back and edit this section latert
 https://www.codepunker.com/blog/3-solutions-for-multidimensional-array-sorting-by-child-keys-or-values-in-PHP
+
+
+
+ROUTER QUICK AND DIRTY NOTES 
+-you can't use the request_URI server variable when running your localhost 
+ apache server, since it sees /~mikecronin/Sites/ as part of the uri (since it 
+  technically is)
+ -since you can't find a simple server config solution, just move any projects
+  that need the uri variable into a folder on your desktop, and then use
+  the builtin php server and localhost:8080, which will correctly show the uri
