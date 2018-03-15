@@ -1,0 +1,460 @@
+/////////////////////////////////////////////////////////////
+/
+/
+/             SECTION START: "INTRO TO RUBY" 
+/
+/
+/////////////////////////////////////////////////////////////
+
+=============================================================
+%%%                   Introduction
+=============================================================
+
+/////////////////////////////////////////////////////////////
+                 MINSWAN -Matz and ruby
+**MINSWAN**
+  Basically, Ruby's philosophy is "natural, but not simple"
+ -it was founded by a super nice guy Yukihiro "Matz" 
+  Matsumoto in 1990
+ -MINSWAN means "Matz is nice, so we are nice"
+
+/////////////////////////////////////////////////////////////
+                  Ruby Lecture Intro What Is A Program
+ -All programs are converted into machine code 
+ -if this is done at run time, it is an interpreted language,
+   if it needs to be converted before, it is a compiled 
+   program.
+ 
+**Running a ruby program**
+ -use the ruby commande
+
+    $ ruby program-name.rb
+    // use ruby -v to see what version you are running 
+    $ ruby -v 
+
+ -ruby files use the .rb filename 
+
+**words in a program**
+ -there are only three possible things in a ruby program:
+    -A ruby keyword (only 43 of these)
+    -Literal data like strings and numbers
+    -Barewords that you define (variables and methods)
+
+
+/////////////////////////////////////////////////////////////
+          Hello World Ruby
+
+**the puts method**
+ -The way to print out text into your console in ruby is:
+
+    puts "hello world!"
+
+ -puts stands for outPUT String
+ -notice there are no colons after lines 
+
+**A quick comment on comments**
+ -to comment a line in ruby use:
+
+    # this is a comment 
+    
+    =begin
+      this is a multiline comment using the
+      begin and end keywords
+    =end
+
+    ##
+    # apparently
+    # this is also common
+
+
+/////////////////////////////////////////////////////////////
+        Interactive Ruby Shell (IRB or irb)
+**What is the IRB?**
+ -The interactive ruby shell is how you open up a ruby shell
+  in your terminal to play around with temporary code
+ -A Ruby shell is also called a REPL which means
+  Read Eval Print Loop
+ -it can't save any work
+
+**Accessing a REPL**
+ -in the terminal type "irb" to access it, then "exit" when 
+  you are finished 
+ 
+    $ irb 
+    // now in the ruby shell
+    irb(main):001:0> exit # this exits 
+
+ -if you don't have access to the terminal, you can use the 
+  site repl.it
+
+**what can you do in the REPL**
+ -anything you could do in ruby, like math or test out
+  methods, it's just a temporary shell
+
+
+
+
+/////////////////////////////////////////////////////////////
+              Six Ruby Data types 
+
+**Strings**
+ -surrounded by strings, can contain characters and numerals
+ -stings all have built in methods like: 
+
+  *.length method*
+    -the .length method shows the length of the string, note
+     that spaces count as characters
+
+      "this string is long".length
+      => 19
+
+  *.upcase*
+    -convert all letters to uppercase (if a letter is upper
+      already, it will stay that way
+    
+      "hello there".upcase
+      => HELLO THERE
+
+  *.downcase*
+    -opposite of upcase,again, no effect on numbers or punc 
+      "HEY".downcase
+      =>hey
+
+  *.reverse*
+    -reverses the contents of the string 
+    
+       "howdy buddy".reverse
+       => "yddub ydwoh" 
+
+**booleans**
+  - it's either "true" or "false", notice no capitals 
+
+**integers**
+  -just whole numbers, don't use any quotes
+  -whole numbers are called fixnums, and decimals are
+   floats
+  -there are a few methods for floats: 
+
+    *.next*
+      -used only with fixnums, it will go to the next highest
+       whole number
+
+      10.next 
+      => 11
+      -10.next
+      -9
+      10.5.next # throws an error, ONLY use fixnums
+
+    *.floor*
+      -round float down to the nearest whole number
+
+        1.99.floor
+        => 1
+        -1.9.floor
+        => -2 
+      
+     *.ceil*
+      -round float up to nearest whole number
+
+      1.00000001.ceil
+      => 2
+      -1.9.ceil
+      =>-1 
+
+    *.round*
+      -round up or down to nearest whole num (less than 5 is
+      down)
+    
+      1.49.round
+      => 1
+      1.5.round
+      => 2
+      -1.49.round
+      => -1
+      -1.5.round
+      => -2
+
+ **symbols**
+ -symbols are used to represent data and they are written
+  with colon, then the symbol name:
+
+    :symbol_name
+
+ -we will learn much more about these later
+
+**arrays**
+ -list, written like pyhton and js
+ -here is the Literal Constructor:
+
+    ["hello", "there"]
+
+ -here is ther class constructor: 
+
+    Array.new
+    => []
+
+ -here are some common methods for arrays: 
+
+    *.sort and .reverse again*
+      -works like you think, numbers are low to high, and
+       strings are sorted alphabetically, unlike js
+      -ruby allows for method chaining too
+    [1, 4, 100, 17].sort
+    => [1, 4, 17, 100]
+    ["b","a","d","c", "aa", "ax", "ac"].sort
+    => ["a", "aa", "ac", "ax", "b", "c", "d"]
+    # you can chain methods together to get high to low,
+    # and backwards alphabetical
+    [1, 4, 100, 17].sort.reverse
+    => [100, 17, 4, 1]
+
+**hashes**
+ -this is ruby's key value pair list, made using curly braces
+  and arrows like PHP:
+
+    {"key" => "val", "key2" => "val2", "ints work" => 10}
+
+ -hashes also have literal and class constructors, above
+  is literal, below is class: 
+
+    Hash.new 
+    => {}
+
+**nil**
+ -nil is like null in other languages, except that it is
+  actually an instance of the nil.class, not just an empty 
+  value
+ -nil is only equal to nil, which is unlike many languages
+
+**converting types**
+ -Ruby cannot do implicit converversions of data types 
+ -Ruby needs data types to match if they are going to combine
+  so use to_i (int), to_s (string), to_f (float) to 
+  convert data into it's proper type 
+
+    "5".to_i + "5".to_i
+    => 10
+    "5" + 5 
+    => ERROR
+   
+ -here are the interesting results though:
+
+  -a non-int string to int: 
+    "wrong".to_i = 0 
+    "5 5".to_i = 5 # it will return the first int it finds
+  -booleans to_i creates an error
+
+/////////////////////////////////////////////////////////////
+                  READING ERROR MESSAGES 
+
+**3 basic parts**
+ -1) the location of the error: (where)
+
+    lib/a_name_error.rb:3:in `<main>':
+        |               |      |
+      file            line    scope
+
+ -2) the description: (why) 
+
+    undefined local variable or method `hello_world' 
+    for main:Object
+  
+  -3) the type of error (who)
+      
+      (NameError)
+
+ -the last two will jump around and not always be single 
+  or in that order, but the first part is always the where 
+  and in that format
+
+**The Ruby Error type and common errors**
+ -errors are all descendents from the main Exception class
+  and are triggered by different errors
+ -there are four common error types: 
+
+  *NameError*
+  -happens when a name is invalid or undefined 
+
+   "hello world"
+   goodbye world   # this line will cause a name error
+
+ *SyntaxError*
+  -when you mess up syntax 
+
+    x = 2
+    x =   # Ruby expects a value, so this syntax is wrong 
+
+ *TypeError*
+  -two different types trying to interact
+
+    1 + "2"   # error, you can't add ints to strings
+
+ *ZeroDivisionError
+  -you can't divide by zero
+
+    12 / 0  # duh
+
+
+**What is a test suite?**
+ -A test is a program written that pulls in other programs
+  or functions and checks whether the output is what you 
+  expected 
+ -learn.co uses the RSpec library to write its tests, and
+  stores each test in the "spec" directory
+ -you can call the tests by using the "learn" or "rspec" 
+  commands in the terminal
+
+**stack trace**
+ -the failed tests will print out a "stack trace" which
+  finds an error, and then attempts to follow it up the
+  stack
+ -these are not the error messages themselves, but rather
+  a sort of longer trail that gets printed out later in 
+  each step of the way
+
+
+////////////////////////////////////////////////////////////
+      DEBUGGING ERRORS IN YOUR RUBY CODE
+
+ -this section is meant as reference for errors in your 
+  code and what they mean. 
+https://learn.co/tracks/web-development-fundamentals/intro-to-ruby/introduction/debugging-errors-in-your-ruby-code
+
+ -here are previously unseen errors and what they mean
+
+**NoMethodError**
+ -this error happens when incorrect data types are being 
+  acted upon by built in methods that make no sense
+ -it's a bit like TypeError
+
+ like this: 
+  total = "64.25"
+  num_of_people = 4
+  price_per_person = total / num_of_people
+
+ -here, a variable defined as a string is being divided,  
+  which makes no sense. There is no method in Ruby to deal
+  with dividing a string into an int
+ - fix it by converting the type with to_f or removing the
+  quotes
+ -this issue is common when values are set to nil
+
+**ArgumentError**
+ -when a method is called with too many or too few arguments
+
+
+////////////////////////////////////////////////////////////
+          INTRO TO TESTS, RSPEC, AND LEARN
+
+**what's TDD**
+ -TDD stands for Test Driven Development and it is when you
+  think about what you want your code to do before you start 
+  programming
+ -it works by coming up with a test for your code to pass,
+  and THEN writting the code
+
+**Identifying the desired behavior**
+ -come up with a method you need, figure out what arguments
+  will be passed into it, and what the output should be
+ -then come up with a test to prove this, then write the 
+  actual method. Then test it 
+
+**RSpec**
+  http://rspec.info/  # the site you should definitely read
+ -RSpec Testing Framework is a DSL, a Domain Specific 
+  Language, meaning it is built with Ruby, but adds it's own
+  methods and keywords
+ -you use RSpec by calling the rspec command and then the
+  TEST file, not the file to be tested: 
+
+  $ rspec spec/current_age_for_birth_year_spec.rb
+ 
+**Undesrstanding the tests in the spec directory**
+ -all our tests are located in the spec folder
+ -common naming is to add spec for tests 
+
+    test: spec/current_age_for_birth_year_spec.rb
+    file: current_age_for_birth_year_spec.rb
+
+ -here is the actual test in that folder: 
+
+# expand your window to see code more clearly
+
+require_relative '../current_age_for_birth_year.rb'
+ 
+describe "current_age_for_birth_year method" do
+  it "returns the age of a person based on the year of birth" do
+    age_of_person = current_age_for_birth_year(1984)
+ 
+    expect(age_of_person).to eq(19)
+  end
+end
+
+**Overview**
+ -the overall goal is to load the file, that code will load 
+  the code in current_age_for_birth_year.rb and try to 
+  execute current_age_for_birth_year(1984) with the 
+  expectation that it returns 19. If so, the test will 
+  pass. Anything else will make it fail.
+
+**Breakdown**
+ -that first line loads the file you want to test, the
+  require_relative says it's a relative path
+ -the describe method takes that string and outputs it
+  after the test is done, so we can see what the result
+  was for this specific test. It then initiates the test
+  with the ruby "do" keyword 
+
+ -the it method is where we say what we expect the code to
+  actually accomplish in more detail than we could with
+  the "describe" method
+ - the string following it is just for the output to tell
+  us at the end of the test what we expected to happen
+ -the it method is followed by another do keyword 
+ -the next three lines in this case are the actual test
+ -that age_of_person line is actual ruby and it calls the 
+  function from our file
+ -the expect(), .to, and eq() methods are all RSpec, and 
+  the argument for expect is told to equal the argument
+  of eq()
+ -that's the end of this test, however multiple it/end 
+  blocks can be placed in the descibe/end block
+ 
+ -look more into RSpec using that site
+
+**what the learn command does**
+ -learn.co has aliased "learn" to look into the spec file and
+  execute all files ending in "_spec.rb"
+ -it's just a shortcut to using the rspec command and file
+
+
+*******Time class interlude*******
+ -lots of examples use an instance of the Time class
+ -more on this later, but for now know 
+
+  Time.now = current time 
+    2018-03-15 01:58:28 -0400
+  Time.now.day = day of the month
+  Time.now.month = month number
+  Time.now.year = year, 4 digit format
+
+ you can define the time as well: 
+
+t = Time.new(1993, 02, 24, 12, 0, 0, "+09:00")
+            #year, month, day, hour, min, second, timezone
+ then use it to check stuff: 
+
+t.monday?   # => false
+t.year      # => 1993
+t.dst?      # => false (was it daylight savings time?) 
+
+
+
+
+
+=============================================================
+%%%                   Variables and Methods
+=============================================================
+
+/////////////////////////////////////////////////////////////
+
