@@ -264,6 +264,9 @@
 
   Type  /  followed by a phrase to search for 
   the phrase moving forward in the file.   
+ 
+  Search is case sensitive, to ignore this use 
+  /\c then your search term (ie /\crabbit = Rabbit/rabbit)
 
   To search for a phrase in the backward direction,
   use  ?  instead of  / .
@@ -282,6 +285,18 @@
  NOTE: When the search reaches the end of the file 
  it will continue at the start, unless the 'wrapscan'
  option has been reset.
+
+ To get to the next instance of a letter on the line 
+  use the "f" command. so: 
+
+    here is an example $1.00
+
+ hitting f$ would jump you straight to the $ sign and
+ 3fe would get you to the first e in example 
+
+ f searches from the cursor to the end of the line, but
+  F searches from the cursor to the beginning of the line
+  
 
 ////////////////////////////////////////////////////
 	Lesson 4.3: MATCHING PARENTHESES SEARCH

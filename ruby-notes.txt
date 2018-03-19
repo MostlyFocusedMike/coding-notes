@@ -1,0 +1,1332 @@
+/////////////////////////////////////////////////////////////
+/
+/
+/             SECTION START: "INTRO TO RUBY" 
+/
+/
+/////////////////////////////////////////////////////////////
+
+=============================================================
+%%%                   Introduction
+=============================================================
+
+/////////////////////////////////////////////////////////////
+                 MINSWAN -Matz and ruby
+**MINSWAN**
+  Basically, Ruby's philosophy is "natural, but not simple"
+ -it was founded by a super nice guy Yukihiro "Matz" 
+  Matsumoto in 1990
+ -MINSWAN means "Matz is nice, so we are nice"
+
+/////////////////////////////////////////////////////////////
+                  Ruby Lecture Intro What Is A Program
+ -All programs are converted into machine code 
+ -if this is done at run time, it is an interpreted language,
+   if it needs to be converted before, it is a compiled 
+   program.
+ 
+**Running a ruby program**
+ -use the ruby commande
+
+    $ ruby program-name.rb
+    // use ruby -v to see what version you are running 
+    $ ruby -v 
+
+ -ruby files use the .rb filename 
+
+**words in a program**
+ -there are only three possible things in a ruby program:
+    -A ruby keyword (only 43 of these)
+    -Literal data like strings and numbers
+    -Barewords that you define (variables and methods)
+
+
+/////////////////////////////////////////////////////////////
+          Hello World Ruby
+
+**the puts method**
+ -The way to print out text into your console in ruby is:
+
+    puts "hello world!"
+
+ -puts stands for outPUT String
+ -notice there are no colons after lines 
+
+**A quick comment on comments**
+ -to comment a line in ruby use:
+
+    # this is a comment 
+    
+    =begin
+      this is a multiline comment using the
+      begin and end keywords
+    =end
+
+    ##
+    # apparently
+    # this is also common
+
+
+/////////////////////////////////////////////////////////////
+        Interactive Ruby Shell (IRB or irb)
+**What is the IRB?**
+ -The interactive ruby shell is how you open up a ruby shell
+  in your terminal to play around with temporary code
+ -A Ruby shell is also called a REPL which means
+  Read Eval Print Loop
+ -it can't save any work
+
+**Accessing a REPL**
+ -in the terminal type "irb" to access it, then "exit" when 
+  you are finished 
+ 
+    $ irb 
+    // now in the ruby shell
+    irb(main):001:0> exit # this exits 
+
+ -if you don't have access to the terminal, you can use the 
+  site repl.it
+
+**what can you do in the REPL**
+ -anything you could do in ruby, like math or test out
+  methods, it's just a temporary shell
+
+**loading a file for testing**
+ -lets say you just want to test methods or have access to
+  the variables of a file, you can use irb to interact
+ -simply use the require_relative to the path of the file 
+  from the current working directory: 
+ -the require should go at the top of the ruby file
+
+    require_relative 'bootcamp-stuff/playground.rb'
+
+
+
+/////////////////////////////////////////////////////////////
+              Ruby Data types 
+
+**Strings**
+ -surrounded by strings, can contain characters and numerals
+ -stings all have built in methods like: 
+
+  *.length method*
+    -the .length method shows the length of the string, note
+     that spaces count as characters
+
+      "this string is long".length
+      => 19
+
+  *.upcase*
+    -convert all letters to uppercase (if a letter is upper
+      already, it will stay that way
+    
+      "hello there".upcase
+      => HELLO THERE
+
+  *.downcase*
+    -opposite of upcase,again, no effect on numbers or punc 
+      "HEY".downcase
+      =>hey
+
+  *.reverse*
+    -reverses the contents of the string 
+    
+       "howdy buddy".reverse
+       => "yddub ydwoh" 
+
+  *.capitalize*
+    -capitalize the first letter of a string 
+  
+      "howdy dude".capitalize
+      => Howdy dude 
+
+  *.swapcase*
+    -flip capitals and lowercase letters 
+  
+      "Howdy Dan".swapcase
+      => hOWDY dAN
+
+**booleans**
+  - it's either "true" or "false", notice no capitals 
+
+**integers**
+  -just whole numbers, don't use any quotes
+  -whole numbers are called fixnums, and decimals are
+   floats (when writing a float, always use the 0 to start
+   so it's 0.5 never .5)
+  -there are a few methods for floats: 
+
+    *.next*
+      -used only with fixnums, it will go to the next highest
+       whole number
+
+      10.next 
+      => 11
+      -10.next
+      -9
+      10.5.next # throws an error, ONLY use fixnums
+
+    *.floor*
+      -round float down to the nearest whole number
+
+        1.99.floor
+        => 1
+        -1.9.floor
+        => -2 
+      
+     *.ceil*
+      -round float up to nearest whole number
+
+      1.00000001.ceil
+      => 2
+      -1.9.ceil
+      =>-1 
+
+    *.round*
+      -round up or down to nearest whole num (less than 5 is
+      down)
+    
+      1.49.round
+      => 1
+      1.5.round
+      => 2
+      -1.49.round
+      => -1
+      -1.5.round
+      => -2
+
+ **symbols**
+  -symbols can contain letters, digits and undescores
+  -they are "lightweight" strings that are easier on your
+   computer 
+
+    :symbol_name
+
+ -we will learn much more about these later
+
+**arrays**
+ -list, written like pyhton and js
+ -here is the Literal Constructor:
+
+    ["hello", "there"]
+
+ -here is ther class constructor: 
+
+    Array.new
+    => []
+
+ -here are some common methods for arrays: 
+
+    *.sort and .reverse again*
+      -works like you think, numbers are low to high, and
+       strings are sorted alphabetically, unlike js
+      -ruby allows for method chaining too
+      [1, 4, 100, 17].sort
+      => [1, 4, 17, 100]
+      ["b","a","d","c", "aa", "ax", "ac"].sort
+      => ["a", "aa", "ac", "ax", "b", "c", "d"]
+      # you can chain methods together to get high to low,
+      # and backwards alphabetical
+      [1, 4, 100, 17].sort.reverse
+      => [100, 17, 4, 1]
+   *.max and .min*
+     -works like you think: max and min
+     [1,9,15].max 
+      => 15 
+     [12,3,24].min
+      => 3
+   *.include?* 
+    -that ? is an operator, ignore it for now, but 
+      .include?(value) returns true or false if a value 
+      is in an array
+
+    ["foo", "bar"].include?("dog")
+    => false
+    # note: include? is case sensitvie 
+**hashes**
+ -this is ruby's key value pair list, made using curly braces
+  and arrows like PHP:
+
+    {"key" => "val", "key2" => "val2", "ints work" => 10}
+
+ -hashes also have literal and class constructors, above
+  is literal, below is class: 
+
+    Hash.new 
+    => {}
+
+**nil**
+ -nil is like null in other languages, except that it is
+  actually an instance of the nil.class, not just an empty 
+  value
+ -nil is only equal to nil, which is unlike many languages
+
+**converting types**
+ -Ruby cannot do implicit converversions of data types 
+ -Ruby needs data types to match if they are going to combine
+  so use:
+    to_i (int), 
+    to_s (string), 
+    to_f (float) 
+    to_a (array) 
+ 
+  convert data into it's proper type 
+
+    "5".to_i + "5".to_i
+    => 10
+    "5" + 5 
+    => ERROR
+   
+ -here are the interesting results though:
+
+  -a non-int string to int: 
+    "wrong".to_i = 0 
+    "5 5".to_i = 5 # it will return the first int it finds
+  -booleans to_i creates an error
+
+/////////////////////////////////////////////////////////////
+                  READING ERROR MESSAGES 
+
+**3 basic parts**
+ -1) the location of the error: (where)
+
+    lib/a_name_error.rb:3:in `<main>':
+        |               |      |
+      file            line    scope
+
+ -2) the description: (why) 
+
+    undefined local variable or method `hello_world' 
+    for main:Object
+  
+  -3) the type of error (who)
+      
+      (NameError)
+
+ -the last two will jump around and not always be single 
+  or in that order, but the first part is always the where 
+  and in that format
+
+**The Ruby Error type and common errors**
+ -errors are all descendents from the main Exception class
+  and are triggered by different errors
+ -there are four common error types: 
+
+  *NameError*
+  -happens when a name is invalid or undefined 
+
+   "hello world"
+   goodbye world   # this line will cause a name error
+
+ *SyntaxError*
+  -when you mess up syntax 
+
+    x = 2
+    x =   # Ruby expects a value, so this syntax is wrong 
+
+ *TypeError*
+  -two different types trying to interact
+
+    1 + "2"   # error, you can't add ints to strings
+
+ *ZeroDivisionError
+  -you can't divide by zero
+
+    12 / 0  # duh
+
+
+**What is a test suite?**
+ -A test is a program written that pulls in other programs
+  or functions and checks whether the output is what you 
+  expected 
+ -learn.co uses the RSpec library to write its tests, and
+  stores each test in the "spec" directory
+ -you can call the tests by using the "learn" or "rspec" 
+  commands in the terminal
+
+**stack trace**
+ -the failed tests will print out a "stack trace" which
+  finds an error, and then attempts to follow it up the
+  stack
+ -these are not the error messages themselves, but rather
+  a sort of longer trail that gets printed out later in 
+  each step of the way
+
+
+////////////////////////////////////////////////////////////
+      DEBUGGING ERRORS IN YOUR RUBY CODE
+
+ -this section is meant as reference for errors in your 
+  code and what they mean. 
+https://learn.co/tracks/web-development-fundamentals/intro-to-ruby/introduction/debugging-errors-in-your-ruby-code
+
+ -here are previously unseen errors and what they mean
+
+**NoMethodError**
+ -this error happens when incorrect data types are being 
+  acted upon by built in methods that make no sense
+ -it's a bit like TypeError
+
+ like this: 
+  total = "64.25"
+  num_of_people = 4
+  price_per_person = total / num_of_people
+
+ -here, a variable defined as a string is being divided,  
+  which makes no sense. There is no method in Ruby to deal
+  with dividing a string into an int
+ - fix it by converting the type with to_f or removing the
+  quotes
+ -this issue is common when values are set to nil
+
+**ArgumentError**
+ -when a method is called with too many or too few arguments
+
+
+////////////////////////////////////////////////////////////
+          INTRO TO TESTS, RSPEC, AND LEARN
+
+**what's TDD**
+ -TDD stands for Test Driven Development and it is when you
+  think about what you want your code to do before you start 
+  programming
+ -it works by coming up with a test for your code to pass,
+  and THEN writting the code
+
+**Identifying the desired behavior**
+ -come up with a method you need, figure out what arguments
+  will be passed into it, and what the output should be
+ -then come up with a test to prove this, then write the 
+  actual method. Then test it 
+
+**RSpec**
+  http://rspec.info/  # the site you should definitely read
+  http://blog.teamtreehouse.com/an-introduction-to-rspec
+   is another resource to check out
+ -RSpec Testing Framework is a DSL, a Domain Specific 
+  Language, meaning it is built with Ruby, but adds it's own
+  methods and keywords
+ -you use RSpec by calling the rspec command and then the
+  TEST file, not the file to be tested: 
+
+  $ rspec spec/current_age_for_birth_year_spec.rb
+ 
+**Undesrstanding the tests in the spec directory**
+ -all our tests are located in the spec folder
+ -common naming is to add spec for tests 
+
+    test: spec/current_age_for_birth_year_spec.rb
+    file: current_age_for_birth_year_spec.rb
+
+ -here is the actual test in that folder: 
+
+# expand your window to see code more clearly
+
+require_relative '../current_age_for_birth_year.rb'
+ 
+describe "current_age_for_birth_year method" do
+  it "returns the age of a person based on the year of birth" do
+    age_of_person = current_age_for_birth_year(1984)
+ 
+    expect(age_of_person).to eq(19)
+  end
+end
+
+**Overview**
+ -the overall goal is to load the file, that code will load 
+  the code in current_age_for_birth_year.rb and try to 
+  execute current_age_for_birth_year(1984) with the 
+  expectation that it returns 19. If so, the test will 
+  pass. Anything else will make it fail.
+
+**Breakdown**
+ -that first line loads the file you want to test, the
+  require_relative says it's a relative path
+ -the describe method takes that string and outputs it
+  after the test is done, so we can see what the result
+  was for this specific test. It then initiates the test
+  with the ruby "do" keyword 
+
+ -the it method is where we say what we expect the code to
+  actually accomplish in more detail than we could with
+  the "describe" method
+ - the string following it is just for the output to tell
+  us at the end of the test what we expected to happen
+ -the it method is followed by another do keyword 
+ -the next three lines in this case are the actual test
+ -that age_of_person line is actual ruby and it calls the 
+  function from our file
+ -the expect(), .to, and eq() methods are all RSpec, and 
+  the argument for expect is told to equal the argument
+  of eq()
+ -that's the end of this test, however multiple it/end 
+  blocks can be placed in the descibe/end block
+ 
+ -look more into RSpec using that site
+
+**what the learn command does**
+ -learn.co has aliased "learn" to look into the spec file and
+  execute all files ending in "_spec.rb"
+ -it's just a shortcut to using the rspec command and file
+
+
+*******Time class interlude*******
+ -lots of examples use an instance of the Time class
+ -more on this later, but for now know 
+
+  Time.now = current time 
+    2018-03-15 01:58:28 -0400
+  Time.now.day = day of the month
+  Time.now.month = month number
+  Time.now.year = year, 4 digit format
+
+ you can define the time as well: 
+
+t = Time.new(1993, 02, 24, 12, 0, 0, "+09:00")
+            #year, month, day, hour, min, second, timezone
+ then use it to check stuff: 
+
+t.monday?   # => false
+t.year      # => 1993
+t.dst?      # => false (was it daylight savings time?) 
+
+
+
+
+
+=============================================================
+%%%                   Variables and Methods
+=============================================================
+
+/////////////////////////////////////////////////////////////
+                ABOUT VARIABLE ASSIGNMENT
+ -Here is how you assign variables in Ruby: 
+
+    name = "Jeff" 
+    last_name = "Conway"
+    # these variables all have local scope to the 
+    # main scope of the program 
+    puts("Hello #{name} #{last_name}.")
+    # => Hello Jeff Conway
+  
+    $global_var = "hello there"
+    # variables with $ are in the global scope and 
+    # can be affect in or out of methods 
+
+    This_is_const = "yeah"
+    # variables that start with capital letters have dif 
+    # rules and are called constants (more on this later)
+
+**Naming rules**
+ -don't use pucntuation, can't start with a number, can't
+  use -, and prefered multi-word style is snake case, 
+  which uses undescores_like_this,
+ -variables can end with numbers, and variables are case 
+  sensitive
+
+**Variable types**
+ -Ruby is dynamically typed, so that means variable types
+  can be switched and do not need to be explicitly defined
+ -It is also strongly typed, so variables will never be 
+  coerced into another type without being explicitly changed
+
+**creating/reassigning variables**
+ -it's super easy 
+
+    new_var = "mike"
+    new_var = "now it's not"
+
+**scope**
+ -Ruby has local and global variables just like other 
+  languages, more on this later 
+
+**pass-by-value/pass-by-referece**
+ -In Ruby, basically everything is an object, there are 
+  no primitive types 
+ -take a look at this code
+
+    sound = "squeak"
+     
+    # We can peek at the value of sound by typing its name
+    # into the IRB shell like so
+    sound
+    # => "squeak"
+     
+    # here we semingly modify the string 
+    sound.upcase
+    # => "SQUEAK" 
+
+    # but yet it remains 
+    sound
+    # => "squeak"
+
+ -so variables really just point to data, but unlike other 
+  languages which have primitive types (variables can point
+  to literal data like "hello" or 3) that simply exist, 
+  and reference types (variables point to an object with a
+  value that can be changed from many different locations),
+  Ruby only has objects 
+ -strings are actually instances of the String class, 
+  numbers are instances of the Number class, etc 
+ -this is a problem though, since sometimes you have to 
+  be able to point to simple values without actually 
+  changing some central object. We can't always worry about
+  changing everything back   
+ -to mimic the behavior of primitive types, Ruby uses 
+  pass-by-value, which is when a value is copied over 
+  from an object (in this case "squeek")
+  and THEN altered without affecting the original
+ -to get that familiar "reference type" behavior, where a 
+  variable doesn't just store simple data but rather a 
+  reference to a single object, Ruby uses pass-by-reference
+  instead 
+ -NOTE: you can check what class an object comes from by
+  using the .class method 
+  
+    "hello".class 
+    # => String 
+
+
+/////////////////////////////////////////////////////////////
+    SIDE NOTE: string evaluation, ',",`,  and puts v print
+    and executing commands from Ruby
+
+**single vs double quotes**
+ -double quotes allow for string evaluation, or interpolation
+  while single quotes only allow for concatenation: 
+
+  puts("This works just #{fine_var}")
+  puts("this " + "also works " + fine_var + ".")
+  puts('this doesn\'t work #{fine_var}')
+  puts('this ' + 'also works ' + fine_var + '.')
+  # notice in single quotes, the single quote needs escaping
+
+ -so like PHP "" allows for evaluation of interpolated code
+  and special characters like \n and \t, while single 
+  quotes do not 
+ -in terms of performance, this is almost no difference
+
+**other options besides quotes**
+ -If your text has a lot of embedded quotes, you can also 
+  use string delimeters 
+ -%Q/This is the same as a double-quoted string./ 
+  %/This is also the same as a double-quoted string./ 
+  %q/And this is the same as a single-quoted string/
+
+**Concatenation vs interpolation**
+ -concatenation is just + and interpolation is #{}
+ -you can put code, not just variables into #{} 
+
+    puts("like this #{"3".to_i + 4}")
+    # => like this 7
+
+**puts vs print**
+ -puts always adds a newline character after whatever 
+  argument you pass into it, print does not, the cursor 
+  will remain at the end of the string 
+ -this is useful when printing messages to users that 
+  require info back 
+ 
+    print( 'Enter your name: ' ) 
+    name = gets() 
+    puts( "Hello #{name}" )
+   
+ -this leaves the cursor right where the user would 
+  expect the input, after "name: "
+ -it should also be noted that puts and print do not need 
+  (): 
+    foo = "this is also fine"
+    puts "this works"
+    puts"this works"
+    print "just fine"
+    print"just fine"
+    print("same")
+    puts("thing")
+    puts foo
+    print foo
+
+ -this is because in ruby doesn't actually need parentheses
+  for its method arguments, some people just prefer it
+
+**backquotes**
+ -Backquotes allow ruby to execute commands in the shell:
+
+    puts(`ls`)
+    # this would return your directory for example
+    puts(`> foo.txt`)
+    # you can do anything, like even make files 
+
+ -you can also use these formats as well: 
+
+    puts(%x/ls/) 
+    puts(%x{ls})
+ 
+ -and embed it into a string like this: 
+
+    print( "Goodbye #{%x{cal -y}}" )
+
+ -However, when you do this, the command will always evaluate
+  first, and then the string will print
+
+
+
+////////////////////////////////////////////////////////////
+                RUBY VARIABLES TYPES 
+
+**local variables**
+ -local variables are unique to their scope, if you define 
+  a variable inside a method, it won't be "seen" in the main
+  scope and vice-versa 
+ -this is different from say, JavaScript where variables can
+  see "up" to the next scope if need be, but not down
+  (eg a variable defined one scope above a function can 
+   be seen from inside the function, but none of the
+   functions can be seen outside of it)
+ -here is ruby local scope in action: 
+
+    other_loc = "the function can't see me!"
+    def my_method
+      puts other_loc # this won't work
+      local_variable = "Only my method knows about me!"
+    end
+   
+  puts local_variable #this wont work
+
+**global variables**
+ -global variables have global scope, so they can be 
+  accessed from anywhere in the program:
+
+    $global_var = "All can see me!"
+    def my_method
+      puts $global_var      # this works
+    end
+    puts $global_var      # this works as well
+
+ -globals should be used sparingly, if at all, since they
+  have a tendency to break encapsulation and things in
+  general 
+
+**Constants**
+ -these variables are either capitalized or in all caps
+ -they can't be redefined
+ -they have either local or global scope and can be 
+  defined inside classes and modules, but not methods 
+    
+    Constant = "i'm a constant"
+    CONSTANT = "i'm a different value" # don't name var like
+                                       # this ever
+    CONSTANT = "Reassigning will throw an error"
+
+    $CONST = "I'm me and global"
+
+
+
+/////////////////////////////////////////////////////////////
+                  DEFINING METHODS
+**method definitions**
+ -here is an example method: 
+ -method signature is the first line 
+
+    def say_hello    # method signature 
+      puts "hello"   # method body
+    end              # method closing 
+
+    say_hello        # method call
+
+ -this is the very basic skeleton of a method 
+ -notice again that () are not necessary to call the method
+  (unlike js, where a method without () won't call it, 
+   but is simply a reference to that function)
+
+**#methods**
+ -often when writing about ruby code, you will see methods
+  prefaced with a #. 
+ -this is only used in articles to help readers quickly 
+  know that #say_hello is a method, not a variable or class
+ -when coding, never actually write this, since that will 
+  comment it out
+
+
+/////////////////////////////////////////////////////////////
+                METHODS AND ARGUMENTS 
+**arguments**
+ -add arguments to your methods to pass in values: 
+
+    def say_hello(greeting, name)    
+      puts "#{greeting} #{name}, how are you?"  
+    end              
+
+    say_hello("HIYOOOO", "Steve")        
+
+ -simply put parameters in the method signature, comma 
+  separated, and then pass in theexact number required in
+  the method call
+ -messing up arguments leads to an ArgumentError so be 
+  careful
+ -without the () this is what it looks like: 
+
+    def say_hello greeting, name     
+      puts "#{greeting} #{name}, how are you?"  
+    end              
+
+    say_hello "HIYOOOO", "Steve"         
+
+ -I personally prefer (), but apparently a lot of rubyists
+  don't. Because life isn't fair 
+ -in fact some DSLs (like RSpec) choose to omit these ():
+
+    # rspec 
+    describe "MyRubyThing" do
+      it "runs" do
+        # test here
+      end
+    end      
+
+    # same thing as: 
+    describe("MyRubyThing") do
+      it("runs") do
+        # test here
+      end
+    end
+
+**bareword**
+ -those parameters greeting and name are technically 
+  barewords and become local variables once inside 
+  the method. Just a fun fact
+
+
+/////////////////////////////////////////////////////////////
+                METHOD DEFAULT ARGUMENTS 
+**Using defualt values**
+ -to avoid argument errors and make it easier to use methods
+  with default values unless otherwise stated, use 
+  default arguments: 
+
+    def greeting(name, greeting = "Hello")
+      puts "#{greeting}, #{name}
+    end 
+
+    greeting("tom")
+    greeting("steve", "yo yo")
+
+ -Always put default arguments las in your code, and always
+  list out your arguments in the proper order. 
+    -otherwise, you may get some strange results/broken 
+      code when you don't expect it 
+
+**ArgumentError**
+ -you can tell a method needs defualts becuase if you 
+  run it with no arguments, or two few required, the error
+  will give you a list of the possible arguments it could 
+  accept, like [1..2] for 1 OR 2 arguments possible
+
+
+
+/////////////////////////////////////////////////////////////
+        RETURN VALUES
+
+**Puts and print in depth**
+ -as stated, puts uses a newline at the end, print doesn't
+ -the way they work thoush is using the $stdout global 
+  variable provided by ruby
+ -the $stdout accesses your terminals stdout, which is how
+  you can see it in the terminal
+ -becuase of this, it can also be piped like any other stdout
+
+    # say_hello outputs "Hello!"  
+    $ ruby say_hello.rb > foo.txt
+    $ cat foo.txt
+    Hello!
+
+**Returnin values**
+ -Everything has a return value 
+  look at this table to see examples of return values: 
+
+    
+Code	                  Return Value
+"Hello world"	        "Hello world"
+6 + 3                  9
+president = "Obama"   "Obama"
+total = 6 + 3	         9
+puts "hello world"	   nil
+print "hello world"	   nil
+
+ -notice that puts and print return a nil value, this is
+  bcause they output the string, then return nothing, hence
+  nil value
+
+**methods and return values**
+ -methods will automatically return the value of the last 
+  statement by defualt
+ -so this method returns "welcome to flavor town"
+
+  def restaurant
+    restaurant_name = "Guy's American Kitchen & Bar"
+    cuisine = "american"
+    motto = "Welcome to Flavor Town!"
+  end
+
+ -however, this returns nil: 
+    def print_name
+      puts "Guy Fieri"
+    end
+   
+ -to make it return "Guy Fieri" you can do this weirdness:
+
+    def print_name
+      puts "Guy Fieri"
+      "Guy Fieri"
+    end
+
+ -just be sure not to switch the order, since puts always
+  returns nil
+
+**the return keyword**
+ -you can tell a method to return a specific value and exit
+  out of a method immediately with the return keyword: 
+
+    def stylish_chef
+      best_hairstyle = "Guy Fieri"
+      return "Martha Stewart"
+      "Guy Fieri"
+    end
+
+ -even though "Guy Fieri" is the last statement, he is 
+  rightfully ignored and the return value is returned 
+  and the method is exited 
+ -most rubyists ignore return values unless explicitly needed
+  like when you want to get a value earlier in the function
+  
+    def change_my_name
+      name = "Frank"
+      puts name.reverse
+      return name
+    end
+    # this returns an un-reversed name while print reversed
+
+**mind your returns**
+ -either way, make sure that your methods return the right 
+  thing.
+ -sometimes it's best to explicitly state return, since it
+  is obvious to others reading your code what value you are
+  working with
+
+
+/////////////////////////////////////////////////////////////
+      STRING INTERPOLATION
+
+**see your earlier section**
+
+
+
+/////////////////////////////////////////////////////////////
+          DEBUGGING WITH PRY
+
+**What is Pry?**
+ -Pry is another Ruby REPL that lets you pause your program
+  at a point and interact with it, so you can see what 
+  variables have what value and what methods do what 
+ -it is activated with the bindind.pry method 
+
+**binding**
+ -binding is a built-in Ruby class that lets you encapsulate
+  the current scope of the object and retain them outside 
+  their original context
+ -so using binding.pry takes the scope you are in, and lets
+  you "pry" into it with a Ruby shell
+
+**instalation and use**
+ -jsut cd into your home directory and use 
+    
+    $ gem install pry
+
+ -that's it, it's installed 
+ -to use it in a program put a require method at the top:
+
+    require 'pry'  # you only need single quotes 
+
+ -now when you run your program, it will freeze at that point
+  specified and show you the lines around binding.pry, and
+  then let you see variable values, and even change variable
+  values 
+ -once you type "exit" to get out of the shell, 
+  the program will continue, and if you changed 
+  anything, it will then work with whatever you gave it
+
+**Debugging**
+ -obviously useful, no more printing breakpoints, you 
+  can simply inteact directly
+ -pry is triggered whenever and wherever the interpreter 
+  hits it, so even if you never call a method, 
+  if binding.pry is in one and you fire a test with RSpec,
+  you will be able to go into the shell during the test 
+  (but not if you just use the command ruby on the file, 
+  since you never call the method it's in)
+ -point is, testing triggers pry
+ -be careful of return staments coming before pry, you won't
+  ever get to it! 
+
+
+
+/////////////////////////////////////////////////////////////
+            RANGES and RANDOM NUMBERS 
+
+**Ranges**
+ -A range is a set of values with a beginning and end
+ -they can be strings or integers, but not both at the 
+  same time 
+ -do not use floats
+ -they are made by specifying the beginning and end of the
+  range, then using either the ".." or "..." range operators
+
+    (1..6) 
+    ("a".."z")
+
+**.. vs ..."
+ -using the .. operator means both the beginning and end are 
+  inclusive, the ... operator means the end is NOT inclusive
+
+**ints and strings**
+ -ints are straightforward: 
+
+    foo = (1..9)
+    =>1,2,3,4,5,6,7,8,9
+ 
+ -strings are less so: 
+
+    bar = ("bat".."bee")
+    => ["bat", "bau", "bav", "baw", "bax", "bay", "baz", "bba", "bbb", "bbc", "bbd", "bbe", "bbf", "bbg", "bbh", "bbi", "bbj", "bbk", "bbl", "bbm", "bbn", "bbo", "bbp", "bbq", "bbr", "bbs", "bbt", "bbu", "bbv", "bbw", "bbx", "bby", "bbz", "bca", "bcb", "bcc", "bcd", "bce", "bcf", "bcg", "bch", "bci", "bcj", "bck", "bcl", "bcm", "bcn", "bco", "bcp", "bcq", "bcr", "bcs", "bct", "bcu", "bcv", "bcw", "bcx", "bcy", "bcz", "bda", "bdb", "bdc", "bdd", "bde", "bdf", "bdg", "bdh", "bdi", "bdj", "bdk", "bdl", "bdm", "bdn", "bdo", "bdp", "bdq", "bdr", "bds", "bdt", "bdu", "bdv", "bdw", "bdx", "bdy", "bdz", "bea", "beb", "bec", "bed", "bee"]
+ 
+ -notice how it hits every permutation alphabetically, if you
+  just did ("a".."r") though, it would simply list the alphabet
+  
+**MUST be ascending**
+ -ranges must be in ascending order, both numerically and 
+  alphabetically
+
+**converting to array**
+ -converting to a array is easy: 
+
+    foo = (1...11).to_a
+    or 
+    foo.to_a  # if you hadn't in the definition
+
+ **ranges are iterable**
+ -you can use loops, include, max and min and many other 
+  methods with ranges, you do not have to convert them into
+  arrays first:
+
+  # Assume a range
+  digits = 0..9
+
+  puts digits.include?(5)
+  ret = digits.min
+  puts "Min value is #{ret}"
+
+  ret = digits.max
+  puts "Max value is #{ret}"
+
+  ret = digits.reject {|i| i < 5 }
+  puts "Rejected values are #{ret}"
+
+  digits.each do |digit|
+     puts "In Loop #{digit}"
+  end
+
+**ranges as conditions** 
+ -ranges can be used in case statements: 
+
+    score = 70
+
+    result = case score
+       when 0..40 then "Fail"
+       when 41..60 then "Pass"
+       when 61..70 then "Pass with Merit"
+       when 71..100 then "Pass with Distinction"
+       else "Invalid Score"
+    end
+
+    puts result # "pass with merit"
+
+
+**ranges as intervals** 
+ -ranges can be used to check if a value falls with a certain
+  range: 
+
+
+    if ((1..10) === 5)
+       puts "5 lies in (1..10)"
+      # true
+    end
+    
+
+    if (('a'..'j') === 'c')
+       puts "c lies in ('a'..'j')"
+      # true 
+    end
+
+    if (('a'..'j') === 'z')
+       puts "z lies in ('a'..'j')"
+      # false 
+    end 
+
+
+**random number generation**
+ -ranges are great for quickly doing integer randoms: 
+
+    rand(11) 
+
+ -is a random whole number between and including 0 and 10
+ -whatever argument you pass to rand() is the exclusive max
+   and 0 is the inclusive min
+ 
+ -but what if you want a specific range, say a dice, that 
+  included everything 1 through 6, just use an inclusive 
+  range: 
+
+    rand(1..6)
+
+ -to get a random float: 
+ 
+   rand() 
+
+ -this generates just a random float between 0 and 1
+ -to get a random float in a range use this function: 
+
+   def range (min, max)
+     rand * (max-min) + min
+   end
+
+ -you can't use the range .. operators because they don't 
+  work on floats 
+
+
+//////////////////////////////////////////////////////////////
+        METHOD SCOPE 
+**scopes**
+ -variables named outside a method can't be accessed inside 
+  methods, variables named inside a method can only be 
+  accessed inside THAT method 
+
+    name = "joe"
+  
+    def say_hi()
+      name = "tim"
+    end 
+
+    say_hi
+    # > "tim"
+    name 
+    # > "joe"
+
+ -the only way to get a variable into a method is to pass 
+  it in as an argument
+ -the only way to get a value out of a method is to return it
+
+    evil_monster = "Bowser"
+     
+    def princess_peaches_castle(evil_monster)
+      puts "#{evil_monster} is kidnaping Princess Peach!"
+    end
+     
+    
+    princess_peaches_castle("craig")
+    # > "craig is kidnaping Peach!"
+
+    princess_peaches_castle(evil_monster)
+    # > "Bowser is kidnaping Peach!"
+
+ -so even though evil_monster LOOKS like it was passed in, 
+  that evil_monster parameter is a bareword with local 
+  scope to that function, as we see when we define it 
+  as the argument string "craig"
+ -the only way to get the main scope evil_monster into that 
+  method is to actually pass it as an argument
+
+
+//////////////////////////////////////////////////////////////
+                      MATH IN RUBY 
+
+-all basic arithmatic operators are here
+  +, -, /, %, **
+
+ -division by default returns integers without rounding 
+  (they just remove the decimals so 5.999 would be 5) 
+ -to get a float answer, use floats or at least one 
+  float: 
+
+    9.0 / 4 = 4.5
+
+ -PEMDAS is how ruby works, but you can use () to alter it
+  as usual
+ -the Math class can do a lot, check it out for more
+ -a common one is 
+
+    Math.sqrt(x) 
+
+  to find the square root
+
+
+
+//////////////////////////////////////////////////////////////
+        BOOLEANS AND TRUTHINESS 
+
+**booleans**
+ -in ruby, booleans are just true and false, no capitals 
+  like python or YES NO in obj-c
+
+**flow control**
+ -this is basically and if x do y statement, they can get 
+  much more complex than that
+ -it's flow control becuase you are controlling the flow of
+  the program 
+
+**truthy and falsey**
+ -you don't have to literally have true or valse as a value
+  to be "truthy" or "falsey"
+ -however in ruby...literally everything is truthy except for
+  the value nil and the value false and FALSE 
+ -this is unlike js where empty strings, 0, empty arrays, 
+  empty objects were falsey
+
+**Determining truthiness**
+ -the bang operator "!" reverses the truthiness of a value, 
+  but !! will negate the negate to show the original value 
+
+  !!true # true
+  !true # false 
+
+
+//////////////////////////////////////////////////////////////
+    BOOLEAN OPERATORS 
+**booleans**
+ -booleans are their own data types so true is an instance of
+  TrueClass and false is FalseClass 
+ -just be aware of this for now 
+
+**Boolean operators**
+ ! = single bang means NOT
+ && = AND
+ || = OR
+ == = values are equal 
+ >, <, >=, <=  = all the stuff they always do
+  NOTE:
+ === is used for equality in case statments, NOT checking 
+   if the two values are the same type, Ruby does not coerce,
+   so == checks for data types automatically  
+
+**what can be compared**
+ -strrings can be compared to strings to see if ALL char. 
+  match, int and floats values, and of course variables 
+  of any of these 
+
+**.class comparisons** 
+ -as stated .class will show the class of a value, and you
+  can use that to make sure a variable is the right class: 
+
+  animal = "pig"
+  human = "steve" 
+  animal.class == human.class # both equal String so this is 
+                              # true
+
+
+
+/////////////////////////////////////////////////////////////
+    Interlude: getting values from the command line 
+
+**user interaction**
+ -if you want to get a variable value from the user, 
+  like say a username, then use the gets() method 
+
+    name = gets()
+
+ -the gets method waits for user input, then continues 
+  once the user hits enter (pythong raw_input())
+ -HOWEVER, when the user hits enter, that is technically 
+  addin a newline \n character to the end of their answer
+ -to trim this, use the .chomp method 
+
+    name = gets.chomp  # remember () are not needed 
+
+ -this takes just the username with out \n on the end 
+
+
+
+/////////////////////////////////////////////////////////////
+      RUBY CONDITIONALS (IF, ELSIF, ELSE)
+
+**if, elsif strings**
+ -here's the syntax: 
+
+  if (condition is true) 
+    # do this 
+  end 
+
+  if (condition)
+    if equals one thing do this 
+  elsif
+    if another do this 
+  elsif 
+    these are unlimited in number 
+  else 
+    catchall if the others fail
+  end 
+
+ -so don't forget the end keyword 
+
+**a note on flow control**
+ -be wary of conditions that meet two checks, the second it 
+  hits one that matches, it will exit the conditional check 
+ -so put the most specific case first, then the least specific
+  case last
+ -below is a bad example, you will never get to "it's 6" 
+  since 6 > 4, so it would hit the first one and exit out 
+
+    num = 6
+    if (num > 4) 
+      puts "it's bigger than four"
+    elsif (num == 6)
+      puts "it's 6"
+    else 
+      puts "it's a number"
+    end
+
+ -you would want to put the more specific 6 check before the
+  general greater than 4 check 
+
+
+
+/////////////////////////////////////////////////////////////
+            OPERATORS AND CONDITIONALS 
+        (TERNARY OPERATOR AND STATEMENT MODIFIERS)
+**ternary operator**
+ -Use this familiar sytax to replace simple if else
+ -sytnax is just :
+
+    conditional ? action_if_true : action_if_false
+
+ -in ruby this is a good example
+
+  age = 1
+ 
+  baby_status = age < 2 ? "baby" : "not a baby"
+
+
+**statement modifiers**
+ -add a conditional to the end of a statement to keep it 
+  from evaluating if the conditional is false 
+ -it's self explanatory: 
+
+    this_year = Time.now.year
+    puts "Hey, it's 2015!" if this_year == 2015
+
+ -now that code will only print if it's 2015
+ -the other statement modifer keyword is "unless" which 
+  is basically a NOT check: 
+
+    this_year = Time.now.year
+    puts "Hey, it's 2015!" unless this_year == 2015
+
+ -now it will print whenever it is NOT 2015 
+
+

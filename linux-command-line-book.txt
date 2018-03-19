@@ -654,10 +654,17 @@ drw-r--r--  1 root root  6472 Sep 15 14:04 test
 
 **ln -create links**
  -create either hard of symbolic links with ln:
- -$ ln file link //hard link
- -$ ln -s file-or-dir link //symbolic links
-  // ln test.txt hard //hard is the name of link
-  // ln -s tip.txt sym //sym is the name of link
+
+   -$ ln file link //hard link
+   -$ ln -s file-or-dir link //symbolic links
+    // ln test.txt hard //hard is the name of link
+    // ln -s tip.txt sym //sym is the name of link
+
+  //NOTE: for some reason in macs it is better to
+  // move to the dir where the link will be and create
+  // it from there
+
+
  -hard links are the original way to make links
   in unix. A link is just a new directory entry
   for a file. So instead of copying a file and 
