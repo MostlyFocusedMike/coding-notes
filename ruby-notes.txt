@@ -195,6 +195,13 @@
       -1.5.round
       => -2
 
+    *.even? and .odd?*
+      -check if a number is even or odd, if the conditions are
+       met, each returns true: 
+
+        3.even? # false
+        3.odd?  # true
+
  **symbols**
   -symbols can contain letters, digits and undescores
   -they are "lightweight" strings that are easier on your
@@ -236,8 +243,7 @@
      [12,3,24].min
       => 3
    *.include?* 
-    -that ? is an operator, ignore it for now, but 
-      .include?(value) returns true or false if a value 
+     -.include?(value) returns true or false if a value 
       is in an array
 
     ["foo", "bar"].include?("dog")
@@ -738,13 +744,30 @@ t.dst?      # => false (was it daylight savings time?)
   (unlike js, where a method without () won't call it, 
    but is simply a reference to that function)
 
-**#methods**
+**#methods, methods? and methods!**
  -often when writing about ruby code, you will see methods
   prefaced with a #. 
  -this is only used in articles to help readers quickly 
   know that #say_hello is a method, not a variable or class
  -when coding, never actually write this, since that will 
   comment it out
+ -a method that ends in a ?, like .include? is also just a
+  convention, it means that it will return a boolean. 
+ -it has no syntactic value, it could return a bool and do 
+  other stuff, it's just a naming convention rubyists like
+ -a method! means that the method likely alters the actual 
+  value of the object, it is doing a pass-by-reference,
+  not pass-by-value
+ -so string.capitalize will capitalize a copy of the sting
+  but string.capitalize! will capitalize the original value
+ -the exclamation at the end is a sort of convention? as in, 
+  some ruby methods follow it and work how you expect, but 
+  some librarys and frameworks do no. methods with no ! can
+  alter the actual value, it's not syntax, it's just a naming
+  convention the makers of ruby agreed upon
+ -as in you can't just add a ! to a method and change its 
+  behavior, there had to be a method written with that 
+  behavior in the core function
 
 
 /////////////////////////////////////////////////////////////
@@ -985,6 +1008,19 @@ print "hello world"	   nil
 **.. vs ..."
  -using the .. operator means both the beginning and end are 
   inclusive, the ... operator means the end is NOT inclusive
+
+**stepped ranges**
+ -you can generate steped ranges using the #step method: 
+
+    (1..20).step(2).to_a
+    => [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+    
+ -step takes the argument of however many steps to take 
+  after the first entry in the range
+ -NOTE: when using step you must use () when declaring the
+  range, otherwise it fails
+ -also, you do not need to convert to an array, that was 
+  just for a nice looking return value
 
 **ints and strings**
  -ints are straightforward: 
@@ -1264,9 +1300,9 @@ print "hello world"	   nil
 
   if (condition)
     if equals one thing do this 
-  elsif
+  elsif (condition)
     if another do this 
-  elsif 
+  elsif (condition)
     these are unlimited in number 
   else 
     catchall if the others fail
@@ -1328,5 +1364,765 @@ print "hello world"	   nil
     puts "Hey, it's 2015!" unless this_year == 2015
 
  -now it will print whenever it is NOT 2015 
+
+
+/////////////////////////////////////////////////////////////
+        RUBY CASE STATEMENTS 
+
+**A less smelly alternative** 
+ -lots of if elsif options is longer than you need sometimes
+ -if you're only essentially checking if a value equals a 
+  specific outcomes (ie not a check like val < 6, but more
+  like val == 6) then use a case statement
+ -you can also use case statements to check something 
+  is within a range, a regex, or a lambda (more on lambda 
+  later)
+ -btw, it is called "code odor" when code is overly 
+  complex, so removing the "smell" with a case statement
+  is better 
+
+**syntax** 
+  -the value to check goes next to the case keyword 
+ -the conditions go after the when keyword, 
+  and the outcome goes below,
+ -notice there is still a catchall "else" block and an 
+  end statement 
+ -however, you do not NEED to put in the else statement 
+  if you do not need one 
+
+  name = "Alice"
+  case name 
+ 
+    when "Alice"
+      puts "Hello, Alice!"
+    when "The White Rabbit"
+      puts "Don't be late, White Rabbit"
+    when 2..10
+      puts "this is just an example of a range"
+    when "The Mad Hatter"
+      puts "Welcome to the tea party, Mad Hatter"
+    when "The Queen of Hearts"
+      puts "Please don't chop off my head!"
+    else 
+      puts "Whoooo are you?"
+  end
+
+**How does it actually work** 
+ -Basically each condition is checked like 
+  
+    is value === check
+  
+  and if so it runs that block, then exits 
+ -note that is a === not a ==, case use 3 =, which is 
+  slightly different
+ -== just checks at the obj level if both values are the 
+  same class, however === overides that to allow checks 
+  between different objects (like int and regex or range)
+
+
+/////////////////////////////////////////////////////////////
+      INTRO TO LOOPS 
+
+**times iterator**
+ -one of the simplest ways to loop is using the times
+  iterator: 
+
+    10.times {puts "hello there"}
+    10.times do 
+      # both ways work with single or multiple lines 
+      puts "hello there" 
+    end 
+
+ -either one works, brackets can be interchanged with 
+  the "do" and "end" keywords 
+ -but what if you want a counter? then use an iteration
+  variable, most often depcted as "i"
+
+    10.times {|i| puts i}
+
+ -times only works on integers, and it's return value 
+  is the number of times it looped (so 10 in this case) 
+
+**quick note on | | **
+ -braces define an anonymous function, meaning that they 
+  can accept certain variables from certain methods 
+ -only certain methods will use and pass variables to 
+  anonymous blocks 
+ -with .times it will pass an iteration variable, so 
+  use |value| to assign that value 
+ -with .each though, it will pass the |key,value| values 
+  for each iteration (more on the .each method later)
+ -you can however just pull in variables from the main scope
+ (or whatever scope the block is in) as well 
+
+    name = "tim"
+    5.times do |i|
+      puts i
+      puts name
+    end 
+
+  that will print out the iteration variable i and the name 
+  "tim" 5 times 
+ 
+ -NOTE: this is one of those things you should revisit when
+  you know more 
+ 
+/////////////////////////////////////////////////////////////
+  LOOPING 
+**looping** 
+ -here is the simplest loop in ruby, notice the different 
+  incorporation of the couter, the break keyword, and 
+  the condition check
+ -the loop keyword jsut tells ruby to go forever, you 
+  HAVE to include a break somewhere inside it to end 
+ -the "break" keyword has the loop exit at that very line
+  and can be used with statement modifiers to be more 
+  concise 
+ 
+    counter = 0
+     
+    loop do 
+      counter += 1
+      puts "Iteration #{counter} of the loop"
+      break if counter == 10
+    end
+
+**Add assignment and other operators** 
+ -ruby has no increment operator (i++), but it does have the
+  familiar assignment operators: 
+
+  i = i + 1  == i += 1
+  i -= 2   # subtract it 
+  i *= 2   # multiply it
+  i /= 2   # divide it 
+  i **= 2  # square it 
+
+
+/////////////////////////////////////////////////////////////
+      WHILE AND UNTIL LOOPS 
+**while loops**
+ -a much more concise construct than just the loop keyword
+ -matches most other languages syntax:
+
+    counter = 0
+    while counter < 20
+      puts "The current number is less than 20."
+      counter += 1
+    end
+
+**until loop**
+ -basically the inverse of a while loop
+ -a while loop does something as long as a condition is 
+  true, an until loop does something UNTIL something is 
+  true 
+
+    counter = 0
+    until counter == 20
+      puts "The current number is less than 20."
+      counter += 1
+    end
+
+
+/////////////////////////////////////////////////////////////
+      FOR LOOPS 
+
+**syntax**
+  for counter in 1..40 do
+    puts "The current number is #{counter}."
+  end
+
+  # OR
+  counter_range  = 1..40
+  for counter in counter_range do
+    puts "The current number is #{counter}."
+  end
+
+ -like you'd expect, you can substitute the counting 
+  range for a variable of a range
+
+
+
+/////////////////////////////////////////////////////////////
+    CLOSER LOOK AT RSPEC 
+**before hook**
+ -you might notice in some tests this pattern: 
+
+    before(:each) do
+      #code 
+    end
+
+ -that's a before hook, and it allows you to execute code 
+  before you run tests 
+ -the "before" keyword takes a symbol to define its scope:
+
+    before(:each) blocks are run before each example
+    before(:all) blocks are run once before all of the 
+      examples in a group
+    
+ -there are also after blocks, so you can have code that 
+  exectues before and after certain code
+ -here is the order of each block execution:
+
+    before suite
+    before all
+    before each
+    after each
+    after all
+    after suite
+
+
+/////////////////////////////////////////////////////////////
+      PAUSING A PROGRAM 
+**sleep method**
+ -telling a ruby program is super easy 
+
+    sleep(num_secs)
+
+ -the number can be a float or an int
+ -if you install the active support library, you can use
+  .minutes and .hours and .days to pause as well
+
+ -to do this do gem install activesupport 
+ -then require 'active_support/all'
+   -you actuall only need part of it, but I can't quite
+    figure out which, if it comes up in a project, find it
+
+/////////////////////////////////////////////////////////////
+      BLACKJACK CLI and CLI APPS 
+**puts, print and $stdout**
+ -both puts and prints router their arguments into the 
+  command line stdout file using the ruby global 
+  variable $stdout
+
+**running programs and runners**
+ -just do ruby <program name>
+ -but the structure of the ruby file helps facilitate clean
+  code 
+ -set up your code into little helper methods, then call them
+  all inside a runner method (usually #run_program), then 
+  call that runner method: 
+
+# main program 
+def welcome
+    puts "HI!"
+end
+ 
+def ask_name
+    puts "What is your name?"
+end
+ 
+def store_name
+    gets.chomp
+end
+ 
+def personalized_welcome(name)
+    puts "HI, #{name}"
+end
+ 
+def run_program
+    welcome
+    ask_name
+    name = store_name
+    personalized_welcome(name)
+end
+
+run_program
+
+ -you can also create another file, called a runner file 
+  that requires the main program, and then only contains 
+  one other line, a call to the run_program method 
+
+require_relative 'playground.rb'
+
+run_program
+
+**testing your file and stubbing**
+ -as prev. noted, RSpec fails when using gets, so you have 
+  to fake it with a process called "stubbing" 
+ -stubbing is when you fake what user input SHOULD be and then
+  act on that in the test 
+
+ # RSpec code 
+ expect($stdout).to receive(:puts).with("Type 'h' to hit or 's' to stay")
+
+expect(self).to receive(:get_user_input).and_return("s")
+
+ -so you see it expects that $stdout global variable to 
+  recieve puts with a message, and then it tells the test 
+  that the user input is now "s"
+ -stubbing will be explained in greater detail later
+
+//////////////////////////////////////////////////////////////
+        INTRO AND USING AN ARRAY 
+**creating a new array 
+    
+    arr = []
+    arr2 = Array.new 
+    arr_with_stuff = ["value", "separated by comma"]
+    Array.new(['a', 'b', 'c'])
+    arr_with_other = %w(cat dog mouse)
+
+ -that last one is a shortcut, it uses spaces instead 
+  of commas and quotes, those words are all strings 
+  it will not take variable names and it turns symbols 
+  into strings 
+
+**values of items**
+ -to get the value at an index, use the familiar bracket
+  notation 
+
+    arr[2]
+    arr[-1] # negative numbers go from the end
+
+ -you can also get the first and last values of an array 
+  using the first and last methods: 
+
+    arr.first 
+    arr.last
+
+ -you can also get a slice using a bracket notation with 
+  range: 
+
+    arr[1..4]   #1st to 4th index
+    arr[1...4]  #1st up to 4th index
+    arr[3..-2]  #3rd index to the second to last index
+ 
+ 
+
+**Adding items to the end**
+ -you can use the push method or the shovel operator (<<)
+  
+  arr.push("new_val")
+  arr << "another"
+
+**Add items to the start**
+ -use the .unshift method 
+
+    famous_cats.unshift("nala cat")
+
+**inserting an item at an index**
+ -use the insert method to insert values after the given
+  index 
+ -negative indexes can be used as well
+
+   arr.insert(3, "t", "yu")
+    => ["1", "2", "3", "t", "yu", "5", "6", "7", "8", "9"]
+
+ -insert permanently chages the array it adds to
+
+**pop and shift to remove items at end and start**
+ -like js, use the pop method to remove a value from the 
+  end of an array and return that value, and use shift 
+  to do it from the start of an array 
+
+  last_value = arr.pop
+  first_value = arr.shift
+  last_2values = arr.pop(2)
+  first_2value = arr.shift(2)
+  # you can also specify the number of items to remove with
+  # an argument, and it will return an array of those items
+  
+
+**actual changes vs pass-by-values**
+ -pop, shift, unshift, push, insert all actually change the 
+  values and order in an array, however not all methods 
+  do this 
+
+**deleting by value/index** 
+ -use the delete method to delete a value, use delete_at 
+  to delete the value at an index: 
+
+  a = [ "a", "b", "b", "b", "c" ]
+  a.delete("b")                   #=> "b"
+  a                               #=> ["a", "c"]
+  a.delete("z")                   #=> nil
+  a.delete("z") { "not found" }   #=> "not found"
+
+  a = %w( ant bat cat dog )
+  a.delete_at(2)    #=> "cat"
+  a                 #=> ["ant", "bat", "dog"]
+  a.delete_at(99)   #=> nil
+
+ -both have a return value of the item they deleted, or
+  nil if no value is found 
+ -delete ACTUALLY alters the array and its contents
+
+**#each and each_with_index**
+ -the each method executes a block of code for each 
+  value: 
+
+  a = [ "a", "b", "c" ]
+  a.each {|x| print x, " -- " }
+ 
+ -just remember to pass the index through with pipes 
+ -the return value is the array 
+
+ -you can also get the index by using each_with_index: 
+
+    arr.each_with_index { |val,index| 
+      puts "index #{index}: #{val}"
+    }
+
+ -just always be aware that value will be passed 
+  along first, then index, no matter what you call them
+ -also, the return value is still the original array 
+
+**include? - see if an array has a value**
+ -as stated the include? method returns true or false if 
+  the value is in an array 
+
+    arr.include("hello")
+    # be aware that it is case senstitive 
+
+**see if array is empty**
+ -the empty? method returns true if an array is empty
+  false if not
+
+    arr.empty?
+
+**length of an array**
+ -use length (apparently fastest), size, or length: 
+
+    arr.length
+    arr.size
+    arr.count 
+
+ -the size method is just an alias for length, but count 
+  has some extra features if your ever curios
+
+**join into a string/split string into an array**
+ -the join method joins an array into a string, and you 
+  can pass a string as an argument to go between values: 
+
+    arr.join(", ")
+
+ -the split method works the opposite way, it will split
+  a string into an array. It takes an argument of where to 
+  split the string, otherwise it splits by space
+  (to get each character alone, specify "" as the argument
+
+    "this is a string".split
+    => ["this", "is", "a", "string"]
+    
+**sort and sort!**
+ -the sort method sorts arrays alphabetically or numerically
+  in the ways you would think (not like js) and it works on
+  floats and ints together 
+
+    arr.sort
+
+ -however sort returns a copy, while sort! actually alters 
+  the original value 
+ -sort will break if their are strings AND numbers, so 
+  if you for some reason want both, convert all the numbers
+  to strings and then sort. sort will put the numbers first 
+ 
+**reverse and reverse!**
+ -since sort only goes low to high or alphabetical, you 
+  can use reverse to reverse the order of the array 
+
+    arr.reverse 
+
+ -reverse! does permanent change to the array
+
+**print vs puts an array**
+ -it should be noted it you just puts an array, each value 
+  will go on its own line, but if you print an array, it 
+  will show you the bracket format you would expect
+
+
+
+**map and map!**
+ -map iterates of a list and executes a code block on the 
+  value, jsut like each 
+ -however, instead of returning the whole array, it returns 
+  the value from the block in a new array
+ -this means if you use map! you can alter the original list: 
+
+    [1, 2, 3].map { |n| n * n } #=> [1, 4, 9]
+
+ -however, if at any point in the map code block it hits 
+  a return keyword, the whole thing stops and instead of
+  return multiple values in an array, it will return that 
+  single value: 
+
+  # i want different outcomes, sure, but that "return letter"
+  # will break things, you have to use the implicit return
+  # attribute of ruby, like the other two examples 
+  message_arr.map! do |letter|
+    index = alphabet.index(letter)
+    if index == nil 
+      return letter 
+    elsif index == 0
+      letter
+    else 
+      letter = alphabet[index + cypher]
+    end
+  end
+
+**concat and joining arrays**
+
+  arr1.concat(arr2, arr3....)
+
+  use the concat method to join, in order of arguemnt
+  other arrays into an array
+ -you can also just use a single array
+ -concat is permanent and will break up all arrays added
+  so that there are no arrays in arrays, just one array of
+  all items 
+
+**flatten an array of arrays into a single array 
+
+  arr = [[1,2,3], ["a","b","c"]]
+  arr.flatten
+  # [1,2,3,a,b,c]
+  arr 
+  # [[1,2,3], ["a","b","c"]]
+  # notice it isn't permanent unless using flatten!
+
+
+
+**remove duplicate items with uniq**
+
+    arr = [1,2,1,3,4,5]
+    arr.uniq 
+    # [1,2,3,4,5]
+    arr.uniq! # this permanently removes the duplicates 
+    
+//////////////////////////////////////////////////////////////
+      ENUMERATORS INTRODUCTION
+
+**enumerators**
+ -enumerators allow for iterative actions over data structures
+  like arrays and hashes
+ -basically, they do things to each thing in list of countable
+  things 
+ -the common ones are #each, #map (#collect), #select, #find,
+  #delete_if, #include?, #any 
+
+**#map vs #collect**
+ -map is just an alias for collect, they both return a new
+  array of values created from a block, it's just that many
+  languages call that function "map" so ruby just added the 
+  name
+
+**#map vs each**
+ -as stated before, map returns a new array of values,
+  or alters the original, while each returns only the old 
+  array
+
+**#select **
+ -select compares each value to a test, and then returns the
+  ones that meet the conditional in a new array: 
+
+    cool_nums = [1, 2, 3, 4, 5]
+ 
+    def even_nums(nums)
+      nums.select do |x|
+        x.even?
+      end
+    end
+     
+    even_nums(cool_nums)
+    #=> [2, 4]
+
+**#find**
+ -pretty much #select, but once it finds the first match, 
+  it just returns that single value: 
+
+    [1, 3, 5, 7].find do |num|
+      num.odd?
+    end
+      => 1
+
+**#delete_if**
+ -if a condition is true, the value will be deleted 
+ -the return value is the partially deleted list 
+
+    [1, 2, 4, 7].delete_if do |num|
+      num.odd?
+    end
+    => [2, 4]
+
+**#any?**
+ -returns true or false, true if any of the items in an 
+  array meet a condition, false if not: 
+
+    words = ["are", "any", "of", "these", "words", "longer", "than", "four", "letters"]
+    words.any? do |word|
+      word.length > 4
+    end
+      #=> true
+
+
+**#include?**
+ -include does not take a code block, but it is an enumerable
+  and it will return true if the argument can be found in 
+  the list. it is case sensitive
+
+    [1, 2, 3].include?(1)
+      => true
+     
+    [1, 2, 3].include?(4)
+      => false
+
+**documentation** 
+ -chech this page out if you ever want: 
+
+  http://ruby-doc.org/core-2.2.2/Enumerable.html
+
+
+//////////////////////////////////////////////////////////////
+        UNDERSTANDING YIELD AND BLOCKS 
+**what are blocks**
+ -as we saw with enumerables, they all need to take a block
+  of code
+ -blocks of code are defined by curly braces{} or being 
+  inside the "do" and "end" keywords
+ 
+**enumerables and blocks**
+ -the enumerable methods all manage to "yeild" a value from
+  a collection into a block, they do that under the hood
+  with the "yield" keyword
+ -you can also create enumerable functions that yeild values
+ -the yeild keyword basically pauses your method, evaluates
+  a block of code, and then comes back into your method
+ -to pass values into a block, pass them as arguments
+  with yeild: 
+
+
+    def foo
+      i = 1
+      j = 2
+      yield(i, j)
+    end 
+    # then when you call foo, provide a block
+
+    foo {|i,j| puts "#{i} #{j}"}
+
+    # here is an example with no values passed into the block
+    # and returns back to the original method: 
+
+    def yielding
+      puts "the program is executing the code inside the method"
+      yield
+      puts "now we are back in the method"
+    end
+
+    yielding {puts "the method has yielded to the block!"}
+    # > the program is executing the code inside the method
+        the method has yielded to the block!
+        now we are back in the method
+
+    # see how we hop over to the yeild section, then 
+    # back to the method? 
+
+**making an enumerable method with yeild and an array**
+  -we can work with an array and yield as well
+ -below is a function that will work through an array
+  and do whatever we want with each index value 
+
+    def hello_t(array)
+      i = 0
+     
+      while i < array.length
+        yield array[i]
+        i = i + 1
+      end
+
+      return array
+    end
+
+ -before we get to the block of code, lets look at how this 
+  works
+ -the loop starts and will only go for as long as the array is
+ -so then we pass over the value of the first index 
+ -then it gets evaluated and does whatever the code block does
+ -but THEN we return to the method, i is increased by one,
+  and then it starts all over again and only stops once the
+  list runs out 
+ -this is how we iterate 
+ -you can also see we are in control of the return value now,
+  more on that later
+
+ -now that we know how the method works, the block is simple:
+
+    hello_t(names) {|name| puts name.capitalize}
+
+ -so we assign "name" to the passed value of the array and
+  then capitalize it and print it 
+
+**returning values from yield and the block**
+ -getting a return value from the block is simple, just 
+  assign yield to a variable
+ -to get a map like return, where we return a new array of 
+  all our values, it's simple: 
+
+    def hello_t(array)
+      i = 0
+      new_arr = []
+      while i < array.length
+        new_val = yield(array[i])
+        new_arr << new_val
+        i = i + 1
+      end
+
+      return new_arr
+    end
+ 
+ -we create a new empty array, then assign our yeild to a var
+ -now the code block will automatically get a return value
+  of the last executed statement 
+ -which then gets assigned to our variable 
+ -then just push that variable into our new_arr
+ -then, instead of returning the original array, return the
+  new one 
+ -it should be noted you could also return anythign else, like
+  just a single value or a boolean: 
+
+  # here we are returning the first value we find,
+  # where the block evaluates to true
+  # it will exit out of the method with a return statement
+  # but if we go through the whole array and find no true,
+  # the method itself returns a value of false 
+ 
+     def hello_t(array)
+      i = 0
+      while i < array.length
+        new_val = yield(array[i])
+        if new_val == true
+          return array[i]
+        end 
+        i = i + 1
+      end
+      return false
+    end
+ 
+**dealing with missing blocks**
+ -ruby has the method #block_given? which can tell if a block
+  has been provided or not 
+ -to elegantly handle an ommision of a block, use a simple 
+  conditional check
+ -if you don't, and no block is given, you will get a yield
+  LocalJumpError in your code: 
+
+    def hello_t(array)
+      if block_given?
+        i = 0
+     
+        while i < array.length
+          yield(array[i])
+          i = i + 1
+        end
+     
+        array
+      else
+        puts "Hey! No block was given!"
+      end
+    end 
+
+ -you can also have the method do something more interesting
+  that output a warning, you could have it carry out an 
+  entirely different function
 
 
