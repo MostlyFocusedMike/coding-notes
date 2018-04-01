@@ -1741,6 +1741,15 @@ expect(self).to receive(:get_user_input).and_return("s")
     arr[3..-2]  #3rd index to the second to last index
  
  
+**assigning variables with arrays**
+ -a neat trick: 
+  arr = ["hello","goodbye","it is wednesday my dudes"]
+  greeting,farewell = arr 
+  # greeting is "hello"
+  # farewell is "goodbye"
+  # the 2nd index is just ignored, as no variable is there
+ 
+ -for each variable, it will be assigned each index
 
 **Adding items to the end**
  -you can use the push method or the shovel operator (<<)
@@ -2040,6 +2049,18 @@ fetch(key_name) { |key| "default" }: get the value
   no values returns 0 and not nil
 
     array.reduce(0, :+)
+
+
+**#reduce to make an array of hashes into a hash**
+ -sometimes you will have an array of hashes, and you just 
+  want to combine them into one hash: 
+
+  arr = [{:a=>"oh"}, {:b=>"wow"}]
+  arr.reduce(Hash.new, :merge)
+    => {:a=>"oh", :b=>"wow"}
+
+ -simply set the first value to a new empty hash, and then 
+  set the reduction to merge 
 
 
 //////////////////////////////////////////////////////////////
@@ -2674,9 +2695,11 @@ end
   #sort_by method: 
 
 **#sort_by**
- -the sort_by allows the sorting method to pass over 
-  they key and value of a hash, so you can compare the 
-  value of a hash: 
+ -sort_by allows you to sort by a specific code
+  block, which is useful when you need to sort by something
+  like the index of the value in another array (see the alpha
+  esperanto example down below) or just the value of a hash:
+
     metrics = {"sitea.com" => 745, 
       "siteb.com" => 9, 
       "sitec.com" => 10 
@@ -2704,6 +2727,29 @@ end
 **reversing #sort_by**
  -the fastest way to reverse a sot_by array is to simply
   reverse it using .reverse 
+
+
+**sorting arrays in arrays**
+ -if you have an array of arrays 
+
+  arr = [[1,2],[3,4],[1,3],[1,1]]
+
+ -arr.sort sorts them like so
+
+    [[1,1],[1,2],[1,3],[3,4]]
+
+ -this means that sort and sort_by compare each array and each index
+  to each other, and the shorter ones go in front, just like you do
+  when you compare similar words alphabetically
+ -here, we use a new alphabet to sort phrases 
+
+ESPERANTO_ALPHABET = " abcĉdefgĝhĥijĵklmnoprsŝtuŭvz"
+
+def alphabetize(arr)
+  arr.sort_by { |a| a.split("").map{ |char| ESPERANTO_ALPHABET.index(char) } }
+end
+
+
 
 //////////////////////////////////////////////////////////////
         INTERLUDE #inspect
@@ -2785,6 +2831,17 @@ end
       # nil
       # if the value isn't found, #key reutrns nil
       
+**#delete keys**
+ -simple, just use the delete method, like an array, but 
+  give the key instead of index or value:
+
+        hash = {"key"=>"val"}
+        hash.delete("key")
+        # => returns value of key, "val"
+        hash
+        #=> {}
+
+
 **hashes are unordered**
  -the data inside is associated only by key, not order
  -this is why we use the []= to add new items, not <<
@@ -3159,7 +3216,7 @@ animals.keys_of("Australia")
 animals.keys_of("Aulia")
 # => nil
 
-
+https://hackhands.com/three-golden-rules-understand-self-ruby/
 
 
 
@@ -3221,6 +3278,28 @@ expect{ play(songs) }.to output(/Phoenix - 1901/).to_stdout
 
  
 
+//////////////////////////////////////////////////////////////
+            JSON
+ -JSON is a multilangauge file even though it is called 
+  Javascript Object Notation
+ -it basically stores lists and hashes for you to use 
+  and save from program to program
+
+    require 'json'
+tempHash = {
+    "key_a" => "val_a",
+    "key_b" => "val_b"
+}
+
+
+File.open("test.json","w") do |f|
+  f.write(tempHash.to_json)
+end
+
+
+file = File.read('test.json')
+data_hash = JSON.parse(file)
+puts data_hash.keys
 
 
 
@@ -3238,8 +3317,143 @@ expect{ play(songs) }.to output(/Phoenix - 1901/).to_stdout
 
 
 
+//////////////////////////////////////////////////////////////
+        YAML
+ -YAML is recursive for "YAML aint markup language"
+ -it's basically just a more human readable format 
+ -it's a superset of JSON, so YAML can read JSON, JSON can't
+  read YAML
+ -here is an array 
+
+    # fruits.yml
+    - Apple
+    - Orange
+    - Strawberry
+    - Mango
+
+ -here is a hash
+
+    # government.yml
+    president: Barack Obama
+    vice president: Joe Biden
+    secretary of state: John Kerry
+    secretary of the treasury: Jacob Lew
+
+ -using it in ruby: 
+
+    #rubyfile
+    require "yaml"
+    gov = YAML.load_file('government.yml')
+     
+    gov
+    # => 
+    # {
+    #   "president" => "Barack Obama",
+    #   "vice president" => "Joe Biden",
+    #   "secretary of state" => "John Kerry",
+    #   "secretary of the treasury" => "Jacob Lew"
+    # }
+
+ here is the YAML docs if it ever becomes relevant 
+  http://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html
+(be sure that is wide enough to take up one line)
+ 
 
 
+//////////////////////////////////////////////////////////////
+      BENCHMARKING 
+**see if your program is faster**
+ -benchmarking is critical to understand how efficient your
+  program is 
+
+**setup/code**
+ -here's the basic setup 
+
+      
+    require 'benchmark'
+
+    # ruby code and stuff here 
+
+    puts Benchmark.measure { method_to_test }
+
+ -now that benchmark will output this to the console
+
+    0.310000   0.040000   0.350000 (  0.339958)
+    
+ -user cpu, system cpu, user+system, literal clock time 
+ -generally people are only concerned with the last one
+ 
+**much better way with bm** 
+ -the bm method method lets you test an entire block
+ -it also lets you test multiple ways and see them side by
+  side 
+ -and since it's a block, you can set it to to run a number
+  of times 
+ -to keep track of each test, the report method can take 
+  a string argument descriptor 
+ -here's the syntax, and below is actual code: 
+
+  Benchmark.bm do |bm| # the bm method passes the benchmark
+
+  bm.report('desctiption') do
+      #code to test 
+  end
+
+ -and here is an actual example and what it outputs 
+    require 'benchmark'
+
+    # ruby code and stuff here 
+
+    iterations = 100000
+
+    Benchmark.bm do |bm| # the bm method passes the benchmark
+    # joining an array of strings
+    bm.report('Concatenation method') do
+      iterations.times do
+        ["The", "current", "time", "is", Time.now].join(" ")
+      end
+    end
+
+    # using string interpolation
+    bm.report('Interpolation') do
+      iterations.times do
+        "The current time is #{Time.now}"
+      end
+    end
+
+
+# this is what it will be outputting to the console
+                            user   system    total       real
+Concatenation method    0.540000 0.010000 0.550000 ( 0.556572)
+Interpolation           0.410000 0.010000 0.420000 ( 0.413467)
+
+
+**bmbm method**
+ -sometimes tests can slowed down because ruby has to create 
+  a lot of objects, and then the memory allocation and 
+  garbage collecting procedures can skew the results 
+ -if this is the case, then use the benchmark#bmbm method 
+  essentially runs a practice to make sure the test is ready
+  first 
+
+require 'benchmark'
+
+array = Array(1..10_000_000)
+
+Benchmark.bmbm(7) do |bm|
+  bm.report('reverse') do
+    array.dup.reverse
+  end
+
+  bm.report('reverse!') do
+    array.dup.reverse!
+  end
+end
+
+
+
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
 RUBY CLASSES 
 //////////////////////////////////////////////////////////////
           THE SELF KEYWORD 
@@ -3249,3 +3463,16 @@ RUBY CLASSES
   the class 
  https://hackhands.com/three-golden-rules-understand-self-ruby/
  -suffice it to say that "self" is equal to the 
+
+
+//////////////////////////////////////////////////////////////
+      WARNING
+-when iterating and making hashes, always lean to 
+
+    cart[w_c] ||= {}
+    instead of 
+
+    cart[w_c] = {}
+
+so you don't overwrite anything accidentally 
+
