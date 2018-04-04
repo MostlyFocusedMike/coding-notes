@@ -215,6 +215,27 @@
         3.even? # false
         3.odd?  # true
 
+    *#between?*
+      -check if a float or int is bewtween two values, keep 
+        in mind both values are inclusive
+      -it also works on the first letter of trings  
+
+      1.between?(1,3)
+      # true 
+      2.between?(1,3)
+      # true 
+      3.between?(1,3)
+      # true 
+      4.between?(1,3)
+      # false 
+      1.4.between?(1,3)
+      # true 
+      'cat'.between?('ant', 'dog')   #=> true
+      # true, c is between a and d 
+      'gnu'.between?('ant', 'dog')   #=> false
+      # false g is after d 
+
+ 
  **symbols**
   -symbols can contain letters, digits and undescores
   -they are "lightweight" strings that are easier on your
@@ -536,6 +557,27 @@ t.dst?      # => false (was it daylight savings time?)
     # variables that start with capital letters have dif 
     # rules and are called constants (more on this later)
 
+**constants** 
+ -they must start with a capital, but convention says 
+  that they are all caps LIKE_THIS 
+ -for some reason constants have a semi global scope
+  -a constant declared outside a class or module can be 
+    accessed inside classes and modules, unlike local
+    variables 
+  -constants declared inside classes/modules can be 
+    accessed in the main scope by using the :: operator
+    (more on this much, much later in classes)
+ -constants, once defined, cannot be reassigned 
+ -because of this, constants cannot be defined inside a 
+  method, as each time the method is called, a new instance
+  of the constant would be declared 
+
+    def foo
+      CONSTANT = 4
+    end 
+    # each time you call this, a new variable CONSTANT 
+    # would be stored in memory, which is not allowed
+
 **Naming rules**
  -don't use pucntuation, can't start with a number, can't
   use -, and prefered multi-word style is snake case, 
@@ -697,6 +739,11 @@ boolean	          value
 
  -this is because in ruby doesn't actually need parentheses
   for its method arguments, some people just prefer it
+
+**#p for troubleshooting**
+ -the p() method gives the return value by returning it 
+  AND printing it to the screen
+ -do not use it in production, just testing 
 
 **backquotes**
  -Backquotes allow ruby to execute commands in the shell:
@@ -925,6 +972,7 @@ print "hello world"	   nil
 **methods and return values**
  -methods will automatically return the value of the last 
   statement by defualt
+ -if a method has no value in it, it returns nil
  -so this method returns "welcome to flavor town"
 
   def restaurant
@@ -1379,7 +1427,21 @@ print "hello world"	   nil
  -you would want to put the more specific 6 check before the
   general greater than 4 check 
 
+**the "then" keyword**
+ -this is technically what is happening:
+    
+    if (subtotal < 0.0) then 
+      subtotal = 0.0 
+    end
+ 
+ -that 'then' keyword can be omitted if there's a line break,
+  however, you can use it in a one line situation without 
+  raising an error:
 
+    if (subtotal < 0.0) then subtotal = 0.0 end
+
+ -however, statment modifiers is the standard way of doin 
+  one line conditionals, see below
 
 /////////////////////////////////////////////////////////////
             OPERATORS AND CONDITIONALS 
@@ -2100,7 +2162,21 @@ fetch(key_name) { |key| "default" }: get the value
     even_nums(cool_nums)
     #=> [2, 4]
 
-**#find**
+  -if you only care about the number of elements that meet
+   a condition, then don't use select and get the length of
+   the array, use count. It will just return the number of
+   values, not the array itself: 
+
+    arr.count {|x| x.even?}
+    # 2
+**#reject**
+ -the opposite of #select, it will return an array of items 
+  of where the block evaluated to false: 
+
+    [1,2].reject{|i| i.even?} #=> [1]
+
+
+**#find or #detect**
  -pretty much #select, but once it finds the first match, 
   it just returns that single value: 
 
@@ -2108,6 +2184,9 @@ fetch(key_name) { |key| "default" }: get the value
       num.odd?
     end
       => 1
+
+ -#detect is just aliased to #find, rails uses #detect to
+  spearate it from a different #find function
 
 **#delete_if**
  -if a condition is true, the value will be deleted 
@@ -2139,6 +2218,16 @@ fetch(key_name) { |key| "default" }: get the value
      
     [1, 2, 3].include?(4)
       => false
+
+**#all?**
+ -returns true or false, true if all elements meet the 
+  condition, false other wise 
+
+**#none?**
+ -returns true or false, true if none of the elements meet 
+  the condition, false other wise 
+
+
 
 **documentation** 
  -chech this page out if you ever want: 
@@ -3452,27 +3541,326 @@ end
 
 
 
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-RUBY CLASSES 
-//////////////////////////////////////////////////////////////
-          THE SELF KEYWORD 
-**self lets you access dot notation**
- -like the "this" keyword in other langs, the "self" keyword 
-  allows a method to have access to the object instance of 
-  the class 
+============================================================
+
+                      RUBY CLASSES
+
+============================================================
+////////////////////////////////////////////////////////////
+MAIN STRUCTURE
+%%%%%%%%%
+class Baby   
+  @@all = []  
+  attr_accessor :name, :weight, :eye_color 
+  attr_reader :birthday #4 
+
+def initialize(name) #5 # "Hook /callback/lifecycle event
+    @name = name
+    @birthday = Time.now
+    @@all << self 
+    cry
+  end
+
+  def self.all # Class Method (Class Reader)
+    @@all
+  end 
+
+  # Instance Method -represents and objects ability to have logic
+  def cry 
+    puts "WAAAAAAA"
+  end
+
+  def weight=(weight)    #writer
+    @weight = weight 
+  end
+
+  def weight             # reader
+    @weight
+  end
+
+  def self.find_baby(name)
+    @@all.find {|baby| baby.name == name}
+  end
+end
+
+**Classes overview**
+ -some things to know is that Ruby is "pure" OO, so by default
+  all data inside them is private, and can only be accessed  
+  with methods
+ -this is part of the principle of encapsulation
+
+**what is "main" and implicit/explicit methods, and self**
+ -when you just leave a method out of nowhere like "puts",
+  how does that work? it's a method, so where is its object? 
+
+      puts "hello there"
+      # where is object like: 
+      "hello".capitalize
+      # the string is clearly what the method operates on
+
+ -when you just put a word, Ruby first checks to see if it is 
+  a variable, if it doesn't come up with anything, it assumes
+  it's a method operating implicitely on the "self" object 
+  
+    puts 
+    # implicit reciever of self 
+    self.puts 
+    # explicit reciever of self 
+    # both of these are exactly the same 
+
+ -so if your outside of a class, the scope we call main is
+  actually an object, and that's why it's called the 
+  main object, so it's the main scope
+ -inside a class it refers to the class itself, if it's 
+  inside a method, it will refer to the new object 
+
+    def initialize
+      self.cry
+    end
+    # self here refers to the instance of baby
+    # its the same as lil_joe.cry
+
+    def cry 
+      puts "WAAAA"
+    end
+
+    def self.all=(all)
+      @@all = all
+    end
+    # this self refets to the Baby class itself 
+    # here, the self refers to the actual instance of Baby
+
+**when to use self**
+ -look at the two lines below 
+
+    ...
+      name = "this is my name"
+      self.name = "what about this?"
+    ...
+
+ -so, if you just saw name, is it a local variable called
+  name or is it calling the method weight=? 
+ -because of this ambiguity, it is best in most cases to
+  refer to methods with explicit recievers so they do not
+  look like local variables 
+ -and while self.name and @name are largely the same, we
+  will get into it later why methods should use self. and 
+  instance variables @
+
+**more on self**
  https://hackhands.com/three-golden-rules-understand-self-ruby/
- -suffice it to say that "self" is equal to the 
+
+
+////////////////////////////////////////////////////////////
+        MAIN STRUCTURE BREAKDOWN
+**creating a class**
+ -use the lowecase class keyword to create a new class
+  
+    class Baby 
+     # code 
+    end
+
+ -then to instantiate a new object, use the "new" keyword
+
+    sam = Baby.new("sammy")
+
+
+**class variables**
+ -three types : local, instance, constant, class: 
+    local: a local variable available only in its scope,  
+           so within its method or in the class, but not
+           the methods 
+    @instance: instance variables star with an @, which 
+               refers to the object, they are available
+               anywhere within each object, an objects 
+               methods all have access to them, but only  
+               each individual object 
+    Constants: same rules as always 
+    @@class: @@class variables are available to the entire
+             class of objects, for instance, a common use
+             is to add each newly created method to an array
+             so each object knows how many there are.
+             @@class variables are declared at the top of a
+             class 
+
+**initializing a class**
+ -#initialize is a built in method that gets called each time
+  a new object is created 
+ -it can take areguments and then pass them into instance
+  class and local variables 
+
+      def initialize(name) 
+          @name = name
+          @birthday = Time.now
+          @@all << self 
+          self.cry
+      end
+
+ -notice how a bareword is stored as an instance variable,
+  an instance variable is set a value not reliant on a 
+  parameter (@birthday), a class variable (which was an 
+  array), and a method is called and run 
+ -the #initialize method is often called a hook,callback
+  or lifecycle event becuase it often calls other methods
+  inside it (any method that does that is also called those
+  things)
+ -initializing is not required, it is only needed if you want
+  to extend its functionality, it is NOT mandatory
+
+**readers and writers**
+ -readers are getters and writers are setters, it's just
+  a different terminology
+
+      def weight=(weight)    #writer
+        @weight = weight 
+      end
+
+      def weight             # reader
+        return @weight
+      end
+
+ -the only weird thing to note is that it's weight=, that 
+  is because when you call for instance 
+  
+    lil_baby.weight = 10
+
+ -you are TECHNICALLY calling the .= method on lil_baby
+  instance, it's just syntactical sugar 
+ -this is reflected in the name of the writers, they must 
+  end in =, and there is no space between the parens()
+
+      name=(fine)
+      name= parens-omitted-also-works-one-space
+
+ -readers are the main way of getting data out, and writers
+  and initialize getting data in
+
+
+**writer/reader shorthand: attr_**
+ -if your reader and writers are as simple as: 
+
+    def weight=(weight)    #writer
+      @weight = weight 
+    end
+
+    def weight             # reader
+      return @weight
+    end
+
+ -then there's a great shorthand that goes at the top of 
+  the class: 
+
+  attr_accessor :weight 
+
+ -that single line means your code acts as if you wrote 
+  the previos 6
+ -better yet, you can do several: 
+  
+    attr_accessor :name, :weight, :eye_color 
+
+ -even though they are symbols, still use regular dot
+  notation in your code 
+
+    lil_baby.weight = 12
+    puts lil_baby.weight 
+
+ -if you only need the writer or, more commonly, the reader
+  then use attr_writer and attr_reader 
+
+    attr_writer :name, age
+    attr_reader :hair, height 
+
+ -those now only have their writer or reader functions, as
+  specified
+ -these only work for @vars not @@vars, you have to write out
+  each @@var read and write function 
+
+**scope accessor :: **
+ -the scope accessor is how you get access to class level 
+  scope variables
+ 
+    Baby::all
+    # array of all baby objects 
+
+ -if you find yourself pulling data a lot this way, you 
+  should restructure your class so that it is a proper 
+  method 
+
+**ruby reads class body once**
+ -consider: 
+
+    class foo
+      puts "hello"
+    end
+
+    puts "start"
+    foo.new
+    foo.new
+    foo.new
+    foo.new
+    puts "end"
+
+    # => "hello start end" 
+
+ -ruby only reads and executes the class body once and 
+  immediately when it comes across it, any arbitrary code 
+  in your class body will be executed as if it were in 
+  the main scope 
+ -if code is inside a method or initialize, it is only 
+  run when .new is used or the method is called on the object
+ 
+**defining methods in main scope** 
+ -like JS, you can define new methods on individual objects in
+  the main scope, as well as the entire new class: 
+
+    #single object 
+  
+    sam = Baby.new("sam")
+    pete = Baby.new("pete")
+    
+    def sam.eat
+      puts "munch munch"
+    end 
+
+    sam.eat 
+    # will put "munch munch" 
+    pete.eat 
+    # nomethoderror 
+
+ -so if you define the method using the object itself and then
+  the method you want with dot notation, that specific object
+  and only that object will have the new method  
+
+  #entire class
+
+  def Baby.snooze
+    puts "zzz"
+  end
+
+  Baby.snooze 
+  # zzz
+
+  sam.snooze 
+  # nomethoderror, it's jsut for the Baby class
+
+ -so the same logic, but even less applicable 
+ -altering the baby class to give it methods will not affect
+  the indeividual objects, UNLESS that new methods affect 
+  the class variables, and there is another instance method 
+  that has access to those class variables
+ -but that is not common nor good practice
+    
+
+
+
 
 
 //////////////////////////////////////////////////////////////
       WARNING
 -when iterating and making hashes, always lean to 
-
     cart[w_c] ||= {}
     instead of 
 
     cart[w_c] = {}
-
 so you don't overwrite anything accidentally 
 

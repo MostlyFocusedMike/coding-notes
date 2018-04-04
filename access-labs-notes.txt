@@ -1,0 +1,298 @@
+////////////////////////////////////////////////////
+  Bash notes you didn't already know: 
+----------------------------------------------------
+ -use cmd + "+" and cmd + "-" to increase or decrease the size of the text
+  on your terminal window
+ -the options for command line commands can also be called flags
+
+
+/////////////////////////////////////////////////////////////////////////
+          TOOLS RECOMMENDED BY FLATIRON 
+**F.lux**
+ -They recomend it for healthy eyes. You sort of hated it. a lot.
+
+**Launcher**
+ -They recommend Alfred 2, Quicksilver, or Launchbar
+  http://www.alfredapp.com/
+  http://qsapp.com/
+  http://www.obdev.at/products/launchbar/index.html 
+ -the workflow of Alfred 2 seems cool, but wait until you need it to 
+  spend $25
+
+**Clipboard History**
+ -You bought collective from the App store
+ -access it by hitting cmd + shift + v (or hit it in the menu bar, 
+  it's the magnet)
+ -hit enter to copy selection to current clipboard 
+
+**Documentation**
+ -You bought DevDocs, which is a google chrome app
+ -downloaded most of the documentation you would need in an offline 
+  situation
+ -access chrome app on the upper left hand corner of the google window 
+
+**Window Management**
+ -a window manager lets you assign hot keys to move the program you're 
+  using around on your screen. Useful for quickly resiing windows
+ -You chose spectacles, the hot keys can be re assigned easily, and you 
+  can view them from the spectacle icon in the menu bar 
+
+**Fonts**
+ -Just a bunch of resources for fonts: 
+  http://flatiron-school.s3.amazonaws.com/resources/programming%20fonts.zip
+  http://www.codinghorror.com/blog/2007/10/revisiting-programming-fonts.html
+  http://hivelogic.com/articles/anonymous-pro-programming-monospace-font
+  http://hivelogic.com/articles/top-10-programming-fonts/
+ -here's some help on managing fonts:
+  hhttp://hivelogic.com/articles/top-10-programming-fonts/ttp://support.apple.com/kb/ht2435
+
+
+/////////////////////////////////////////////////////////////////////////
+                  GIT BASICS NEEDED FOR LEARN LABS 
+-------------------------------------------------------------------------
+**Forking a lab**
+ -Forking is when you take a repository you do not own, and make a copy
+  of it on your github account to make changes to
+ -To do this, simply hit the fork button on a repo in the top right and
+  select your profile 
+
+**Git clone**
+ -then use 
+    $ git clone \\url\\
+  in the directory that you want to copy the file to
+ -Apparently Learn.co reccomends using SSH instead of over HTTPS, 
+  which is what you thought was recommended, so you should check out
+  why that is
+
+**make changes**
+ -make your changes like usual 
+
+**push local changes up to your github**
+ -again, just as normal
+
+**open a pull request**
+ -A pull request lets the owner of the original repo know that you have 
+  some code that you'd like them to pull into the original repo. You are 
+  just making the request here, it is up to them to actually pull in 
+  your changes
+ -go to your forked github repo, there is a green button next to the
+  master branch indicator. click this to open a pull request
+ -leave a comment in the text box that pops up, then scroll down and hit
+  the pull request button again
+
+**More resources**
+ -Use these resources to add to your real git notes:
+ -Git cheat sheet:
+    http://www.git-tower.com/blog/content/posts/54-git-cheat-sheet/git-cheat-sheet-large01.png
+ -GIT best practices:
+    http://www.git-tower.com/blog/content/posts/54-git-cheat-sheet/git-cheat-sheet-large02.png
+ -Understanding the github flow:
+    https://guides.github.com/introduction/flow
+ -Hello world GitHub:
+    https://guides.github.com/activities/hello-world
+ -GIT the simple guide: 
+    http://rogerdudler.github.io/git-guide/
+ -Forking on GitHub:
+    https://guides.github.com/activities/forking
+ -GIT -the simple guide:
+    http://rogerdudler.github.io/git-guide/
+ -GIT Immersion:
+    http://gitimmersion.com/
+ -Try GIT:
+    http://try.github.com/
+
+
+/////////////////////////////////////////////////////////////
+/
+/
+/  END OF "INTRODUCTION AND SETUP 
+/
+/
+/////////////////////////////////////////////////////////////
+
+THINGS TO LOOK INTO MORE: 
+
+ -the nill value 
+ -the rspec testing suite for ruby, since that's what 
+  learn.co uses
+
+
+ [     ]HTTP request 
+ [     ]SEO opitimzations 
+ [     ]git for teams 
+ [     ]pretty much everything on that html resources sheet 
+ [     ]chrome devtools course 
+ [CHECK] unix processes and how to kill them 
+ [CHECK] go over linux bash commands and making executables 
+ [CHECK]bash scripting 
+ [CHECK]adding directories to path so we can find our programs 
+
+
+THINGS TO LEARN 
+ -build extra functions to help yourself o
+-adding ssh keys on github
+ -Haml file format
+
+///////////////////////////////////////////////////////////////
+        VIEWING SITES WITH WEB IDE 
+**use the httpserver command**
+ -you need a temprary server, so in the IDE terminal do:
+
+  $ httpserver
+  Your server is running at 67.205.130.239:40088
+  [2018-03-31 09:32:09] INFO  WEBrick 1.3.1
+  [2018-03-31 09:32:09] INFO  ruby 2.3.1 (2016-04-26) [x86_64-linux]
+  [2018-03-31 09:32:09] INFO  WEBrick::HTTPServer#start: pid=503 port=40088
+
+ -copy the IP and port address on the first line into your
+  browser to get a live view
+ -ctrl c to stop it like usual
+ -http://help.learn.co/the-learn-ide/common-ide-questions/viewing-html-pages-in-the-learn-ide
+ see that for more info at the bottom for rails and server side
+  stuff
+
+ 
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+      HTML/CSS NOTES YOU DIDN'T ALREADY HAVE 
+
+resource pages: 
+https://learn.co/tracks/web-development-fundamentals/intro-to-html-css/front-end-html5/html5-resources
+
+https://learn.co/tracks/web-development-fundamentals/intro-to-html-css/front-end-css-introduction/css-resources
+
+https://learn.co/tracks/web-development-fundamentals/intro-to-html-css/front-end-css-page-layout/css-layout-resources
+
+
+
+
+**embedded players**
+embedded audio 
+
+  <audio controls>
+
+    <source src="audio.mp3" type="audio/mp3">
+    <source src="audio.ogg" type="audio/ogg">
+    <!-- fall back content like a flash player or msg -->
+  </audio>
+
+
+embedded video: 
+
+  <video controls>  #adding controls atr shows controls always
+    <source src="movie.mp4" type="video/mp4">
+    <source src="movie.ogv" type="video/ogg">
+    <source src="movie.webm" type="video/webm">
+
+    <!-- fall back content like a flash player or msg -->
+  </video>
+
+ -with embedded players, browsers will simply keep going 
+  until they find a source they recognize, then they 
+  will ignore all else 
+ -or, they keep going until they hit the fall back content
+
+ - a great simple way to convert video is Miro Video Converter
+  or premiere more likely, and Audition for audio 
+ -you can also use js library for a videoe viewer that will
+  take care of file formats and backwards compatibility
+
+SEMANTIC ELEMENTS 
+ header 
+article
+  section
+  footer 
+
+ use JS kibrary modernizr.com 
+ nomalize is a css thing to help your css with backwards compat
+
+
+interesting CSS selectors: 
+
+
+attribute selectors: 
+img[alt="Cat"] {
+  /* all attributes are selected in brackets */
+}
+
+starts with string =
+a[href^="http"] { 
+    color: red;
+}
+
+ends with string =
+p[class$="dog"] { 
+    color: blue;
+}
+
+anywhere inside = 
+img[alt*="love"] { 
+    color: green;
+}
+
+space separated =
+p[class~="dog"] { 
+    color: red;
+}
+
+dash-separated
+p[class|="dogs"] { 
+    color: blue;
+}
+
+
+CSS font shorthand 
+ -here is the order 
+  font-weight: normal;
+  font-size: .75rem;
+  line-height: 1.5rem;
+  font-family: "Georgia", "Times New Roman", serif;
+  # all that equals this v in this order specifically
+  font: normal .75rem/1.5rem "Georgia", "Times New Roman", serif;
+
+**digital color meter**
+ a built in mac program that will show you the color values 
+  of whatever your cursor is over 
+ -EXTRMEMELY USEFUL
+
+
+**choosing which box model**
+ -this new feature lets you specify what kind of box model to 
+  use, 
+* {
+    box-sizing: border-box;
+}
+/* IE model = border-box
+   W3C model = content-box */
+
+ -border box says that pading + width = width, 
+  so setting width and padding will change the content on the 
+  insides size, while content-box will add padding and width
+  together and NOT change content size 
+
+**floats and clearing**
+ -just a reminder, floating an element allows it to float to
+  side so that text and elements flow around it 
+ -applying clear: both  will ensure that 
+  no other floating elements can touch either side, and it 
+  will safely stay below all floated elements 
+ -you can float/clear right or left, no top or bottom 
+
+**cearfix , to un collapse divs**
+ -if a div has nothing but floating divs inside, it will 
+  collapse into strange spaces, so create a clearfix class
+  and apply it 
+  (or give min hieghts like you used to do before flex)
+
+.clearfix:after {
+   content: ".";
+   display: block;
+   clear: both;
+   visibility: hidden;
+   height: 0;
+   line-height: 0;
+}
+
+
+
+    
