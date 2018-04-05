@@ -679,7 +679,8 @@ boolean	          value
   keys and values, array made of indexes, vs number holds
   a single value 42, bool is true OR false)
 
-/////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+  STRINGS 
     SIDE NOTE: string evaluation, ',",`,  and puts v print
     and executing commands from Ruby
 
@@ -698,12 +699,43 @@ boolean	          value
   quotes do not 
  -in terms of performance, this is almost no difference
 
-**other options besides quotes**
+**user-defined string delimiters**
  -If your text has a lot of embedded quotes, you can also 
   use string delimeters 
- -%Q/This is the same as a double-quoted string./ 
-  %/This is also the same as a double-quoted string./ 
-  %q/And this is the same as a single-quoted string/
+
+    %Q/This is the same as a double-quoted string./ 
+    %/This is also the same as a double-quoted string./ 
+    %q/And this is the same as a single-quoted string/
+    %q[the q or Q is all that matters, the / can be ]
+
+ -the string delimiter character can be any character,
+
+    %Q: :
+ 
+ -the actual magic is the % followed by various characters
+  that tell Ruby what the delimeters actually are, like
+  are they single, double, or backtick quotes?
+
+**backquotes**
+ -Backquotes allow ruby to execute commands in the shell:
+
+    puts(`ls`)
+    # this would return your directory for example
+    puts(`> foo.txt`)
+    # you can do anything, like even make files 
+
+ -you can also use these formats as well: 
+
+    puts(%x/ls/) 
+    puts(%x{ls})
+ 
+ -and embed it into a string like this: 
+
+    print( "Goodbye #{%x{cal -y}}" )
+
+ -but, when you do this, the command will always evaluate
+  first, and then the string will print
+
 
 **Concatenation vs interpolation**
  -concatenation is just + and interpolation is #{}
@@ -711,6 +743,24 @@ boolean	          value
 
     puts("like this #{"3".to_i + 4}")
     # => like this 7
+
+ -here are some ways to concatenate: 
+
+    s = "Hello " << "world" 
+    s = "Hello " + "world" 
+    s = "Hello " "world"   
+
+ -it hsould be noted that the << lets you append Fixnum
+  integers (0 to 255) directly into the string, no to_s 
+  needed 
+ -spaces and + do not allow for this 
+
+**what are commas?**
+  s4 = "This " , "is" , " not a string!", 10
+
+ -that looks like a string, but it is actually just 
+  shorthand to create an array
+ 
 
 **puts vs print**
  -puts always adds a newline character after whatever 
@@ -740,32 +790,17 @@ boolean	          value
  -this is because in ruby doesn't actually need parentheses
   for its method arguments, some people just prefer it
 
+*printing arrays**
+ -note that puts ing, an array will print each value on
+  its own line, while print will format and print out the
+  acutal array as you would expect
+
 **#p for troubleshooting**
  -the p() method gives the return value by returning it 
   AND printing it to the screen
  -do not use it in production, just testing 
 
-**backquotes**
- -Backquotes allow ruby to execute commands in the shell:
-
-    puts(`ls`)
-    # this would return your directory for example
-    puts(`> foo.txt`)
-    # you can do anything, like even make files 
-
- -you can also use these formats as well: 
-
-    puts(%x/ls/) 
-    puts(%x{ls})
- 
- -and embed it into a string like this: 
-
-    print( "Goodbye #{%x{cal -y}}" )
-
- -However, when you do this, the command will always evaluate
-  first, and then the string will print
-
-
+**indexing a string**
 
 ////////////////////////////////////////////////////////////
                 RUBY VARIABLES TYPES 
@@ -1771,8 +1806,12 @@ expect(self).to receive(:get_user_input).and_return("s")
     arr2 = Array.new 
     arr_with_stuff = ["value", "separated by comma"]
     Array.new(['a', 'b', 'c'])
+    Array.new(9, " ")
     arr_with_other = %w(cat dog mouse)
-
+ 
+ -the second to last one shows why you might want to use
+  the class, it says make a new array made up of 9 strings
+  that are just spaces 
  -that last one is a shortcut, it uses spaces instead 
   of commas and quotes, those words are all strings 
   it will not take variable names and it turns symbols 
@@ -3683,6 +3722,9 @@ end
              @@class variables are declared at the top of a
              class 
 
+ -in ruby, these variables are called "attributes" when in
+  a class, other langs call the properties 
+
 **initializing a class**
  -#initialize is a built in method that gets called each time
   a new object is created 
@@ -3704,8 +3746,20 @@ end
   or lifecycle event becuase it often calls other methods
   inside it (any method that does that is also called those
   things)
- -initializing is not required, it is only needed if you want
-  to extend its functionality, it is NOT mandatory
+ -initializing is not required, it is only needed if you 
+  want to extend its functionality, it is NOT mandatory
+
+**instance methods**
+ -classes encapsulate methods, these are defined just like
+  standalone methods 
+ -you can create your own methods, but there are also 
+  a lot of built in instance methods that all objects 
+  automatically respond to 
+ -see them with #methods 
+
+    fido = Dog.new
+    fido.methods
+    # big list
 
 **readers and writers**
  -readers are getters and writers are setters, it's just
@@ -3774,6 +3828,18 @@ end
   specified
  -these only work for @vars not @@vars, you have to write out
   each @@var read and write function 
+**setting @variables with a method**
+ -now, there is a Ruby method that just sets a @var: 
+
+    kanye.instance_variable_set(:@name, "Yeezy")
+
+ -and here's the one for getters: 
+
+    kanye.instance_variable_get(:@name)
+
+ -however this is ugly, no one uses it, they call it 
+  syntactic vinegar 
+
 
 **scope accessor :: **
  -the scope accessor is how you get access to class level 
@@ -3808,6 +3874,11 @@ end
   the main scope 
  -if code is inside a method or initialize, it is only 
   run when .new is used or the method is called on the object
+
+**methods vs variables** 
+ -it is considered best practice to try to deal with 
+  methods that set and get values, vs putting everything 
+  as refering to the variables themselves
  
 **defining methods in main scope** 
  -like JS, you can define new methods on individual objects in
@@ -3855,7 +3926,167 @@ end
 
 
 
-//////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////
+    PROCEDURAL VS OO
+*what;'s procedural**
+ -procedural code is when you have data and then procedures
+  for interacting with that data 
+ -data and the instructions for it are treated as 2 separate
+  things 
+ -OO on the other hand has units of code called "objects"
+  that both store and manipulate the data 
+
+**main issues with procedural**
+ -all functions need to take in arguments, the same args, 
+  to function, which can lead to breaking if arguments are
+  changed, renamed, or altered in some unexpected way 
+ -OO can instead rely on internal state of the object so 
+  that is is a much cleaner approach without so many 
+  args being passed over and over 
+ -it also allows you to instantiate as many new objects as 
+  you want, instead of somehow duplicating all your data 
+  tables 
+ -functional (or procedural) programming has it's uses, 
+  but if you are mimicking objects, use OO 
+
+**moving from procedural to OO**
+ -here are some common things to look for: 
+
+  1. find any data your object needs and put it into 
+     #initialize
+  2. find commonly passed around arguments and put them
+     into instance variables 
+  3. place loose code into a method and then refactor as 
+     many times as needed so each method really only does 
+     one thing 
+
+ -anything procedural can work OO, it just needs adjusting
+
+////////////////////////////////////////////////////////////
+        INHERITANCE, SUBCLASSES, SUPERCLASSES 
+**what is inheritance**
+ -consider a main class, thing, that inits a name and weight
+  of an item. Then you have another class treasure, that 
+  initializes a name, weight, and values, and THEN you have
+  a class called ship that does name, weight, and speed, 
+  it makes sense to have those two be children of thing: 
+
+    class Treasure < Thing 
+
+ -that is how you tell Ruby to use all the Thing methods 
+  in your new class 
+
+**initializing a sub class**
+ -so name and weight are initialized in thing, but when 
+  we call a new Ship, we can't also call a new Thing: 
+
+    maria = Ship.new("Maria", "10 tons", "5 knots")
+ 
+ -you have to send the initialized values up to the 
+  super class Thing: 
+
+  # This passes a, b, c to the superclass 
+  def initialize( a, b, c, d, e, f ) 
+    super( a, b, c ) 
+  end 
+  
+  # This passes a, b, c to the superclass 
+    def initialize( a, b, c ) super 
+  end 
+  
+  # This passes no arguments to the superclass 
+  def initialize( a, b, c) 
+    super() 
+  end
+
+**subclass and superclass methods** 
+ -if you call a mehtod on a subclass, and ruby can't find 
+  a method on that subclass that matches, it will then
+  search the parent 
+ -this is the powerful reason for sub classes, you can just
+  borrow methods, even #initialize 
+
+**#superclass and #instanceof?##
+ -check if an object is an instance of a class with 
+    
+      thing.instanceof?(OtherThing)
+
+ -check to see what the parent class of an object is 
+
+    obj.superclass 
+  
+ -the Ruby Main object has not superclass, it will return
+  nil
+
+
+**scope operator to call class in a class**
+
+  class X 
+    A = 10 
+    class Y 
+    end 
+  end
+
+ -so if you ever LITERALLY sub a class, remember that since
+  class names are capitals, they are constants, so you 
+  could create a new subclass like: 
+
+    ob = X::Y.new
+
+ -NOTE: ordinarily, subclasses are not IN their parents
+
+**Partial Classes**
+ -classes do not have to be defined all in one place: 
+
+class A 
+  def a 
+    puts( "a" ) 
+  end 
+end
+ 
+class B < A 
+  def ba1 
+    puts( "ba1" ) 
+  end 
+end 
+
+class A 
+  def b 
+    puts( "b" ) 
+  end 
+end 
+ 
+class B < A 
+  def ba2 
+    puts( "ba2" ) 
+  end 
+end
+
+ -this is perfectly legal and all methods will be available
+  no matter what part of the class they were defined in: 
+
+  ob = B.new 
+  ob.a 
+  ob.b 
+  ob.ba1 
+  ob.ba2
+
+ -this is actually how monkey patching works, since the 
+  main class, Array, for instacne, is defined elsewhere
+  but you can add to it on your own like this: 
+
+    class Array
+      def gribbit
+        puts( "gribbit" ) 
+      end 
+    end
+
+    [1,2,3].gribbit
+
+ 
+
+////////////////////////////////////////////////////////////
       WARNING
 -when iterating and making hashes, always lean to 
     cart[w_c] ||= {}

@@ -3088,7 +3088,21 @@ Enterprise Linux, CentOSi    rpm        yum
 
     dpkg --install ~/Downloads/emacs-22.1-7.fc7-i386.deb 
    
- -
+**checking status of package**
+ -debian: 
+
+    $ dpkg --status package_name
+
+**display info of package**
+
+    $ apt-cache show package_name
+
+**Finding Which Package Installed a File**
+ 
+  $ dpkg --search file_name
+
+
+
 /////////////////////////////////////////////////////////////////////
 VIEWING PDFS IN TERMINAL 
  -the fbi program is used for viewing images, but it has a sister 
@@ -3100,3 +3114,100 @@ VIEWING PDFS IN TERMINAL
     $ fbgs -xxl thing.pdf
     // to view images its just fbi file.png or fbi fil.jpg
 
+
+
+============================================================
+                CH 15 STORAGE MEDIA
+============================================================
+**storage devices**
+ -linux is amazing at deep control of devices, here 
+  are some of the topics we will breifly cover: 
+
+     mount—Mount a filesystem.
+     umount—Unmount a filesystem.
+     fdisk—Partition table manipulator.
+     fsck—Check and repair a filesystem.
+     fdformat—Format a floppy disk.
+     mkfs—Create a filesystem.
+     dd—Write block-oriented data directly to a device.
+     genisoimage (mkisofs)—Create an ISO 9660 image file.
+     wodim (cdrecord)—Write data to optical storage media.
+     md5sum—Calculate an MD5 checksum.
+
+**mounting and unmounting** 
+ -nowadays, it is automatic (ussually), plug and play
+ -but on servers, it is still manual like it used to be 
+ -mounting is the first step, it means adding the device
+  to the filesystem tree 
+ -to see al the devices that are mounted at boot time, 
+  check the file /etc/fstab
+ -most of these are virtual and they are disk partitions
+ -here are the first three in fedora: 
+
+    LABEL=/12    /      ext3  defaults   1   1
+    LABEL=/home  /home  ext3  defaults   1   2
+    LABEL=/boot  /boot  ext3  defaults   1   2
+
+ -those six labels, in order are: 
+ Device: 
+  Traditionally, this field contains the actual name of
+  a device file associated with the physical device, but
+  nowadays, hot pluggable devices like USB use text labels
+  that are read after the device is formatted
+
+  Mount point: 
+    The directory where the device is attached to the
+    filesystem tree
+
+  Filesystem type: 
+    Linux allows many filesystem types to be mounted.
+    Most native Linux filesystems are ext3, but many
+    others are supported, such as FAT16 (msdos), FAT32
+    (vfat), NTFS (ntfs), CD-ROM (iso9660), etc.
+
+  Options: 
+    the settings for the device, like read only or non
+    executable 
+
+  frequency: 
+    A single number that specifies if and when a filesystem
+    is to be backed up with the dump command
+
+  Order: 
+    A single number that specifies in what order filesystems
+    should be checked with the fsck command
+
+
+**Viewing a List of Mounted Filesystems**
+ -The mount command is used to mount filesystems. 
+  Entering the command without arguments will display a 
+  list of the filesystems currently mounted:
+
+    $ mount 
+    /dev/sda2 on / type ext3 (rw)
+proc on /proc type proc (rw)
+sysfs on /sys type sysfs (rw)
+devpts on /dev/pts type devpts (rw,gid=5,mode=620)
+/dev/sda5 on /home type ext3 (rw)
+/dev/sda1 on /boot type ext3 (rw)
+tmpfs on /dev/shm type tmpfs (rw)
+none on /proc/sys/fs/binfmt_misc type binfmt_misc (rw)
+sunrpc on /var/lib/nfs/rpc_pipefs type rpc_pipefs (rw)
+fusectl on /sys/fs/fuse/connections type fusectl (rw)
+/dev/sdd1 on /media/disk type vfat (rw,nosuid,nodev,noatime,
+uhelper=hal,uid=500,utf8,shortname=lower)
+twin4:/musicbox on /misc/musicbox type nfs4 (rw,addr=192.168.1.4)
+
+ -The format of the listing is device on mount_point type 
+  filesystem_type (options).
+ -the last two devices are a 2gig sd card and a network 
+  drive, for instance 
+ -use mount before pluggin something in, then run it again
+  to see the new last entry, it should be the device
+ -NOTE: audio cd and Cd-roms are differen,t audios have 
+  no file system, and therefore aren't mounted in the sense
+
+ 
+
+ 
+    
