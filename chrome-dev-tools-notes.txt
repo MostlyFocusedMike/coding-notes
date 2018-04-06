@@ -1,0 +1,14 @@
+
+          Random smatterings before you begin: 
+ -stick "view-source:" before https in a browser to see 
+  the source 
+ -cmd + shf + c = open up inspect shortcut 
+ -onthe dev tools pane, next to "elements" there is an arrow
+  icon, click that so that as your cursor scrolls over the
+  "content pane" the html on the side it corresponds to pops
+  up 
+ -in the Chrome JS console, the clear() method clears out 
+  the console of the wraning and text. HOWEVER it still
+  retains all the values entered in that session, it just 
+  keeps them behind the scenes. to start fresh, refresh.
+ --the shorcut is cmd + k, or ctl + L

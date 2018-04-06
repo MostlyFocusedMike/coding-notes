@@ -64,7 +64,135 @@ METHODS: functions that are defined in an object
 
 
 
+                   LEARN COURSE 
+============================================================
+                  The basics
+============================================================
+**opening the JS console in Chrome, safari, firefox**
+ -use cmd + shift + c for chrome 
+ -cmd + alt + K in firefox
+ -cmd + alt + C in safari 
 
+**the console is a playground**
+ -in this console you can type JS and the page will respond
+ 
+**alert() method**
+ -this accepts a string and prints it to the screen in 
+  an alert box pop up 
+
+**double quotes, single quotes, and escaping**
+ -" and ' have no functional difference since interpolation
+  is done using template strings with ``, so just use one or
+  the other to avoid errors: 
+
+    "this isn't an issues"
+    'this isn't going to work'
+    'unless you\'re escaping the quote'
+
+ -that forward slash tells JS to "escape" the following 
+  character, that is to treat it as a simple text character
+  and nothing more so it will print
+
+
+============================================================
+                  comments
+============================================================
+**comment your damn code**
+ -seriously do it 
+
+**single vs multiline** 
+ // this is a single line 
+
+ /*
+  this is a 
+  multi 
+  line
+ */
+
+ // This is 
+ // also 
+ // quite 
+ // common
+
+
+============================================================
+                  data types 
+============================================================
+**weak type**
+ -JS is a weak type of language, it will try to coerce 
+  your data types to match, if they are different, which
+  leads to intersting situations 
+
+    2 + "2" = "22" 
+ 
+ -here is realized that you can't "add" a number and a string
+  but you can turn the int into a string and then 
+  concatenate, which is what it did
+ -JS "coerced" the int's data type from number into string 
+
+**typeof method** 
+
+  typeof(1)  // "number"
+  typeof("2)" // "string"
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+                JS Selecting elements 
+**query selector is easiest**
+
+    document.querySelector()
+    document.querySelectorAll()
+
+ -this is the simplest way to select any item 
+  you want, it can take classes, ids, tag names
+ -if you want a nodelist/colleciton, use the all counterpart
+ 
+  document.querySelector('#content')
+  document.getElementById('content')
+  // when using querySelectors you MUST include the # and .
+
+  document.querySelectorAll('.red')
+  document.getElementsByClassName('red')
+
+  document.querySelectorAll('p')
+  document.getElementsByTagName('p')
+
+ -above are the "traditional" ways compared to the newer 
+  (though not new) query selector method
+ -NOTE: if you use regular querySelector() on a node list,
+  it will just return the first element as a single value,
+  not a list of one item.
+
+**selecting ancestry** 
+ -you can chain the selectors together in order to move 
+  down the dom to get a specific element
+ -this is called chaining in JS, and some functions can do it
+
+  document.querySelector(".infobox").querySelector("span.deathplace").querySelector("a")
+
+ -so first it selects the first instance of the class infobox
+  then out of the children of that element, it selects the
+  first span tag with a class of "deathplace" then it 
+  finally selects the first a tag in that 
+
+**retrieving attributes and .constructor** 
+ -once you have an element selected, you can store it in a 
+  variable: 
+
+    let maryleboneAnchor = document.querySelector(".infobox").querySelector("span.deathplace").querySelector("a")
+maryleboneAnchor.constructor
+ // ƒ HTMLAnchorElement() { [native code] }
+
+ -so that variable actually stores the commented out value 
+  and it is the output of the consturctor property, which
+  shows it is a descendent of the AnchorElement()
 
 
 
@@ -147,11 +275,13 @@ GOOD
 
 
 
+       
+
 
 ////////////////////////////////////////////////
             USEFUL FUNCTIONS 
 
-
+ 
 ------------------------------------------------
 .indexOf() 
 
