@@ -2583,8 +2583,8 @@ PAGER
   The name of the program to be used for paging output. This is
   often set to /usr/bin/less.
 PATH  
-  A colon-separated list of directories that are searched when you
-  enter the name of an executable program. 
+  A colon-separated list of directories that are 
+  searched when you enter the name of an executable program. 
 PS1 
   Prompt String 1. This defines the contents of your shell prompt.
   As we will later see, this can be extensively customized.
@@ -2607,14 +2607,23 @@ USER
  
 
 **How Is the Environment Established?**
- -when bash starts up it checks for "startup files" which tell it what 
-  to do, there are various scripts to run depending on the type of 
-  shell and what user is logged in
+ -when bash starts up it checks for "startup files" 
+  which tell it what to do, there are various scripts to 
+  run depending on the type of shell and what user is 
+  logged in
 
 **Login and Non Login Shell**
- -login shells are typically ones where a user is prompted for a name 
-  and a password, and non login shells are generally started in the gui
-
+ -login shells are typically ones where a user is prompted 
+  for a name and a password, and non login shells are 
+  generally started in the gui 
+ 
+**bashrc vs bash_profile**
+ -just for the record, ~/.bashrc is for non login shells, 
+  while ~/.bash_profile is for login shells. 
+ -on a mac, it's irrelevant becuase both login and non
+  login shells use ~/.bashrc
+ -.bash_profile is NON LOGIN FIRST, then bashrc is AFTER 
+  you login 
 
  -here are the login shell scripts
 **Table 11-2: Startup Files for Login Shell Sessions
@@ -2634,7 +2643,7 @@ USER
 
  -here are the non login scripts:
 **Table 11-3: Startup Files for Non-Login Shell Sessions**
-/etc/bash.bashrc 
+  /etc/bash.bashrc 
   A global configuration script that applies to all users.
 ~/.bashrc 
   A user’s personal startup file. Can be used to extend or
@@ -2642,9 +2651,9 @@ USER
 
  -non login shells do adopt some of their environment from a 
   parent process, ussually the login shell
- -ussually ~/.bashrc is the most important, since it affects the 
-  regular users the most and some login set ups are configured to
-  read it 
+ -ussually ~/.bashrc is the most important, since it i
+  affects the regular users the most and some login set 
+  ups are configured to read it 
 
 
 **What's in a startup script?**
@@ -2661,10 +2670,13 @@ USER
     export PATH
 
  -the lines that start with # are comments 
- -the fourth line down is called an "if compound statement" and checks 
+ -the fourth line down is called an "if compound statement" 
+  and checks 
   for the existence of a file, if the file exists, read it
- -the PATH variable is ussually set by /.profile script, here it is 
-  is using expansion to say:
+ -the PATH variable is ussually set by /.profile script, 
+  and it's just the list of directories that BASH will search
+  through for finding executable scripts.
+ -here it is is using expansion to say:
     the path variable = the current path variable + usrer's home/bin dir
     export the new path
  -this is a simple way of expanding a variables, like so: 
@@ -2673,10 +2685,13 @@ USER
     $ echo $foo
     this is some
     $ foo=$foo" text."
-    //notice you have no concatenation operator, shell expansion
-    //works as if you wrote it out right thereso  
-    //so in that PATH example above, the : is just becuase PATH uses that
+    // notice you have no concatenation operator, 
+    // shell expansion
+    // works as if you wrote it out right thereso  
+    // so in that PATH example above, the : is just becuase 
+    // PATH uses that
     //to separate directories, not for concatenation
+
     $ echo $foo
     this is some text
 
@@ -2690,12 +2705,55 @@ USER
 
 
 **Modifying the Environment**
- -generally, adding additional PATH dir. and environment variables goes 
-  in ~/.bash_profile (or for ubuntu, ~/.profile) while all other aliases
-  and changes go into your ~/.bashrc
- -admins can configure /etc/.profile and change things for all users, 
-  but don't do that unless you really need to
+ -generally, adding additional PATH dir. and environment 
+  variables goes in ~/.bash_profile (or for ubuntu, 
+  ~/.profile) while all other aliases and changes go into 
+  your ~/.bashrc
+    -or, use a ~/.bash_aliases file and have everything 
+      reference that 
+ -admins can configure /etc/.profile and change things for 
+  all users, but don't do that unless you really need to
+
+**altering $PATH to add scripts**
+ -if you want to write your own scripts and have them run
+  just like a regular command (ie just typing clean not 
+  ~/code/bash_scripts/clean.sh) then put them into a directory
+  and have the PATH search their by doing this in your
+  ~/.bash_profile login file: 
+
+  PATH = “path/to/new/dir:$PATH”
  
+ -colons are how searchable directories are separated, 
+  so that's why there's one before the rest of the $PATH
+ -Python for instance does this already, to make sure it load
+  from the right python source 
+ -and make sure each exectuable script has permissions by 
+  doing 
+
+  $ chmod +x script-name
+ 
+ -and leave off any file extensions in the name 
+
+  NO: clean.rb YES: clean 
+
+ -and be sure each script starts with a shebang 
+
+    #!/bin/bash   <- for bash
+    #!/bin/ruby   <- for ruby
+  
+ -then source your profile, you might have to exit out
+  your session and then log back in  
+
+**PATH order**
+ -PATH searches directories in order, and once it find a match
+  it stops, so if you find your new program or programing
+  language isn't loading, check the path, and makes sure it
+  isn't in a later directory in the pipeline
+ -you can check where a script is loading from with the 
+  which command 
+
+  $ which clean
+  /Users/mikecronin/Desktop/code/bash_scripts/clean
 
 **Text editors**
  -text are CLI or GUI based, and there are a ton
@@ -3028,7 +3086,21 @@ Enterprise Linux, CentOSi    rpm        yum
 
     dpkg --install ~/Downloads/emacs-22.1-7.fc7-i386.deb 
    
- -
+**checking status of package**
+ -debian: 
+
+    $ dpkg --status package_name
+
+**display info of package**
+
+    $ apt-cache show package_name
+
+**Finding Which Package Installed a File**
+ 
+  $ dpkg --search file_name
+
+
+
 /////////////////////////////////////////////////////////////////////
 VIEWING PDFS IN TERMINAL 
  -the fbi program is used for viewing images, but it has a sister 
@@ -3040,3 +3112,100 @@ VIEWING PDFS IN TERMINAL
     $ fbgs -xxl thing.pdf
     // to view images its just fbi file.png or fbi fil.jpg
 
+
+
+============================================================
+                CH 15 STORAGE MEDIA
+============================================================
+**storage devices**
+ -linux is amazing at deep control of devices, here 
+  are some of the topics we will breifly cover: 
+
+     mount—Mount a filesystem.
+     umount—Unmount a filesystem.
+     fdisk—Partition table manipulator.
+     fsck—Check and repair a filesystem.
+     fdformat—Format a floppy disk.
+     mkfs—Create a filesystem.
+     dd—Write block-oriented data directly to a device.
+     genisoimage (mkisofs)—Create an ISO 9660 image file.
+     wodim (cdrecord)—Write data to optical storage media.
+     md5sum—Calculate an MD5 checksum.
+
+**mounting and unmounting** 
+ -nowadays, it is automatic (ussually), plug and play
+ -but on servers, it is still manual like it used to be 
+ -mounting is the first step, it means adding the device
+  to the filesystem tree 
+ -to see al the devices that are mounted at boot time, 
+  check the file /etc/fstab
+ -most of these are virtual and they are disk partitions
+ -here are the first three in fedora: 
+
+    LABEL=/12    /      ext3  defaults   1   1
+    LABEL=/home  /home  ext3  defaults   1   2
+    LABEL=/boot  /boot  ext3  defaults   1   2
+
+ -those six labels, in order are: 
+ Device: 
+  Traditionally, this field contains the actual name of
+  a device file associated with the physical device, but
+  nowadays, hot pluggable devices like USB use text labels
+  that are read after the device is formatted
+
+  Mount point: 
+    The directory where the device is attached to the
+    filesystem tree
+
+  Filesystem type: 
+    Linux allows many filesystem types to be mounted.
+    Most native Linux filesystems are ext3, but many
+    others are supported, such as FAT16 (msdos), FAT32
+    (vfat), NTFS (ntfs), CD-ROM (iso9660), etc.
+
+  Options: 
+    the settings for the device, like read only or non
+    executable 
+
+  frequency: 
+    A single number that specifies if and when a filesystem
+    is to be backed up with the dump command
+
+  Order: 
+    A single number that specifies in what order filesystems
+    should be checked with the fsck command
+
+
+**Viewing a List of Mounted Filesystems**
+ -The mount command is used to mount filesystems. 
+  Entering the command without arguments will display a 
+  list of the filesystems currently mounted:
+
+    $ mount 
+    /dev/sda2 on / type ext3 (rw)
+proc on /proc type proc (rw)
+sysfs on /sys type sysfs (rw)
+devpts on /dev/pts type devpts (rw,gid=5,mode=620)
+/dev/sda5 on /home type ext3 (rw)
+/dev/sda1 on /boot type ext3 (rw)
+tmpfs on /dev/shm type tmpfs (rw)
+none on /proc/sys/fs/binfmt_misc type binfmt_misc (rw)
+sunrpc on /var/lib/nfs/rpc_pipefs type rpc_pipefs (rw)
+fusectl on /sys/fs/fuse/connections type fusectl (rw)
+/dev/sdd1 on /media/disk type vfat (rw,nosuid,nodev,noatime,
+uhelper=hal,uid=500,utf8,shortname=lower)
+twin4:/musicbox on /misc/musicbox type nfs4 (rw,addr=192.168.1.4)
+
+ -The format of the listing is device on mount_point type 
+  filesystem_type (options).
+ -the last two devices are a 2gig sd card and a network 
+  drive, for instance 
+ -use mount before pluggin something in, then run it again
+  to see the new last entry, it should be the device
+ -NOTE: audio cd and Cd-roms are differen,t audios have 
+  no file system, and therefore aren't mounted in the sense
+
+ 
+
+ 
+    

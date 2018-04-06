@@ -1,0 +1,93 @@
+GIT NOTES 
+///////////////////////////////////////////////////////////////
+https://gist.github.com/hofmannsven/6814451
+-the git cheat sheet
+
+Resources to take a look at: 
+
+https://learn.co/tracks/web-development-fundamentals/advanced-bash-and-git/git/git-resources
+
+
+///////////////////////////////////////////////////////////////
+          SSH KEYS 
+**what are keys for**
+ -when pushing and pulling, you can transfer over https or 
+  ssh
+ -https will require a password, but by having a key on 
+  your github that matches your computer, you don't have to 
+  do that 
+ -it's also...safer? yeah? whatever, learn wants to use it 
+
+**checking for current keys**
+  https://help.github.com/articles/checking-for-existing-ssh-keys/
+ -in a terminal do: 
+
+  $ ls -al ~/.ssh
+
+ -if you have any keys, this is where they will be
+ -they will be in one of these formats: 
+
+    id_dsa.pub
+    id_ecdsa.pub
+    id_ed25519.pub
+    id_rsa.pub
+
+ -so mine is the id_rsa format, meaning that at the end of the
+  id_rsa.pub has your email address, just for reference
+
+**Generating a new SSH key**
+https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
+ -if you don't have a key to use, you can create a new one: 
+
+  $ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+ -this creates a new key for you with your email as a label
+ -it lets you know with the following message: 
+
+  Generating public/private rsa key pair.
+  Enter a file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]
+
+ -hit enter, it will then prompt you for a secure pass phrase 
+
+  Enter passphrase (empty for no passphrase): [Type a passphrase]
+Enter same passphrase again: [Type passphrase again]
+
+**adding your SSH key to SSH-agent**
+ ==link is same as previous section==
+ -an SSH-agent is a daemon that manages and applies your keys
+  automatically when you SSH into servers, so you don't have 
+  to do anything much
+ -on a mac ALWAYS use the builtin ssh-add command, not anything
+  with homebrew or other programs 
+ 
+ -first, start the ssh agent 
+
+    $ eval "$(ssh-agent -s)"
+    Agent pid 59566
+
+ -also, a one time addition to your ~/.ssh/config file is: 
+
+    Host *
+     AddKeysToAgent yes
+     UseKeychain yes
+     IdentityFile ~/.ssh/id_rsa
+
+ -then, add your key (NOTE: if you used a different key format
+  use that, but I used id_rsa)
+
+    $ ssh-add -K ~/.ssh/id_rsa
+
+
+**add SSH key to GitHub**
+ https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
+ 
+ -first, copy the key to your computers clipboard using the 
+  handy pbcopy command: 
+
+    $ pbcopy < ~/.ssh/id_rsa.pub
+
+ -then go to your github account, go to settings, then  
+  SSH and GPG keys, then click new SSH key
+ -in the title, name it your computer you are using 
+ -paste in the key 
+ -then click add new key 
