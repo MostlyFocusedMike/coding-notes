@@ -19,7 +19,7 @@
  -MINSWAN means "Matz is nice, so we are nice"
 
 /////////////////////////////////////////////////////////////
-                  Ruby Lecture Intro What Is A Program
+            Ruby Lecture Intro What Is A Program
  -All programs are converted into machine code 
  -if this is done at run time, it is an interpreted language,
    if it needs to be converted before, it is a compiled 
@@ -99,6 +99,10 @@
  -the require should go at the top of the ruby file
 
     require_relative 'bootcamp-stuff/playground.rb'
+ 
+ -this gives your repl access to the files methods and
+  classes, but not any of the local variables or loose
+  code in the file
 
  -you can also just do 
 
@@ -111,6 +115,9 @@
 
 /////////////////////////////////////////////////////////////
               Ruby Data types 
+============================================================
+/////////////////////////////////////////////////////////////
+                    STRINGS
 
 **Strings**
  -surrounded by strings, can contain characters and numerals
@@ -152,6 +159,8 @@
   
       "Howdy Dan".swapcase
       => hOWDY dAN
+////////////////////////////////////////////////////////////
+                  BOOLEANS
 
    #start_with?
     -checks if a string starts with a character (case sense)
@@ -161,6 +170,8 @@
 
 **booleans**
   - it's either "true" or "false", notice no capitals 
+
+////////////////////////////////////////////////////////////
 
 **integers**
   -just whole numbers, don't use any quotes

@@ -3,13 +3,11 @@ WIDTH OF MINI PI SCREEN
 
 /////////////////////////////////////////////////
         CH1- WHAT IS THE SHELL?
- -When we talk about the command line we are 
-  really referring to the "shell" which is a 
-  program command that takes keyboard vommands 
-  and pass them to the OS to carry out.
- -Almost all linux distrobutions support the 
-  shell program "bash", which is provided by the
-  GNU project
+ -When we talk about the command line we are really referring to the "shell" 
+  which is a program command that takes keyboard vommands and pass them to the 
+  OS to carry out.
+ -Almost all linux distrobutions support the shell program "bash", 
+  which is provided by the GNU project
  -Bash stands for "bourne again shell" since
   it replaces the unix shell program "sh" by
   Steve bourne
@@ -82,7 +80,7 @@ WIDTH OF MINI PI SCREEN
   the gui scenes in most linux distros
  -these can be accessed by hitting ctrl alt F1 
   through F6
- -to switch between them, usealt f1-f6 
+ -to switch between them, use alt f1-f6 
  -to get back to gui, use alt f7
  -NOTE: mini pi seems not to be able to switch
   to all 6 options, but can switch between f1, 3, and 5
@@ -548,7 +546,7 @@ drw-r--r--  1 root root  6472 Sep 15 14:04 test
     copying dir.
   -u, --update 
     when copying files from one directory to 
-    another, only add the files that either 
+    another, only add the files that either don't
     exist or are newer versions 
   -v, --verbose 
     display info messages as it does stuff
