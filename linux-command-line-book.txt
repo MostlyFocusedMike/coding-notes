@@ -3208,4 +3208,66 @@ twin4:/musicbox on /misc/musicbox type nfs4 (rw,addr=192.168.1.4)
  
 
  
-    
+============================================================
+     CH 24 WRITING YOUR FIRST SHELL SCRIPT
+============================================================
+**how to write a shell script**
+ 1. write the file, you can use .sh file while writing to
+     get syntax highlighting, but then once you're done,
+     take off the extension
+ 2. make the script executable with 
+ 
+      $ chmod +x script-name
+
+ 3. Make sure Bash knows where to find and process your 
+    script by adding the directory that holds it
+    search PATH for more info)
+
+**file format**
+ -here is a sample text
+ 
+    #!/bin/bash
+    # This is our first script.
+    echo 'Hello World!'
+
+ -note the shebang format, even though its a comment it still
+  tells BASH where the bash enterpreter is
+ 
+**permissions**
+ -make sure your script is executable using chmod
+ -chmod +x, and chmod 755 allow anyone to execute, but
+  chmod 700 is only owner executable
+
+**running script**
+ -to run a script, call it with an explicit path
+
+    $ ./script-name
+
+ -you have to include the period, it must be explicit
+ -or, you can add it to the $PATH variable as noted before
+
+**good script locations**
+ - some distros include a ~/bin folder, this is the best
+  place for personal scripts
+ -ubuntu automatically adds the ~/bin to the $PATH if you
+  create it, so just make it, log out, then log in to get
+  it
+ -/usr/local/bin is the place for scripts that any users 
+  on a system can run
+ -/usr/local/sbin are intdende for admin use
+ -don't put anything in the /bin or /usr/bin because 
+  those are intended to store only programs from the
+  official linux distro
+
+**maintainability**
+ -use longer options for your scripts so that is is clear
+  what is going on
+ -do not use contiuations ("\") instead use proper indents
+  and line breaks
+
+
+
+============================================================
+                CH25 starting a project
+============================================================
+
