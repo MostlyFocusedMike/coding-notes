@@ -72,6 +72,8 @@ METHODS: functions that are defined in an object
  -use cmd + shift + c for chrome 
  -cmd + alt + K in firefox
  -cmd + alt + C in safari 
+ -like a real console, typing the up and down arrows will
+  move you through the console's history
 
 **the console is a playground**
  -in this console you can type JS and the page will respond
@@ -118,7 +120,7 @@ METHODS: functions that are defined in an object
 ============================================================
                   data types 
 ============================================================
-**weak type**
+**weak typing**
  -JS is a weak type of language, it will try to coerce 
   your data types to match, if they are different, which
   leads to intersting situations 
@@ -127,13 +129,621 @@ METHODS: functions that are defined in an object
  
  -here is realized that you can't "add" a number and a string
   but you can turn the int into a string and then 
-  concatenate, which is what it did
+  concatenate, which is what it did and always will do
  -JS "coerced" the int's data type from number into string 
 
 **typeof method** 
+ -the typeof() method takes a data type as an argument 
+  and returns a string of the objects data type 
+**data types of JS** 
+ -here they are: 
 
-  typeof(1)  // "number"
+  typeof(1)  // "number"   / notice both ints and 
+  typeof(.2) // "number"   / floats are the same type 
   typeof("2)" // "string"
+  typeof([1]) // "array"
+  typeof({"hey": "there}) // "object" 
+  typeof(true) // "boolean"  / notice they aren't capitalized
+  typeof(undefined) // "undefined"
+  typeof(null) // "null"
+  typeof(function(){}) // "function"
+
+**strings concatenation and interpolation**
+ -concatenation is simple 
+
+    let str = "hello " + "there." 
+    // "hello there 
+
+ -interpolation is done by using "template strings" 
+  which are denoted by `` backticks and ${}
+ 
+    let name = "nate"
+    console.log(`Hello ${name}`)
+    // Hello nate
+    console.log(`${2 + 2}`)
+    // 4 
+
+ -this is a new feature with ES2015, so a lot of older code
+  uses concat 
+    
+  
+
+============================================================
+                  JS Logging 
+============================================================
+**you can send data to the console**
+ -this is helpful to show you what your code is doing while
+  it runs and checking breakpoints 
+ -this is done with the console object 
+
+**console**
+ -cmd + K is used to clear away your console 
+ -you can also click the slashed circle in the corner of 
+  the console windowz
+ -we know the console is an object because of typeof, 
+  which returns "object" when you enter console, and if you 
+  just type "console" into the console, it returns an object
+ 
+**log()**
+ -when calling methods on an object, use dot notation 
+  
+    console.log("I'm logged")
+    let foo = "so am I!"
+    console.log(name)
+    console.log('one', 'two', 'three')    
+    // comma separated values are printed with spaces between
+ 
+ -you can console log almost anything, and it can take mltiple
+  arguments of different types (strings, variables, numbers
+  etc) 
+
+**error()**
+ -console.error() will print out a custom message and a "stack
+  trace" of code that was evaluated before the error went 
+ -this info is available by clicking on the arrow next to 
+  the error message in the console 
+  -clicking on the lines will take you to that section in your
+   code 
+ 
+    console.error("I can", "take multiple", "args")
+
+ -if it's testing, use log, but if you actualy are checking 
+  errors, use .error()
+ -NOTE: error() does not actualy throw an error, your code 
+  will continue to move 
+
+**warn()**
+ -this is good for telling developers what they MIGHT not 
+  want to do as the warning message is not an error
+
+
+
+=============================================================
+     JavaScript Variable Assignment and Declaration  
+=============================================================
+**dynamically typed language**
+ -js needs a keyword to tell it that a word is a variable,  
+  but it can be assigned any type without specifying and that
+  type can be reassigned at any time (except for constants)
+
+**proper names**
+ -JS tends to use camelCaseForVariables (this is helpful
+  since HTML favors name-dashes so it's easy to distinguish)
+ -can't start with a number, but can be an _
+ -dashes can't be used 
+ -are case sensitive  
+
+**multiline assignments** 
+
+  let name = "jeff";
+  let name2 = "sarah";
+  // works ok
+  let name = "jeff",
+    name2 = "sarah";
+ 
+ -with multiline assignments, variables of the same type 
+  (var, let or const) can be separated by commas with a ; 
+  only at the end of the very last assignment
+ -values do not have to be assigned, you can just declare: 
+
+  let name, age, number;
+
+ -lint (a type of forced style guide) requires that each 
+  scope have its variables listed in this manner
+
+**reassining** 
+
+    let myNote = "Get milk"
+ 
+    // later on
+     
+    myNote = "Get cookies"
+
+ -that's really all there is to it
+
+//////////////////////////////////////////////////////////////
+ -there are now 3 different keywords to use to declare vars, 
+  and they each have a different meaning: 
+
+                 var VS let VS const 
+
+**var and hoisting**
+ -when you declare variables with var, they get 
+  hoisted to the top of its scope: 
+ -this means that their declarations all come up at the top 
+  of a script, so they can be invoked without calling issues
+
+  // so this: 
+
+  function foo(bool) {
+    if (bool) {
+      var bar = "hello there";
+      console.log(bar);
+      // this logs "hello there"
+    } else {
+      console.log(bar);
+      // this logs undefined, not give an error, even though
+      // it wasn't even declared right? 
+      console.log(asdadferg);
+      // like this would give us an error since that variable 
+      // was never defined 
+    }
+  }
+
+  // the reason that bar is just undefined is becuase hoisting 
+  // hoists all var declarations to the top of the scope before
+  // running the script, so behind the scenes we get: 
+
+  function foo(bool) {
+    var bar;
+    if (bool) {
+      bar = "hello there"
+      ...
+ 
+ -apparently this hoisting mechanic is super weird and throws 
+  a lot of developers off, so new declaration keywords that 
+  go by code block, not scope, were created
+
+**let**
+ -the let keyword prevents hoisting and only allows the variable
+  to be used within it's block: 
+
+  function foo(bool) {
+      if (bool) {
+        let bar = "hello there";
+        console.log(bar);
+        // this logs "hello there"
+      } else {
+        console.log(bar);
+        // now this throws an error, since bar is in another 
+        // code block and is not hoisted 
+      }
+    }
+
+**const** 
+ -the const keyword also restricts variables to their block,
+  BUT it also restricts reassignment of the variable within
+  each scope: 
+
+  let tomato = "fruit";
+  tomato = "veggie";
+  // this is fine
+  var potato = "potayto";
+  potato = "potahto";
+  // obvi fine all along
+  const ham = "cheese";
+  ham = "turkey";
+  // this throws an error 
+
+ -note that const blocks re assignment, but that does not mean 
+  the variable is immutable: 
+
+  const arr = ["a", "b", "c"];
+  arr.push("d");
+  // this works fine 
+  arr = ["x", "y", "z"];
+  // this throws an error
+
+**which do you use?**
+ -honestly the jury is still out
+ - most agree to avoid var unless you NEED it for some reason
+ -then some say default to const unless you need the variable
+  to change, then use let
+ -others say default to let, then change to const if it 
+  turns out the variable doesn't need to change
+ -the second school makes slightly more sense since making a 
+  variable a const incorrectly throws an error, but a let 
+  that never happens to need to change is just fine
+
+
+
+
+=============================================================
+              intro to functions 
+=============================================================
+**what is a function**
+ -a function is a group of repeatable instructions that you
+  "call" by writing its name with () and passing args, 
+  if any are needed: 
+
+  function sayHello(name) {
+    console.log(`Hello ${name}`);
+  }
+  
+  sayHello("mark");
+  // Hello mark
+
+**parameters and arguments** 
+ -in the function definition, the values passed into it are 
+  called parameters, but when the function is called and the
+  actual values are passed into it, those values are called 
+  arguments.
+ -parametes are planning, arguments are action 
+ -order matters with arguments, the order entered determines
+  what values go where
+
+  function say(greeting, firstName) {
+    console.log(`${greeting}, ${firstName}!`)
+  }
+  say("Julio", "hello")
+  // Julio, hello
+
+**default values** 
+ -thanks to new ES2015 standards, JS now accepts default 
+  arguments: 
+
+    function sayHello(name="Karen") {
+      console.log(`Hello! ${name}`);
+    }
+
+    sayHello()
+    // Hello! Karen
+
+ -however, default arguments must go at the end, because 
+  variables will still be assigned in order: 
+
+  function sayHello(name, name2="Karen") {
+    console.log(`Hello! ${name} ${name2}`);
+  } 
+  sayHello("mark")
+  // Hello! mark undefined 
+
+ -it's not like ruby, it can't figure it out if you put the 
+  default variable first 
+
+**function overloading/no arguments** 
+ -if you don't provide enough arguments, JS assigns those 
+  arguments a value of undefined (this can be used to check
+  how many arguments have been given, but that's advanced) 
+ -however, if you give too many arguments, JS just takes 
+  the proper amount it needs, and all the extras left over at 
+  the end are simply ignored 
+
+    alert("printed", "ignored", "without issue") 
+    // alert only takes one argument, so it uses the first 
+
+ **what are () for?**
+ -if you call a function without () at the end, it is not 
+  called, it is just referenced.
+ -if you type a function into the console, it will simply
+  print out the function definition 
+ -some things appear to be functions, like .length, since 
+  they seem to return a value on the object, however they
+  don't take parenthesis because they are actually properties
+  -more on this much later
+ -bottom line is, don't forget the () on your functions if
+  you want to call them, even if no args are passed in 
+  
+**getting values OUT of functions**
+ -so use arguments to pass info in, but use the return 
+  keyword to get values out of a function
+ -the return keyword is NEVER implicit like ruby
+
+  function say(greeting, firstName) {
+    return `${greeting}, ${firstName}!`
+  }
+
+  let greeting = say("hello", "sarah") 
+  greeting now equals "hello sarah" 
+
+ -you can return anything out of a function, objects and 
+  arrays are no problem
+ -arrays are how you return more than one piece: 
+
+  function multiplyVals(val1,val2) { 
+    return [val1 * 2, val2 * 4]
+  }
+  
+  multiplyVals(3,9)
+  // [6, 36]
+
+
+
+
+==============================================================
+                  Flow control and conditionals 
+==============================================================
+**flow control**
+ -if something is this, then do that 
+ -so if the statment in the () is evaluated to be true, 
+  then the code block attached to it is executed, 
+ -the program then leaves the whole check and continues on
+  with the program
+ 
+
+**basic syntax**
+
+    if (val > 4) {
+      go()
+    } else if (val == 3) {
+      stop()
+    } else if (val < 3) {
+      slowDown()
+    } else {
+      blowUp()
+    }
+
+ -notice that "else if" is two words and how each conditional
+  check goes in ( ) and each statement to be evaluated goes 
+  in a block of { }
+ -if statements can go on their own without the else or 
+  else if parts 
+ -the code that is found to be true FIRST is executed, and 
+  ONLY that code is executed, so keep this in mind for 
+  orderin your statements, you want the least broad checks
+  first 
+
+**operators** 
+  <=, ==, >=  = less than or equal, equal, greater or equal 
+  !=   = not equal 
+  <==, ===, >==, !== 
+   -adding that extra "=" does not allow for type coercion,
+    if the compared objects are not the same data type, it
+    will always be false 
+
+    5 == "5"  // true 
+    5 === "5" // false 
+    
+**logical comparisons**
+ -you can combine two statements with && and || to evaluate
+  both as a single phrase and return a single true or false  
+  
+  4 > 5 || 6 < 10 
+  // the "or" operator returns true if one or more conditon
+  // is true 
+  // so this is true 
+
+  5 == 5 && 10 > 1
+  // "and" means both must be true to return a true value 
+
+//////////////////////////////////////////////////////////////
+**ternary operator**
+ -handy shortcut for a simple if else statement: 
+
+  condition ? valueIfTrue : valueIfFalse
+ 
+  ...code 
+  return 4 < 10 && 0 == "0" ? "neat" : "what? false?"
+  ... more code 
+
+//////////////////////////////////////////////////////////////
+**truthy and falsey** 
+ look at this 
+
+  if ("sarah") {
+    //code 
+  }
+
+ -how does that evaluate? 
+ -in JS there are "truthy" values and "falsey" values
+ -these values will be coerced into logical true or falses 
+  to get through comparison checks 
+ -all values are truthy except for: 
+
+    false, 0, "" (empty string), null, undefined, and NaN
+    
+ -everything else is true, the only odd one is an empty array
+  and object, unlike an empty string, count as truthy  
+
+**NOT true and False though**
+ -truthy does not actually mean true, so a direct comparison
+  will not work
+
+    (true == "ham") // false 
+
+ -think of truthy and falsey values to be what JS turns to
+  when there are no purely logical true and false options 
+
+**weird comparisons**
+ -the infamous 
+
+    (0 == []) //true
+    ("0" == 0) //true 
+    ("0" == []) //false 
+
+ is a result of coercion and truthy values
+ -an empty array in a logical check is coerces into an 
+  empty string, which is falsy, and a 0 is also falsey, so 
+  two falsey values are equal, so the statment is true
+ -however, a string of "0" is not the same as "", so they are
+  now not equal, and thus false 
+ -the weirdness comes from the fact that on it's own [] is 
+  true: 
+
+    if ([]) {
+     //this will execute since it is true
+    }
+ 
+ -but when compared to other things, it becomes "", which is 
+  falsey 
+//////////////////////////////////////////////////////////////
+**short circuiting**
+ -if the first value in an "or" comparison is true, JS won't
+  bother evaluationg the second stament, since there's no
+  way to change the phrase's value 
+ -an "and" comparison with a first value of false will ignore
+  the second statment for the same reason: the phrase has to
+  be false 
+ -logical operators when used to assign a variable, will
+  assign it the value that is true: 
+
+    thing = true || false 
+    // thing is set to true 
+
+    thing = "" || "greg"
+    // since "" is falsey, it is assigned a value of greg 
+
+ -use this behavior with || to assign values to a variable 
+  ONLY if they haven't already been assigned
+
+    let name = name || "greg"
+    // since  name has not been assigned any value yet, 
+    // it has an "undefined" value, which is falsey, so the 
+    // "or" check returns the only truthy value of "greg" 
+    
+    let name = "sarah"
+    name = name || "greg"
+    // now, name = sarah, so the || "short circuits", it sees
+    // a true value, meaning the whole phrase must be true,
+    // so it doesn't bother evaluating the second value 
+    // (which happens to be true), so now the only value on
+    // that side of = is "sarah", the value of name 
+
+//////////////////////////////////////////////////////////////
+**switch statements** 
+ -here's the basic structure: 
+
+var mood = "hungry"
+switch(mood) { 
+  case "happy":
+    console.log("Dance to Pharrell's 'Happy'");
+    break;
+  case "sad":
+    console.log("You should eat a pint of ice cream");
+    break;
+  case "anxious":
+    console.log("Take some deep breaths");
+    break;
+  case "hungry":
+    console.log("You should eat a big chocolate cake");
+    break;
+  default:
+    console.log("That's not a mood we support");
+}
+ 
+ -the whole thing is wrapped in brackets and indendetd
+ -so the mood value is simply checked agains the single 
+  value ater the case keyword
+ -if it is found to match, the following code is executed 
+ -NOTE: switch statemnts cannot use any logical or comarison
+  operators, it must jsut simply match 
+ -the default value is triggered if no exact matches are found
+  like the else keyword, the default section is optional 
+
+**hacking a switch statments** 
+ -notice all those breaks? without those, the code will just 
+  keep looking for the next true statement 
+ -so if one of the options you wanted to be evaluated, but 
+  then also the default as well, then on that case block,
+  leave out the break keyword 
+ -this is also a hacky way to get ranges: 
+
+function switchAge(age) {
+  switch (age) {
+  case 13:
+  case 14:
+  case 15:
+  case 16:
+  case 17:
+  case 18:
+  case 19:
+    return "You are a teenager"
+    break; 
+  default:  
+    return "You have an age"
+      // code to be executed if case n and case m false
+  }
+}
+
+ -this is saying if the value of age is 13 to 19, it will 
+  return you are a teenager 
+
+
+//////////////////////////////////////////////////////////////
+**a quick word on return vs break** 
+ -break (and later on you'll see continue) is a keyword that 
+  tells JS to leave that code block (like an if..else block 
+  or a switch statement) and keep running the next part of
+  code 
+ -however, if you have say, an if...else check in a function
+  and one of the options has a "return" keyword inside 
+
+  function thing(val){
+    if (val) {
+      return "hello there"
+    } else {
+      //more code
+    }
+    console.log("ehllo")
+  }
+ 
+ -if that val is evaluated to true, the WHOLE function is 
+  exited with a return value of "hello there", the console
+  log will never be reached. However, if you hit the else,  
+  JS's built in "break" behind the scenes would simply exit
+  out of the check and back into the function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
