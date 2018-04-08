@@ -126,7 +126,7 @@ context “testing corner cases with the foobar() method”
  -This is a verification step where we check
   that a specific expected condition has been met.
 
-    expect(message).to eql "Hello World!"
+    expect(message).to eq "Hello World!"
  
  -as you can see RSpec tries to be read aloud easily
 
@@ -134,12 +134,23 @@ context “testing corner cases with the foobar() method”
 **The to keyword**
  -The to keyword is used as part of expect statements. 
  -Note that you can also use the not_to keyword 
-  to express the opposite You can see that to is used with a dot, expect(message).to, because it actually just a regular Ruby method. In fact, all of the RSpec keywords are really just Ruby methods.
+  to express the opposite 
+ -You can see that to is used with a dot, 
+   
+    expect(message).to, because it actually just a 
 
-The eql keyword
-The eql keyword is a special RSpec keyword called a Matcher. You use Matchers to specify what type of condition you are testing to be true (or false).
+  because it is just a regular Ruby method #to
+ -In fact, all of the RSpec keywords are really just Ruby 
+  methods.
 
-In our HelloWorld expect statement, it is clear that eql means string equality. Note that, there are different types of equality operators in Ruby and consequently different corresponding Matchers in RSpec. We will explore the many different types of Matchers in a later section.
+**The eq keyword**
+ -The eq keyword is a special RSpec keyword called a Matcher.
+ -You use Matchers to specify what type of condition you are 
+  testing to be true (or false).
+ -so in our example clearly we are testing to see if the 
+  putput matches the string
+ -there are different types of equality operators in Ruby 
+  and consequently different Matchers in RSpec. 
 
 
 /
