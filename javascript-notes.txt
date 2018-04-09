@@ -261,6 +261,25 @@ METHODS: functions that are defined in an object
 
  -that's really all there is to it
 
+**scope**
+ -scope in JS referes to where in code a variable can be used
+ -js variables can be accessed from the scope they are 
+  declared in, and one scope below that. They can't be 
+  accessed from a scope one level above where they have been
+  declared though
+ -so a variable declared in the main scope, can be accessed 
+  from inside a function in the main scope, but the main scope
+  can't access variables declared in the function scope 
+
+  let name = "jane";
+   
+  function thing() {
+    console.log(name); // this is fine 
+    let bar = "foo";
+  }
+
+  console.log(thing); // this produces an error
+
 //////////////////////////////////////////////////////////////
  -there are now 3 different keywords to use to declare vars, 
   and they each have a different meaning: 
@@ -355,9 +374,59 @@ METHODS: functions that are defined in an object
   variable a const incorrectly throws an error, but a let 
   that never happens to need to change is just fine
 
+**global variables** 
+ -if you don't use any variable keyword, the variable will 
+  have global scope 
 
+    ham = "food";
 
+ -this means it can be acessed from anywhere in your code 
+ -however it takes up a lot of memory and is bad practice 
+ -also, local variables override it, but aren't the same  
+  thing, which is confusing and terrible 
 
+    //declares a global variable called volume, sets it to 10
+    volume = 10; 
+ 
+    function returnEleven() {
+      //declares a local variable called volume, sets it to 11
+      var volume = 11;  
+      return volume;
+    }
+     
+    returnEleven(); // returns 11
+    volume; // the global variable is still 10
+     
+    function goToEleven(){
+      volume = 11;  //changes the global variable to 11
+      return volume;
+    }
+     
+    goToEleven(); // returns 11
+    // the global variable volume has been changed to 11
+    volume; 
+
+ -even worse, a global can also overwrite a local: 
+
+    function sayHello() {
+      var greeting = "hola";
+      greeting = "hello";
+      return greeting;
+    }
+     
+    sayHello()
+    // Returns "hello",
+    // This demonstrates that the variable greeting is now 
+    // pointing to the string "hello" instead of "hola"
+     
+    greeting
+    // ReferenceError: greeting is not defined
+    // This demonstrates that the variable greeting is 
+    // still local instead of global
+
+ -globals are bad and should be avoided, in fact lint will see
+  them as an error and won't run your code 
+      
 =============================================================
               intro to functions 
 =============================================================
@@ -693,8 +762,111 @@ function switchAge(age) {
   JS's built in "break" behind the scenes would simply exit
   out of the check and back into the function
 
+==============================================================
+                  JS Arithmetic/Assignment operators 
+==============================================================
+**basic arithmetic symbols** 
+ -they are all here: 
+  +,-,*,/ = what you think
+  %  = modulo, which returns the remainder 
+  // the ** is new to ES2015
+  ** = to power 5 ** 2 == five to the power of 2 
 
+**increments and decrement** 
+ -js includes the shorthand ++/-- operators: 
+  
+  i++ == i = i + 1
+  i-- == i = i - 1
 
+ -if the --/++ is placed after, the number is first 
+  evaluated, then incremented, if the --/++ go before, then
+  the number is changed THEN evaluated 
+ -to see this clearly, go to a console and try these
+
+  let number = 5
+  console.log(number++) // 5 
+  number = 5
+  console.log(number--) // 5 
+  number = 5
+  console.log(++number) // 6
+  number = 5
+  console.log(--number) // 4 
+
+ -this only really matters when returning a value, if you
+  --/++, by the end of a line, all subsequent lines will
+  have the same value to work with (like counting in loops)
+
+    var i = 0;
+    ++i;
+    console.log(i == 1); // true
+
+    var i = 0;
+    i++;
+    console.log(i == 1); // true
+
+ -it's also rare to see them in front anyway
+
+**assignment operators**
+ -in addition to =, there are 
+  +=,-=,/=,*=,%= 
+  // and in es2015
+  **= 
+ -what those do is 
+
+    i = i + 5 == i += 5
+    i = i - 5 == i -= 5
+    i = i * 5 == i *= 5
+    i = i / 5 == i /= 5
+    i = i % 5 == i %= 5
+    
+ -since they are more explicit, +=/-= are prefered over --/++
+  (except for loops, no one uses i += 1, they do i++)
+
+//////////////////////////////////////////////////////////////
+**turning strings into numbers**
+ -since js is loosely typed, it will coerce a number and a 
+  string into a string and a string 
+  
+    2 + "2" = "22" 
+
+ -when working with user input, this is no good, since all 
+  user input is a string
+ -we need to convert strings to numbers 
+
+**Number()**
+ -the easiest way to do this is with Number() 
+
+    let num = "2"
+    let realNum = Number(num)
+    // realNum == 2 
+    num = "2.2"
+    realNum = Number(num)
+    // real num is the float 2.2 
+    num = "1cm"
+    realNum = Number(num)
+    // realNum is NaN
+ 
+ -basically, if a string is just an int or float, it will 
+  convert it into an int or float 
+ -if there are any non number characters in the string though,
+  it will return a value of NaN
+
+**NaN and isNaN()** 
+ -NaN the value returned when you try to do an arithmetic 
+  operation on a non number 
+ -you can easily check if a value is a number or not with the
+  isNaN() method: 
+
+    let num = "4";
+    console.log(isNaN(num)); // false 
+
+ -isNaN() returns true if the argument it takes is NOT NaN, 
+  and true if it is NaN
+ -it doesn't care about null, undefined, or bool, it if is 
+  not NaN, it will return false, there is no type coercion
+ -it only takes one argument
+
+    
 
 
 

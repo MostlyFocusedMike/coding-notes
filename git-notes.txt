@@ -50,9 +50,14 @@ https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-s
  -hit enter, it will then prompt you for a secure pass phrase 
 
   Enter passphrase (empty for no passphrase): [Type a passphrase]
-Enter same passphrase again: [Type passphrase again]
+  Enter same passphrase again: [Type passphrase again]
 
-**adding your SSH key to SSH-agent**
+ -on a mac, that passphrase will be logged in your passphrase 
+  will likely get logged into keychain so you wont need to type
+  it out, but on a pi, the passphrase will need to be entered
+  every time you use the key to connect, so don't forget it! 
+
+**adding your SSH key to SSH-agent on mac**
  ==link is same as previous section==
  -an SSH-agent is a daemon that manages and applies your keys
   automatically when you SSH into servers, so you don't have 
@@ -77,7 +82,19 @@ Enter same passphrase again: [Type passphrase again]
 
     $ ssh-add -K ~/.ssh/id_rsa
 
+**adding ssh keys on pi**
+ -start the ssh agent the same way 
+ -but pi has no agentKeys or keychain, so the config file is just: 
 
+   Host *
+    IdentityFile ~/.ssh/id_rsa
+
+ -and then adding the key is the same with a lowecase k: 
+
+    $ ssh-add -K ~/.ssh/id_rsa
+  
+ 
+ 
 **add SSH key to GitHub**
  https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
  
@@ -91,3 +108,30 @@ Enter same passphrase again: [Type passphrase again]
  -in the title, name it your computer you are using 
  -paste in the key 
  -then click add new key 
+ -note: in linux, pbcopy isn't available, so use xclip
+  to copy stuff
+
+**using ssh instead of HTTPS**
+ -on a new repository, just use the ssh link with git clone 
+ -if you already had a repo using HTTPS and want to switch,
+  go to the project folder on your computer and do: 
+
+  $ git remote set-url <remote-name> <link>
+ 
+ -where <remote name> is likely "origin" and <link> is the
+  ssh link that you can see when you go to the online repo
+  and click the clone button 
+ -to see if your directory is using https or ssh do: 
+
+    $ git remote -v
+
+ -an ssh looks like this: 
+
+  git@github.com:MostlyFocusedMike/coding-notes.git
+
+ -and an https looks like:
+
+  https://github.com/MostlyFocusedMike/coding-notes.git
+
+ -so with your directory reset to ssh, now when you push up to
+  it, you just need to enter your passphrase for the key 
