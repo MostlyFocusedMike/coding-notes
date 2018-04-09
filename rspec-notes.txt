@@ -70,7 +70,7 @@ RSPEC NOTES
     describe HelloWorld do 
        context “When testing the HelloWorld class” do 
           
-          it "The say_hello method should return 'Hello World'" do 
+          it "it should return 'Hello World'" do 
              hw = HelloWorld.new 
              message = hw.say_hello 
              expect(message).to eq "Hello World!" 
@@ -166,104 +166,82 @@ context “testing corner cases with the foobar() method”
 /
 /
 
+==============================================================
+                Writing Specs
+==============================================================
+**testing a separate file**
+ -here's the code example in a different file, it returns true
+  if there are any vowels in the string
 
-In this chapter, we will create a new Ruby class, save it in its own file and create a separate spec file to test this class.
+    class StringAnalyzer 
+       def has_vowels?(str) 
+          !!(str =~ /[aeio]+/i) 
+       end 
+    end
 
-First, in our new class, it is called StringAnalyzer. It’s a simple class that, you guessed it, analyzes strings. Our class has only one method has_vowels? which as its names suggests, returns true if a string contains vowels and false if it doesn’t. Here’s the implementation for StringAnalyzer −
+ -save this in a file string_analyzer.rb in the spec folder
+ -Here is the source for our spec file to test StringAnalyzer:
 
-class StringAnalyzer 
-   def has_vowels?(str) 
-      !!(str =~ /[aeio]+/i) 
-   end 
-end
-If you followed the HelloWorld section, you created a folder called C:\rspec_tutorial\spec.
+  require 'string_analyzer' 
 
-Delete the hello_world.rb file if you have it and save the StringAnalyzer code above to a file called string_analyzer.rb in the C:\rspec_tutorial\spec folder.
-
-Here is the source for our spec file to test StringAnalyzer −
-
-require 'string_analyzer' 
-
-describe StringAnalyzer do 
-   context "With valid input" do 
+  describe StringAnalyzer do 
+     context "With valid input" do 
+        
+        it "should detect when a string contains vowels" do 
+           sa = StringAnalyzer.new 
+           test_string = 'uuu' 
+           expect(sa.has_vowels? test_string).to be true 
+        end 
       
-      it "should detect when a string contains vowels" do 
-         sa = StringAnalyzer.new 
-         test_string = 'uuu' 
-         expect(sa.has_vowels? test_string).to be true 
-      end 
-		
-      it "should detect when a string doesn't contain vowels" do 
-         sa = StringAnalyzer.new 
-         test_string = 'bcdfg' 
-         expect(sa.has_vowels? test_string).to be false
-      end 
-      
-   end 
-end
-Save this in the same spec directory, giving it the name string_analyzer_test.rb.
+        it "should know if a string doesn't contain vowels" do 
+           sa = StringAnalyzer.new 
+           test_string = 'bcdfg' 
+           expect(sa.has_vowels? test_string).to be false
+        end 
+        
+     end 
+  end
+ -Save this in the same spec directory, giving it the name 
+  string_analyzer_spec.rb.
+ -all spec files must end in _spec.rb, this is how rspec knows
+  to run and test with those files 
+ -cd out of the spec folder, then do: 
 
-In your cmd.exe window, cd to the C:\rspec_tutorial folder and run this command: dir spec
+    $ rspec spec 
 
-You should see the following −
+ -it will run all the tests and show you the failures 
+ -(In this example you will fail because in the code your list
+  of vowels does not include "u", add that, save, then run 
+  tests again to pass) 
 
-Directory of C:\rspec_tutorial\spec
+**good test questions**
+ -so if you're looking for vowels, here are some good tests
+  to run to really get all the use cases:
+Input string	Description	Expected resultdd with has_vowels?
+  (input strings)
+  (description)
+  (return value)
 
-09/13/2015 08:22 AM  <DIR>    .
-09/13/2015 08:22 AM  <DIR>    ..
-09/12/2015 11:44 PM                 81 string_analyzer.rb
-09/12/2015 11:46 PM              451 string_analyzer_test.rb
-Now we’re going to run our tests, run this command: rspec spec
+  ‘aaa’, ‘eee’, ‘iii’, ‘o’
+  Only one vowel and no other letters.	
+  true
 
-When you pass the name of a folder to rspec, it runs all of the spec files inside of the folder. You should see this result −
+  ‘abcefg’	
+  ‘At least one vowel and some consonants’	
+  true
 
-No examples found.
+  ‘mnklp’	
+  Only consonants.	
+  false
 
-Finished in 0 seconds (files took 0.068 seconds to load)
-0 examples, 0 failures
-The reason that this happened is that, by default, rspec only runs files whose names end in “_spec.rb”. Rename string_analyzer_test.rb to string_analyzer_spec.rb. You can do that easily by running this command −
+  ‘’	
+  Empty string (no letters)	
+  false
 
-ren spec\string_analyzer_test.rb string_analyzer_spec.rb
-Now, run rspec spec again, you should see output that looks like this −
+  ‘abcde55345&??’	
+  Vowels, consonants, numbers and punctuation characters.	
+  true
 
-F.
-Failures:
-
-   1) StringAnalyzer With valid input should detect when a string contains vowels
-      Failure/Error: expect(sa.has_vowels? test_string).to be true 
-         expected true
-            got false
-      # ./spec/string_analyzer_spec.rb:9:in `block (3 levels) in <top (required)>'
-
-Finished in 0.015 seconds (files took 0.12201 seconds to load)
-2 examples, 1 failure
-
-Failed examples:
-rspec ./spec/string_analyzer_spec.rb:6 # StringAnalyzer With valid 
-   input should detect when a string contains vowels
-Do you see what just happened? Our spec failed because we have a bug in 
-   StringAnalyzer. The bug is simple to fix, open up string_analyzer.rb
-   in a text editor and change this line:
-!!(str =~ /[aeio]+/i)
-to this:
-!!(str =~ /[aeiou]+/i)
-Now, save the changes you just made in string_analyizer.rb and run the rspec spec command again, you should now see output that looks like −
-
-..
-Finished in 0.002 seconds (files took 0.11401 seconds to load)
-2 examples, 0 failures
-Congratulations, the examples (tests) in your spec file are now passing. We fixed a bug in the regular expression which has vowels method but our tests are far from complete.
-
-It would make sense to add more examples that tests various types of input strings with the has vowels method.
-
-The following table shows some of the permutations that could be added in new Examples (it blocks)
-
-Input string	Description	Expected result with has_vowels?
-‘aaa’, ‘eee’, ‘iii’, ‘o’	Only one vowel and no other letters.	true
-‘abcefg’	‘At least one vowel and some consonants’	true
-‘mnklp’	Only consonants.	false
-‘’	Empty string (no letters)	false
-‘abcde55345&??’	Vowels, consonants, numbers and punctuation characters.	true
 ‘423432%%%^&’	Numbers and punctuation characters only.	false
 ‘AEIOU’	Upper case vowels only.	true
 ‘AeiOuuuA’	Upper case and lower vowels only.	true
@@ -274,65 +252,68 @@ It is up to you to decide, which examples to add to your spec file. There are ma
 
 The rspec command offers many different options, to see them all, type rspec -help. The following table lists the most popular options and describes what they do.
 
-Sr.No.	Option/flag & Description
-1	
--I PATH
-
-Adds PATH to the load (require) path that rspec uses when looking for Ruby source files.
-
-2	
--r, --require PATH
-
-Adds a specific source file to be required in your spec. file(s).
-
-3	
---fail-fast
-
-With this option, rspec will stop running specs after the first Example fails. By default, rspec runs all specified spec files, no matter how many failures there are.
-
-4	
+Option/flag & Description
 -f, --format FORMATTER
+  This option allows you to specify different output formats. 
+  See the section on Formatters for more details about output 
+  formats.
+ here are the two main ones:
+-fd  // d stands for documentation
+  this is the formatting option that learn.co seems to use,
+  it displays all tests, with passed ones in green, and failed
+  ones in red, but both types fully display describe and 
+  context 
+ here are the two main ones:
+-fp // p stands for progress
+  this is the default behavior of RSpec, it will just put
+  green dot for each passed test and a "F" for failed tests.
+  the only place to see the details of failed tests is below
+  the F and dots in the "Failures:" section.
+  -this is the default behavior so you don't need to specify
+-I PATH
+  Adds PATH to the load (require) path that rspec uses when 
+  looking for Ruby source files.
 
-This option allows you to specify different output formats. See the section on Formatters for more details about output formats.
+-r, --require PATH
+  Adds a specific source file to be required in your spec. 
+  file(s).
 
-5	
+--fail-fast
+  With this option, rspec will stop running specs after the 
+  first Example fails. By default, rspec runs all specified 
+  spec files, no matter how many failures there are.
+
+
 -o, --out FILE
 
-This option directs rspec to write the test results to the output file FILE instead of to standard out.
+  This option directs rspec to write the test results to the 
+  output file FILE instead of to standard out.
 
-6	
 -c, --color
+  Enables color in rspec’s output. Successful Example results 
+  will display in green text, failures will print in red text.
 
-Enables color in rspec’s output. Successful Example results will display in green text, failures will print in red text.
-
-7	
 -b, --backtrace
+  Displays full error backtraces in rspec’s output.
 
-Displays full error backtraces in rspec’s output.
-
-8	
 -w, --warnings
+  Displays Ruby warnings in rspec’s output.
 
-Displays Ruby warnings in rspec’s output.
-
-9	
 -P, --pattern PATTERN
+  Load and run spec files that match the pattern PATTERN. For 
+  example, if you pass -p “*.rb”, rspec will run all Ruby 
+  files, not just the ones that end in “_spec.rb”.
 
-Load and run spec files that match the pattern PATTERN. For example, if you pass -p “*.rb”, rspec will run all Ruby files, not just the ones that end in “_spec.rb”.
-
-10	
 -e, --example STRING
+  This option directs rspec to run all Examples that contain 
+  the text STRING in their descriptions.
 
-This option directs rspec to run all Examples that contain the text STRING in their descriptions.
-
-11	
 -t, --tag TAG
+  With this option, rspec will only run examples that contain 
+  the tag TAG. Note that TAG is specified as a Ruby symbol. 
+  See the section on RSpec Tags for more details.
 
-With this option, rspec will only run examples that contain the tag TAG. Note that TAG is specified as a Ruby symbol. See the section on RSpec Tags for more details.
 
-
-
-/
 
 /
 /
