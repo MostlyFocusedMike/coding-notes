@@ -248,9 +248,13 @@ Input string	Description	Expected resultdd with has_vowels?
 ‘AbCdEfghI’	Upper and lower case vowels and consonants.	true
 ‘BCDFG’	Upper case consonants only.	false
 ‘ ‘	Whitespace characters only.	false
-It is up to you to decide, which examples to add to your spec file. There are many conditions to test for, you need to determine what subset of conditions is most important and tests your code the best.
 
-The rspec command offers many different options, to see them all, type rspec -help. The following table lists the most popular options and describes what they do.
+//////////////////////////////////////////////////////////////
+**options/flags for rspec**
+ -The rspec command offers many different options, to see them 
+  all, type rspec -help. 
+ -The following table lists the most popular options and 
+  describes what they do.
 
 Option/flag & Description
 -f, --format FORMATTER
@@ -258,18 +262,21 @@ Option/flag & Description
   See the section on Formatters for more details about output 
   formats.
  here are the two main ones:
+
 -fd  // d stands for documentation
   this is the formatting option that learn.co seems to use,
   it displays all tests, with passed ones in green, and failed
   ones in red, but both types fully display describe and 
   context 
  here are the two main ones:
+
 -fp // p stands for progress
   this is the default behavior of RSpec, it will just put
   green dot for each passed test and a "F" for failed tests.
   the only place to see the details of failed tests is below
   the F and dots in the "Failures:" section.
   -this is the default behavior so you don't need to specify
+
 -I PATH
   Adds PATH to the load (require) path that rspec uses when 
   looking for Ruby source files.
@@ -292,6 +299,7 @@ Option/flag & Description
 -c, --color
   Enables color in rspec’s output. Successful Example results 
   will display in green text, failures will print in red text.
+  seems to be default
 
 -b, --backtrace
   Displays full error backtraces in rspec’s output.
@@ -323,17 +331,236 @@ Option/flag & Description
 /
 / 
 MATCHERS 
+ -here are some of the matchers (the part that tests whether
+  or not the value from .expect is equal)
 
-eq	
-Passes when actual == expected	
-expect(actual).to eq expected
+  eq	
+  Passes when actual == expected	
+  ex: expect(actual).to eq expected
 
-eql	
-Passes when actual.eql?(expected)	
-expect(actual).to eql expected
+  eql	
+  Passes when actual.eql?(expected)	
+  ex: expect(actual).to eql expected
 
-be	
-Passes when actual.equal?(expected)
-expect(actual).to be expected
+  be	
+  Passes when actual.equal?(expected)
+  ex: expect(actual).to be expected
 
+  equal 
+  also passes when actual.equal?(expected)
+  ex: expect(actual).to equal expected
+
+ -here they are in context: 
+
+  describe "An example of the equality Matchers" do 
+    it "should show how the equality Matchers work" do 
+      a = "test string" 
+      b = a 
+        
+      # The following Expectations will all pass 
+      expect(a).to eq "test string" 
+      expect(a).to eql "test string" 
+      expect(a).to be b 
+      expect(a).to equal b 
+    end
+  end
+
+ -this will pass
+
+**comparison matchers**
+ -you can also use the regular comparisons: 
+
+  >	
+  Passes when actual > expected	
+  expect(actual).to be > expected
+
+  >=, <, <=	
+  -these work just like above 
+ 
+  be_between(x,y).inclusive 
+  Passes when actual is <= min and >= max
+  expect(actual).to be_between(min, max).inclusive
+
+  be_between exclusive
+  Passes when actual is < min and > max
+  expect(actual).to be_between(min, max).exclusive
+
+  match
+  Passes when actual matches a regular expression
+  expect(actual).to match(/regex/)
+
+-again here they are incontext, notice you need to use the 
+  "be" matcher:
+
+describe "An example of the comparison Matchers" do
+   it "should show how the comparison Matchers work" do
+      a = 1
+      b = 2
+      c = 3		
+      d = 'test string'
+      # The following Expectations will all pass
+      expect(b).to be > a
+      expect(a).to be >= a 
+      expect(a).to be < b 
+      expect(b).to be <= b 
+      expect(c).to be_between(1,3).inclusive 
+      expect(b).to be_between(1,3).exclusive 
+      expect(d).to match /TEST/i 
+   end
+end
+
+**class/Type matechers**
+ -here is how you test for type and class: 
+
+    be_instance_of	
+    Passes when actual is an instance of the expected class.	
+    expect(actual).to be_instance_of(Expected)
+
+    be_kind_of	
+    Passes when actual is an instance of the expected class or 
+      any of its parent classes.	
+    expect(actual).to be_kind_of(Expected)
+
+    respond_to	
+    Passes when actual responds to the specified method.	
+    expect(actual).to respond_to(expected)
+
+ -context: 
+
+describe "An example of the type/class Matchers" do
+ 
+   it "should show how the type/class Matchers work" do
+      x = 1 
+      y = 3.14 
+      z = 'test string' 
+      
+      # The following Expectations will all pass
+      expect(x).to be_instance_of Fixnum 
+      expect(y).to be_kind_of Numeric 
+      expect(z).to respond_to(:length) 
+   end
+   
+end
+
+**true false and nill matchers**
+
+    be true	
+    Passes when actual == true	
+    expect(actual).to be true
+
+    be false	
+    Passes when actual == false	
+    expect(actual).to be false
+
+    be_truthy	
+    Passes when actual is not false or nil	
+    expect(actual).to be_truthy
+
+    be_falsey	
+    Passes when actual is false or nil	
+    expect(actual).to be_falsey
+
+    be_nil	
+    Passes when actual is nil	
+    expect(actual).to be_nil
+
+ context: 
+
+  describe "An example of the true/false/nil Matchers" do
+   it "should show how the true/false/nil Matchers work" do
+      x = true 
+      y = false 
+      z = nil 
+      a = "test string" 
+      
+      # The following Expectations will all pass
+      expect(x).to be true 
+      expect(y).to be false 
+      expect(a).to be_truthy 
+      expect(z).to be_falsey 
+      expect(z).to be_nil 
+     end 
+  end
+
+**error matchers**
+
+  raise_error(ErrorClass)	
+  Passes when the block raises an error of type ErrorClass.	
+  expect {block}.to raise_error(ErrorClass)
+
+  raise_error("error message")	
+  Passes when the block raise an error with the message 
+    “error message”.	
+  expect {block}.to raise_error(“error message”)
+
+  raise_error(ErrorClass, "error message")	
+  Passes when the block raises an error of type ErrorClass 
+    with the message “error message”	
+  expect {block}.to raise_error(ErrorClass,“error message”)
+
+ 
+==============================================================
+            test doubles
+==============================================================
+**a test double is essentially a dummy class** 
+ -lets say we have a ClassRoom class, that accecpts student
+  objects, and one of the ClassRoom class functions takes each
+  student objects :name and joins it into a string: 
+
+  class ClassRoom 
+   def initialize(students) 
+      @students = students 
+   end
+   
+   def list_student_names 
+      @students.map(&:name).join(',') 
+   end 
+end
+
+ -so if you only have that class, and not the Student class,
+  how would you test it? 
+ -by using the rspec #double method
+
+describe ClassRoom do 
+   it 'the list_student_names method should work correctly' do 
+      student1 = double('student') 
+      student2 = double('student') 
+      
+      allow(student1).to receive(:name) { 'John S'} 
+      allow(student2).to receive(:name) { 'Jill S'} 
+      
+      cr = ClassRoom.new [student1,student2]
+      expect(cr.list_student_names).to eq('John S,Jill S') 
+   end 
+end
+
+ -what #double does in that code is assign each student as an
+  instance of the Student class (note you spell it lowecase)
+  which essentially does this: 
+
+    class Student
+    end 
+
+    student1 = Student.new
+
+ -and then use this syntax to add methods and properties to
+  your "class" 
+  
+    allow(student1).to receive(:name) { 'John S'}
+    allow(var).to receive(:property) {definition}
+
+ -once our students each have a name property, we create a 
+  real instance of classroom, passing in the student objects
+  in an array: 
+
+    cr = ClassRoom.new [student1,student2]
+
+ -finally, test it using the usual expect and eq: 
+
+    expect(cr.list_student_names).to eq('John S,Jill S') 
+
+ -use test doubles to tell there is a problem with a specific
+  class that you are testing (ClassRoom) and not another
+
+    
 

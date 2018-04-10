@@ -866,20 +866,315 @@ function switchAge(age) {
   not NaN, it will return false, there is no type coercion
  -it only takes one argument
 
+**parseInt() and parseFloat()**
+ -the other option is to yse parseInt() or parseFloat()
+ 
+      parseInt('2', 10);
+      // 2
+      parseInt('2.9999', 10)
+      // 2 
+      //parse int just cuts off any floating points, no round
+ 
+ -it will work without the second number, which specifies 
+  the base you want (decimal is bas 10, hex is 16, binary 2)
+ -that is an added bonus Number() doesn't have
+ -it will also convert all numbers up to the first non num
+  character: 
+
+    Number("123hwa")
+    // NaN
+    parseInt("123hwa")
+    // 123
+
+ -parseInt() only takes one argument, since it assumes you 
+  are working base 10 
+
+    parseFloat('80.123999') // 80.123999
+
+**which conversion should you use?**
+ -depends if you want to also check for non numbers or 
+  whether you need another base system
+ -it will usually be Number() 
+
+
+//////////////////////////////////////////////////////////////
+    common Math uses 
+**js Math object**
+ -the Math object allows for some pretty cool things
+
+**squaring**
+ -with ES2015, we now have the ** operator, however, it used 
+  to be with the Math.pow(): 
+
+    Math.pow(5,2)
+    // 5 squared is 25 
+
+**rounding up down and either**
+
+    The Math.ceil() function returns the 
+    smallest integer greater than or equal to a 
+    given number. Basically, it rounds up every 
+    time unless the the number is x.0, then
+    it returns the given number x.
+
+    Math.ceil() always rounds up
     
+    Math.ceil(.95);    // 1
+    Math.ceil(4);      // 4
+    Math.ceil(7.004);  // 8
+    Math.ceil(-0.95);  // -0
+    Math.ceil(-4);     // -4
+    Math.ceil(-7.004); // -7
+
+    
+    The Math.floor() function returns the 
+    largest integer less than or equal to a given 
+    number.
+    Math.floor() always rounds down:
+
+    Math.floor( 45.95); //  45
+    Math.floor( 45.05); //  45
+    Math.floor(  4   ); //   4
+    Math.floor(-45.05); // -46 
+    Math.floor(-45.95); // -46
+
+    NOTE: don't just use ceil() or .floor(), 
+    you have to use Math.ceil() or Math.floor()
+
+ -Math.round uses the familiar rounding mehtod 
+
+Math.round(4.5);    // returns 5
+Math.round(4.49);    // returns 4
+Math.round(-4.5)    // -4
+Math.round(-4.6)    // -5
+Math.round(-4.51)   // -5
+//mind the negatives
 
 
+**some useful math functions**
+  Math.sqrt(64);      // returns square root of 8
+
+  Math.abs(-4.7);     // returns absolute value 4.7
+
+  Math.min(0, 150, 30, 20, -8, -200);  // returns -200
+  Math.max(0, 150, 30, 20, -8, -200);  // returns 150
+ 
+
+**generating a random integer** 
+ -Math.random generates a random float between 0 and 1, so 
+  multiply it by the high end of your range, then round down,
+  then add 1 (to account for a random chance of 0, which may
+  be out of your range
+ -use the method below (mind the () order) to get 1 and 10 
+  for example: 
+
+    Math.floor((Math.random() * 10) + 1);
 
 
+==============================================================
+                  Arrow Functions
+==============================================================
+    ARROWS 
+ -the arrows syntax lets you do shorthand for functions, 
+  it also changes the binding of the this keyword and gives 
+  you implicit returns like Ruby
+
+**the old way to deal with functions**
+
+class TaskCollection() {
+
+  constructor(tasks = []) {
+    // that's a default parameter, you'll learn later 
+    this.tasks = tasks;
+  }
+
+  log() {
+    this.tasks.forEach(function(task) {
+      console.log(task);
+    });
+  }
+} 
+
+ -that log uses a forEach loop to carry out a function on each
+  value in the array, in this case, loging the task.
+ -with the => you can do this 
+
+  log() {
+    this.tasks.forEach(task => console.log(task));
+  }
+
+ -basically, the => replaces the function keyword, and if it's
+  only one line, you don't need the function brackets, and if
+  there's only one argument, you don't need the () around the 
+  argument 
+
+  function(arg, arg2) {
+    //one line 
+    // more lines 
+  }
+ 
+  (arg, arg2) => {
+    //bunch of stuff
+  }
+
+ -the => also affects the binding of this. if you were to use 
+  the TaskCollection() class without a variable: 
+
+  class TaskCollection() {
+
+    constructor(tasks = []) {
+      // that's a default parameter, you'll learn later 
+      this.tasks = tasks;
+    }
+
+    log() {
+      this.tasks.forEach(function(task) {
+        console.log(this);
+      });
+    }
+  } 
+
+  new TaskCollection("a", "b", "c").log;
+  // this would cause an issue with the this keword since it 
+  // now refers to nothing or worse, the Window Object itself
+
+ -with the arrow operator, the this is now bound to where it 
+  was created, not where it's run, so if we used it the this 
+  would refer to TaskCollection if there were no other object
+
+    class TaskCollection() {
+
+      constructor(tasks = []) {
+        // that's a default parameter, you'll learn later 
+        this.tasks = tasks;
+      }
+
+      log() {
+        this.tasks.forEach(task => console.log(this));
+      }
+    }
+
+**return is implicit**
+ -if you do the single line syntax, just know that the 
+  return keyword is implicit: 
+
+  // old way 
+  let names = ['a','b','c'];
+  names.map(function(name) {
+    return name + " is a letter";
+  })
+
+  // new way
+  let names = ['a','b','c'];
+  names.map(name => name + " is a letter");
+
+**they are anonymous**
+ -unlike regular functions, you can't give arrow functions
+  names: 
+
+   
+  iHaveAName.name // 'iHaveAName'
+  (() => {}).name // ''
+  // the .name property is just the name of a function
+
+ -you can of course use them in function expressions which
+  will let you have somewhat of a name: 
+    
+    let arrowFunction = () => {
+      console.log('I was called!')
+    }
 
 
+==============================================================
+              hoisting 
+==============================================================
+**hoisting moves declarations to the top of scope** 
+ -so this is what you write: 
 
+    var name = "james" 
 
+ -under the hood, this is what JS does: 
 
+    var name; //declared without value means it's undefined
+    name = "james" 
 
+ -so this code: 
 
+    function myFunction(){
+      console.log(word)
+      var word = "cake";
+    }
 
+  is really: 
 
+    function myFunction(){
+      var word;
+      console.log(word);
+      word = "cake";
+    }
+  
+ -which is why it prints out "undefined" becuase that's what
+  it is
+
+**functions** 
+ -unlike variables, the function name AND value get hoisted: 
+
+    eat() 
+
+    function eat(){
+      snack = "snickers";
+      console.log(snack);
+    }
+ 
+ -this code runs like: 
+
+    function eat(){
+      console.log("time to eat cake!")
+    }
+    eat();
+  
+ -this is how you can get away with calling a function before
+  you define it in the code (provided you do define it in the
+  same scope it is called later)
+
+**function Expressions**
+ -HOWEVER since function expressions are function where JS 
+  expects to see a value, they do not get hoisted, only the
+  name does: 
+
+    eat();
+ 
+    var eat = function(){
+      console.log("time to eat cake!");
+    }
+
+  is actually: 
+
+    var eat;
+    eat();
+    eat = function(){
+      console.log("time to eat cake!");
+    }
+ 
+**let and const** 
+ -so these appear to disregard hoisting, but that's not quite 
+  the case 
+ -the names actually DO get hoisted, it's just that JS 
+  prevents anything from accessing them before they are 
+  defined in the code (thus seeming to negate hoisting)
+ -from MDN: 
+
+  In ECMAScript 2015, let [and const] will hoist the variable 
+  to the top of the block. However, referencing the variable 
+  in the block before the variable declaration results in a 
+  ReferenceError. The variable is in a "temporal dead zone" 
+  from the start of the block until the declaration is 
+  processed. MDN - let
+
+**hoisting is controversial**
+ -some hate, some love, just be aware of it and understand
+  if you get a variable undefined error, check your 
+  function expressions are being called in order
 
 
 

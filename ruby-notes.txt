@@ -2553,6 +2553,8 @@ fetch(key_name) { |key| "default" }: get the value
 **How does .map(&:something) work?**
  -you may see this pattern a lot, as it is a shortcut for:
 
+    .map(&:something) # the & becomes the val passed to 
+                      # the block that the method acts on
     .map { |val| val.some_method } 
 
  -the way it works is that the symbol class uses the #to_proc
@@ -2561,6 +2563,20 @@ fetch(key_name) { |key| "default" }: get the value
  -this is commonly used to capitalize items: 
   
     names_array.map(&:capitalize)
+
+ -this technique can also be used to access properties on
+  objects in an array:
+  
+  class ClassRoom 
+   def initialize(students) # students is an array of student
+      @students = students  # objects with a :name property
+   end
+   
+   def list_student_names 
+      @students.map(&:name).join(',') 
+    # @students.map {|student| student.name}.join(',')
+   end 
+end
 
 **Other common uses for blocks**
 **initialize objects with default values**
