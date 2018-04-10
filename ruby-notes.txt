@@ -335,6 +335,13 @@
     "5 5".to_i = 5 # it will return the first int it finds
   -booleans to_i creates an error
 
+**checking data types/classes**
+ -the #kind_of? method tests if an objectis a certain kind of
+  data type, it takes the class as an argument
+
+    arr = "not an array"
+    arr.kind_of?(Array)
+    # => false
 /////////////////////////////////////////////////////////////
                   READING ERROR MESSAGES 
 
