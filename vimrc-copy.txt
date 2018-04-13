@@ -1,0 +1,182 @@
+
+" Use Vim settings, rather than Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+filetype off                
+" vundle stuff {{{
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" THE FOLLOWING ARE EXAMPLES OF DIFFERENT FORMATS SUPPORTED.
+
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+" Plugin 'tpope/vim-fugitive'
+
+" plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+" Git plugin not hosted on GitHub
+"Plugin 'git://git.wincent.com/command-t.git'
+
+" git repos on your local machine (i.e. when working on your own plugin)
+"Plugin 'file:///home/gmarik/path/to/plugin'
+
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+" Plugin 'ascenator/L9', {'name': 'newL9'}
+
+
+" YOUR PLUGINS HERE
+
+" Added Nerdtree
+Plugin 'scrooloose/nerdtree'
+" Added Syntastic
+Plugin 'vim-syntastic/syntastic'
+" Added Snipmate and other dependencies
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+" Optional:
+Plugin 'honza/vim-snippets'
+
+" Added EasyMotion
+Plugin 'easymotion/vim-easymotion'
+            
+" Added MatchTagAlways 
+Plugin 'Valloric/MatchTagAlways'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+" }}} 
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+set history=50	" keep 50 lines of cmdline hist
+syntax enable	" enable syntax processing
+filetype indent on   " filetype specific indent 
+set lazyredraw  " redraw screen only when needed
+
+
+runtime macros/matchit.vim " lets % jump between html tags
+let g:mta_filetypes = {
+    \ 'html' : 1,
+    \}
+let g:mta_use_matchparen_group = 1
+" edit vimrc {{{   
+" edit and load changes in vimrc file 
+" seems to open up a side split scree
+nnoremap <leader>vrc :vsplit $MYVIMRC<CR>
+nnoremap <leader>svrc :source $MYVIMRC<CR>
+"}}}
+
+" folds {{{
+set foldenable   "enable folding
+set foldlevelstart=10 "start with most folds open
+
+" hitting space opens/closes folds
+nnoremap <space> za
+set foldmethod=indent " fold based on indent lev.
+" :help foldmethod to see other possible optioms
+"}}}
+
+" mouse {{{
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mouse=a
+endif
+" }}}
+
+" search {{{
+set incsearch   "incremental search
+set hlsearch    "highlight searches
+
+"turn off search highlight with mapped shortcut
+"<leader> is the \ key, so type \ space to
+"turn off the highlighted search
+nnoremap<leader><space> :nohlsearch<CR>
+" }}}
+    
+" tabs {{{
+set expandtab    " tabs are spaces
+set tabstop=2	" number of visual spaces per tab
+set shiftwidth=2 " number of space characters inserted
+" }}}    
+
+" looks {{{
+" set ruler " show the cursor position all the time
+set showcmd	" display incomplete commands
+set number    " show line numbers
+set nocursorline
+:hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+:hi CursorColumn cterm=NONE ctermbg=yellow ctermfg=white guibg=darkred guifg=white
+
+:nnoremap <Leader>l :set cursorline! <CR>
+:nnoremap <Leader>c :set cursorcolumn!<CR>
+set showmatch   " highlight matching []{}()
+set wildmenu    " visual autocomplete tab menu
+" }}}
+
+" paste {{{  
+" :set paste and :set nopaste allow you to 
+" turn off auto indent to paste from an 
+" outside program, then turn it back on when
+" you're writing in the program normally
+set pastetoggle=<F3> "toggle while in insert mode
+" this allows vim to copy/paste things from and to
+" your systems clipboard instead of just its own
+set clipboard=unnamed
+" }}}
+
+" plugin settings are below 
+" NERDTree Stuff  {{{
+let NERDTreeShowHidden=1
+nnoremap <leader>nt :NERDTree<CR>
+
+" }}}
+
+" remap escape key {{{
+" now if you hit shift and enter together it's
+" the same as hitting the esc key
+:inoremap jj <Esc>
+" }}}
+" set the status line to show file name 
+set laststatus=2
+set statusline=%F
+
+
+
+" set toggle for hybrid line numbers 
+:set number relativenumber
+
+:augroup numbertoggle
+:  autocmd!
+:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+:augroup END
+
+
+
+set modelines=1
+" vim:foldmethod=marker:foldlevel=0

@@ -1176,68 +1176,16 @@ class TaskCollection() {
   if you get a variable undefined error, check your 
   function expressions are being called in order
 
-==============================================================
-            JS arrays 
-==============================================================
-**creating an array**
- -use the bracket notation: 
 
-  arr = ["hey", 2, ["another array"], {}]
 
- -as you can see, any data type can go into an Array
 
-**getting an element out**
- -use bracket notation with the index 
 
-    arr[0] // "hey"
-    // if you want negative values, you have to use .slice()
-    // more on that later 
 
-**length of an array**
 
-  arr.length 
 
- -the length property of the array class returns the numebr 
-  of items in the array 
 
-**duplicate an array 
 
-  arr = [1,2,3]
-  new_arr = arr.slice()
 
- -more on slice later, but you can't just set an array to 
-  another variable, since then BOTH variables will point to 
-  the original array (so change one, you change both) 
- -see the slice section for how this works 
-
-**adding elements to beginning or end of an array**
-
-  arr.push("value") // adds to the end 
-  arr.unshift("value") // adds to the beginning 
-  arr.push("value","this also works") // adds to the end 
-  arr.unshift("value","multiple values") // adds to the beginning 
-
- -both typically take one argument but can take more 
- -they will add to either the front or back of an array,
-  if you add multiple elements, they will be added in 
-  the order they are given as arguments 
-
-    arr = [1,2,3]
-    arr.unshift("a","b")
-    arr // ["a","b",1,2,3]
-
- -they both have a return value of the new length of the
-  array 
- -both methods mutate the original array 
-
-**removing elements from the beginning/end of an array**
- 
-  arr.pop() // removes last element 
-  arr.shift() // removes first element 
- 
- -both methods return the value of the item they removed 
-
-**splice -add/remove elements from middle**
 
 
 
