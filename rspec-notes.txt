@@ -500,7 +500,7 @@ end
 
  
 ==============================================================
-            test doubles
+            test doubles (mocks)
 ==============================================================
 **a test double is essentially a dummy class** 
  -lets say we have a ClassRoom class, that accecpts student
@@ -564,5 +564,88 @@ end
 
     
 ==============================================================
-
+            Stubbing
 ==============================================================
+**stubbing basics**
+ -stubbing (or method stub) as it is called, is a special type
+  of method that stands in for an existing method, or method
+  that doesn't exist yet
+ -for example, when you fake what user input SHOULD be and 
+  then act on that in the test 
+ 
+**stubbing with puts/print**
+ -how do you test puts and print< they have no return value
+ -you test it by checking Ruby's special global $stdout
+ 
+ #old way
+ # RSpec code 
+  it "should test puts " do 
+    expect($stdout).to receive(:puts).with("on terminal")
+    puts "on terminal" # or your method that uses puts
+  end
+
+ -first we tell rspec to expect that puts will be used to
+  pass "on the termnial" to $stdout 
+ -then we use puts (or rhe method that outputs) afterwards
+  to actually output text
+ -there are many ways to accomplish this, but this pattern
+  is fastest
+
+
+  # new way as of 2014 and rspec 3.0
+  it "should test puts " do 
+    expect{ puts_method}.to output("hello there\n").to_stdout
+    expect{ print_method}.to output("hello there").to_stdout
+  end
+
+ -the muvh cleaner output().to_stdout method just takes 
+  the expects method and the method to test, then the text
+  that you want inside output
+ -also note that with prints and puts you need to account
+  for the newline character
+
+
+**testing gets**
+ -you essentially tell self to expect the gets method, 
+  and return "text" when its called
+ -you then run the method that calls gets
+ -once ruby comes to the gets call, it will put in the 
+  value specified before
+ 
+  it "should call gets once" do
+    expect(self).to receive(:gets).and_return("s")
+    thing = gets.strip
+    expect(thing).to eq("s")
+  end
+
+  it "should call gets twice" do
+    expect(self).to receive(:gets).and_return("one")
+    expect(self).to receive(:gets).and_return("two")
+    thing = gets.strip
+    thing2 = gets.strip
+    expect([thing, thing2]).to eq(["one","two"])
+  end
+
+ -notice that the gets values are filled in from their
+  original order
+ -the first gets value gets put in the first gets call
+ -not like it calls the most recent value first
+ -first returned, first called
+
+**gets and puts together**
+ -play song gets a user's song choice, and then puts it to 
+  the screen
+ -here is how you would test something like that
+
+  it "can use a full song name to find a song" do
+    allow(self).to receive(:gets).and_return("Phoenix - 1901")
+    expect{ play(songs) }.to output(/Phoenix - 1901/).to_stdout
+  end
+
+ -we are telling "self" to recieve
+  a fake "gets" call, and then artificially return an input
+  of "Phoenix..." 
+ -now, when we call the play method, when it gets to the 
+  gets.chomp line, it will look back and see "Phoe.." is the
+  output, which allows the test to continue 
+
