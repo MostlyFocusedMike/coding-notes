@@ -1,11 +1,21 @@
 
+"remember to clone vundle from their github
+" change line: 
+" 
+"   set rtp+=~/.vim/bundle/Vundle.vim
+"
+" so tha it is capitalized Vundle to match rpi case sensitive
+"
+" then use :BundleInstall! to load all plugins
+
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 filetype off                
-" vundle stuff {{{
+" vundle stuf f {{{
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/vundle.vim
+" note: on pi, vundle must be capitalized
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
