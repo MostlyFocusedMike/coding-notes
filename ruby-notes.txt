@@ -5,9 +5,25 @@
 /
 /
 /////////////////////////////////////////////////////////////
+TABLE OF CONTENTS
+1%%  Introduction
+2%%  Ruby Data types 
+3%%  error messages 
+4%%  intro to tests, rspec, and learn
+5%%  Variables and Methods
+6%%  string evaluation, ',",`, and puts v print, indexing
+7%%  Ruby variables scope/types 
+8%%               Defining methods
+
+INTERLUDES
+time%%          Time class interlude
+
+
+
+
 
 =============================================================
-%%%                   Introduction
+1%%                   Introduction
 =============================================================
 
 /////////////////////////////////////////////////////////////
@@ -51,6 +67,8 @@
 
  -puts stands for outPUT String
  -notice there are no colons after lines 
+ -there are also no () because they are optional in most
+  cases
 
 **A quick comment on comments**
  -to comment a line in ruby use:
@@ -113,14 +131,15 @@
 
 
 
-/////////////////////////////////////////////////////////////
-              Ruby Data types 
+
+============================================================
+2%%              Ruby Data types 
 ============================================================
 /////////////////////////////////////////////////////////////
                     STRINGS
 
 **Strings**
- -surrounded by strings, can contain characters and numerals
+ -surrounded by quotes, can contain characters and numerals
  -stings all have built in methods like: 
 
   *.length method*
@@ -158,9 +177,7 @@
     -flip capitals and lowercase letters 
   
       "Howdy Dan".swapcase
-      => hOWDY dAN
-////////////////////////////////////////////////////////////
-                  BOOLEANS
+     => hOWDY dAN
 
    #start_with?
     -checks if a string starts with a character (case sense)
@@ -168,17 +185,17 @@
       "howdy".start_with?("h")
       => true
 
-**booleans**
+////////////////////////////////////////////////////////////
+                  booleans
   - it's either "true" or "false", notice no capitals 
 
 ////////////////////////////////////////////////////////////
-
-**integers**
+                  integers
   -just whole numbers, don't use any quotes
   -whole numbers are called fixnums, and decimals are
    floats (when writing a float, always use the 0 to start
    so it's 0.5 never .5)
-  -there are a few methods for floats: 
+  -here are a few methods for floats: 
 
     *.next*
       -used only with fixnums, it will go to the next highest
@@ -246,8 +263,9 @@
       'gnu'.between?('ant', 'dog')   #=> false
       # false g is after d 
 
- 
- **symbols**
+////////////////////////////////////////////////////////////// 
+                     symbols
+
   -symbols can contain letters, digits and undescores
   -they are "lightweight" strings that are easier on your
    computer 
@@ -255,8 +273,9 @@
     :symbol_name
 
  -we will learn much more about these later
+////////////////////////////////////////////////////////////// 
+                    arrays
 
-**arrays**
  -list, written like pyhton and js
  -here is the Literal Constructor:
 
@@ -294,7 +313,9 @@
     ["foo", "bar"].include?("dog")
     => false
     # note: include? is case sensitvie 
-**hashes**
+//////////////////////////////////////////////////////////////
+                      hashes
+
  -this is ruby's key value pair list, made using curly braces
   and arrows like PHP:
 
@@ -304,9 +325,11 @@
   is literal, below is class: 
 
     Hash.new 
-    => {}
+    #=> {}
 
-**nil**
+//////////////////////////////////////////////////////////////
+                        nil
+
  -nil is like null in other languages, except that it is
   actually an instance of the nil.class, not just an empty 
   value
@@ -342,8 +365,14 @@
     arr = "not an array"
     arr.kind_of?(Array)
     # => false
-/////////////////////////////////////////////////////////////
-                  READING ERROR MESSAGES 
+
+
+
+
+
+=============================================================
+3%%             error messages 
+=============================================================
 
 **3 basic parts**
  -1) the location of the error: (where)
@@ -441,8 +470,12 @@ https://learn.co/tracks/web-development-fundamentals/intro-to-ruby/introduction/
  -when a method is called with too many or too few arguments
 
 
-////////////////////////////////////////////////////////////
-          INTRO TO TESTS, RSPEC, AND LEARN
+
+
+
+==============================================================
+4%%          intro to tests, rspec, and learn
+==============================================================
 
 **what's TDD**
  -TDD stands for Test Driven Development and it is when you
@@ -450,6 +483,10 @@ https://learn.co/tracks/web-development-fundamentals/intro-to-ruby/introduction/
   programming
  -it works by coming up with a test for your code to pass,
   and THEN writting the code
+
+**BDD**
+ -behavior driven development is another word for it, 
+  since you are testing the expected behavior of the code
 
 **Identifying the desired behavior**
  -come up with a method you need, figure out what arguments
@@ -471,7 +508,7 @@ https://learn.co/tracks/web-development-fundamentals/intro-to-ruby/introduction/
  
 **Undesrstanding the tests in the spec directory**
  -all our tests are located in the spec folder
- -common naming is to add spec for tests 
+ -you have to end your spec test files with _spec.rb
 
     test: spec/current_age_for_birth_year_spec.rb
     file: current_age_for_birth_year_spec.rb
@@ -523,12 +560,16 @@ end
  -look more into RSpec using that site
 
 **what the learn command does**
- -learn.co has aliased "learn" to look into the spec file and
-  execute all files ending in "_spec.rb"
- -it's just a shortcut to using the rspec command and file
+ -learn is just an alias of "rspec -fd spec" 
+ -see rspec notes for more
 
 
-*******Time class interlude*******
+
+
+
+=============================================================
+time%%          Time class interlude
+=============================================================
  -lots of examples use an instance of the Time class
  -more on this later, but for now know 
 
@@ -551,13 +592,10 @@ t.dst?      # => false (was it daylight savings time?)
 
 
 
-
 =============================================================
-%%%                   Variables and Methods
+5%%                   Variables and Methods
 =============================================================
-
-/////////////////////////////////////////////////////////////
-                ABOUT VARIABLE ASSIGNMENT
+**about variable assignment**
  -Here is how you assign variables in Ruby: 
 
     name = "Jeff" 
@@ -571,14 +609,62 @@ t.dst?      # => false (was it daylight savings time?)
     # variables with $ are in the global scope and 
     # can be affect in or out of methods 
 
-    This_is_const = "yeah"
+    THIS_IS_CONST = "yeah"
     # variables that start with capital letters have dif 
     # rules and are called constants (more on this later)
+    # they generally are all caps just to be clear though
+
+**local variables**
+ -local variables are unique to their scope, if you define 
+  a variable inside a method, it won't be "seen" in the main
+  scope and vice-versa 
+ -this is different from say, JavaScript where variables can
+  see "up" to the next scope if need be, but not down
+  (eg a variable defined one scope above a function can 
+   be seen from inside the function, but none of the
+   functions can be seen outside of it)
+ -here is ruby local scope in action: 
+
+    other_loc = "the function can't see me!"
+    def my_method
+      puts other_loc # this won't work
+      local_variable = "Only my method knows about me!"
+    end
+   
+  puts local_variable #this wont work
+
+**global variables**
+ -global variables have global scope, so they can be 
+  accessed from anywhere in the program:
+
+    $global_var = "All can see me!"
+    def my_method
+      puts $global_var      # this works
+    end
+    puts $global_var      # this works as well
+
+ -globals should be used sparingly, if at all, since they
+  have a tendency to break encapsulation and things in
+  general 
+
+**Constants**
+ -these variables are either capitalized or in all caps
+ -they can't be redefined
+ -they have either local or global scope and can be 
+  defined inside classes and modules, but not methods 
+    
+    Constant = "i'm a constant"
+    CONSTANT = "i'm a different value" # ruby is fully
+                                       # case sensitive
+    CONSTANT = "Reassigning will throw an error"
+
+    $CONST = "I'm me and global"
+
 
 **constants** 
  -they must start with a capital, but convention says 
   that they are all caps LIKE_THIS 
- -for some reason constants have a semi global scope
+ -constants seem to have a semi global scope
   -a constant declared outside a class or module can be 
     accessed inside classes and modules, unlike local
     variables 
@@ -697,11 +783,58 @@ boolean	          value
   keys and values, array made of indexes, vs number holds
   a single value 42, bool is true OR false)
 
-////////////////////////////////////////////////////////////
-  STRINGS 
-    SIDE NOTE: string evaluation, ',",`,  and puts v print
-    and executing commands from Ruby
+//////////////////////////////////////////////////////////////
+                      more on scope
+**local variables**
+ -local variables are unique to their scope, if you define 
+  a variable inside a method, it won't be "seen" in the main
+  scope and vice-versa 
+ -this is different from say, JavaScript where variables can
+  see "up" to the next scope if need be, but not down
+  (eg a variable defined one scope above a function can 
+   be seen from inside the function, but none of the
+   functions can be seen outside of it)
+ -here is ruby local scope in action: 
 
+    other_loc = "the function can't see me!"
+    def my_method
+      puts other_loc # this won't work
+      local_variable = "Only my method knows about me!"
+    end
+   
+  puts local_variable #this wont work
+
+**global variables**
+ -global variables have global scope, so they can be 
+  accessed from anywhere in the program:
+
+    $global_var = "All can see me!"
+    def my_method
+      puts $global_var      # this works
+    end
+    puts $global_var      # this works as well
+
+ -globals should be used sparingly, if at all, since they
+  have a tendency to break encapsulation and things in
+  general 
+
+**Constants**
+ -these variables are either capitalized or in all caps
+ -they can't be redefined
+ -they have either local or global scope and can be 
+  defined inside classes and modules, but not methods 
+    
+    Constant = "i'm a constant"
+    CONSTANT = "i'm a different value" # ruby is fully
+                                       # case sensitive
+    CONSTANT = "Reassigning will throw an error"
+
+    $CONST = "I'm me and global"
+
+
+==============================================================
+6%%    string evaluation, ',",`,  and puts v print
+==============================================================
 **single vs double quotes**
  -double quotes allow for string evaluation, or interpolation
   while single quotes only allow for concatenation: 
@@ -716,6 +849,7 @@ boolean	          value
   and special characters like \n and \t, while single 
   quotes do not 
  -in terms of performance, this is almost no difference
+  to the point that the default is "", sometimes its faster
 
 **user-defined string delimiters**
  -If your text has a lot of embedded quotes, you can also 
@@ -728,7 +862,7 @@ boolean	          value
 
  -the string delimiter character can be any character,
 
-    %Q: :
+    %Q: : # here its a colon
  
  -the actual magic is the % followed by various characters
   that tell Ruby what the delimeters actually are, like
@@ -787,9 +921,9 @@ boolean	          value
  -this is useful when printing messages to users that 
   require info back 
  
-    print( 'Enter your name: ' ) 
-    name = gets() 
-    puts( "Hello #{name}" )
+    print('Enter your name: ') 
+    name = gets.chomp
+    puts("Hello #{name}")
    
  -this leaves the cursor right where the user would 
   expect the input, after "name: "
@@ -807,9 +941,11 @@ boolean	          value
 
  -this is because in ruby doesn't actually need parentheses
   for its method arguments, some people just prefer it
+ -there are some instances with .method chaining that require
+  you to use ()
 
 *printing arrays**
- -note that puts ing, an array will print each value on
+ -note that puts-ing, an array will print each value on
   its own line, while print will format and print out the
   acutal array as you would expect
 
@@ -820,59 +956,14 @@ boolean	          value
 
 **indexing a string**
 
-////////////////////////////////////////////////////////////
-                RUBY VARIABLES TYPES 
-
-**local variables**
- -local variables are unique to their scope, if you define 
-  a variable inside a method, it won't be "seen" in the main
-  scope and vice-versa 
- -this is different from say, JavaScript where variables can
-  see "up" to the next scope if need be, but not down
-  (eg a variable defined one scope above a function can 
-   be seen from inside the function, but none of the
-   functions can be seen outside of it)
- -here is ruby local scope in action: 
-
-    other_loc = "the function can't see me!"
-    def my_method
-      puts other_loc # this won't work
-      local_variable = "Only my method knows about me!"
-    end
-   
-  puts local_variable #this wont work
-
-**global variables**
- -global variables have global scope, so they can be 
-  accessed from anywhere in the program:
-
-    $global_var = "All can see me!"
-    def my_method
-      puts $global_var      # this works
-    end
-    puts $global_var      # this works as well
-
- -globals should be used sparingly, if at all, since they
-  have a tendency to break encapsulation and things in
-  general 
-
-**Constants**
- -these variables are either capitalized or in all caps
- -they can't be redefined
- -they have either local or global scope and can be 
-  defined inside classes and modules, but not methods 
-    
-    Constant = "i'm a constant"
-    CONSTANT = "i'm a different value" # don't name var like
-                                       # this ever
-    CONSTANT = "Reassigning will throw an error"
-
-    $CONST = "I'm me and global"
+==============================================================
+7%%              Ruby variables scope/types 
+==============================================================
 
 
-
-/////////////////////////////////////////////////////////////
-                  DEFINING METHODS
+==============================================================
+8%%               Defining methods
+==============================================================
 **method definitions**
  -here is an example method: 
  -method signature is the first line 
