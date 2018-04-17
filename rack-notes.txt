@@ -1,0 +1,92 @@
+RACK NOTES 
+
+TABLE OF CONTENTS 
+1%%    Introduction
+
+
+
+==============================================================
+1%%    Introduction
+==============================================================
+**what is Rack?**
+ -Rack is a Ruby framework that powers other web applications
+ -it deals with low level things likt HTTP parsing 
+ -rack sits between your web application and your server
+
+**what does it do**
+ -it parses HTTP
+ -it has a drop dead simple/powerful API
+ -you can use whatever modules you want like: 
+  -Request
+  -Response
+  -URLMap
+  -Logging
+  -Auth
+  -Cookies
+  -Exceptions 
+ -it's basically an HTTPHandler like those found in asp.net 
+ -EXCEPT it doesn't rely on a server
+
+==============================================================
+1.1%%    Installation 
+==============================================================
+**instalaton steps**
+ -it's a ruby gem, so just: 
+
+  $ gem install rack
+
+ -it also automatically installs if you get rails 
+ 
+==============================================================
+2%%    Basics 
+==============================================================
+**first rack application** 
+ -by convention, if theres only a single file in your 
+  application, call it app
+ -the extension is .ru, stands for RackUp 
+
+**syntax** 
+ -all Rack applicationss must implement a method call, and 
+  it accepts a single argument called env (environment)
+
+  class HelloWord
+    def call(env)
+      return ["200",
+          {"Content-Type" => "text/plain"}, 
+          "hello there"]
+    end
+  end
+  
+  run HelloWorld.new
+
+**breakdown**
+ -what call must returns is an array containing 3 elements:
+   
+  1. status code (string) 
+    typically it is "200", or something like "404" if somethin
+    isnt found 
+  2. headers (hash)
+    headers allow clients and servers to pass additional
+    info about the response
+  3. response (anything)
+    this is the actual content that you will return to the 
+    page at the successful completeion of the test
+
+ -then simply run a new instance of your class with the Rack
+  keyword "run" 
+
+**running the code** 
+ -cd into the directory containing your app, then call the 
+  rackup command 
+ -rackup creates a local web server for you and lets you 
+  specify which port on localhost your content will be 
+  avaiable at
+
+  $ rackup app.ru -p 8080
+
+ -rack will then run the app by checking if it responds to call
+  which ours does 
+ -then it goes and finds the webserver on the machine (you
+  are using apache) and then activates it 
+ -then you go to localhost:8080, it will show ou what was put
+  in the response of the array
