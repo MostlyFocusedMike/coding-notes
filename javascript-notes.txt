@@ -565,7 +565,7 @@ METHODS: functions that are defined in an object
 **operators** 
   <=, ==, >=  = less than or equal, equal, greater or equal 
   !=   = not equal 
-  <==, ===, >==, !== 
+   ===, !== 
    -adding that extra "=" does not allow for type coercion,
     if the compared objects are not the same data type, it
     will always be false 
@@ -1554,7 +1554,9 @@ USES
     a.join(', ');  // 'Wind, Rain, Fire'
     a.join(' + '); // 'Wind + Rain + Fire'
 
-
+RETURN VALUE 
+ -doesn't affect original array
+ -returns a new string of all elements joined 
 
 ------------------------------------------------
 Math.ceil() and Math.floor()

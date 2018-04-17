@@ -1,4 +1,5 @@
 RSPEC NOTES
+# testing bash program pushnote
 ==============================================================
                   intro 
 ==============================================================
@@ -838,94 +839,95 @@ end
 
 
 
-============================================================== 
-      helpers
-============================================================== 
-Sometimes your RSpec examples need an easy way to share reusable code. The best way to accomplish this is with Helpers. Helpers are basically regular Ruby methods which you share across examples. To illustrate the benefit of using helpers, let’s consider this code −
+==============================================================
+              helpers
+==============================================================
+**reusing code**
+ -rspec uses "helpers" (which are just methods) to recycle 
+  reusable code 
+ -see the example code below: 
 
-class Dog 
-   attr_reader :good_dog, :has_been_walked 
-   
-   def initialize(good_or_not) 
-      @good_dog = good_or_not 
-      @has_been_walked = false 
-   end 
-   
-   def walk_dog 
-      @has_been_walked = true 
-   end 
-end 
+    class Dog 
+       attr_reader :good_dog, :has_been_walked 
+       
+       def initialize(good_or_not) 
+          @good_dog = good_or_not 
+          @has_been_walked = false 
+       end 
+       
+       def walk_dog 
+          @has_been_walked = true 
+       end 
+    end 
 
-describe Dog do 
-   it 'should be able to create and walk a good dog' do 
-      dog = Dog.new(true) 
-      dog.walk_dog 
-      
-      expect(dog.good_dog).to be true
-      expect(dog.has_been_walked).to be true 
-   end 
-   
-   it 'should be able to create and walk a bad dog' do 
-      dog = Dog.new(false) 
-      dog.walk_dog 
+    ## RSPEC FILE 
+    describe Dog do 
+       it 'should be able to create and walk a good dog' do 
+          dog = Dog.new(true) 
+          dog.walk_dog 
+          
+          expect(dog.good_dog).to be true
+          expect(dog.has_been_walked).to be true 
+       end 
+       
+       it 'should be able to create and walk a bad dog' do 
+          dog = Dog.new(false) 
+          dog.walk_dog 
 
-      expect(dog.good_dog).to be false
-      expect(dog.has_been_walked).to be true 
+          expect(dog.good_dog).to be false
+          expect(dog.has_been_walked).to be true 
+     
+       end 
+    end
  
-   end 
-end
-This code is clear, but it’s always a good idea to reduce repeated code whenever possible. We can take the above code and reduce some of this repetition with a helper method called create_and_walk_dog().
+ -good, but a bit repetative, here it is using helpers
 
-class Dog
-   attr_reader :good_dog, :has_been_walked 
-   
-   def initialize(good_or_not)
-      @good_dog = good_or_not 
-      @has_been_walked = false 
-   end 
-   
-   def walk_dog 
-      @has_been_walked = true 
-   end 
-end 
+    class Dog
+       attr_reader :good_dog, :has_been_walked 
+       
+       def initialize(good_or_not)
+          @good_dog = good_or_not 
+          @has_been_walked = false 
+       end 
+       
+       def walk_dog 
+          @has_been_walked = true 
+       end 
+    end 
 
-describe Dog do 
-   def create_and_walk_dog(good_or_bad)
-      dog = Dog.new(good_or_bad)
-      dog.walk_dog
-      return dog 
-   end 
-   
-   it 'should be able to create and walk a good dog' do
-      dog = create_and_walk_dog(true)
-      
-      expect(dog.good_dog).to be true
-      expect(dog.has_been_walked).to be true 
-   end 
-   
-   it 'should be able to create and walk a bad dog' do 
-      dog = create_and_walk_dog(false)
-      
-      expect(dog.good_dog).to be false
-      expect(dog.has_been_walked).to be true 
-   end 
-end
-When you run the above code, you will see this output −
+    ## RSPEC FILE 
+    describe Dog do 
+      # this is the helper method 
+       def create_and_walk_dog(good_or_bad)
+          dog = Dog.new(good_or_bad)
+          dog.walk_dog
+          return dog 
+       end 
+       
+       it 'should be able to create and walk a good dog' do
+          dog = create_and_walk_dog(true)
+          
+          expect(dog.good_dog).to be true
+          expect(dog.has_been_walked).to be true 
+       end 
+       
+       it 'should be able to create and walk a bad dog' do 
+          dog = create_and_walk_dog(false)
+          
+          expect(dog.good_dog).to be false
+          expect(dog.has_been_walked).to be true 
+       end 
+    end
 
-.. 
-Finished in 0.002 seconds (files took 0.11401 seconds to load) 
-2 examples, 0 failures
-As you can see, we were able to push the logic for creating and walking a dog object into a Helper which allows our examples to be shorter and cleaner.
-
+ -"helpers" are just regular ruby methods that you can call to
+  make your code succinct 
 
 ==============================================================
           metadata
 ==============================================================
-RSpec is a flexible and powerful tool. The Metadata functionality in RSpec is no exception. Metadata generally refers to “data about data”. In RSpec, this means data about your describe, context and it blocks.
+**Meta data** 
+ -RSpec gives you access to the meta data: 
 
-Let’s take a look at an example −
-
-#code 
 RSpec.describe "An Example Group with a metadata variable", :foo => 17 do 
    context 'and a context with another variable', :bar => 12 do 
       
@@ -942,21 +944,23 @@ end
 
 #end code 
 
-When you run the above code, you will see this output −
+ -notice you need to explicitly state RSpec.describe 
+  and then in the "it" block, pass a single value through
+ -When you run the above code, you will see this output −
 
-###
 .. 
 Finished in 0.002 seconds (files took 0.11301 seconds to load) 
 2 examples, 0 failures
-###
 
 
-Metadata provides a way to assign variables at various scopes within your RSpec files. The example.metadata variable is a Ruby hash which contains other information about your Examples and Example groups.
+ -Metadata provides a way to assign variables at various 
+  scopes within your RSpec files. The example.metadata 
+  variable is a Ruby hash which contains other information 
+  about your Examples and Example groups.
 
-For instance, let’s rewrite the above code to look like this −
+ -For instance, let’s rewrite the above code to look 
+  like this:
 
-
-###
 RSpec.describe "An Example Group with a metadata variable", :foo => 17 do
    context 'and a context with another variable', :bar => 12 do 
       
@@ -969,14 +973,11 @@ RSpec.describe "An Example Group with a metadata variable", :foo => 17 do
 		
    end 
 end 
-###
+
+ -When we run this code, we see all of the values in the  
+  example.metadata hash 
 
 
-
-When we run this code, we see all of the values in the example.metadata hash −
-
-
-###
 .execution_result: #<RSpec::Core::Example::ExecutionResult:0x00000002befd50>
 block: #<Proc:0x00000002bf81a8@C:/rspec_tutorial/spec/metadata_spec.rb:7>
 description_args: ["can access the metadata variable in the context block"]
@@ -1028,18 +1029,152 @@ last_run_status: unknown .
 .
 Finished in 0.004 seconds (files took 0.11101 seconds to load) 
 2 examples, 0 failures
-###
 
-Most likely, you will not need to use all of this metadata, but look at the full description value −
 
-An Example Group with a metadata variable and a context with another variable can access the metadata variable in the context block.
+ -Most likely, you will not need to use all of this 
+  metadata, but look at the full description value −
 
-This is a sentence created from the describe block description + its contained context block description + the description for the it block.
+ -An Example Group with a metadata variable and a context 
+  with another variable can access the metadata variable in 
+  the context block.
 
-What is interesting to note here is that, these three strings together read like a normal English sentence. . . which is one of the ideas behind RSpec, having tests that sound like English descriptions of behavior.
+ -This is a sentence created from the describe block 
+  description + its contained context block 
+  description + the description for the it block.
+
+ -What is interesting to note here is that, these three 
+  strings together read like a normal English 
+  sentence, which is one of the ideas behind RSpec, 
+  having tests that sound like English descriptions of 
+  behavior.
 
 
 ==============================================================
       Filtering
 ==============================================================
+**positive and negative** 
+ -it seems that functional tests are refered to as positive 
+  tests, while error tests are refered to as negative 
+ -this classification is based on RSpec metadata, so you need
+  to use RSpec.describe: 
 
+  RSpec.describe "An Example Group with positive and negative Examples" do 
+   context 'when testing Ruby\'s build-in math library' do
+      
+      it 'can do normal numeric operations', positive: true do 
+         expect(1 + 1).to eq(2) 
+      end 
+      
+      it 'generates an error when expected', negative: true do 
+         expect{1/0}.to raise_error(ZeroDivisionError) 
+      end
+      
+   end 
+end
+
+ -you can then run each type specificaly with the tag flag
+ -truthfully, these seem to be just tags 
+
+  rspec --tag positive filter_spec.rb
+
+
+==============================================================
+        Expectations 
+==============================================================
+**basics of expect** 
+ -two main things to keep in mind about expectations: 
+
+  1. an expectation is simply an "it" block that uses 
+  the expect method. That's it.
+    -the expect sytnax is becuase RSpec is BDD Behavior Driven
+     development, it's the idea that you are testing expected
+     behaviors 
+  2. expectation syntax is relatively new, introed in 2012,
+  it used to be should() 
+    (1 + 1).should eq(2)   # old 
+    expect(1 + 1).to eq(2) # new 
+
+ -this is just to warn you that older code will use this 
+  syntax: 
+
+  RSpec.describe "An RSpec file that uses the old syntax" do
+   it 'you should see a warning when you run this Example' do 
+      (1 + 1).should eq(2) 
+   end 
+end
+
+ -and will output this: 
+
+. Deprecation Warnings:
+
+Using `should` from rspec-expectations' old `:should` 
+   syntax without explicitly enabling the syntax is deprecated. 
+   Use the new `:expect` syntax or explicitly enable 
+	
+`:should` with `config.expect_with( :rspec) { |c| c.syntax = :should }`
+   instead. Called from C:/rspec_tutorial/spec/old_expectation.rb:3 :in 
+   `block (2 levels) in <top (required)>'.
+
+If you need more of the backtrace for any of these deprecations to
+   identify where to make the necessary changes, you can configure 
+`config.raise_errors_for_deprecations!`, and it will turn the deprecation 
+   warnings into errors, giving you the full backtrace.
+
+1 deprecation warning total 
+Finished in 0.001 seconds (files took 0.11201 seconds to load) 
+1 example, 0 failures
+
+ -unless you have to use the old way, don't.
+
+==============================================================
+      Testing random stuff 
+==============================================================
+**you stub for random things**
+ -testing random output is tricky, if a method produces a
+  random output, you have to stub it
+ -in this example, the Airport class generates a random number
+  and if that number is in a certain range, it decides the 
+  weather (eg 1-20 = stormy, 21-40 = cloudy)
+ -that function is weather_rand, so we do 
+    airport.allow(:weather_rand).and_return(5)
+ -then, with the random weather set, you can test whether 
+  or not it raises an error (bad weather raises an error in
+  the ruby code) 
+  
+ it 'a plane cannot take off when there is a storm brewing' do
+    airport = Airport.new [plane]
+    airport.allow(:weather_rand).and_return(5)
+    # a 5 is a storm 
+    expect(lambda { airport.plane_take_off(plane) }).to raise_error(RuntimeError) 
+end 
+
+here is the actual code: 
+
+  def weather_rand
+  rand(100)
+end
+
+def plane_land plane
+  raise "Too Stormy!" if weather_ran <= 20
+  permission_to_land plane
+end
+
+def permission_to_land plane
+  raise "Airport is full" if full?
+  @planes << plane
+  plane.land!
+end
+
+def plane_take_off plane
+  raise "Too Stormy!" if weather_ran <= 20
+  permission_to_take_off plane
+end
+
+def permission_to_take_off plane
+  plane_taking_off = @planes.delete_if {|taking_off| taking_off == plane }
+  plane.take_off!
+end
+
+ -and here is the stackoverflow link: 
+
+https://stackoverflow.com/questions/19451498/how-do-i-take-into-account-the-random-number-in-my-rspec-tests
