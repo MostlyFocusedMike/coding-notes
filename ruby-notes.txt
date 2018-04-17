@@ -6,14 +6,19 @@
 /
 /////////////////////////////////////////////////////////////
 TABLE OF CONTENTS
-1%%  Introduction
-2%%  Ruby Data types 
-3%%  error messages 
-4%%  intro to tests, rspec, and learn
-5%%  Variables and Methods
-6%%  string evaluation, ',",`, and puts v print, indexing
-7%%  Ruby variables scope/types 
-8%%               Defining methods
+1%%    Introduction
+2%%    Ruby Data types 
+3%%    error messages 
+4%%    intro to tests, rspec, and learn
+5%%    Variables and Methods
+5.1%%  scope 
+6%%    string evaluation, ',",`, and puts v print, indexing
+7%%    Defining methods
+8%%    Return values
+9%%    Debugging with pry
+10%%   Ranges AND random numbers 
+11%%   Math in ruby 
+
 
 INTERLUDES
 time%%          Time class interlude
@@ -593,7 +598,7 @@ t.dst?      # => false (was it daylight savings time?)
 
 
 =============================================================
-5%%                   Variables and Methods
+5%%            Variables and Methods
 =============================================================
 **about variable assignment**
  -Here is how you assign variables in Ruby: 
@@ -701,10 +706,7 @@ t.dst?      # => false (was it daylight savings time?)
     new_var = "mike"
     new_var = "now it's not"
 
-**scope**
- -Ruby has local and global variables just like other 
-  languages, see METHOD SCOPE section for more
-
+//////////////////////////////////////////////////////////////
 **pass-by-value/pass-by-referece and mutability**
  -In Ruby, basically everything is an object, there are 
   no primitive types 
@@ -783,8 +785,50 @@ boolean	          value
   keys and values, array made of indexes, vs number holds
   a single value 42, bool is true OR false)
 
-//////////////////////////////////////////////////////////////
-                      more on scope
+==============================================================
+5.1%%             scope 
+==============================================================
+**scopes**
+ -variables named outside a method can't be accessed inside 
+  methods, variables named inside a method can only be 
+  accessed inside THAT method 
+
+    name = "joe"
+  
+    def say_hi()
+      name = "tim"
+    end 
+
+    say_hi
+    # > "tim"
+    name 
+    # > "joe"
+
+ -the only way to get a variable into a method is to pass 
+  it in as an argument
+ -the only way to get a value out of a method is to return it
+
+    evil_monster = "Bowser"
+     
+    def princess_peaches_castle(evil_monster)
+      puts "#{evil_monster} is kidnaping Princess Peach!"
+    end
+     
+    
+    princess_peaches_castle("craig")
+    # > "craig is kidnaping Peach!"
+
+    princess_peaches_castle(evil_monster)
+    # > "Bowser is kidnaping Peach!"
+
+ -so even though evil_monster LOOKS like it was passed in, 
+  that evil_monster parameter is a bareword with local 
+  scope to that function, as we see when we define it 
+  as the argument string "craig"
+ -the only way to get the main scope evil_monster into that 
+  method is to actually pass it as an argument
+
+
 **local variables**
  -local variables are unique to their scope, if you define 
   a variable inside a method, it won't be "seen" in the main
@@ -944,6 +988,20 @@ boolean	          value
  -there are some instances with .method chaining that require
   you to use ()
 
+**Puts and print in depth**
+ -as stated, puts uses a newline at the end, print doesn't
+ -the way they work thoush is using the $stdout global 
+  variable provided by ruby
+ -the $stdout accesses your terminals stdout, which is how
+  you can see it in the terminal
+ -becuase of this, it can also be piped like any other stdout
+
+    # say_hello outputs "Hello!"  
+    $ ruby say_hello.rb > foo.txt
+    $ cat foo.txt
+    Hello!
+
+
 *printing arrays**
  -note that puts-ing, an array will print each value on
   its own line, while print will format and print out the
@@ -955,14 +1013,15 @@ boolean	          value
  -do not use it in production, just testing 
 
 **indexing a string**
+ -you can use many of the bracket notation techniques with
+  strings like you would arrays: 
+
+    str = "hello" 
+    str[0] # h
+    str[1..3] # ell, this is a range, more on those later
 
 ==============================================================
-7%%              Ruby variables scope/types 
-==============================================================
-
-
-==============================================================
-8%%               Defining methods
+7%%               Defining methods
 ==============================================================
 **method definitions**
  -here is an example method: 
@@ -979,17 +1038,21 @@ boolean	          value
   (unlike js, where a method without () won't call it, 
    but is simply a reference to that function)
 
-**#methods, methods? and methods!**
+**#methods**
  -often when writing about ruby code, you will see methods
   prefaced with a #. 
  -this is only used in articles to help readers quickly 
   know that #say_hello is a method, not a variable or class
  -when coding, never actually write this, since that will 
   comment it out
+
+**#methods?** 
  -a method that ends in a ?, like .include? is also just a
   convention, it means that it will return a boolean. 
  -it has no syntactic value, it could return a bool and do 
   other stuff, it's just a naming convention rubyists like
+
+**#methods!**
  -a method! means that the method likely alters the actual 
   value of the object, it is doing a pass-by-reference,
   not pass-by-value
@@ -1006,7 +1069,6 @@ boolean	          value
 
 
 /////////////////////////////////////////////////////////////
-                METHODS AND ARGUMENTS 
 **arguments**
  -add arguments to your methods to pass in values: 
 
@@ -1054,7 +1116,6 @@ boolean	          value
 
 
 /////////////////////////////////////////////////////////////
-                METHOD DEFAULT ARGUMENTS 
 **Using defualt values**
  -to avoid argument errors and make it easier to use methods
   with default values unless otherwise stated, use 
@@ -1079,35 +1140,19 @@ boolean	          value
   accept, like [1..2] for 1 OR 2 arguments possible
 
 
-
-/////////////////////////////////////////////////////////////
-        RETURN VALUES
-
-**Puts and print in depth**
- -as stated, puts uses a newline at the end, print doesn't
- -the way they work thoush is using the $stdout global 
-  variable provided by ruby
- -the $stdout accesses your terminals stdout, which is how
-  you can see it in the terminal
- -becuase of this, it can also be piped like any other stdout
-
-    # say_hello outputs "Hello!"  
-    $ ruby say_hello.rb > foo.txt
-    $ cat foo.txt
-    Hello!
-
-**Returnin values**
+==============================================================
+8%%                  Return values
+==============================================================
  -Everything has a return value 
   look at this table to see examples of return values: 
 
-    
-Code	                  Return Value
-"Hello world"	        "Hello world"
-6 + 3                  9
-president = "Obama"   "Obama"
-total = 6 + 3	         9
-puts "hello world"	   nil
-print "hello world"	   nil
+        Code	                  Return Value
+        "Hello world"	        "Hello world"
+        6 + 3                  9
+        president = "Obama"   "Obama"
+        total = 6 + 3	         9
+        puts "hello world"	   nil
+        print "hello world"	   nil
 
  -notice that puts and print return a nil value, this is
   bcause they output the string, then return nothing, hence
@@ -1153,8 +1198,9 @@ print "hello world"	   nil
  -even though "Guy Fieri" is the last statement, he is 
   rightfully ignored and the return value is returned 
   and the method is exited 
- -most rubyists ignore return values unless explicitly needed
-  like when you want to get a value earlier in the function
+ -most rubyists ignore the return keyword  unless explicitly 
+  needed like when you want to get a value earlier in the 
+  function: 
   
     def change_my_name
       name = "Frank"
@@ -1170,17 +1216,9 @@ print "hello world"	   nil
   is obvious to others reading your code what value you are
   working with
 
-
-/////////////////////////////////////////////////////////////
-      STRING INTERPOLATION
-
-**see your earlier section**
-
-
-
-/////////////////////////////////////////////////////////////
-          DEBUGGING WITH PRY
-
+==============================================================
+9%%                Debugging with pry
+==============================================================
 **What is Pry?**
  -Pry is another Ruby REPL that lets you pause your program
   at a point and interact with it, so you can see what 
@@ -1195,7 +1233,7 @@ print "hello world"	   nil
   you "pry" into it with a Ruby shell
 
 **instalation and use**
- -jsut cd into your home directory and use 
+ -just cd into your home directory and use 
     
     $ gem install pry
 
@@ -1216,8 +1254,8 @@ print "hello world"	   nil
  -obviously useful, no more printing breakpoints, you 
   can simply inteact directly
  -pry is triggered whenever and wherever the interpreter 
-  hits it, so even if you never call a method, 
-  if binding.pry is in one and you fire a test with RSpec,
+  hits it, 
+ -if binding.pry is in a method and you test with RSpec,
   you will be able to go into the shell during the test 
   (but not if you just use the command ruby on the file, 
   since you never call the method it's in)
@@ -1226,24 +1264,80 @@ print "hello world"	   nil
   ever get to it! 
 
 
-
-/////////////////////////////////////////////////////////////
-            RANGES and RANDOM NUMBERS 
-
+==============================================================
+10%%            Ranges AND random numbers 
+==============================================================
 **Ranges**
  -A range is a set of values with a beginning and end
  -they can be strings or integers, but not both at the 
   same time 
- -do not use floats
+ -can't use floats though
  -they are made by specifying the beginning and end of the
   range, then using either the ".." or "..." range operators
-
-    (1..6) 
+    1..6 # generally they will be in () since you need () to
+         # chain it with iterable methods 
+    (1..6)  # this can be iterable as is 
     ("a".."z")
 
 **.. vs ..."
  -using the .. operator means both the beginning and end are 
   inclusive, the ... operator means the end is NOT inclusive
+
+**ints and strings**
+ -ints are straightforward: 
+
+    foo = (1..9)
+    =>1,2,3,4,5,6,7,8,9
+ 
+ -strings are less so: 
+
+    bar = ("bat".."bee")
+    => ["bat", "bau", "bav", "baw", "bax", "bay", "baz", "bba", "bbb", "bbc", "bbd", "bbe", "bbf", "bbg", "bbh", "bbi", "bbj", "bbk", "bbl", "bbm", "bbn", "bbo", "bbp", "bbq", "bbr", "bbs", "bbt", "bbu", "bbv", "bbw", "bbx", "bby", "bbz", "bca", "bcb", "bcc", "bcd", "bce", "bcf", "bcg", "bch", "bci", "bcj", "bck", "bcl", "bcm", "bcn", "bco", "bcp", "bcq", "bcr", "bcs", "bct", "bcu", "bcv", "bcw", "bcx", "bcy", "bcz", "bda", "bdb", "bdc", "bdd", "bde", "bdf", "bdg", "bdh", "bdi", "bdj", "bdk", "bdl", "bdm", "bdn", "bdo", "bdp", "bdq", "bdr", "bds", "bdt", "bdu", "bdv", "bdw", "bdx", "bdy", "bdz", "bea", "beb", "bec", "bed", "bee"]
+ 
+ -notice how it hits every permutation alphabetically, if you
+  just did ("a".."r") though, it would simply list the 
+  alphabet
+  
+**MUST be ascending**
+ -ranges must be in ascending order, both numerically and 
+  alphabetically
+
+**converting to array**
+ -converting to a array is easy: 
+
+    foo = (1...11).to_a
+    # or 
+    foo.to_a  # if you hadn't in the definition
+
+ -converting to an array is not ussually necessary, except
+  when you want a nice print value: 
+    
+    print 1..3 # 1..3
+    print (1..3).to_a # [1,2,3]
+ 
+ **ranges are iterable**
+ -you can use loops, include, max and min and many other 
+  methods with ranges, you do not have to convert them into
+  arrays first:
+ -you DO either need to assign it to a variable, OR use ()
+  around the range if you want to apply any of these methods
+
+    # Assume a range
+    digits = 0..9
+
+    puts digits.include?(5) # true
+    ret = digits.min
+    puts "Min value is #{ret}"
+
+    ret = digits.max
+    puts "Max value is #{ret}"
+
+    ret = digits.reject {|i| i < 5 }
+    puts "Rejected values are #{ret}"
+
+    digits.each do |digit|
+       puts "In Loop #{digit}"
+    end
 
 **stepped ranges**
  -you can generate steped ranges using the #step method: 
@@ -1258,55 +1352,10 @@ print "hello world"	   nil
  -also, you do not need to convert to an array, that was 
   just for a nice looking return value
 
-**ints and strings**
- -ints are straightforward: 
-
-    foo = (1..9)
-    =>1,2,3,4,5,6,7,8,9
- 
- -strings are less so: 
-
-    bar = ("bat".."bee")
-    => ["bat", "bau", "bav", "baw", "bax", "bay", "baz", "bba", "bbb", "bbc", "bbd", "bbe", "bbf", "bbg", "bbh", "bbi", "bbj", "bbk", "bbl", "bbm", "bbn", "bbo", "bbp", "bbq", "bbr", "bbs", "bbt", "bbu", "bbv", "bbw", "bbx", "bby", "bbz", "bca", "bcb", "bcc", "bcd", "bce", "bcf", "bcg", "bch", "bci", "bcj", "bck", "bcl", "bcm", "bcn", "bco", "bcp", "bcq", "bcr", "bcs", "bct", "bcu", "bcv", "bcw", "bcx", "bcy", "bcz", "bda", "bdb", "bdc", "bdd", "bde", "bdf", "bdg", "bdh", "bdi", "bdj", "bdk", "bdl", "bdm", "bdn", "bdo", "bdp", "bdq", "bdr", "bds", "bdt", "bdu", "bdv", "bdw", "bdx", "bdy", "bdz", "bea", "beb", "bec", "bed", "bee"]
- 
- -notice how it hits every permutation alphabetically, if you
-  just did ("a".."r") though, it would simply list the alphabet
-  
-**MUST be ascending**
- -ranges must be in ascending order, both numerically and 
-  alphabetically
-
-**converting to array**
- -converting to a array is easy: 
-
-    foo = (1...11).to_a
-    or 
-    foo.to_a  # if you hadn't in the definition
-
- **ranges are iterable**
- -you can use loops, include, max and min and many other 
-  methods with ranges, you do not have to convert them into
-  arrays first:
-
-  # Assume a range
-  digits = 0..9
-
-  puts digits.include?(5)
-  ret = digits.min
-  puts "Min value is #{ret}"
-
-  ret = digits.max
-  puts "Max value is #{ret}"
-
-  ret = digits.reject {|i| i < 5 }
-  puts "Rejected values are #{ret}"
-
-  digits.each do |digit|
-     puts "In Loop #{digit}"
-  end
 
 **ranges as conditions** 
  -ranges can be used in case statements: 
+ -more on case statements in the conditionals section 
 
     score = 70
 
@@ -1325,24 +1374,23 @@ print "hello world"	   nil
  -ranges can be used to check if a value falls with a certain
   range: 
 
-
     if ((1..10) === 5)
        puts "5 lies in (1..10)"
-      # true
+      # this is true, so it will evaluate
     end
     
 
     if (('a'..'j') === 'c')
        puts "c lies in ('a'..'j')"
-      # true 
+      # this is true, so it will evaluate
     end
 
     if (('a'..'j') === 'z')
        puts "z lies in ('a'..'j')"
-      # false 
+      # false, no eval
     end 
 
-
+//////////////////////////////////////////////////////////////
 **random number generation**
  -ranges are great for quickly doing integer randoms: 
 
@@ -1370,54 +1418,11 @@ print "hello world"	   nil
    end
 
  -you can't use the range .. operators because they don't 
-  work on floats 
+  work on floats, so that's why you need the method
 
-
-//////////////////////////////////////////////////////////////
-        METHOD SCOPE 
-**scopes**
- -variables named outside a method can't be accessed inside 
-  methods, variables named inside a method can only be 
-  accessed inside THAT method 
-
-    name = "joe"
-  
-    def say_hi()
-      name = "tim"
-    end 
-
-    say_hi
-    # > "tim"
-    name 
-    # > "joe"
-
- -the only way to get a variable into a method is to pass 
-  it in as an argument
- -the only way to get a value out of a method is to return it
-
-    evil_monster = "Bowser"
-     
-    def princess_peaches_castle(evil_monster)
-      puts "#{evil_monster} is kidnaping Princess Peach!"
-    end
-     
-    
-    princess_peaches_castle("craig")
-    # > "craig is kidnaping Peach!"
-
-    princess_peaches_castle(evil_monster)
-    # > "Bowser is kidnaping Peach!"
-
- -so even though evil_monster LOOKS like it was passed in, 
-  that evil_monster parameter is a bareword with local 
-  scope to that function, as we see when we define it 
-  as the argument string "craig"
- -the only way to get the main scope evil_monster into that 
-  method is to actually pass it as an argument
-
-
-//////////////////////////////////////////////////////////////
-                      MATH IN RUBY 
+==============================================================
+11%%               Math in ruby 
+==============================================================
 
 -all basic arithmatic operators are here
   +, -, /, %, **
