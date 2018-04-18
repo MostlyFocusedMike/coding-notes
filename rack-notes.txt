@@ -1,7 +1,9 @@
 RACK NOTES 
 
 TABLE OF CONTENTS 
-1%%    Introduction
+1%%      Introduction
+1.1%%    Installation 
+2%%      Basics/hello world
 
 
 
@@ -36,9 +38,10 @@ TABLE OF CONTENTS
   $ gem install rack
 
  -it also automatically installs if you get rails 
+ -you must have at least ruby 2.2 these days 
  
 ==============================================================
-2%%    Basics 
+2%%    Basics/hello world
 ==============================================================
 **first rack application** 
  -by convention, if theres only a single file in your 
@@ -53,7 +56,7 @@ TABLE OF CONTENTS
     def call(env)
       return ["200",
           {"Content-Type" => "text/plain"}, 
-          "hello there"]
+          ["hello there"]]
     end
   end
   
@@ -68,9 +71,12 @@ TABLE OF CONTENTS
   2. headers (hash)
     headers allow clients and servers to pass additional
     info about the response
-  3. response (anything)
+  3. response (array,the application itself, or a file)
     this is the actual content that you will return to the 
     page at the successful completeion of the test
+    it MUST be able to respond to #each, so if you just want
+    a string, it needs to be in an array
+    (this is new in ruby 1.9 so old tutorials will miss this) 
 
  -then simply run a new instance of your class with the Rack
   keyword "run" 
@@ -90,3 +96,84 @@ TABLE OF CONTENTS
   are using apache) and then activates it 
  -then you go to localhost:8080, it will show ou what was put
   in the response of the array
+ -use ctrl + C to end the server 
+
+///////////////////////////////////////////////////////////////
+**what is the env variable?**
+ -it's just a hash of names and values and you can see it by:
+
+  class HelloWord
+    def call(env)
+      # this is plain text output, so you can use newlines 
+      out = env.map {|k,v| "#{k}= #{v}\n"}
+      return ["200",
+          {"Content-Type" => "text/plain"}, 
+          out]
+    end
+  end
+  
+  run HelloWorld.new
+
+ -this will display the HTTP context of the page and show 
+  what variables yo uhave access to, like PATH and HTTP_HOST
+  and even rack info, like vesion and errors
+
+**how does it know all this?**
+ -it actually uses little rack modules of it's own to get all
+  this info, more on this later 
+
+
+///////////////////////////////////////////////////////////////
+**output html**
+ -simply change "text/plain" to "text/html" to have the browser
+  interpret your text as html: 
+
+  class HelloWord
+    def call(env)
+      # this is plain text output, so you can use newlines 
+      out = env.map {|k,v| "<li>#{k}= #{v}"}
+      return ["200",
+          {"Content-Type" => "text/html"}, 
+          out]
+    end
+  end
+  
+  run HelloWorld.new
+
+ -this is a very basic example 
+
+==============================================================
+%%     shotgun, the server restarter 
+==============================================================
+**automatically restart server** 
+ -to see any change in our file, we have to stop and restart
+  the server with a new rackup command 
+ -there are many programs to do this for us, one of them 
+  is shotgun 
+ -it will restart the server everytime it notices a change
+  in the file 
+
+**install**
+ -it's just a gem: 
+
+  gem install shotgun
+
+**use**
+-instead of specifyin a port, shotgun will give one to you:
+
+  # assuming you are in the directory like before 
+  $ shotgun app.ru 
+  == Shotgun/WEBrick on http://127.0.0.1:9393/
+[2018-04-17 16:26:45] INFO  WEBrick 1.3.1
+[2018-04-17 16:26:45] INFO  ruby 2.4.2 (2017-09-14) [x86_64-darwin16]
+[2018-04-17 16:26:45] INFO  WEBrick::HTTPServer#start: pid=85743 port=9393
+
+ -that last number port=9393 is your localhost: port, and it
+  seems to ussually be port 9393
+
+
+==============================================================
+%%     creating middleware 
+==============================================================
+
+ 

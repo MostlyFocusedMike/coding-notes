@@ -16,13 +16,20 @@ TABLE OF CONTENTS
 7%%    Defining methods
 8%%    Return values
 9%%    Debugging with pry
-10%%   Ranges AND random numbers 
-11%%   Math in ruby 
-
+10%%   Ranges 
+11%%   Random numbers/Math in ruby 
+12%%   Booleans and truthiness 
+13%%   Intro to loops (assignment operators) 
+14%%   RSpec hooks/putting a program to sleep
+15%%   Blackjack CLI and CLI apps    
+16%%   Arrays 
+17%%      common array methods
+18%%      Enumerators introduction
 
 INTERLUDES
-time%%          Time class interlude
-
+time%%    Time class interlude
+gets%%    Interlude: getting values from the command line 
+w_ob%%    Interlude: #with_object
 
 
 
@@ -597,6 +604,8 @@ t.dst?      # => false (was it daylight savings time?)
 
 
 
+
+
 =============================================================
 5%%            Variables and Methods
 =============================================================
@@ -785,6 +794,11 @@ boolean	          value
   keys and values, array made of indexes, vs number holds
   a single value 42, bool is true OR false)
 
+
+
+
+
+
 ==============================================================
 5.1%%             scope 
 ==============================================================
@@ -874,6 +888,11 @@ boolean	          value
     CONSTANT = "Reassigning will throw an error"
 
     $CONST = "I'm me and global"
+
+
+
+
+
 
 
 ==============================================================
@@ -1020,6 +1039,11 @@ boolean	          value
     str[0] # h
     str[1..3] # ell, this is a range, more on those later
 
+
+
+
+
+
 ==============================================================
 7%%               Defining methods
 ==============================================================
@@ -1140,6 +1164,11 @@ boolean	          value
   accept, like [1..2] for 1 OR 2 arguments possible
 
 
+
+
+
+
+
 ==============================================================
 8%%                  Return values
 ==============================================================
@@ -1216,6 +1245,11 @@ boolean	          value
   is obvious to others reading your code what value you are
   working with
 
+
+
+
+
+
 ==============================================================
 9%%                Debugging with pry
 ==============================================================
@@ -1262,6 +1296,11 @@ boolean	          value
  -point is, testing triggers pry
  -be careful of return staments coming before pry, you won't
   ever get to it! 
+
+
+
+
+
 
 
 ==============================================================
@@ -1390,7 +1429,14 @@ boolean	          value
       # false, no eval
     end 
 
-//////////////////////////////////////////////////////////////
+
+
+
+
+
+==============================================================
+11%%           Random numbers/Math in ruby 
+==============================================================
 **random number generation**
  -ranges are great for quickly doing integer randoms: 
 
@@ -1420,10 +1466,7 @@ boolean	          value
  -you can't use the range .. operators because they don't 
   work on floats, so that's why you need the method
 
-==============================================================
-11%%               Math in ruby 
-==============================================================
-
+**Math in ruby **
 -all basic arithmatic operators are here
   +, -, /, %, **
 
@@ -1445,15 +1488,48 @@ boolean	          value
 
 
 
-//////////////////////////////////////////////////////////////
-        BOOLEANS AND TRUTHINESS 
 
+
+
+
+==============================================================
+gets%%    Interlude: getting values from the command line 
+==============================================================
+
+**user interaction**
+ -if you want to get a variable value from the user, 
+  like say a username, then use the gets() method 
+
+    name = gets()
+
+ -the gets method waits for user input, then continues 
+  once the user hits enter (pythong raw_input())
+ -HOWEVER, when the user hits enter, that is technically 
+  addin a newline \n character to the end of their answer
+ -to trim this, use the .chomp method 
+
+    name = gets.chomp  # remember () are not needed 
+
+ -this takes just the username with out \n on the end 
+ -you can also use the #strip, which removes leading and 
+  trailing whitespaces, as well as tabs and newline characters
+  
+    "    hello    ".strip   #=> "hello"
+    "\tgoodbye\r\n".strip   #=> "goodbye"
+
+
+
+
+
+==============================================================
+12%%        Booleans and truthiness 
+==============================================================
 **booleans**
  -in ruby, booleans are just true and false, no capitals 
   like python or YES NO in obj-c
 
 **flow control**
- -this is basically and if x do y statement, they can get 
+ -this is basically and "if x, do y" statement, they can get 
   much more complex than that
  -it's flow control becuase you are controlling the flow of
   the program 
@@ -1482,10 +1558,10 @@ boolean	          value
  -just be aware of this for now 
 
 **Boolean operators**
- ! = single bang means NOT
- && = AND
- || = OR
- == = values are equal 
+ !   = single bang means NOT
+ &&  = AND
+ ||  = OR
+ ==  = values are equal 
  >, <, >=, <=  = all the stuff they always do
   NOTE:
  === is used for equality in case statments, NOT checking 
@@ -1506,37 +1582,14 @@ boolean	          value
   animal.class == human.class # both equal String so this is 
                               # true
 
+ -if you want to compare to see if an object belongs to a 
+  certain class, then compare it with the class name: 
 
-
-/////////////////////////////////////////////////////////////
-    Interlude: getting values from the command line 
-
-**user interaction**
- -if you want to get a variable value from the user, 
-  like say a username, then use the gets() method 
-
-    name = gets()
-
- -the gets method waits for user input, then continues 
-  once the user hits enter (pythong raw_input())
- -HOWEVER, when the user hits enter, that is technically 
-  addin a newline \n character to the end of their answer
- -to trim this, use the .chomp method 
-
-    name = gets.chomp  # remember () are not needed 
-
- -this takes just the username with out \n on the end 
- -you can also use the #strip, which removes leading and 
-  trailing whitespaces, as well as tabs and newline characters
-  
-    "    hello    ".strip   #=> "hello"
-    "\tgoodbye\r\n".strip   #=> "goodbye"
-
-
+    "hello".class == String    # not "String" 
+      #=> true
 
 /////////////////////////////////////////////////////////////
       RUBY CONDITIONALS (IF, ELSIF, ELSE)
-
 **if, elsif strings**
  -here's the syntax: 
 
@@ -1621,7 +1674,7 @@ boolean	          value
   is basically a NOT check: 
 
     this_year = Time.now.year
-    puts "Hey, it's 2015!" unless this_year == 2015
+    puts "Hey, it's not 2015!" unless this_year == 2015
 
  -now it will print whenever it is NOT 2015 
 
@@ -1680,9 +1733,13 @@ boolean	          value
   between different objects (like int and regex or range)
 
 
-/////////////////////////////////////////////////////////////
-      INTRO TO LOOPS 
 
+
+
+
+==============================================================
+13%%      Intro to loops (assignment operators) 
+==============================================================
 **times iterator**
  -one of the simplest ways to loop is using the times
   iterator: 
@@ -1704,14 +1761,19 @@ boolean	          value
   is the number of times it looped (so 10 in this case) 
 
 **quick note on | | **
- -braces define an anonymous function, meaning that they 
-  can accept certain variables from certain methods 
- -only certain methods will use and pass variables to 
-  anonymous blocks 
- -with .times it will pass an iteration variable, so 
+ -braces define a block, which is a ruby feature that is like 
+  an anonymous function, meaning that they can accept 
+  certain variables from certain methods 
+ -only certain methods will use and pass variables to blocks 
+ -with #times, it will pass an iteration variable, so 
   use |value| to assign that value 
- -with .each though, it will pass the |key,value| values 
-  for each iteration (more on the .each method later)
+ -with #each though, it will pass one if it's working on an 
+  array it just passes the value at each index as it goes 
+    
+    arr.each {|val| puts val}
+
+  but if it's working on a hash, it sends the key and value 
+  for each iteration (more on hashes later)
  -you can however just pull in variables from the main scope
  (or whatever scope the block is in) as well 
 
@@ -1723,17 +1785,20 @@ boolean	          value
 
   that will print out the iteration variable i and the name 
   "tim" 5 times 
- 
- -NOTE: this is one of those things you should revisit when
-  you know more 
+ -this is because loops do not create new scopes HOWEVER 
+  most enumerables do (like #each and #map)
+ -so loop blocks exist and interact with the scope they are
+  made in, but iterator blocks are NOT a part of the scope,
+  they create a new scope that is private just like a   
+  method 
  
 /////////////////////////////////////////////////////////////
   LOOPING 
-**looping** 
+**loop** 
  -here is the simplest loop in ruby, notice the different 
   incorporation of the couter, the break keyword, and 
   the condition check
- -the loop keyword jsut tells ruby to go forever, you 
+ -the loop keyword just tells Ruby to go forever, you 
   HAVE to include a break somewhere inside it to end 
  -the "break" keyword has the loop exit at that very line
   and can be used with statement modifiers to be more 
@@ -1800,11 +1865,19 @@ boolean	          value
  -like you'd expect, you can substitute the counting 
   range for a variable of a range
 
+**arrays** 
+ just like a range: 
+
+  arr = %w(a b c d)
+  for el in arr
+    puts el
+  end
 
 
-/////////////////////////////////////////////////////////////
-    CLOSER LOOK AT RSPEC 
-**before hook**
+==============================================================
+14%%     RSpec hooks/putting a program to sleep
+==============================================================
+**the before hook**
  -you might notice in some tests this pattern: 
 
     before(:each) do
@@ -1847,8 +1920,9 @@ boolean	          value
    -you actuall only need part of it, but I can't quite
     figure out which, if it comes up in a project, find it
 
-/////////////////////////////////////////////////////////////
-      BLACKJACK CLI and CLI APPS 
+==============================================================
+15%%  Blackjack CLI and CLI apps    
+==============================================================
 **puts, print and $stdout**
  -both puts and prints router their arguments into the 
   command line stdout file using the ruby global 
@@ -1862,39 +1936,60 @@ boolean	          value
   all inside a runner method (usually #run_program), then 
   call that runner method: 
 
-# main program 
-def welcome
-    puts "HI!"
-end
- 
-def ask_name
-    puts "What is your name?"
-end
- 
-def store_name
-    gets.chomp
-end
- 
-def personalized_welcome(name)
-    puts "HI, #{name}"
-end
- 
-def run_program
-    welcome
-    ask_name
-    name = store_name
-    personalized_welcome(name)
-end
+      # main program 
+      def welcome
+          puts "HI!"
+      end
+       
+      def ask_name
+          puts "What is your name?"
+      end
+       
+      def store_name
+          gets.chomp
+      end
+       
+      def personalized_welcome(name)
+          puts "HI, #{name}"
+      end
+       
+      def run_program
+          welcome
+          ask_name
+          name = store_name
+          personalized_welcome(name)
+      end
 
-run_program
+      run_program
 
  -you can also create another file, called a runner file 
   that requires the main program, and then only contains 
   one other line, a call to the run_program method 
+  (it also contains the shebang at the top, which tells bash
+  that it needs to run ruby to properly understand it)
 
+#!/usr/bin/env ruby
 require_relative 'playground.rb'
 
 run_program
+
+ -you then change this file's permissions to be executable 
+  with bash: 
+
+  $ chmod +x runner_file 
+  # note: leave of file extensions for executables
+
+ -and then you add the file to your $PATH variable, or 
+  invoke it with an absolute file path: 
+
+    # in $PATH
+    $ runner_file 
+
+    # absolute
+    $ ./runner_file
+
+ -see your linux notes about adding to your $PATH and th
+  ~/bin directory for personal scripts
 
 **testing your file and stubbing**
  -as prev. noted, RSpec fails when using gets, so you have 
@@ -1912,10 +2007,11 @@ expect(self).to receive(:get_user_input).and_return("s")
   that the user input is now "s"
  -stubbing will be explained in greater detail later
 
-//////////////////////////////////////////////////////////////
-        INTRO AND USING AN ARRAY 
-**creating a new array 
-    
+==============================================================
+16%%        Arrays 
+==============================================================
+**creating a new array** 
+
     arr = []
     arr2 = Array.new 
     arr_with_stuff = ["value", "separated by comma"]
@@ -1934,7 +2030,7 @@ expect(self).to receive(:get_user_input).and_return("s")
 **values of items**
  -to get the value at an index, use the familiar bracket
   notation 
-
+    arr[0] # ruby is 0 indexed
     arr[2]
     arr[-1] # negative numbers go from the end
     arr.fetch(0)
@@ -1955,25 +2051,42 @@ expect(self).to receive(:get_user_input).and_return("s")
     arr[1...4]  #1st up to 4th index
     arr[3..-2]  #3rd index to the second to last index
  
- 
+ **length of an array**
+ -use length (apparently fastest), size, or length: 
+
+    arr.length
+    arr.size
+    arr.count 
+
+ -the size method is just an alias for length, but count 
+  has some extra features if your ever curios
+    -count can count the number of times an item is in an 
+     array, as well as count how many times a block returns
+     true 
+
+      ary = [1, 2, 4, 2]
+      ary.count             #=> 4
+      ary.count(2)          #=> 2
+      ary.count{|x|x%2==0}  #=> 3
+
 **assigning variables with arrays**
  -a neat trick: 
   arr = ["hello","goodbye","it is wednesday my dudes"]
   greeting,farewell = arr 
   # greeting is "hello"
   # farewell is "goodbye"
-  # the 2nd index is just ignored, as no variable is there
+  # index 3 is just ignored, as no variable is there
  
  -for each variable, it will be assigned each index
 
 **Adding items to the end**
- -you can use the push method or the shovel operator (<<)
+ -you can use the #push method or the shovel operator (<<)
   
   arr.push("new_val")
   arr << "another"
 
 **Add items to the start**
- -use the .unshift method 
+ -use the #unshift method 
 
     famous_cats.unshift("nala cat")
 
@@ -1994,21 +2107,11 @@ expect(self).to receive(:get_user_input).and_return("s")
 
   last_value = arr.pop
   first_value = arr.shift
+
   last_2values = arr.pop(2)
   first_2value = arr.shift(2)
   # you can also specify the number of items to remove with
   # an argument, and it will return an array of those items
-
-**randomize the order**
- -shuffle and shuffle! randomize the order of elements, 
-  shuffle just a copy, and shuffle! on the array itself
-
-    [1,2,3,4].shuffle => [2, 1, 3, 4]
-
-**actual changes vs pass-by-values**
- -pop, shift, unshift, push, insert all actually change the 
-  values and order in an array, however not all methods 
-  do this 
 
 **deleting by value/index** 
  -use the delete method to delete a value, use delete_at 
@@ -2027,7 +2130,32 @@ expect(self).to receive(:get_user_input).and_return("s")
 
  -both have a return value of the item they deleted, or
   nil if no value is found 
+  -OR if you provide a code block, it will execute that 
+    code (so you could create custom return values like
+    haveing a return value of "not found" in the ex above)
  -delete ACTUALLY alters the array and its contents
+
+**actual changes vs pass-by-values**
+ -pop, shift, unshift, push, insert all actually change the 
+  values and order in an array, however not all methods 
+  do this 
+ -remember, you can ussually tell permanent methods by the !
+  at the end 
+
+
+==============================================================
+17%%      common array methods
+==============================================================
+NOTE: some of these methods are enumerators, which we will
+  talk more about later in the hash section, for now, just
+  know that they work by going through each array index like
+  it was single for loop
+
+**randomize the order**
+ -shuffle and shuffle! randomize the order of elements, 
+  shuffle just a copy, and shuffle! on the array itself
+
+    [1,2,3,4].shuffle => [2, 1, 3, 4]
 
 **#each and each_with_index**
  -the each method executes a block of code for each 
@@ -2049,8 +2177,293 @@ expect(self).to receive(:get_user_input).and_return("s")
   along first, then index, no matter what you call them
  -also, the return value is still the original array 
 
+ 
+**include? - see if an array has a value**
+ -as stated the include? method returns true or false if 
+  the value is in an array 
+
+    arr.include("hello")
+    # be aware that it is case senstitive 
+
+**see if array is empty**
+ -the empty? method returns true if an array is empty
+  false if not
+
+    arr.empty?
+
+**join into a string/split string into an array**
+ -the join method joins an array into a string, and you 
+  can pass a string as an argument to go between values: 
+
+    arr.join(", ")
+
+ -the split method works the opposite way, it will split
+  a string into an array. It takes an argument of where to 
+  split the string, otherwise it splits by space
+  (to get each character alone, specify "" as the argument
+
+    "this is a string".split
+    => ["this", "is", "a", "string"]
+    "hey".split("")
+      #=> ["h","e","y"]
+    
+**sort and sort!**
+ -the sort method sorts arrays alphabetically or numerically
+  in the ways you would think (not like js) low to high,
+   and it works on floats and ints together 
+
+    arr.sort
+
+ -both return the sorted array, but sort returns a copy
+  while sort! alters it permanently
+ -sort will break if their are strings AND numbers, so 
+  if you for some reason want both, convert all the numbers
+  to strings and then sort. sort will put the numbers first 
+ 
+**reverse and reverse!**
+ -since sort only goes low to high or alphabetical, you 
+  can use reverse to reverse the order of the array 
+
+    arr.reverse 
+
+ -reverse! does permanent change to the array
+
+**print vs puts an array**
+ -it should be noted it you just puts an array, each value 
+  will go on its own line, but if you print an array, it 
+  will show you the bracket format you would expect
+
+**map and map!**
+ -map iterates of a list and executes a code block on the 
+  value, just like each 
+ -however, instead of returning the original array, it returns
+  each final value from the block, in the form of a new array
+ -this means if you use map! you can alter the original list: 
+
+    [1, 2, 3].map { |n| n * n } #=> [1, 4, 9]
+
+ -however, if at any point in the map code block it hits 
+  a return keyword, the whole thing stops and instead of
+  return multiple values in an array, it will return that 
+  single value: 
+
+  # i want different outcomes, sure, but that "return letter"
+  # will break things, you have to use the implicit return
+  # attribute of ruby, like the other two examples 
+  message_arr.map! do |letter|
+    index = alphabet.index(letter)
+    if index == nil 
+      return letter 
+    elsif index == 0
+      letter
+    else 
+      letter = alphabet[index + cypher]
+    end
+  end
+
+**concat and joining arrays**
+
+  arr1.concat(arr2, arr3....)
+  arr1 + arr2 
+ 
+  use the concat method to join, in order of arguemnt
+  other arrays into an array
+ -you can also just use a single array
+ -concat is permanent and will break up all arrays added
+  so that there are no arrays in arrays, just one array of
+  all items 
+
+**flatten an array of arrays into a single array 
+
+  arr = [[1,2,3], ["a","b","c"]]
+  arr.flatten
+  # [1,2,3,a,b,c]
+  arr 
+  # [[1,2,3], ["a","b","c"]]
+  # notice it isn't permanent unless using flatten!
+
+**remove duplicate items with uniq**
+
+    arr = [1,2,1,3,4,5]
+    arr.uniq 
+    # [1,2,3,4,5]
+    arr.uniq! # this permanently removes the duplicates 
+    
+
+**remove nil values with #compact**
+
+    arr = [nil,nil, 1, nil, 2,3]
+    arr.compact
+    #=> [1,2,3]
+
+ -simply remove all nil values with compact and compact!
+ 
+**#reduce and sum up the array**
+ -reduce collapses the array into a single value by adding 
+  each new value into the sum, which unless otherwise given,
+  will be the first value it comes across
+ -it can take a single argument, which is just a symbol that
+  tells it what action (:+,:-,:merge...) to take
+   or two arguments, where the first is the explicit sum that
+  will be added to first, before the initial sum it finds in
+  the array
+ -the 0 is a replacemnt first value, this is so an array with
+  no values returns 0 and not nil
+
+    array.reduce(0, :+)
+    
+  ****working with hashes and reduce*****
+ -you can also reduce values of hashes (see later hash section
+  for more info) by including a block instead of a symbol: 
+    H = {"Key1" => 1, "Key2" => 2} 
+    H.values.reduce(0,:+) 
+    # in older methods: 
+    H.values.reduce(0) { |sum,x| sum + x } # or...
+    H.reduce(0) { |sum,(key,val)| sum + val } 
+    # ...if you need to inspect the key
+
+ -notice that reduce needs to have direct access to the 
+  values it needs, like this:
+  
+  H = {"Key1" => {age: 1}, "Key2" => {age: 2}} 
+  H.values.reduce(0,:+) 
+ 
+  would not work (it would be ading {age: 1} not 1) so 
+  you may need to enumerate multi leves 
+
+**#reduce to make an array of hashes into a hash**
+ -sometimes you will have an array of hashes, and you just 
+  want to combine them into one hash: 
+
+  arr = [{:a=>"oh"}, {:b=>"wow"}]
+  arr.reduce(Hash.new, :merge)
+    => {:a=>"oh", :b=>"wow"}
+
+ -simply set the first value to a new empty hash, and then 
+  set the reduction to merge 
+
+
+
+
+
+
+==============================================================
+18%%      Enumerators introduction
+==============================================================
+
+**enumerators**
+ -enumerators allow for iterative actions over data structures
+  like arrays and hashes
+ -basically, they do things to each thing in list of countable
+  things 
+ -the common ones are #each, #map (#collect), #select, #find,
+  #delete_if, #include?, #any? #none? 
+
+**#map vs #collect**
+ -map is just an alias for collect, they both return a new
+  array of values created from a block, it's just that many
+  languages call that function "map" so ruby just added the 
+  name
+
+**#map vs each**
+ -as stated before, map returns a new array of values,
+  or alters the original, while each returns only the old 
+  array
+
+**#select **
+ -select compares each value to a test, and then returns the
+  ones that meet the conditional in a new array: 
+
+    cool_nums = [1, 2, 3, 4, 5]
+ 
+    def even_nums(nums)
+      nums.select do |x|
+        x.even?
+      end
+    end
+     
+    even_nums(cool_nums)
+    #=> [2, 4]
+
+  -if you only care about the number of elements that meet
+   a condition, then don't use select and get the length of
+   the array, use count. It will just return the number of
+   values, not the array itself: 
+
+    arr.count {|x| x.even?}
+    # 2
+
+
+**#reject**
+ -the opposite of #select, it will return an array of items 
+  of where the block evaluated to false: 
+
+    [1,2].reject{|i| i.even?} #=> [1]
+
+
+**#find or #detect**
+ -pretty much #select, but once it finds the first match, 
+  it just returns that single value: 
+
+    [1, 3, 5, 7].find do |num|
+      num.odd?
+    end
+      => 1
+
+ -#detect is just aliased to #find, rails uses #detect to
+  spearate it from a different #find function
+
+**#delete_if**
+ -if a condition is true, the value will be deleted 
+ -the return value is the partially deleted list 
+
+    [1, 2, 4, 7].delete_if do |num|
+      num.odd?
+    end
+    => [2, 4]
+
+**#any?**
+ -any? returns true or false, true if any of the items in an 
+  array meet a condition, false if not: 
+
+    words = ["are", "any", "of", "these", "words", "longer", "than", "four", "letters"]
+    words.any? do |word|
+      word.length > 4
+    end
+      #=> true
+
+ 
+**#include?**
+ -include does not take a code block, but it is an enumerable
+  and it will return true if the argument can be found in 
+  the list. it is case sensitive
+
+    [1, 2, 3].include?(1)
+      => true
+     
+    [1, 2, 3].include?(4)
+      => false
+
+**#all?**
+ -returns true or false, true if all elements meet the 
+  condition, false other wise 
+
+**#none?**
+ -returns true or false, true if none of the elements meet 
+  the condition, false other wise 
+
+
+
+**documentation** 
+ -chech this page out if you ever want: 
+
+  http://ruby-doc.org/core-2.2.2/Enumerable.html
+
+==============================================================
+w_ob%%    Interlude: #with_object
+==============================================================
 **#.with_object**
- -.with_object is very powerful, it allows you to 
+ -#with_object is very powerful, it allows you to 
   create and return a new object that specify (ussualy 
   an array or hash)
  -you can either use an enumerator then .with_object, 
@@ -2107,286 +2520,6 @@ expect(self).to receive(:get_user_input).and_return("s")
  -and how the split value always comes first, then the index
  -the array is interesting though, since there is no 
   counter 
- 
-**include? - see if an array has a value**
- -as stated the include? method returns true or false if 
-  the value is in an array 
-
-    arr.include("hello")
-    # be aware that it is case senstitive 
-
-**see if array is empty**
- -the empty? method returns true if an array is empty
-  false if not
-
-    arr.empty?
-
-**length of an array**
- -use length (apparently fastest), size, or length: 
-
-    arr.length
-    arr.size
-    arr.count 
-
- -the size method is just an alias for length, but count 
-  has some extra features if your ever curios
-    -count can count the number of times an item is in an 
-     array, as well as count how many times a block returns
-     true 
-
-      ary = [1, 2, 4, 2]
-      ary.count             #=> 4
-      ary.count(2)          #=> 2
-      ary.count{|x|x%2==0}  #=> 3
-
-**join into a string/split string into an array**
- -the join method joins an array into a string, and you 
-  can pass a string as an argument to go between values: 
-
-    arr.join(", ")
-
- -the split method works the opposite way, it will split
-  a string into an array. It takes an argument of where to 
-  split the string, otherwise it splits by space
-  (to get each character alone, specify "" as the argument
-
-    "this is a string".split
-    => ["this", "is", "a", "string"]
-    
-**sort and sort!**
- -the sort method sorts arrays alphabetically or numerically
-  in the ways you would think (not like js) and it works on
-  floats and ints together 
-
-    arr.sort
-
- -however sort returns a copy, while sort! actually alters 
-  the original value 
- -sort will break if their are strings AND numbers, so 
-  if you for some reason want both, convert all the numbers
-  to strings and then sort. sort will put the numbers first 
- 
-**reverse and reverse!**
- -since sort only goes low to high or alphabetical, you 
-  can use reverse to reverse the order of the array 
-
-    arr.reverse 
-
- -reverse! does permanent change to the array
-
-**print vs puts an array**
- -it should be noted it you just puts an array, each value 
-  will go on its own line, but if you print an array, it 
-  will show you the bracket format you would expect
-
-
-
-**map and map!**
- -map iterates of a list and executes a code block on the 
-  value, jsut like each 
- -however, instead of returning the whole array, it returns 
-  the value from the block in a new array
- -this means if you use map! you can alter the original list: 
-
-    [1, 2, 3].map { |n| n * n } #=> [1, 4, 9]
-
- -however, if at any point in the map code block it hits 
-  a return keyword, the whole thing stops and instead of
-  return multiple values in an array, it will return that 
-  single value: 
-
-  # i want different outcomes, sure, but that "return letter"
-  # will break things, you have to use the implicit return
-  # attribute of ruby, like the other two examples 
-  message_arr.map! do |letter|
-    index = alphabet.index(letter)
-    if index == nil 
-      return letter 
-    elsif index == 0
-      letter
-    else 
-      letter = alphabet[index + cypher]
-    end
-  end
-
-**concat and joining arrays**
-
-  arr1.concat(arr2, arr3....)
-  arr1 + arr2 
- 
-  use the concat method to join, in order of arguemnt
-  other arrays into an array
- -you can also just use a single array
- -concat is permanent and will break up all arrays added
-  so that there are no arrays in arrays, just one array of
-  all items 
-
-**flatten an array of arrays into a single array 
-
-  arr = [[1,2,3], ["a","b","c"]]
-  arr.flatten
-  # [1,2,3,a,b,c]
-  arr 
-  # [[1,2,3], ["a","b","c"]]
-  # notice it isn't permanent unless using flatten!
-
-
-
-**remove duplicate items with uniq**
-
-    arr = [1,2,1,3,4,5]
-    arr.uniq 
-    # [1,2,3,4,5]
-    arr.uniq! # this permanently removes the duplicates 
-    
-
-**#fetch**
- -the fetch method is like [] but a little diffferent, here
-  are the main differences  
-
-fetch(key_name): get the value if the key exists, 
-  raise a KeyError if it doesn't
-fetch(key_name, default_value): get the value if the 
-  key exists, return default_value otherwise
-fetch(key_name) { |key| "default" }: get the value 
-  if the key exists, otherwise run the supplied block 
-  and return the value
-
- -the default value and key error are the two largest changes
-  using brackets does not allow for default if no value is 
-  found, and if no key is found, then it returns nil, instead
-  of raising an error 
-
-**#reduce and sum up the array**
- -reduce collapses the array into a single value by adding 
-  each new value into the sum
- -the 0 is a replacemnt first value, this is so an array with
-  no values returns 0 and not nil
-
-    array.reduce(0, :+)
-
-
-**#reduce to make an array of hashes into a hash**
- -sometimes you will have an array of hashes, and you just 
-  want to combine them into one hash: 
-
-  arr = [{:a=>"oh"}, {:b=>"wow"}]
-  arr.reduce(Hash.new, :merge)
-    => {:a=>"oh", :b=>"wow"}
-
- -simply set the first value to a new empty hash, and then 
-  set the reduction to merge 
-
-
-//////////////////////////////////////////////////////////////
-      ENUMERATORS INTRODUCTION
-
-**enumerators**
- -enumerators allow for iterative actions over data structures
-  like arrays and hashes
- -basically, they do things to each thing in list of countable
-  things 
- -the common ones are #each, #map (#collect), #select, #find,
-  #delete_if, #include?, #any 
-
-**#map vs #collect**
- -map is just an alias for collect, they both return a new
-  array of values created from a block, it's just that many
-  languages call that function "map" so ruby just added the 
-  name
-
-**#map vs each**
- -as stated before, map returns a new array of values,
-  or alters the original, while each returns only the old 
-  array
-
-**#select **
- -select compares each value to a test, and then returns the
-  ones that meet the conditional in a new array: 
-
-    cool_nums = [1, 2, 3, 4, 5]
- 
-    def even_nums(nums)
-      nums.select do |x|
-        x.even?
-      end
-    end
-     
-    even_nums(cool_nums)
-    #=> [2, 4]
-
-  -if you only care about the number of elements that meet
-   a condition, then don't use select and get the length of
-   the array, use count. It will just return the number of
-   values, not the array itself: 
-
-    arr.count {|x| x.even?}
-    # 2
-**#reject**
- -the opposite of #select, it will return an array of items 
-  of where the block evaluated to false: 
-
-    [1,2].reject{|i| i.even?} #=> [1]
-
-
-**#find or #detect**
- -pretty much #select, but once it finds the first match, 
-  it just returns that single value: 
-
-    [1, 3, 5, 7].find do |num|
-      num.odd?
-    end
-      => 1
-
- -#detect is just aliased to #find, rails uses #detect to
-  spearate it from a different #find function
-
-**#delete_if**
- -if a condition is true, the value will be deleted 
- -the return value is the partially deleted list 
-
-    [1, 2, 4, 7].delete_if do |num|
-      num.odd?
-    end
-    => [2, 4]
-
-**#any?**
- -returns true or false, true if any of the items in an 
-  array meet a condition, false if not: 
-
-    words = ["are", "any", "of", "these", "words", "longer", "than", "four", "letters"]
-    words.any? do |word|
-      word.length > 4
-    end
-      #=> true
-
-
-**#include?**
- -include does not take a code block, but it is an enumerable
-  and it will return true if the argument can be found in 
-  the list. it is case sensitive
-
-    [1, 2, 3].include?(1)
-      => true
-     
-    [1, 2, 3].include?(4)
-      => false
-
-**#all?**
- -returns true or false, true if all elements meet the 
-  condition, false other wise 
-
-**#none?**
- -returns true or false, true if none of the elements meet 
-  the condition, false other wise 
-
-
-
-**documentation** 
- -chech this page out if you ever want: 
-
-  http://ruby-doc.org/core-2.2.2/Enumerable.html
-
 
 //////////////////////////////////////////////////////////////
         UNDERSTANDING YIELD AND BLOCKS 
@@ -3241,6 +3374,23 @@ end
     #compact  -removes nil values 
 
 
+**#fetch**
+ -the fetch method works just like [] for indexed arrays,
+  but it does have some differnces with hashes
+
+    fetch(key_name): get the value if the key exists, 
+      raise a KeyError if it doesn't
+    fetch(key_name, default_value): get the value if the 
+      key exists, return default_value otherwise
+    fetch(key_name) { |key| "default" }: get the value 
+      if the key exists, otherwise run the supplied block 
+      and return the value
+
+ -the default value and key error are the two largest changes
+  using brackets does not allow for default if no value is 
+  found, and if no key is found, then it returns nil, instead
+  of raising an error 
+
 
 **using #find with hashes**
  -as you know, find returns the value when the test was true:
@@ -3525,14 +3675,34 @@ end
   gets.chomp line, it will look back and see "Phoe.." is the
   output, which allows the test to continue 
 
+**classes stubbing with gets**
+ -that above example uses loose functions, which is why
+  self recieves gets 
+ -HOWEVER if you have a class that needs to accept gets,  
+  then use the class name, not this
+ -here we have an instance of Encoder called machine, and 
+  it requires a single get value:  
+
+  context "run test" do
+    it "should take a gets" do
+      machine = Encoder.new
+      expect(machine).to receive(:gets).and_return("abc")
+      expect{machine.encode}.to output(/[a-z]{3}\s+cipher: \d*/).to_stdout
+    end
+  end
+
+ -in fact, #encode itself calls another method #get_user_msg
+  which takes the #gets, so you can see that the the #recieve
+  method really does just store a gets value until it is 
+  needed
+
+
 **output matches** 
  -NOTE: this may be a learn exclusive 
  -basically what it does is replace Ruby's $stdout with a 
   given value 
  -this allows us to test expected output 
 
-allow(self).to receive(:gets).and_return("Phoenix - 1901")
-expect{ play(songs) }.to output(/Phoenix - 1901/).to_stdout
 
  
 

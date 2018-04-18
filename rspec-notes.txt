@@ -576,6 +576,16 @@ end
   that doesn't exist yet
  -for example, when you fake what user input SHOULD be and 
   then act on that in the test 
+
+**file formatting** 
+ -if you run a test on a file that directly runs the #gets
+  method, your test suite won't run and will hit a load 
+  error
+ -your file must have gets WITHIN a method, and then test 
+  that using the method below
+ -if you test a file that actually RUNS gets if you were
+  to type "ruby filename" into the command line, it can't
+  be tested with RSpec, this is why runner files exist  
  
 **stubbing with puts/print**
  -how do you test puts and print< they have no return value
@@ -646,6 +656,26 @@ end
     expect{ play(songs) }.to output(/Phoenix - 1901/).to_stdout
   end
 
+**classes stubbing with gets**
+ -that above example uses loose functions, which is why
+  self recieves gets 
+ -HOWEVER if you have a class that needs to accept gets,  
+  then use the class name, not this
+ -here we have an instance of Encoder called machine, and 
+  it requires a single get value:  
+
+  context "run test" do
+    it "should take a gets" do
+      machine = Encoder.new
+      expect(machine).to receive(:gets).and_return("abc")
+      expect{machine.encode}.to output(/[a-z]{3}\s+cipher: \d*/).to_stdout
+    end
+  end
+
+ -in fact, #encode itself calls another method #get_user_msg
+  which takes the #gets, so you can see that the the #recieve
+  method really does just store a gets value until it is 
+  needed
  -we are telling "self" to recieve
   a fake "gets" call, and then artificially return an input
   of "Phoenix..." 
@@ -689,6 +719,9 @@ end
  
  -see how first we allow the method to be created, then we 
   expect it to behave a certain way 
+ -and in my above example using machine, it expects machine
+  to accept a gets because i already wrote it to behave that
+  way
 
 
 
@@ -749,6 +782,56 @@ end
  -here are the starting commands: 
   befor(:each OR :all)
   after(:each OR :all)
+
+**using before to initialize a class** 
+ -take this simple class: 
+
+      class Thing
+        def widgets
+          @widgets ||= []
+        end
+      end
+
+ -to use before(:each) to assign a variable as a new instance
+  of an object, you oddly enough can't do: 
+
+  before(:each) do 
+    thing = Thing.new
+  end
+
+ -because each before block won't be able to share thing, 
+  you'll have to make an instance variable @thing, so that
+  all the other tests can see it 
+ 
+    before(:each) do
+      @thing = Thing.new
+    end
+
+ -this makes @thing an instance varaible of the main class
+  so that all tests can see it
+ -here is some example tests to deal with this
+
+#rspec code
+describe Thing do
+  before(:each) do
+    @thing = Thing.new
+  end
+
+  describe "initialized in before(:each)" do
+    it "has 0 widgets" do
+      @thing.should have(0).widgets
+    end
+
+    it "can get accept new widgets" do
+      @thing.widgets << Object.new
+    end
+
+    it "does not share state across examples" do
+      @thing.should have(0).widgets
+    end
+  end
+end
+
 
 ==============================================================
         tags 
