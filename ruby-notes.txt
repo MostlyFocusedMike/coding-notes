@@ -4497,6 +4497,29 @@ so you don't overwrite anything accidentally
       ...
     end
 
+**#sub**
+ -takes two arguments, the value to be replaced, and the 
+  value to replace it with
+ -these can be strings or regular expressions
+ -#sub replaces only the first instance, to alter every match
+  use #gsub, and to permanently alter use #sub! or #gsub!
+ -regex makes this way more powerful than strings alone: 
+
+    phone = "2004-959-559 #This is Phone Number"
+
+    # Delete Ruby-style comments
+    phone = phone.sub!(/#.*$/, "")   
+    puts "Phone Num : #{phone}"
+
+    # Remove anything other than digits
+    phone = phone.gsub!(/\D/, "")    
+    puts "Phone Num : #{phone}"
+
+ which returns: 
+
+    Phone Num : 2004-959-559
+    Phone Num : 2004959559
+
 **capture groups**
  -here is the syntax for capture groups, you use the 
   #match method and .captures: 
