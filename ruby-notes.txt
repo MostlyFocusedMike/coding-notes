@@ -4496,6 +4496,19 @@ so you don't overwrite anything accidentally
     if m = str.match(pat)
       ...
     end
+**\1**
+ -an escaped integer refers to that number in the catchgroup
+ -here is an example: 
+
+  /[csh](..) [csh]\1 in/.match("The cat sat in the hat")
+    #=> #<MatchData "cat sat in" 1:"at">
+
+ -the capture group is only (..) but since it is refered to
+  again later with \1, that means the exact same characters
+  from (..) must appear again
+ -this is a method of finding multiple double letters in a 
+  string, without having to specify what double you are 
+  looking for 
 
 **#sub**
  -takes two arguments, the value to be replaced, and the 
@@ -4520,12 +4533,45 @@ so you don't overwrite anything accidentally
     Phone Num : 2004-959-559
     Phone Num : 2004959559
 
+**#scan**
+ -Both forms iterate through str, matching the pattern 
+  (which may be a Regexp or a String). 
+ -For each match, a result is generated and either added to 
+  the result array or passed to the block. 
+ -If the pattern contains no groups, each individual result 
+  consists of the matched string, $&. 
+ -If the pattern contains groups, each individual result is 
+  itself an array containing one entry per group.
+
+    a = "cruel world"
+    a.scan(/\w+/)        #=> ["cruel", "world"]
+    a.scan(/.../)        #=> ["cru", "el ", "wor"]
+    a.scan(/(...)/)      #=> [["cru"], ["el "], ["wor"]]
+    a.scan(/(..)(..)/)   #=> [["cr", "ue"], ["l ", "wo"]]
+    a.scan(/(...)/).flatten      #=> ["cru", "el ", "wor"]
+    # flattening scan returns capture groups into a single
+    # array
+
+ -here is the block form: 
+
+    a.scan(/\w+/) {|w| print "<<#{w}>> " }
+    print "\n"
+    a.scan(/(.)(.)/) {|x,y| print y, x }
+    print "\n"
+
+    <<cruel>> <<world>>
+    rceu lowlr
+
 **capture groups**
  -here is the syntax for capture groups, you use the 
-  #match method and .captures: 
+  #match method and .captures, which returns an array
+  of captures: 
 
   string = "RyanOnRails: This is a test"
-  one, two, three = string.match(/(^.*)(:)(.*)/i).captures
+
+  if match = string.match(/(^.*)(:)(.*)/i)
+    one, two, three = match.captures
+  end  
 
   p one   #=> "RyanOnRails"
   p two   #=> ":"
@@ -4533,6 +4579,7 @@ so you don't overwrite anything accidentally
 
  -you could also assign to an array or anything else,
   just note the #captures method 
+ 
 
 **more info**
  -these are just some basic cases and uses see: 
