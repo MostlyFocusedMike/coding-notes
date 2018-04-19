@@ -4394,4 +4394,128 @@ end
 
     cart[w_c] = {}
 so you don't overwrite anything accidentally 
+==============================================================
+%%            Regular expressions
+==============================================================
+**ruby differences** 
+ -see the main regex-notes file for the basics of regex, here
+  is just the major differences or techniques of using regex
+  with ruby
+
+**all main options and characters**
+ -check out http://rubular.com/ for a nice test suite for
+  ruby regex 
+     
+    [abc]	A single character of: a, b, or c
+    [^abc]	Any single character except: a, b, or c
+    [a-z]	Any single character in the range a-z
+    [a-zA-Z]	Any single character in the range a-z or A-Z
+
+    ^	Start of line
+    $	End of line
+    \A	Start of string
+    \z	End of string
+
+    .	Any single character
+    \s	Any whitespace character
+    \S	Any non-whitespace character
+    \d	Any digit
+    \D	Any non-digit
+    \w	Any word character (letter, number, underscore)
+    \W	Any non-word character
+    \b	Any word boundary
+
+    (...)	Capture everything enclosed
+    (a|b)	a or b
+    (?:a) non-capture group 
+
+    a?	Zero or one of a
+    a*	Zero or more of a
+    a+	One or more of a
+    a{3}	Exactly 3 of a
+    a{3,}	3 or more of a
+    a{3,6}	Between 3 and 6 of a
+    
+    options: 
+    i case insensitive 
+    m make dot match newlines 
+    x ignore whitespace in regex 
+    o perform #{...} substitutions only once
+
+**match shorthand** 
+ - the =~ returns the index of the first instance of a 
+  matched regex to a subject, or nil if no match is found: 
+
+    "cat" =~ /a/
+    # => 1
+
+    ("dog" =~ /g/) == 2 ? "it's at 2" : "it's not"
+    # => "it's at 2" 
+
+ -this comes in handy for truthy checks, since an int is 
+  returned or nil:
+
+    line1 = "Cats are smarter than dogs";
+    line2 = "Dogs also like meat";
+
+    if ( line1 =~ /Cats(.*)/ )
+       puts "Line1 contains Cats"
+    end
+    if ( line2 =~ /Cats(.*)/ )
+       puts "Line2 contains  Dogs"
+    end
+    # Line1 contains Cats   is the return 
+
+**delimeters** 
+ -%r is how you can choose to show your regex, but // is much
+  more common: 
+
+  %r|/| # notice though, the / does not need escaping 
+  /\//  
+
+**the #match method** 
+ -this method convers strings args to regex (or uses regex 
+  if they already are) to find a match in a subject string
+ -if no match is found, it returns nil
+ -if you specify the index to start looking, instead of 
+  returning <match data "match" ...> it will just 
+  return the matching string section: 
+
+  'hello'.match('(.)\1')      #=> #<MatchData "ll" 1:"l">
+  'hello'.match('(.)\1')[0]   #=> "ll"
+  'hello'.match(/(.)\1/)[0]   #=> "ll"
+  'hello'.match('xx')         #=> nil 
+
+ -if you provide a block, it will invoke it and run the code
+  if a match is found: 
+
+    str.match(pat) {|match| ...}
+
+ -this is easier than: 
+
+    if m = str.match(pat)
+      ...
+    end
+
+**capture groups**
+ -here is the syntax for capture groups, you use the 
+  #match method and .captures: 
+
+  string = "RyanOnRails: This is a test"
+  one, two, three = string.match(/(^.*)(:)(.*)/i).captures
+
+  p one   #=> "RyanOnRails"
+  p two   #=> ":"
+  p three #=> " This is a test"
+
+ -you could also assign to an array or anything else,
+  just note the #captures method 
+
+**more info**
+ -these are just some basic cases and uses see: 
+
+  https://www.tutorialspoint.com/ruby/ruby_regular_expressions.htm
+
+
+
 
