@@ -1,0 +1,4642 @@
+this is just a test
+////////////////////////////////////////////////////////////
+/
+/
+/             SECTION START: "INTRO TO RUBY" 
+/
+/
+/////////////////////////////////////////////////////////////
+TABLE OF CONTENTS
+1SSS      Introduction
+2SSS      Ruby Data types 
+3SSS      error messages 
+4SSS      intro to tests, rspec, and learn
+5SSS      Variables and Methods
+5_1SSS    scope 
+6SSS      string evaluation, ',",`, and puts v print, indexing
+7SSS      Defining methods
+8SSS      Return values
+9SSS      Debugging with pry
+10SSS     Ranges 
+11SSS     Random numbers/Math in ruby 
+12SSS     Booleans and truthiness 
+13SSS     Intro to loops (assignment operators) 
+14SSS     RSpec hooks/putting a program to sleep
+15SSS     Blackjack CLI and CLI apps   
+16SSS     Arrays 
+17SSS     common array methods
+18SSS     Enumerators introduction
+19SSS     Understanding Yield and Blocks 
+20SSS     blocks part 2
+21SSS     blocks vs procs vs lambdas 
+22SSS     Sorting in depth  #sort, #sort_by
+
+INTERLUDES
+timeSSS   Time class interlude
+getsSSS   Interlude: getting values from the command line 
+w_obSSS   Interlude: #with_object
+doSSS     {} vs do..end when sing puts**
+rvSSS     interlude: More return values 
+insSSS        Interlude #inspect
+
+
+
+
+=============================================================
+1SSS                   Introduction
+=============================================================
+**MINSWAN**
+  Basically, Ruby's philosophy is "natural, but not simple"
+ -it was founded by a super nice guy Yukihiro "Matz" 
+  Matsumoto in 1990
+ -MINSWAN means "Matz is nice, so we are nice"
+
+/////////////////////////////////////////////////////////////
+            Ruby Lecture Intro What Is A Program
+ -All programs are converted into machine code 
+ -if this is done at run time, it is an interpreted language,
+   if it needs to be converted before, it is a compiled 
+   program.
+ 
+**Running a ruby program**
+ -use the ruby commande
+
+    $ ruby program-name.rb
+    // use ruby -v to see what version you are running 
+    $ ruby -v 
+
+ -ruby files use the .rb filename 
+
+**words in a program**
+ -there are only three possible things in a ruby program:
+    -A ruby keyword (only 43 of these)
+    -Literal data like strings and numbers
+    -Barewords that you define (variables and methods)
+
+
+/////////////////////////////////////////////////////////////
+          Hello World Ruby
+
+**the puts method**
+ -The way to print out text into your console in ruby is:
+
+    puts "hello world!"
+
+ -puts stands for outPUT String
+ -notice there are no colons after lines 
+ -there are also no () because they are optional in most
+  cases
+
+**A quick comment on comments**
+ -to comment a line in ruby use:
+
+    # this is a comment 
+    
+    =begin
+      this is a multiline comment using the
+      begin and end keywords
+    =end
+
+    ##
+    # apparently
+    # this is also common
+
+
+/////////////////////////////////////////////////////////////
+        Interactive Ruby Shell (IRB or irb)
+**What is the IRB?**
+ -The interactive ruby shell is how you open up a ruby shell
+  in your terminal to play around with temporary code
+ -A Ruby shell is also called a REPL which means
+  Read Eval Print Loop
+ -it can't save any work
+
+**Accessing a REPL**
+ -in the terminal type "irb" to access it, then "exit" when 
+  you are finished 
+ 
+    $ irb 
+    // now in the ruby shell
+    irb(main):001:0> exit # this exits 
+
+ -if you don't have access to the terminal, you can use the 
+  site repl.it
+
+**what can you do in the REPL**
+ -anything you could do in ruby, like math or test out
+  methods, it's just a temporary shell
+
+**loading a file for testing**
+ -lets say you just want to test methods or have access to
+  the variables of a file, you can use irb to interact
+ -simply use the require_relative to the path of the file 
+  from the current working directory: 
+ -the require should go at the top of the ruby file
+
+    require_relative 'bootcamp-stuff/playground.rb'
+ 
+ -this gives your repl access to the files methods and
+  classes, but not any of the local variables or loose
+  code in the file
+
+ -you can also just do 
+
+    $ irb -r your_file.rb
+
+ -it should be noted that this technique gives you 
+  access to methods and classes, but not local variables
+
+
+
+============================================================
+2SSS              Ruby Data types 
+=============================================================
+/////////////////////////////////////////////////////////////
+
+                    STRINGS
+
+**Strings**
+ -surrounded by quotes, can contain characters and numerals
+ -stings all have built in methods like: 
+
+  *.length method*
+    -the .length method shows the length of the string, note
+     that spaces count as characters
+
+      "this string is long".length
+      => 19
+
+  *.upcase*
+    -convert all letters to uppercase (if a letter is upper
+      already, it will stay that way
+    
+      "hello there".upcase
+      => HELLO THERE
+
+  *.downcase*
+    -opposite of upcase,again, no effect on numbers or punc 
+      "HEY".downcase
+      =>hey
+
+  *.reverse*
+    -reverses the contents of the string 
+    
+       "howdy buddy".reverse
+       => "yddub ydwoh" 
+
+  *.capitalize*
+    -capitalize the first letter of a string 
+  
+      "howdy dude".capitalize
+      => Howdy dude 
+
+  *.swapcase*
+    -flip capitals and lowercase letters 
+  
+      "Howdy Dan".swapcase
+     => hOWDY dAN
+
+   #start_with?
+    -checks if a string starts with a character (case sense)
+    
+      "howdy".start_with?("h")
+      => true
+
+////////////////////////////////////////////////////////////
+                  booleans
+  - it's either "true" or "false", notice no capitals 
+
+////////////////////////////////////////////////////////////
+                  integers
+  -just whole numbers, don't use any quotes
+  -whole numbers are called fixnums, and decimals are
+   floats (when writing a float, always use the 0 to start
+   so it's 0.5 never .5)
+  -here are a few methods for floats: 
+
+    *.next*
+      -used only with fixnums, it will go to the next highest
+       whole number
+
+      10.next 
+      => 11
+      -10.next
+      -9
+      10.5.next # throws an error, ONLY use fixnums
+
+    *.floor*
+      -round float down to the nearest whole number
+
+        1.99.floor
+        => 1
+        -1.9.floor
+        => -2 
+      
+     *.ceil*
+      -round float up to nearest whole number
+
+      1.00000001.ceil
+      => 2
+      -1.9.ceil
+      =>-1 
+
+    *.round*
+      -round up or down to nearest whole num (less than 5 is
+      down)
+    
+      1.49.round
+      => 1
+      1.5.round
+      => 2
+      -1.49.round
+      => -1
+      -1.5.round
+      => -2
+
+    *.even? and .odd?*
+      -check if a number is even or odd, if the conditions are
+       met, each returns true: 
+
+        3.even? # false
+        3.odd?  # true
+
+    *#between?*
+      -check if a float or int is bewtween two values, keep 
+        in mind both values are inclusive
+      -it also works on the first letter of trings  
+
+      1.between?(1,3)
+      # true 
+      2.between?(1,3)
+      # true 
+      3.between?(1,3)
+      # true 
+      4.between?(1,3)
+      # false 
+      1.4.between?(1,3)
+      # true 
+      'cat'.between?('ant', 'dog')   #=> true
+      # true, c is between a and d 
+      'gnu'.between?('ant', 'dog')   #=> false
+      # false g is after d 
+
+////////////////////////////////////////////////////////////// 
+                     symbols
+
+  -symbols can contain letters, digits and undescores
+  -they are "lightweight" strings that are easier on your
+   computer 
+
+    :symbol_name
+
+ -we will learn much more about these later
+////////////////////////////////////////////////////////////// 
+                    arrays
+
+ -list, written like pyhton and js
+ -here is the Literal Constructor:
+
+    ["hello", "there"]
+
+ -here is ther class constructor: 
+
+    Array.new
+    => []
+
+ -here are some common methods for arrays: 
+
+    *.sort and .reverse again*
+      -works like you think, numbers are low to high, and
+       strings are sorted alphabetically, unlike js
+      -ruby allows for method chaining too
+      [1, 4, 100, 17].sort
+      => [1, 4, 17, 100]
+      ["b","a","d","c", "aa", "ax", "ac"].sort
+      => ["a", "aa", "ac", "ax", "b", "c", "d"]
+      # you can chain methods together to get high to low,
+      # and backwards alphabetical
+      [1, 4, 100, 17].sort.reverse
+      => [100, 17, 4, 1]
+   *.max and .min*
+     -works like you think: max and min
+     [1,9,15].max 
+      => 15 
+     [12,3,24].min
+      => 3
+   *.include?* 
+     -.include?(value) returns true or false if a value 
+      is in an array
+
+    ["foo", "bar"].include?("dog")
+    => false
+    # note: include? is case sensitvie 
+//////////////////////////////////////////////////////////////
+                      hashes
+
+ -this is ruby's key value pair list, made using curly braces
+  and arrows like PHP:
+
+    {"key" => "val", "key2" => "val2", "ints work" => 10}
+
+ -hashes also have literal and class constructors, above
+  is literal, below is class: 
+
+    Hash.new 
+    #=> {}
+
+//////////////////////////////////////////////////////////////
+                        nil
+
+ -nil is like null in other languages, except that it is
+  actually an instance of the nil.class, not just an empty 
+  value
+ -nil is only equal to nil, which is unlike many languages
+
+**converting types**
+ -Ruby cannot do implicit converversions of data types 
+ -Ruby needs data types to match if they are going to combine
+  so use:
+    to_i (int), 
+    to_s (string), 
+    to_f (float) 
+    to_a (array) 
+ 
+  convert data into it's proper type 
+
+    "5".to_i + "5".to_i
+    => 10
+    "5" + 5 
+    => ERROR
+   
+ -here are the interesting results though:
+
+  -a non-int string to int: 
+    "wrong".to_i = 0 
+    "5 5".to_i = 5 # it will return the first int it finds
+  -booleans to_i creates an error
+
+**checking data types/classes**
+ -the #kind_of? method tests if an objectis a certain kind of
+  data type, it takes the class as an argument
+
+    arr = "not an array"
+    arr.kind_of?(Array)
+    # => false
+
+
+
+
+
+=============================================================
+3SSS             error messages 
+=============================================================
+
+**3 basic parts**
+ -1) the location of the error: (where)
+
+    lib/a_name_error.rb:3:in `<main>':
+        |               |      |
+      file            line    scope
+
+ -2) the description: (why) 
+
+    undefined local variable or method `hello_world' 
+    for main:Object
+  
+  -3) the type of error (who)
+      
+      (NameError)
+
+ -the last two will jump around and not always be single 
+  or in that order, but the first part is always the where 
+  and in that format
+
+**The Ruby Error type and common errors**
+ -errors are all descendents from the main Exception class
+  and are triggered by different errors
+ -there are four common error types: 
+
+  *NameError*
+  -happens when a name is invalid or undefined 
+
+   "hello world"
+   goodbye world   # this line will cause a name error
+
+ *SyntaxError*
+  -when you mess up syntax 
+
+    x = 2
+    x =   # Ruby expects a value, so this syntax is wrong 
+
+ *TypeError*
+  -two different types trying to interact
+
+    1 + "2"   # error, you can't add ints to strings
+
+ *ZeroDivisionError
+  -you can't divide by zero
+
+    12 / 0  # duh
+
+
+**What is a test suite?**
+ -A test is a program written that pulls in other programs
+  or functions and checks whether the output is what you 
+  expected 
+ -learn.co uses the RSpec library to write its tests, and
+  stores each test in the "spec" directory
+ -you can call the tests by using the "learn" or "rspec" 
+  commands in the terminal
+
+**stack trace**
+ -the failed tests will print out a "stack trace" which
+  finds an error, and then attempts to follow it up the
+  stack
+ -these are not the error messages themselves, but rather
+  a sort of longer trail that gets printed out later in 
+  each step of the way
+
+
+////////////////////////////////////////////////////////////
+      DEBUGGING ERRORS IN YOUR RUBY CODE
+
+ -this section is meant as reference for errors in your 
+  code and what they mean. 
+https://learn.co/tracks/web-development-fundamentals/intro-to-ruby/introduction/debugging-errors-in-your-ruby-code
+
+ -here are previously unseen errors and what they mean
+
+**NoMethodError**
+ -this error happens when incorrect data types are being 
+  acted upon by built in methods that make no sense
+ -it's a bit like TypeError
+
+ like this: 
+  total = "64.25"
+  num_of_people = 4
+  price_per_person = total / num_of_people
+
+ -here, a variable defined as a string is being divided,  
+  which makes no sense. There is no method in Ruby to deal
+  with dividing a string into an int
+ - fix it by converting the type with to_f or removing the
+  quotes
+ -this issue is common when values are set to nil
+
+**ArgumentError**
+ -when a method is called with too many or too few arguments
+
+
+
+
+
+==============================================================
+4SSS          intro to tests, rspec, and learn
+==============================================================
+
+**what's TDD**
+ -TDD stands for Test Driven Development and it is when you
+  think about what you want your code to do before you start 
+  programming
+ -it works by coming up with a test for your code to pass,
+  and THEN writting the code
+
+**BDD**
+ -behavior driven development is another word for it, 
+  since you are testing the expected behavior of the code
+
+**Identifying the desired behavior**
+ -come up with a method you need, figure out what arguments
+  will be passed into it, and what the output should be
+ -then come up with a test to prove this, then write the 
+  actual method. Then test it 
+
+**RSpec**
+  http://rspec.info/  # the site you should definitely read
+  http://blog.teamtreehouse.com/an-introduction-to-rspec
+   is another resource to check out
+ -RSpec Testing Framework is a DSL, a Domain Specific 
+  Language, meaning it is built with Ruby, but adds it's own
+  methods and keywords
+ -you use RSpec by calling the rspec command and then the
+  TEST file, not the file to be tested: 
+
+  $ rspec spec/current_age_for_birth_year_spec.rb
+ 
+**Undesrstanding the tests in the spec directory**
+ -all our tests are located in the spec folder
+ -you have to end your spec test files with _spec.rb
+
+    test: spec/current_age_for_birth_year_spec.rb
+    file: current_age_for_birth_year_spec.rb
+
+ -here is the actual test in that folder: 
+
+# expand your window to see code more clearly
+
+require_relative '../current_age_for_birth_year.rb'
+ 
+describe "current_age_for_birth_year method" do
+  it "returns the age of a person based on the year of birth" do
+    age_of_person = current_age_for_birth_year(1984)
+ 
+    expect(age_of_person).to eq(19)
+  end
+end
+
+**Overview**
+ -the overall goal is to load the file, that code will load 
+  the code in current_age_for_birth_year.rb and try to 
+  execute current_age_for_birth_year(1984) with the 
+  expectation that it returns 19. If so, the test will 
+  pass. Anything else will make it fail.
+
+**Breakdown**
+ -that first line loads the file you want to test, the
+  require_relative says it's a relative path
+ -the describe method takes that string and outputs it
+  after the test is done, so we can see what the result
+  was for this specific test. It then initiates the test
+  with the ruby "do" keyword 
+
+ -the it method is where we say what we expect the code to
+  actually accomplish in more detail than we could with
+  the "describe" method
+ - the string following it is just for the output to tell
+  us at the end of the test what we expected to happen
+ -the it method is followed by another do keyword 
+ -the next three lines in this case are the actual test
+ -that age_of_person line is actual ruby and it calls the 
+  function from our file
+ -the expect(), .to, and eq() methods are all RSpec, and 
+  the argument for expect is told to equal the argument
+  of eq()
+ -that's the end of this test, however multiple it/end 
+  blocks can be placed in the descibe/end block
+ 
+ -look more into RSpec using that site
+
+**what the learn command does**
+ -learn is just an alias of "rspec -fd spec" 
+ -see rspec notes for more
+
+
+
+
+
+=============================================================
+timeSSS          Time class interlude
+=============================================================
+ -lots of examples use an instance of the Time class
+ -more on this later, but for now know 
+
+  Time.now = current time 
+    2018-03-15 01:58:28 -0400
+  Time.now.day = day of the month
+  Time.now.month = month number
+  Time.now.year = year, 4 digit format
+
+ you can define the time as well: 
+
+t = Time.new(1993, 02, 24, 12, 0, 0, "+09:00")
+            #year, month, day, hour, min, second, timezone
+ then use it to check stuff: 
+
+t.monday?   # => false
+t.year      # => 1993
+t.dst?      # => false (was it daylight savings time?) 
+
+
+
+
+
+
+=============================================================
+5SSS            Variables and Methods
+=============================================================
+**about variable assignment**
+ -Here is how you assign variables in Ruby: 
+
+    name = "Jeff" 
+    last_name = "Conway"
+    # these variables all have local scope to the 
+    # main scope of the program 
+    puts("Hello #{name} #{last_name}.")
+    # => Hello Jeff Conway
+  
+    $global_var = "hello there"
+    # variables with $ are in the global scope and 
+    # can be affect in or out of methods 
+
+    THIS_IS_CONST = "yeah"
+    # variables that start with capital letters have dif 
+    # rules and are called constants (more on this later)
+    # they generally are all caps just to be clear though
+
+**local variables**
+ -local variables are unique to their scope, if you define 
+  a variable inside a method, it won't be "seen" in the main
+  scope and vice-versa 
+ -this is different from say, JavaScript where variables can
+  see "up" to the next scope if need be, but not down
+  (eg a variable defined one scope above a function can 
+   be seen from inside the function, but none of the
+   functions can be seen outside of it)
+ -here is ruby local scope in action: 
+
+    other_loc = "the function can't see me!"
+    def my_method
+      puts other_loc # this won't work
+      local_variable = "Only my method knows about me!"
+    end
+   
+  puts local_variable #this wont work
+
+**global variables**
+ -global variables have global scope, so they can be 
+  accessed from anywhere in the program:
+
+    $global_var = "All can see me!"
+    def my_method
+      puts $global_var      # this works
+    end
+    puts $global_var      # this works as well
+
+ -globals should be used sparingly, if at all, since they
+  have a tendency to break encapsulation and things in
+  general 
+
+**Constants**
+ -these variables are either capitalized or in all caps
+ -they can't be redefined
+ -they have either local or global scope and can be 
+  defined inside classes and modules, but not methods 
+    
+    Constant = "i'm a constant"
+    CONSTANT = "i'm a different value" # ruby is fully
+                                       # case sensitive
+    CONSTANT = "Reassigning will throw an error"
+
+    $CONST = "I'm me and global"
+
+
+**constants** 
+ -they must start with a capital, but convention says 
+  that they are all caps LIKE_THIS 
+ -constants seem to have a semi global scope
+  -a constant declared outside a class or module can be 
+    accessed inside classes and modules, unlike local
+    variables 
+  -constants declared inside classes/modules can be 
+    accessed in the main scope by using the :: operator
+    (more on this much, much later in classes)
+ -constants, once defined, cannot be reassigned 
+ -because of this, constants cannot be defined inside a 
+  method, as each time the method is called, a new instance
+  of the constant would be declared 
+
+    def foo
+      CONSTANT = 4
+    end 
+    # each time you call this, a new variable CONSTANT 
+    # would be stored in memory, which is not allowed
+
+**Naming rules**
+ -don't use pucntuation, can't start with a number, can't
+  use -, and prefered multi-word style is snake case, 
+  which uses undescores_like_this,
+ -variables can end with numbers, and variables are case 
+  sensitive
+
+**Variable types**
+ -Ruby is dynamically typed, so that means variable types
+  can be switched and do not need to be explicitly defined
+ -It is also strongly typed, so variables will never be 
+  coerced into another type without being explicitly changed
+
+**creating/reassigning variables**
+ -it's super easy 
+
+    new_var = "mike"
+    new_var = "now it's not"
+
+//////////////////////////////////////////////////////////////
+**pass-by-value/pass-by-referece and mutability**
+ -In Ruby, basically everything is an object, there are 
+  no primitive types 
+ -take a look at this code
+
+    sound = "squeak"
+     
+    # We can peek at the value of sound by typing its name
+    # into the IRB shell like so
+    sound
+    # => "squeak"
+     
+    # here we semingly modify the string 
+    sound.upcase
+    # => "SQUEAK" 
+
+    # but yet it remains 
+    sound
+    # => "squeak"
+
+ -pass-by-value when the actual primitive value is passed
+  around, as is the case with numbers, and symbols. These
+  simple values can't be mutated, they can only be switched
+  to an entirely new assignment
+ -pass-by-reference is when the variable contains a pointer
+  to an object that can be mutated, like strings, hashes, 
+  and arrays
+ -so you can't mutate 22 into 21 by subrtacting, you just 
+  switched the value from 22 to 21, unlike an array, where 
+  the same array can add and lose elements no problem
+ -mutating means changing the actual objects value, 
+  not just changing what value the variable points at  
+  (a variable that can't be switched is called a constant,
+    more on that later)
+
+*pass-by continued**
+ -so that string in the previous example, why didn't it 
+  mutate the string? becuase reference types like strings can
+  ALSO pass-by-value so that only a copy of their value is 
+  returned and messed with by a method
+ -certain methods alter the actual value, others don't, 
+  always be aware of which you are using (ussually those
+  that alter a value end in !)
+ -however, pushing, <<, shifting, unshifting, popping, things
+  like that always affect the actual reference by default, 
+  you will see these methods frequently
+
+ -NOTE: you can check what class an object comes from by
+  using the .class method, which is handy to tell whether
+  it uses pass-by-value or pass-by-reference by default
+  
+    "hello".class 
+    # => String 
+
+ -and when comparing a class to a type, use the type, not 
+  the string name of that type 
+
+    4.class == Integer
+    # true 
+    4.class == "Integer"
+    # false 
+
+ 
+**table of pass-by values**
+Data Type        	Pass by...
+string	          reference
+array	            reference
+hash             	reference
+integer          	value
+fixnum	          value
+float	            value
+boolean	          value
+
+ -basically, if an object is made of more than one thing, 
+  it's mutable (strings made of characters, hashes made of
+  keys and values, array made of indexes, vs number holds
+  a single value 42, bool is true OR false)
+
+
+
+
+
+
+==============================================================
+5_1SSS             scope 
+==============================================================
+**scopes**
+ -variables named outside a method can't be accessed inside 
+  methods, variables named inside a method can only be 
+  accessed inside THAT method 
+
+    name = "joe"
+  
+    def say_hi()
+      name = "tim"
+    end 
+
+    say_hi
+    # > "tim"
+    name 
+    # > "joe"
+
+ -the only way to get a variable into a method is to pass 
+  it in as an argument
+ -the only way to get a value out of a method is to return it
+
+    evil_monster = "Bowser"
+     
+    def princess_peaches_castle(evil_monster)
+      puts "#{evil_monster} is kidnaping Princess Peach!"
+    end
+     
+    
+    princess_peaches_castle("craig")
+    # > "craig is kidnaping Peach!"
+
+    princess_peaches_castle(evil_monster)
+    # > "Bowser is kidnaping Peach!"
+
+ -so even though evil_monster LOOKS like it was passed in, 
+  that evil_monster parameter is a bareword with local 
+  scope to that function, as we see when we define it 
+  as the argument string "craig"
+ -the only way to get the main scope evil_monster into that 
+  method is to actually pass it as an argument
+
+
+**local variables**
+ -local variables are unique to their scope, if you define 
+  a variable inside a method, it won't be "seen" in the main
+  scope and vice-versa 
+ -this is different from say, JavaScript where variables can
+  see "up" to the next scope if need be, but not down
+  (eg a variable defined one scope above a function can 
+   be seen from inside the function, but none of the
+   functions can be seen outside of it)
+ -here is ruby local scope in action: 
+
+    other_loc = "the function can't see me!"
+    def my_method
+      puts other_loc # this won't work
+      local_variable = "Only my method knows about me!"
+    end
+   
+  puts local_variable #this wont work
+
+**global variables**
+ -global variables have global scope, so they can be 
+  accessed from anywhere in the program:
+
+    $global_var = "All can see me!"
+    def my_method
+      puts $global_var      # this works
+    end
+    puts $global_var      # this works as well
+
+ -globals should be used sparingly, if at all, since they
+  have a tendency to break encapsulation and things in
+  general 
+
+**Constants**
+ -these variables are either capitalized or in all caps
+ -they can't be redefined
+ -they have either local or global scope and can be 
+  defined inside classes and modules, but not methods 
+    
+    Constant = "i'm a constant"
+    CONSTANT = "i'm a different value" # ruby is fully
+                                       # case sensitive
+    CONSTANT = "Reassigning will throw an error"
+
+    $CONST = "I'm me and global"
+
+
+
+
+
+
+
+==============================================================
+6SSS    string evaluation, ',",`,  and puts v print
+==============================================================
+**single vs double quotes**
+ -double quotes allow for string evaluation, or interpolation
+  while single quotes only allow for concatenation: 
+
+  puts("This works just #{fine_var}")
+  puts("this " + "also works " + fine_var + ".")
+  puts('this doesn\'t work #{fine_var}')
+  puts('this ' + 'also works ' + fine_var + '.')
+  # notice in single quotes, the single quote needs escaping
+
+ -so like PHP "" allows for evaluation of interpolated code
+  and special characters like \n and \t, while single 
+  quotes do not 
+ -in terms of performance, this is almost no difference
+  to the point that the default is "", sometimes its faster
+
+**user-defined string delimiters**
+ -If your text has a lot of embedded quotes, you can also 
+  use string delimeters 
+
+    %Q/This is the same as a double-quoted string./ 
+    %/This is also the same as a double-quoted string./ 
+    %q/And this is the same as a single-quoted string/
+    %q[the q or Q is all that matters, the / can be ]
+
+ -the string delimiter character can be any character,
+
+    %Q: : # here its a colon
+ 
+ -the actual magic is the % followed by various characters
+  that tell Ruby what the delimeters actually are, like
+  are they single, double, or backtick quotes?
+
+**backquotes**
+ -Backquotes allow ruby to execute commands in the shell:
+
+    puts(`ls`)
+    # this would return your directory for example
+    puts(`> foo.txt`)
+    # you can do anything, like even make files 
+
+ -you can also use these formats as well: 
+
+    puts(%x/ls/) 
+    puts(%x{ls})
+ 
+ -and embed it into a string like this: 
+
+    print( "Goodbye #{%x{cal -y}}" )
+
+ -but, when you do this, the command will always evaluate
+  first, and then the string will print
+
+
+**Concatenation vs interpolation**
+ -concatenation is just + and interpolation is #{}
+ -you can put code, not just variables into #{} 
+
+    puts("like this #{"3".to_i + 4}")
+    # => like this 7
+
+ -here are some ways to concatenate: 
+
+    s = "Hello " << "world" 
+    s = "Hello " + "world" 
+    s = "Hello " "world"   
+
+ -it hsould be noted that the << lets you append Fixnum
+  integers (0 to 255) directly into the string, no to_s 
+  needed 
+ -spaces and + do not allow for this 
+
+**what are commas?**
+  s4 = "This " , "is" , " not a string!", 10
+
+ -that looks like a string, but it is actually just 
+  shorthand to create an array
+ 
+
+**puts vs print**
+ -puts always adds a newline character after whatever 
+  argument you pass into it, print does not, the cursor 
+  will remain at the end of the string 
+ -this is useful when printing messages to users that 
+  require info back 
+ 
+    print('Enter your name: ') 
+    name = gets.chomp
+    puts("Hello #{name}")
+   
+ -this leaves the cursor right where the user would 
+  expect the input, after "name: "
+ -it should also be noted that puts and print do not need 
+  (): 
+    foo = "this is also fine"
+    puts "this works"
+    puts"this works"
+    print "just fine"
+    print"just fine"
+    print("same")
+    puts("thing")
+    puts foo
+    print foo
+
+ -this is because in ruby doesn't actually need parentheses
+  for its method arguments, some people just prefer it
+ -there are some instances with .method chaining that require
+  you to use ()
+
+**Puts and print in depth**
+ -as stated, puts uses a newline at the end, print doesn't
+ -the way they work thoush is using the $stdout global 
+  variable provided by ruby
+ -the $stdout accesses your terminals stdout, which is how
+  you can see it in the terminal
+ -becuase of this, it can also be piped like any other stdout
+
+    # say_hello outputs "Hello!"  
+    $ ruby say_hello.rb > foo.txt
+    $ cat foo.txt
+    Hello!
+
+
+*printing arrays**
+ -note that puts-ing, an array will print each value on
+  its own line, while print will format and print out the
+  acutal array as you would expect
+
+**#p for troubleshooting**
+ -the p() method gives the return value by returning it 
+  AND printing it to the screen
+ -do not use it in production, just testing 
+
+**indexing a string**
+ -you can use many of the bracket notation techniques with
+  strings like you would arrays: 
+
+    str = "hello" 
+    str[0] # h
+    str[1..3] # ell, this is a range, more on those later
+
+
+
+
+
+
+==============================================================
+7SSS               Defining methods
+==============================================================
+**method definitions**
+ -here is an example method: 
+ -method signature is the first line 
+
+    def say_hello    # method signature 
+      puts "hello"   # method body
+    end              # method closing 
+
+    say_hello        # method call
+
+ -this is the very basic skeleton of a method 
+ -notice again that () are not necessary to call the method
+  (unlike js, where a method without () won't call it, 
+   but is simply a reference to that function)
+
+**#methods**
+ -often when writing about ruby code, you will see methods
+  prefaced with a #. 
+ -this is only used in articles to help readers quickly 
+  know that #say_hello is a method, not a variable or class
+ -when coding, never actually write this, since that will 
+  comment it out
+
+**#methods?** 
+ -a method that ends in a ?, like .include? is also just a
+  convention, it means that it will return a boolean. 
+ -it has no syntactic value, it could return a bool and do 
+  other stuff, it's just a naming convention rubyists like
+
+**#methods!**
+ -a method! means that the method likely alters the actual 
+  value of the object, it is doing a pass-by-reference,
+  not pass-by-value
+ -so string.capitalize will capitalize a copy of the sting
+  but string.capitalize! will capitalize the original value
+ -the exclamation at the end is a sort of convention? as in, 
+  some ruby methods follow it and work how you expect, but 
+  some librarys and frameworks do no. methods with no ! can
+  alter the actual value, it's not syntax, it's just a naming
+  convention the makers of ruby agreed upon
+ -as in you can't just add a ! to a method and change its 
+  behavior, there had to be a method written with that 
+  behavior in the core function
+
+
+/////////////////////////////////////////////////////////////
+**arguments**
+ -add arguments to your methods to pass in values: 
+
+    def say_hello(greeting, name)    
+      puts "#{greeting} #{name}, how are you?"  
+    end              
+
+    say_hello("HIYOOOO", "Steve")        
+
+ -simply put parameters in the method signature, comma 
+  separated, and then pass in theexact number required in
+  the method call
+ -messing up arguments leads to an ArgumentError so be 
+  careful
+ -without the () this is what it looks like: 
+
+    def say_hello greeting, name     
+      puts "#{greeting} #{name}, how are you?"  
+    end              
+
+    say_hello "HIYOOOO", "Steve"         
+
+ -I personally prefer (), but apparently a lot of rubyists
+  don't. Because life isn't fair 
+ -in fact some DSLs (like RSpec) choose to omit these ():
+
+    # rspec 
+    describe "MyRubyThing" do
+      it "runs" do
+        # test here
+      end
+    end      
+
+    # same thing as: 
+    describe("MyRubyThing") do
+      it("runs") do
+        # test here
+      end
+    end
+
+**bareword**
+ -those parameters greeting and name are technically 
+  barewords and become local variables once inside 
+  the method. Just a fun fact
+
+
+/////////////////////////////////////////////////////////////
+**Using defualt values**
+ -to avoid argument errors and make it easier to use methods
+  with default values unless otherwise stated, use 
+  default arguments: 
+
+    def greeting(name, greeting = "Hello")
+      puts "#{greeting}, #{name}
+    end 
+
+    greeting("tom")
+    greeting("steve", "yo yo")
+
+ -Always put default arguments las in your code, and always
+  list out your arguments in the proper order. 
+    -otherwise, you may get some strange results/broken 
+      code when you don't expect it 
+
+**ArgumentError**
+ -you can tell a method needs defualts becuase if you 
+  run it with no arguments, or two few required, the error
+  will give you a list of the possible arguments it could 
+  accept, like [1..2] for 1 OR 2 arguments possible
+
+
+
+
+
+
+
+==============================================================
+8SSS                  Return values
+==============================================================
+ -Everything has a return value 
+  look at this table to see examples of return values: 
+
+        Code	                  Return Value
+        "Hello world"	        "Hello world"
+        6 + 3                  9
+        president = "Obama"   "Obama"
+        total = 6 + 3	         9
+        puts "hello world"	   nil
+        print "hello world"	   nil
+
+ -notice that puts and print return a nil value, this is
+  bcause they output the string, then return nothing, hence
+  nil value
+
+**methods and return values**
+ -methods will automatically return the value of the last 
+  statement by defualt
+ -if a method has no value in it, it returns nil
+ -so this method returns "welcome to flavor town"
+
+  def restaurant
+    restaurant_name = "Guy's American Kitchen & Bar"
+    cuisine = "american"
+    motto = "Welcome to Flavor Town!"
+  end
+
+ -however, this returns nil: 
+    def print_name
+      puts "Guy Fieri"
+    end
+   
+ -to make it return "Guy Fieri" you can do this weirdness:
+
+    def print_name
+      puts "Guy Fieri"
+      "Guy Fieri"
+    end
+
+ -just be sure not to switch the order, since puts always
+  returns nil
+
+**the return keyword**
+ -you can tell a method to return a specific value and exit
+  out of a method immediately with the return keyword: 
+
+    def stylish_chef
+      best_hairstyle = "Guy Fieri"
+      return "Martha Stewart"
+      "Guy Fieri"
+    end
+
+ -even though "Guy Fieri" is the last statement, he is 
+  rightfully ignored and the return value is returned 
+  and the method is exited 
+ -most rubyists ignore the return keyword  unless explicitly 
+  needed like when you want to get a value earlier in the 
+  function: 
+  
+    def change_my_name
+      name = "Frank"
+      puts name.reverse
+      return name
+    end
+    # this returns an un-reversed name while print reversed
+
+**mind your returns**
+ -either way, make sure that your methods return the right 
+  thing.
+ -sometimes it's best to explicitly state return, since it
+  is obvious to others reading your code what value you are
+  working with
+
+
+
+
+
+
+==============================================================
+9SSS                Debugging with pry
+==============================================================
+**What is Pry?**
+ -Pry is another Ruby REPL that lets you pause your program
+  at a point and interact with it, so you can see what 
+  variables have what value and what methods do what 
+ -it is activated with the bindind.pry method 
+
+**binding**
+ -binding is a built-in Ruby class that lets you encapsulate
+  the current scope of the object and retain them outside 
+  their original context
+ -so using binding.pry takes the scope you are in, and lets
+  you "pry" into it with a Ruby shell
+
+**instalation and use**
+ -just cd into your home directory and use 
+    
+    $ gem install pry
+
+ -that's it, it's installed 
+ -to use it in a program put a require method at the top:
+
+    require 'pry'  # you only need single quotes 
+
+ -now when you run your program, it will freeze at that point
+  specified and show you the lines around binding.pry, and
+  then let you see variable values, and even change variable
+  values 
+ -once you type "exit" to get out of the shell, 
+  the program will continue, and if you changed 
+  anything, it will then work with whatever you gave it
+
+**Debugging**
+ -obviously useful, no more printing breakpoints, you 
+  can simply inteact directly
+ -pry is triggered whenever and wherever the interpreter 
+  hits it, 
+ -if binding.pry is in a method and you test with RSpec,
+  you will be able to go into the shell during the test 
+  (but not if you just use the command ruby on the file, 
+  since you never call the method it's in)
+ -point is, testing triggers pry
+ -be careful of return staments coming before pry, you won't
+  ever get to it! 
+
+
+
+
+
+
+
+==============================================================
+10SSS            Ranges AND random numbers 
+==============================================================
+**Ranges**
+ -A range is a set of values with a beginning and end
+ -they can be strings or integers, but not both at the 
+  same time 
+ -can't use floats though
+ -they are made by specifying the beginning and end of the
+  range, then using either the ".." or "..." range operators
+    1..6 # generally they will be in () since you need () to
+         # chain it with iterable methods 
+    (1..6)  # this can be iterable as is 
+    ("a".."z")
+
+**.. vs ..."
+ -using the .. operator means both the beginning and end are 
+  inclusive, the ... operator means the end is NOT inclusive
+
+**ints and strings**
+ -ints are straightforward: 
+
+    foo = (1..9)
+    =>1,2,3,4,5,6,7,8,9
+ 
+ -strings are less so: 
+
+    bar = ("bat".."bee")
+    => ["bat", "bau", "bav", "baw", "bax", "bay", "baz", "bba", "bbb", "bbc", "bbd", "bbe", "bbf", "bbg", "bbh", "bbi", "bbj", "bbk", "bbl", "bbm", "bbn", "bbo", "bbp", "bbq", "bbr", "bbs", "bbt", "bbu", "bbv", "bbw", "bbx", "bby", "bbz", "bca", "bcb", "bcc", "bcd", "bce", "bcf", "bcg", "bch", "bci", "bcj", "bck", "bcl", "bcm", "bcn", "bco", "bcp", "bcq", "bcr", "bcs", "bct", "bcu", "bcv", "bcw", "bcx", "bcy", "bcz", "bda", "bdb", "bdc", "bdd", "bde", "bdf", "bdg", "bdh", "bdi", "bdj", "bdk", "bdl", "bdm", "bdn", "bdo", "bdp", "bdq", "bdr", "bds", "bdt", "bdu", "bdv", "bdw", "bdx", "bdy", "bdz", "bea", "beb", "bec", "bed", "bee"]
+ 
+ -notice how it hits every permutation alphabetically, if you
+  just did ("a".."r") though, it would simply list the 
+  alphabet
+  
+**MUST be ascending**
+ -ranges must be in ascending order, both numerically and 
+  alphabetically
+
+**converting to array**
+ -converting to a array is easy: 
+
+    foo = (1...11).to_a
+    # or 
+    foo.to_a  # if you hadn't in the definition
+
+ -converting to an array is not ussually necessary, except
+  when you want a nice print value: 
+    
+    print 1..3 # 1..3
+    print (1..3).to_a # [1,2,3]
+ 
+ **ranges are iterable**
+ -you can use loops, include, max and min and many other 
+  methods with ranges, you do not have to convert them into
+  arrays first:
+ -you DO either need to assign it to a variable, OR use ()
+  around the range if you want to apply any of these methods
+
+    # Assume a range
+    digits = 0..9
+
+    puts digits.include?(5) # true
+    ret = digits.min
+    puts "Min value is #{ret}"
+
+    ret = digits.max
+    puts "Max value is #{ret}"
+
+    ret = digits.reject {|i| i < 5 }
+    puts "Rejected values are #{ret}"
+
+    digits.each do |digit|
+       puts "In Loop #{digit}"
+    end
+
+**stepped ranges**
+ -you can generate steped ranges using the #step method: 
+
+    (1..20).step(2).to_a
+    => [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+    
+ -step takes the argument of however many steps to take 
+  after the first entry in the range
+ -NOTE: when using step you must use () when declaring the
+  range, otherwise it fails
+ -also, you do not need to convert to an array, that was 
+  just for a nice looking return value
+
+
+**ranges as conditions** 
+ -ranges can be used in case statements: 
+ -more on case statements in the conditionals section 
+
+    score = 70
+
+    result = case score
+       when 0..40 then "Fail"
+       when 41..60 then "Pass"
+       when 61..70 then "Pass with Merit"
+       when 71..100 then "Pass with Distinction"
+       else "Invalid Score"
+    end
+
+    puts result # "pass with merit"
+
+
+**ranges as intervals** 
+ -ranges can be used to check if a value falls with a certain
+  range: 
+
+    if ((1..10) === 5)
+       puts "5 lies in (1..10)"
+      # this is true, so it will evaluate
+    end
+    
+
+    if (('a'..'j') === 'c')
+       puts "c lies in ('a'..'j')"
+      # this is true, so it will evaluate
+    end
+
+    if (('a'..'j') === 'z')
+       puts "z lies in ('a'..'j')"
+      # false, no eval
+    end 
+
+
+
+
+
+
+==============================================================
+11SSS           Random numbers/Math in ruby 
+==============================================================
+**random number generation**
+ -ranges are great for quickly doing integer randoms: 
+
+    rand(11) 
+
+ -is a random whole number between and including 0 and 10
+ -whatever argument you pass to rand() is the exclusive max
+   and 0 is the inclusive min
+ 
+ -but what if you want a specific range, say a dice, that 
+  included everything 1 through 6, just use an inclusive 
+  range: 
+
+    rand(1..6)
+
+ -to get a random float: 
+ 
+   rand() 
+
+ -this generates just a random float between 0 and 1
+ -to get a random float in a range use this function: 
+
+   def range (min, max)
+     rand * (max-min) + min
+   end
+
+ -you can't use the range .. operators because they don't 
+  work on floats, so that's why you need the method
+
+**Math in ruby **
+-all basic arithmatic operators are here
+  +, -, /, %, **
+
+ -division by default returns integers without rounding 
+  (they just remove the decimals so 5.999 would be 5) 
+ -to get a float answer, use floats or at least one 
+  float: 
+
+    9.0 / 4 = 4.5
+
+ -PEMDAS is how ruby works, but you can use () to alter it
+  as usual
+ -the Math class can do a lot, check it out for more
+ -a common one is 
+
+    Math.sqrt(x) 
+
+  to find the square root
+
+
+
+
+
+
+
+==============================================================
+getsSSS    Interlude: getting values from the command line 
+==============================================================
+
+**user interaction**
+ -if you want to get a variable value from the user, 
+  like say a username, then use the gets() method 
+
+    name = gets()
+
+ -the gets method waits for user input, then continues 
+  once the user hits enter (pythong raw_input())
+ -HOWEVER, when the user hits enter, that is technically 
+  addin a newline \n character to the end of their answer
+ -to trim this, use the .chomp method 
+
+    name = gets.chomp  # remember () are not needed 
+
+ -this takes just the username with out \n on the end 
+ -you can also use the #strip, which removes leading and 
+  trailing whitespaces, as well as tabs and newline characters
+  
+    "    hello    ".strip   #=> "hello"
+    "\tgoodbye\r\n".strip   #=> "goodbye"
+
+
+
+
+
+==============================================================
+12SSS        Booleans and truthiness 
+==============================================================
+**booleans**
+ -in ruby, booleans are just true and false, no capitals 
+  like python or YES NO in obj-c
+
+**flow control**
+ -this is basically and "if x, do y" statement, they can get 
+  much more complex than that
+ -it's flow control becuase you are controlling the flow of
+  the program 
+
+**truthy and falsey**
+ -you don't have to literally have true or valse as a value
+  to be "truthy" or "falsey"
+ -however in ruby...literally everything is truthy except for
+  the value nil and the value false and FALSE 
+ -this is unlike js where empty strings, 0, empty arrays, 
+  empty objects were falsey
+
+**Determining truthiness**
+ -the bang operator "!" reverses the truthiness of a value, 
+  but !! will negate the negate to show the original value 
+
+  !!true # true
+  !true # false 
+
+
+//////////////////////////////////////////////////////////////
+    BOOLEAN OPERATORS 
+**booleans**
+ -booleans are their own data types so true is an instance of
+  TrueClass and false is FalseClass 
+ -just be aware of this for now 
+
+**Boolean operators**
+ !   = single bang means NOT
+ &&  = AND
+ ||  = OR
+ ==  = values are equal 
+ >, <, >=, <=  = all the stuff they always do
+  NOTE:
+ === is used for equality in case statments, NOT checking 
+   if the two values are the same type, Ruby does not coerce,
+   so == checks for data types automatically  
+
+**what can be compared**
+ -strrings can be compared to strings to see if ALL char. 
+  match, int and floats values, and of course variables 
+  of any of these 
+
+**.class comparisons** 
+ -as stated .class will show the class of a value, and you
+  can use that to make sure a variable is the right class: 
+
+  animal = "pig"
+  human = "steve" 
+  animal.class == human.class # both equal String so this is 
+                              # true
+
+ -if you want to compare to see if an object belongs to a 
+  certain class, then compare it with the class name: 
+
+    "hello".class == String    # not "String" 
+      #=> true
+
+/////////////////////////////////////////////////////////////
+      RUBY CONDITIONALS (IF, ELSIF, ELSE)
+**if, elsif strings**
+ -here's the syntax: 
+
+  if (condition is true) 
+    # do this 
+  end 
+
+  if (condition)
+    if equals one thing do this 
+  elsif (condition)
+    if another do this 
+  elsif (condition)
+    these are unlimited in number 
+  else 
+    catchall if the others fail
+  end 
+
+ -so don't forget the end keyword 
+
+**a note on flow control**
+ -be wary of conditions that meet two checks, the second it 
+  hits one that matches, it will exit the conditional check 
+ -so put the most specific case first, then the least specific
+  case last
+ -below is a bad example, you will never get to "it's 6" 
+  since 6 > 4, so it would hit the first one and exit out 
+
+    num = 6
+    if (num > 4) 
+      puts "it's bigger than four"
+    elsif (num == 6)
+      puts "it's 6"
+    else 
+      puts "it's a number"
+    end
+
+ -you would want to put the more specific 6 check before the
+  general greater than 4 check 
+
+**the "then" keyword**
+ -this is technically what is happening:
+    
+    if (subtotal < 0.0) then 
+      subtotal = 0.0 
+    end
+ 
+ -that 'then' keyword can be omitted if there's a line break,
+  however, you can use it in a one line situation without 
+  raising an error:
+
+    if (subtotal < 0.0) then subtotal = 0.0 end
+
+ -however, statment modifiers is the standard way of doin 
+  one line conditionals, see below
+
+/////////////////////////////////////////////////////////////
+            OPERATORS AND CONDITIONALS 
+        (TERNARY OPERATOR AND STATEMENT MODIFIERS)
+**ternary operator**
+ -Use this familiar sytax to replace simple if else
+ -sytnax is just :
+
+    conditional ? action_if_true : action_if_false
+
+ -in ruby this is a good example
+
+  age = 1
+ 
+  baby_status = age < 2 ? "baby" : "not a baby"
+
+
+**statement modifiers**
+ -add a conditional to the end of a statement to keep it 
+  from evaluating if the conditional is false 
+ -it's self explanatory: 
+
+    this_year = Time.now.year
+    puts "Hey, it's 2015!" if this_year == 2015
+
+ -now that code will only print if it's 2015
+ -the other statement modifer keyword is "unless" which 
+  is basically a NOT check: 
+
+    this_year = Time.now.year
+    puts "Hey, it's not 2015!" unless this_year == 2015
+
+ -now it will print whenever it is NOT 2015 
+
+
+/////////////////////////////////////////////////////////////
+        RUBY CASE STATEMENTS 
+
+**A less smelly alternative** 
+ -lots of if elsif options is longer than you need sometimes
+ -if you're only essentially checking if a value equals a 
+  specific outcomes (ie not a check like val < 6, but more
+  like val == 6) then use a case statement
+ -you can also use case statements to check something 
+  is within a range, a regex, or a lambda (more on lambda 
+  later)
+ -btw, it is called "code odor" when code is overly 
+  complex, so removing the "smell" with a case statement
+  is better 
+
+**syntax** 
+  -the value to check goes next to the case keyword 
+ -the conditions go after the when keyword, 
+  and the outcome goes below,
+ -notice there is still a catchall "else" block and an 
+  end statement 
+ -however, you do not NEED to put in the else statement 
+  if you do not need one 
+
+  name = "Alice"
+  case name 
+ 
+    when "Alice"
+      puts "Hello, Alice!"
+    when "The White Rabbit"
+      puts "Don't be late, White Rabbit"
+    when 2..10
+      puts "this is just an example of a range"
+    when "The Mad Hatter"
+      puts "Welcome to the tea party, Mad Hatter"
+    when "The Queen of Hearts"
+      puts "Please don't chop off my head!"
+    else 
+      puts "Whoooo are you?"
+  end
+
+**How does it actually work** 
+ -Basically each condition is checked like 
+  
+    is value === check
+  
+  and if so it runs that block, then exits 
+ -note that is a === not a ==, case use 3 =, which is 
+  slightly different
+ -== just checks at the obj level if both values are the 
+  same class, however === overides that to allow checks 
+  between different objects (like int and regex or range)
+
+
+
+
+
+
+==============================================================
+13SSS      Intro to loops (assignment operators) 
+==============================================================
+**times iterator**
+ -one of the simplest ways to loop is using the times
+  iterator: 
+
+    10.times {puts "hello there"}
+    10.times do 
+      # both ways work with single or multiple lines 
+      puts "hello there" 
+    end 
+
+ -either one works, brackets can be interchanged with 
+  the "do" and "end" keywords 
+ -but what if you want a counter? then use an iteration
+  variable, most often depcted as "i"
+
+    10.times {|i| puts i}
+
+ -times only works on integers, and it's return value 
+  is the number of times it looped (so 10 in this case) 
+
+**quick note on | | **
+ -braces define a block, which is a ruby feature that is like 
+  an anonymous function, meaning that they can accept 
+  certain variables from certain methods 
+ -only certain methods will use and pass variables to blocks 
+ -with #times, it will pass an iteration variable, so 
+  use |value| to assign that value 
+ -with #each though, it will pass one if it's working on an 
+  array it just passes the value at each index as it goes 
+    
+    arr.each {|val| puts val}
+
+  but if it's working on a hash, it sends the key and value 
+  for each iteration (more on hashes later)
+ -you can however just pull in variables from the main scope
+ (or whatever scope the block is in) as well 
+
+    name = "tim"
+    5.times do |i|
+      puts i
+      puts name
+    end 
+
+  that will print out the iteration variable i and the name 
+  "tim" 5 times 
+ -this is because loops do not create new scopes HOWEVER 
+  most enumerables do (like #each and #map)
+ -so loop blocks exist and interact with the scope they are
+  made in, but iterator blocks are NOT a part of the scope,
+  they create a new scope that is private just like a   
+  method 
+ 
+/////////////////////////////////////////////////////////////
+  LOOPING 
+**loop** 
+ -here is the simplest loop in ruby, notice the different 
+  incorporation of the couter, the break keyword, and 
+  the condition check
+ -the loop keyword just tells Ruby to go forever, you 
+  HAVE to include a break somewhere inside it to end 
+ -the "break" keyword has the loop exit at that very line
+  and can be used with statement modifiers to be more 
+  concise 
+ 
+    counter = 0
+     
+    loop do 
+      counter += 1
+      puts "Iteration #{counter} of the loop"
+      break if counter == 10
+    end
+
+**Add assignment and other operators** 
+ -ruby has no increment operator (i++), but it does have the
+  familiar assignment operators: 
+
+  i = i + 1  == i += 1
+  i -= 2   # subtract it 
+  i *= 2   # multiply it
+  i /= 2   # divide it 
+  i **= 2  # square it 
+
+
+/////////////////////////////////////////////////////////////
+      WHILE AND UNTIL LOOPS 
+**while loops**
+ -a much more concise construct than just the loop keyword
+ -matches most other languages syntax:
+
+    counter = 0
+    while counter < 20
+      puts "The current number is less than 20."
+      counter += 1
+    end
+
+**until loop**
+ -basically the inverse of a while loop
+ -a while loop does something as long as a condition is 
+  true, an until loop does something UNTIL something is 
+  true 
+
+    counter = 0
+    until counter == 20
+      puts "The current number is less than 20."
+      counter += 1
+    end
+
+
+/////////////////////////////////////////////////////////////
+      FOR LOOPS 
+
+**syntax**
+  for counter in 1..40 do
+    puts "The current number is #{counter}."
+  end
+
+  # OR
+  counter_range  = 1..40
+  for counter in counter_range do
+    puts "The current number is #{counter}."
+  end
+
+ -like you'd expect, you can substitute the counting 
+  range for a variable of a range
+
+**arrays** 
+ just like a range: 
+
+  arr = %w(a b c d)
+  for el in arr
+    puts el
+  end
+
+
+==============================================================
+14SSS     RSpec hooks/putting a program to sleep
+==============================================================
+**the before hook**
+ -you might notice in some tests this pattern: 
+
+    before(:each) do
+      #code 
+    end
+
+ -that's a before hook, and it allows you to execute code 
+  before you run tests 
+ -the "before" keyword takes a symbol to define its scope:
+
+    before(:each) blocks are run before each example
+    before(:all) blocks are run once before all of the 
+      examples in a group
+    
+ -there are also after blocks, so you can have code that 
+  exectues before and after certain code
+ -here is the order of each block execution:
+
+    before suite
+    before all
+    before each
+    after each
+    after all
+    after suite
+
+
+/////////////////////////////////////////////////////////////
+      PAUSING A PROGRAM 
+**sleep method**
+ -telling a ruby program is super easy 
+
+    sleep(num_secs)
+
+ -the number can be a float or an int
+ -if you install the active support library, you can use
+  .minutes and .hours and .days to pause as well
+
+ -to do this do gem install activesupport 
+ -then require 'active_support/all'
+   -you actuall only need part of it, but I can't quite
+    figure out which, if it comes up in a project, find it
+
+==============================================================
+15SSS  Blackjack CLI and CLI apps    
+==============================================================
+**puts, print and $stdout**
+ -both puts and prints router their arguments into the 
+  command line stdout file using the ruby global 
+  variable $stdout
+
+**running programs and runners**
+ -just do ruby <program name>
+ -but the structure of the ruby file helps facilitate clean
+  code 
+ -set up your code into little helper methods, then call them
+  all inside a runner method (usually #run_program), then 
+  call that runner method: 
+
+      # main program 
+      def welcome
+          puts "HI!"
+      end
+       
+      def ask_name
+          puts "What is your name?"
+      end
+       
+      def store_name
+          gets.chomp
+      end
+       
+      def personalized_welcome(name)
+          puts "HI, #{name}"
+      end
+       
+      def run_program
+          welcome
+          ask_name
+          name = store_name
+          personalized_welcome(name)
+      end
+
+      run_program
+
+ -you can also create another file, called a runner file 
+  that requires the main program, and then only contains 
+  one other line, a call to the run_program method 
+  (it also contains the shebang at the top, which tells bash
+  that it needs to run ruby to properly understand it)
+
+#!/usr/bin/env ruby
+require_relative 'playground.rb'
+
+run_program
+
+ -you then change this file's permissions to be executable 
+  with bash: 
+
+  $ chmod +x runner_file 
+  # note: leave of file extensions for executables
+
+ -and then you add the file to your $PATH variable, or 
+  invoke it with an absolute file path: 
+
+    # in $PATH
+    $ runner_file 
+
+    # absolute
+    $ ./runner_file
+
+ -see your linux notes about adding to your $PATH and th
+  ~/bin directory for personal scripts
+
+**testing your file and stubbing**
+ -as prev. noted, RSpec fails when using gets, so you have 
+  to fake it with a process called "stubbing" 
+ -stubbing is when you fake what user input SHOULD be and then
+  act on that in the test 
+
+ # RSpec code 
+ expect($stdout).to receive(:puts).with("Type 'h' to hit or 's' to stay")
+
+expect(self).to receive(:get_user_input).and_return("s")
+
+ -so you see it expects that $stdout global variable to 
+  recieve puts with a message, and then it tells the test 
+  that the user input is now "s"
+ -stubbing will be explained in greater detail later
+
+==============================================================
+16SSS        Arrays 
+==============================================================
+**creating a new array** 
+
+    arr = []
+    arr2 = Array.new 
+    arr_with_stuff = ["value", "separated by comma"]
+    Array.new(['a', 'b', 'c'])
+    Array.new(9, " ")
+    arr_with_other = %w(cat dog mouse)
+ 
+ -the second to last one shows why you might want to use
+  the class, it says make a new array made up of 9 strings
+  that are just spaces 
+ -that last one is a shortcut, it uses spaces instead 
+  of commas and quotes, those words are all strings 
+  it will not take variable names and it turns symbols 
+  into strings 
+
+**values of items**
+ -to get the value at an index, use the familiar bracket
+  notation 
+    arr[0] # ruby is 0 indexed
+    arr[2]
+    arr[-1] # negative numbers go from the end
+    arr.fetch(0)
+
+ -the fetch method is identical for arrays (and hashes) to
+  using brackets, but it has a few other benefits. see
+  #fetch section later
+ -you can also get the first and last values of an array 
+  using the first and last methods: 
+
+    arr.first 
+    arr.last
+
+ -you can also get a slice using a bracket notation with 
+  range: 
+
+    arr[1..4]   #1st to 4th index
+    arr[1...4]  #1st up to 4th index
+    arr[3..-2]  #3rd index to the second to last index
+ 
+ **length of an array**
+ -use length (apparently fastest), size, or length: 
+
+    arr.length
+    arr.size
+    arr.count 
+
+ -the size method is just an alias for length, but count 
+  has some extra features if your ever curios
+    -count can count the number of times an item is in an 
+     array, as well as count how many times a block returns
+     true 
+
+      ary = [1, 2, 4, 2]
+      ary.count             #=> 4
+      ary.count(2)          #=> 2
+      ary.count{|x|x%2==0}  #=> 3
+
+**assigning variables with arrays**
+ -a neat trick: 
+  arr = ["hello","goodbye","it is wednesday my dudes"]
+  greeting,farewell = arr 
+  # greeting is "hello"
+  # farewell is "goodbye"
+  # index 3 is just ignored, as no variable is there
+ 
+ -for each variable, it will be assigned each index
+
+**Adding items to the end**
+ -you can use the #push method or the shovel operator (<<)
+  
+  arr.push("new_val")
+  arr << "another"
+
+**Add items to the start**
+ -use the #unshift method 
+
+    famous_cats.unshift("nala cat")
+
+**inserting an item at an index**
+ -use the insert method to insert values after the given
+  index 
+ -negative indexes can be used as well
+
+   arr.insert(3, "t", "yu")
+    => ["1", "2", "3", "t", "yu", "5", "6", "7", "8", "9"]
+
+ -insert permanently chages the array it adds to
+
+**pop and shift to remove items at end and start**
+ -like js, use the pop method to remove a value from the 
+  end of an array and return that value, and use shift 
+  to do it from the start of an array 
+
+  last_value = arr.pop
+  first_value = arr.shift
+
+  last_2values = arr.pop(2)
+  first_2value = arr.shift(2)
+  # you can also specify the number of items to remove with
+  # an argument, and it will return an array of those items
+
+**deleting by value/index** 
+ -use the delete method to delete a value, use delete_at 
+  to delete the value at an index: 
+
+  a = [ "a", "b", "b", "b", "c" ]
+  a.delete("b")                   #=> "b"
+  a                               #=> ["a", "c"]
+  a.delete("z")                   #=> nil
+  a.delete("z") { "not found" }   #=> "not found"
+
+  a = %w( ant bat cat dog )
+  a.delete_at(2)    #=> "cat"
+  a                 #=> ["ant", "bat", "dog"]
+  a.delete_at(99)   #=> nil
+
+ -both have a return value of the item they deleted, or
+  nil if no value is found 
+  -OR if you provide a code block, it will execute that 
+    code (so you could create custom return values like
+    haveing a return value of "not found" in the ex above)
+ -delete ACTUALLY alters the array and its contents
+
+**actual changes vs pass-by-values**
+ -pop, shift, unshift, push, insert all actually change the 
+  values and order in an array, however not all methods 
+  do this 
+ -remember, you can ussually tell permanent methods by the !
+  at the end 
+
+
+==============================================================
+17SSS      common array methods
+==============================================================
+NOTE: some of these methods are enumerators, which we will
+  talk more about later in the hash section, for now, just
+  know that they work by going through each array index like
+  it was single for loop
+
+**randomize the order**
+ -shuffle and shuffle! randomize the order of elements, 
+  shuffle just a copy, and shuffle! on the array itself
+
+    [1,2,3,4].shuffle => [2, 1, 3, 4]
+
+**#each and each_with_index**
+ -the each method executes a block of code for each 
+  value: 
+
+  a = [ "a", "b", "c" ]
+  a.each {|x| print x, " -- " }
+ 
+ -just remember to pass the index through with pipes 
+ -the return value is the array 
+
+ -you can also get the index by using each_with_index: 
+
+    arr.each_with_index { |val,index| 
+      puts "index #{index}: #{val}"
+    }
+
+ -just always be aware that value will be passed 
+  along first, then index, no matter what you call them
+ -also, the return value is still the original array 
+
+**#map, #map!, and #map.with_index**
+ -the #map method will go through a list as well, however,
+  the return value is an array of the values evauated 
+  from the code block: 
+
+  a = [ "a", "b", "c" ]
+  a.map {|x| "#{x}!!" }
+  #=> [ "a!!", "b!!", "c!!" ]
+  a
+  #=>[ "a", "b", "c" ]
+ 
+ -it returns a new list without altering the original
+ -if you want to permanently alter the original array, 
+  use map!
+ 
+      a = [ "a", "b", "c" ]
+      a.map! {|x| "#{x}!!" }
+      #=> [ "a!!", "b!!", "c!!" ]
+      a
+      #=> [ "a!!", "b!!", "c!!" ]
+
+ -you can also use #map and #with_index together to get 
+  the value and index of the array
+    -it's not map_with_index, it's two methods chained 
+     together
+
+      a = [ "a", "b", "c" ]
+      a.map.with_index {|val,index| "{val} is at #{index}"}
+      #=> ["a is at 0", "1 is at 1", "c is at 2"]
+
+ -to permanently alter it use #map!.with_index
+
+**include? - see if an array has a value**
+ -as stated the include? method returns true or false if 
+  the value is in an array 
+
+    arr.include("hello")
+    # be aware that it is case senstitive 
+
+**see if array is empty**
+ -the empty? method returns true if an array is empty
+  false if not
+
+    arr.empty?
+
+**join into a string/split string into an array**
+ -the join method joins an array into a string, and you 
+  can pass a string as an argument to go between values: 
+
+    arr.join(", ")
+
+ -the split method works the opposite way, it will split
+  a string into an array. It takes an argument of where to 
+  split the string, otherwise it splits by space
+  (to get each character alone, specify "" as the argument
+
+    "this is a string".split
+    => ["this", "is", "a", "string"]
+    "hey".split("")
+      #=> ["h","e","y"]
+    
+**sort and sort!**
+ -the sort method sorts arrays alphabetically or numerically
+  in the ways you would think (not like js) low to high,
+   and it works on floats and ints together 
+
+    arr.sort
+
+ -both return the sorted array, but sort returns a copy
+  while sort! alters it permanently
+ -sort will break if their are strings AND numbers, so 
+  if you for some reason want both, convert all the numbers
+  to strings and then sort. sort will put the numbers first 
+ 
+**reverse and reverse!**
+ -since sort only goes low to high or alphabetical, you 
+  can use reverse to reverse the order of the array 
+
+    arr.reverse 
+
+ -reverse! does permanent change to the array
+
+**print vs puts an array**
+ -it should be noted it you just puts an array, each value 
+  will go on its own line, but if you print an array, it 
+  will show you the bracket format you would expect
+
+**map and map!**
+ -map iterates of a list and executes a code block on the 
+  value, just like each 
+ -however, instead of returning the original array, it returns
+  each final value from the block, in the form of a new array
+ -this means if you use map! you can alter the original list: 
+
+    [1, 2, 3].map { |n| n * n } #=> [1, 4, 9]
+
+ -however, if at any point in the map code block it hits 
+  a return keyword, the whole thing stops and instead of
+  return multiple values in an array, it will return that 
+  single value: 
+
+  # i want different outcomes, sure, but that "return letter"
+  # will break things, you have to use the implicit return
+  # attribute of ruby, like the other two examples 
+  message_arr.map! do |letter|
+    index = alphabet.index(letter)
+    if index == nil 
+      return letter 
+    elsif index == 0
+      letter
+    else 
+      letter = alphabet[index + cypher]
+    end
+  end
+
+**concat and joining arrays**
+
+  arr1.concat(arr2, arr3....)
+  arr1 + arr2 
+ 
+  use the concat method to join, in order of arguemnt
+  other arrays into an array
+ -you can also just use a single array
+ -concat is permanent and will break up all arrays added
+  so that there are no arrays in arrays, just one array of
+  all items 
+
+**flatten an array of arrays into a single array 
+
+  arr = [[1,2,3], ["a","b","c"]]
+  arr.flatten
+  # [1,2,3,a,b,c]
+  arr 
+  # [[1,2,3], ["a","b","c"]]
+  # notice it isn't permanent unless using flatten!
+
+**remove duplicate items with uniq**
+
+    arr = [1,2,1,3,4,5]
+    arr.uniq 
+    # [1,2,3,4,5]
+    arr.uniq! # this permanently removes the duplicates 
+    
+
+**remove nil values with #compact**
+
+    arr = [nil,nil, 1, nil, 2,3]
+    arr.compact
+    #=> [1,2,3]
+
+ -simply remove all nil values with compact and compact!
+ 
+**#reduce and sum up the array**
+ -reduce collapses the array into a single value by adding 
+  each new value into the sum, which unless otherwise given,
+  will be the first value it comes across
+ -it can take a single argument, which is just a symbol that
+  tells it what action (:+,:-,:merge...) to take
+   or two arguments, where the first is the explicit sum that
+  will be added to first, before the initial sum it finds in
+  the array
+ -the 0 is a replacemnt first value, this is so an array with
+  no values returns 0 and not nil
+
+    array.reduce(0, :+)
+    
+  ****working with hashes and reduce*****
+ -you can also reduce values of hashes (see later hash section
+  for more info) by including a block instead of a symbol: 
+    H = {"Key1" => 1, "Key2" => 2} 
+    H.values.reduce(0,:+) 
+    # in older methods: 
+    H.values.reduce(0) { |sum,x| sum + x } # or...
+    H.reduce(0) { |sum,(key,val)| sum + val } 
+    # ...if you need to inspect the key
+
+ -notice that reduce needs to have direct access to the 
+  values it needs, like this:
+  
+  H = {"Key1" => {age: 1}, "Key2" => {age: 2}} 
+  H.values.reduce(0,:+) 
+ 
+  would not work (it would be ading {age: 1} not 1) so 
+  you may need to enumerate multi leves 
+
+**#reduce to make an array of hashes into a hash**
+ -sometimes you will have an array of hashes, and you just 
+  want to combine them into one hash: 
+
+  arr = [{:a=>"oh"}, {:b=>"wow"}]
+  arr.reduce(Hash.new, :merge)
+    => {:a=>"oh", :b=>"wow"}
+
+ -simply set the first value to a new empty hash, and then 
+  set the reduction to merge 
+
+
+
+
+
+
+==============================================================
+18SSS      Enumerators introduction
+==============================================================
+**enumerators**
+ -enumerators allow for iterative actions over data structures
+  like arrays and hashes
+ -basically, they do things to each thing in list of countable
+  things 
+ -the common ones are #each, #map (#collect), #select, #find,
+  #delete_if, #include?, #any? #none? 
+
+**#map vs #collect**
+ -map is just an alias for collect, they both return a new
+  array of values created from a block, it's just that many
+  languages call that function "map" so ruby just added the 
+  name
+
+**#map vs each**
+ -as stated before, map returns a new array of values,
+  or alters the original, while each returns only the old 
+  array
+
+**#select **
+ -select compares each value to a test, and then returns the
+  ones that meet the conditional in a new array: 
+
+    cool_nums = [1, 2, 3, 4, 5]
+ 
+    def even_nums(nums)
+      nums.select do |x|
+        x.even?
+      end
+    end
+     
+    even_nums(cool_nums)
+    #=> [2, 4]
+
+  -if you only care about the number of elements that meet
+   a condition, then don't use select and get the length of
+   the array, use count. It will just return the number of
+   values, not the array itself: 
+
+    arr.count {|x| x.even?}
+    # 2
+
+
+**#reject**
+ -the opposite of #select, it will return an array of items 
+  of where the block evaluated to false: 
+
+    [1,2].reject{|i| i.even?} #=> [1]
+
+
+**#find or #detect**
+ -pretty much #select, but once it finds the first match, 
+  it just returns that single value: 
+
+    [1, 3, 5, 7].find do |num|
+      num.odd?
+    end
+      => 1
+
+ -#detect is just aliased to #find, rails uses #detect to
+  spearate it from a different #find function
+
+**#delete_if**
+ -if a condition is true, the value will be deleted 
+ -the return value is the partially deleted list 
+
+    [1, 2, 4, 7].delete_if do |num|
+      num.odd?
+    end
+    => [2, 4]
+
+**#any?**
+ -any? returns true or false, true if any of the items in an 
+  array meet a condition, false if not: 
+
+    words = ["are", "any", "of", "these", "words", "longer", "than", "four", "letters"]
+    words.any? do |word|
+      word.length > 4
+    end
+      #=> true
+
+ 
+**#include?**
+ -include does not take a code block, but it is an enumerable
+  and it will return true if the argument can be found in 
+  the list. it is case sensitive
+
+    [1, 2, 3].include?(1)
+      => true
+     
+    [1, 2, 3].include?(4)
+      => false
+
+**#all?**
+ -returns true or false, true if all elements meet the 
+  condition, false other wise 
+
+**#none?**
+ -returns true or false, true if none of the elements meet 
+  the condition, false other wise 
+
+
+
+**documentation** 
+ -chech this page out if you ever want: 
+
+  http://ruby-doc.org/core-2.2.2/Enumerable.html
+
+==============================================================
+w_obSSS    Interlude: #with_object
+==============================================================
+**#.with_object**
+ -#with_object is very powerful, it allows you to 
+  create and return a new object that specify (ussualy 
+  an array or hash)
+ -you can either use an enumerator then .with_object, 
+  or sometimes the shorthand version like #each_with_object
+
+    hash.each_with_object
+    hash.each.with_object
+ 
+
+ -this means the return value is a new object like map, 
+  but it allows the relative freedom of each, since each
+  iteration does not automatically send a value to the
+  new object 
+ -here's a hash: 
+
+  arr = [1,2,3,4]
+  thing = arr.each_with_object({}) do |value, result|
+   # =>  value = 1
+    result[value] = value * 2
+  end
+  puts thing
+  # {1=>2, 2=>4, 3=>6, 4=>8}
+
+  arr = {a: 1,b: 2,c: 3,d: 4}
+  thing = arr.each_with_object({}) do |(key, value), result|
+   #  key = a
+   #  value = 1
+    result[key] = key.to_s + value.to_s
+  end
+  puts thing
+  #  {:a=>"a1", :b=>"b2", :c=>"c3", :d=>"d4"}
+ 
+ -#each_with_object passes two values into the bock, 
+  the current value and the overal end object (and if the
+  object you are eaching over is a hash, you can subdivide
+  the value into a key and value)
+ -this method is great when dealing with nested hashes 
+  where you need to sort and create a new hash. you can do it
+  without needing to create a whole other variable 
+ -#each_with_object also takes an array: 
+
+  arr = %w(a b c d)
+  thing = arr.each_with_index.with_object([]) do |(value,index), result|
+   # => puts key
+    result[index] = value + "!!"
+  end.inspect 
+  puts thing
+  # ["a!!", "b!!", "c!!", "d!!"]
+
+ -note how you need each_with_index.with_object to keep
+  track of the index so you can create a new one 
+ -and how the split value always comes first, then the index
+ -the array is interesting though, since there is no 
+  counter 
+
+==============================================================
+19SSS        Understanding Yield and Blocks 
+==============================================================
+**what are blocks**
+ -as we saw with enumerables, they all need to take a block
+  of code
+ -blocks of code are defined by curly braces{} or being 
+  inside the "do" and "end" keywords
+
+
+**enumerables and blocks**
+ -the enumerable methods all manage to "yeild" a value from
+  a collection into a block, they do that under the hood
+  with the "yield" keyword
+ -you can also create enumerable functions that yeild values
+ -the yeild keyword basically pauses your method, evaluates
+  a block of code, and then comes back into your method
+ -to pass values into a block, pass them as arguments
+  with yeild: 
+
+
+    def foo
+      i = 1
+      j = 2
+      yield(i, j)
+    end 
+    # then when you call foo, provide a block
+
+    foo {|i,j| puts "#{i} #{j}"}
+
+    # here is an example with no values passed into the block
+    # and returns back to the original method: 
+
+    def yielding
+      puts "the program is executing code inside the method"
+      yield
+      puts "now we are back in the method"
+    end
+
+    yielding {puts "the method has yielded to the block!"}
+    # > the program is executing code inside the method
+        the method has yielded to the block!
+        now we are back in the method
+
+    # see how we hop over to the yeild section, then 
+    # back to the method? 
+
+**making an enumerable method with yeild and an array**
+ -we can work with an array and yield as well
+ -below is a function that will work through an array
+  and do whatever we want with each index value 
+
+    def hello_t(array)
+      i = 0
+     
+      while i < array.length
+        yield array[i]
+        i = i + 1
+      end
+
+      return array
+    end
+
+ -before we get to the block of code, lets look at how this 
+  works
+ -the loop starts and will only go for as long as the array is
+ -so then we pass over the value of the first index 
+ -then it gets evaluated and does whatever the code block does
+ -but THEN we return to the method, i is increased by one,
+  and then it starts all over again and only stops once the
+  list runs out 
+ -this is how we iterate 
+ -you can also see we are in control of the return value now,
+  more on that later
+
+ -now that we know how the method works, the block is simple:
+
+    hello_t(names) {|name| puts name.capitalize}
+
+ -so we assign "name" to the passed value of the array and
+  then capitalize it and print it 
+
+**returning values from yield and the block**
+ -getting a return value from the block is simple, just 
+  assign yield to a variable
+ -to get a map like return, where we return a new array of 
+  all our values, it's simple: 
+
+    def hello_t(collection)
+      i = 0
+      new_arr = []
+      while i < collection.length
+        new_val = yield(collection[i])
+        new_arr << new_val
+        i = i + 1
+      end
+
+      return new_arr
+    end
+ 
+ -we create a new empty array, then assign our yeild to a var
+ -now the code block will automatically get a return value
+  of the last executed statement 
+ -which then gets assigned to our variable 
+ -then just push that variable into our new_arr
+ -then, instead of returning the original array, return the
+  new one 
+ -it should be noted you could also return anythign else, like
+  just a single value or a boolean: 
+
+  # here we are returning the first value we find,
+  # where the block evaluates to true
+  # it will exit out of the method with a return statement
+  # but if we go through the whole array and find no true,
+  # the method itself returns a value of false 
+ 
+     def hello_t(array)
+      i = 0
+      while i < array.length
+        new_val = yield(array[i])
+        if new_val == true
+          return array[i]
+        end 
+        i = i + 1
+      end
+      return false
+    end
+
+
+ # here is a version of homemade #select
+
+    def my_select(collection)
+      i = 0
+      selects = []
+      while i < collection.length
+        if yield(collection[i]) == true
+          selects << collection[i]
+        end 
+        i = i + 1
+      end
+      return selects
+    end
+ 
+**making a method!**
+ -to mimic the bechavior of a mehtod that permanently alters
+  the original collection, use a method like this: 
+
+    def change!(collection)
+      i = 0
+      while i < collection.length
+        collection[i] = yield(collection[i])
+        i = i + 1
+      end
+
+      return collection
+    end
+
+ -this permanently changes the value of each index in the 
+  original array, and then returns is 
+
+==============================================================
+doSSS      interlude: {} vs do..end when sing puts**
+==============================================================
+ -generally {} are for single line blocks and do..end are 
+  for multi line blocks
+ -but, consider the following code: 
+
+  # from learn.co lab where you had to write a function to
+  # replace words in a tweet with substitutes in a dictionary
+  # method 
+  puts tweet.split.map { |word| 
+    dictionary.keys.include?(word) ? dictionary[word] : word 
+  }.join(" ")
+  # puts out the tweet correctly
+
+  puts tweet.split.map do |word| 
+    dictionary.keys.include?(word) ? dictionary[word] : word 
+  end.join(" ")
+  # <Enumerator:0x0000000147eef0>
+  # tweet_shortener.rb:19:in `word_substituter': undefined 
+  # method `join' for nil:NilClass (NoMethodError)
+  # from tweet_shortener.rb:24:in `<main>'
+ 
+ -while mostly the same, when using puts without braces to
+  define what it will pass, you can run into issues with 
+  do..end
+ -the reason for this is that {} have a slightly high priority
+  so puts wont treat the space after the first line as the 
+  end of the argument, Ruby knows that's in the middle of a 
+  block, so it will pass the whole block, no matter the space
+ -however, with do..end it isn't quite as clear where the 
+  block is apparently  
+ -of course, both {} and do..end will work fine if you 
+  use () with puts, since the interpreter now knows exactly
+  where the argument of the block ends 
+  
+  puts(tweet.split.map do |word| 
+    dictionary.keys.include?(word) ? dictionary[word] : word 
+  end.join(" "))
+
+ -if you returned the value, instead of printing it, both
+  do..end and {} work exactl as intended 
+ 
+==============================================================
+20SSS      blocks part 2
+==============================================================
+**dealing with missing blocks**
+ -ruby has the method #block_given? which can tell if a block
+  has been provided or not 
+ -to elegantly handle an ommision of a block, use a simple 
+  conditional check
+ -if you don't, and no block is given, you will get a yield
+  LocalJumpError in your code: 
+
+    def hello_t(array)
+      if block_given?
+        i = 0
+     
+        while i < array.length
+          yield(array[i])
+          i = i + 1
+        end
+     
+        array
+      else
+        puts "Hey! No block was given!"
+      end
+    end 
+
+ -you can also have the method do something more interesting
+  that output a warning, you could have it carry out an 
+  entirely different function
+
+**using &paramenters and #call**
+ -yeild is one way to pass values into a block 
+ -you could also explitilty call a block as a paratmeter for
+  your method. 
+ -a parameter starting with & is treated as a block: 
+
+    def my_method(&block)
+      puts block
+      block.call
+    end
+
+    my_method { puts "Hello!" } 
+    # => <Proc:0x0000010124e5a8@tmp/example.rb:6>
+    # => Hello!
+    # that first output is the puts block line, and it 
+    # is the proc object (more on those in the next secion)
+
+ -using &block allows us to write just "block" in our code 
+  when we are refering to it
+ -note: &parameters should always be the last parameter
+ -however, to actually jump into the block, we need to use the
+  #call method 
+
+**passing values with #call**
+ -like #yield, #call can also take arguments and pass them
+  into the block:
+
+    def my_method(name, &block)
+      puts block
+      block.call(name)
+    end
+
+    my_method("tom") {|name| puts "Hello #{name}!" } 
+
+**call vs yield**
+ -syntactically, there isn't actually a difference. They do 
+  produce different error messages, but they are basically the
+  same. Learn.co seems to favor using call in proc and lambda
+  situations and &parametes, however replacing .call with 
+  .yield will produce the same effects so far as I can tell
+
+**How does .map(&:something) work?**
+ -you may see this pattern a lot, as it is a shortcut for:
+
+    .map(&:something) # the & becomes the val passed to 
+                      # the block that the method acts on
+    .map { |val| val.some_method } 
+
+ -the way it works is that the symbol class uses the #to_proc
+  which unwraps the longer version with a block an value 
+  from the shorthand version
+ -this is commonly used to capitalize items: 
+  
+    names_array.map(&:capitalize)
+
+ -this technique can also be used to access properties on
+  objects in an array:
+  
+  class ClassRoom 
+   def initialize(students) # students is an array of student
+      @students = students  # objects with a :name property
+   end
+   
+   def list_student_names 
+      @students.map(&:name).join(',') 
+    # @students.map {|student| student.name}.join(',')
+   end 
+end
+
+**Other common uses for blocks**
+**initialize objects with default values**
+ -this is a common method for initializing an object with 
+  attributes 
+ -in the #initialize method of the class, yield and pass
+  the value "self"
+ -self in this context refers to the object being created: 
+
+    class Car
+      attr_accessor :color, :doors
+
+      def initialize
+        yield(self)
+      end
+    end
+
+    car = Car.new do |c|
+      c.color = "Red"
+      c.doors = 4
+    end
+
+    puts "My car is #{car.color} and has  #{car.doors} doors."
+
+**wrapping text in html tags** 
+ -simply put the dynamic code in a block and then 
+
+    def wrap_in_h1
+      "<h1>#{yield}</h1>"
+    end
+
+    wrap_in_h1 { "Here's my heading" }
+    # => "<h1>Here's my heading</h1>"
+    wrap_in_h1 { "Ha" * 3 }
+    # => "<h1>HaHaHa</h1>"
+ 
+ -or use blocks to then do things with html: 
+
+  def wrap_in_tags(tag, text)
+    html = "<#{tag}>#{text}</#{tag}>"
+    yield html
+  end
+
+  wrap_in_tags("title", "Hello") { |html| Mailer.send(html) }
+  wrap_in_tags("title", "Hello") { |html| Page.create(:body => html) }
+
+
+**blocks are really just like anonymous functions**
+ -they are anonymous functions that get executed when called
+  and can take values into them using #call or #yield
+
+==============================================================
+21SSS              blocks vs procs vs lambdas 
+==============================================================
+**first up, closures**
+ -a "closure" is a block of functional code with variables
+  that are bound to the environment the closure is called in
+ -closures have some important properties: 
+
+  1. it can be passed around like an object, without 
+      necessarily being one (blocks are not objects, procs
+      and lambdas are)
+  2. a closure can be defined in one scope and called in a 
+      completely different scope
+  3. it remembers the variables within its scope at the time 
+      of creation. That means when it is called in whatever
+      scope, it still has access to its original variables
+
+**blocks**
+ -you know what blocks are from previous section
+
+**procs**
+ -a "procedue" (proc for short) is a block turned into an 
+  object by being assigned to an instance of the Proc class: 
+
+    # proc, no variable: 
+      greeting = Proc.new { "Hello!" }
+       
+      greeting.call
+      # => "Hello!"
+ 
+    # proc, passed variables
+      greeting = Proc.new { |name| "Hello, #{name}!" }
+       
+      greeting.call("Amanda")
+      # => "Hello, Amanda!"
+
+    #proc insides a function
+    
+    yelling  = Proc.new {|name| name.upcase}
+
+    def hello_t(array, &yelling)
+      # notice we no longer need the block given check
+      i = 0
+      yelled = []
+      while i < array.length
+        yelled <<= yelling.call(array[i])
+        i += 1
+      end
+      print yelled
+      return yelled
+    end 
+
+    names = %w(tom tim olg)
+    hello_t(names, &yelling)
+
+ -here are some differences between procs and blocks: 
+
+    1. since it is an object, you can assign it to a local
+        variable 
+    2. a proc instance is executed using call (or yield)
+  
+    3. unlike blocks, more than one proc can be assigned
+        to a method 
+
+ -just like blocks though, they can take values in pipes
+
+
+**lambdas**
+ -lambdas are pretty much procs, with some minor diffences: 
+
+    1. Lambdas check for the right number of arguments, if
+        they don't have the right amount, they throw an error,
+        unlike procs, which just assign the value "nil"
+    2. Lambdas return to the calling method, while procs 
+        return immediately without going back to the caller
+        (this is why you exit the entire #each method if you
+          put a return satement in the block, procs and blocks
+          return out of the method they were called in. 
+          if you want to return to the method, use lambdas)
+
+ -procs and lambas are both instances of the Proc class
+ -the default value and key error are the two largest changes
+  using brackets does not allow for default if no value is 
+  found, and if no key is found, then it returns nil, instead
+  of raising an error 
+      lambda_var.class == proc_var.class 
+      # Proc
+
+ -you can call a lambda 2 ways: 
+
+    plus_one = lambda { |n| puts n + 1 }
+    shorthane_plus_one = ->(n) { puts n + 1 }
+
+ -for the most part lambdas and procs are interchangable but
+  not nearly as common in ruby as simple blocks
+ -blocks also benchmark faster since they do not need to 
+  call down an instance of Proc
+
+
+
+
+==============================================================
+rvSSS    interlude: More return values 
+==============================================================
+
+**#each does not return new values**
+ -but you can modify using the same pattern you did when you
+  wrote your own enumerable function: 
+
+def hamburger(toppings)
+  my_statements = []
+  toppings.each do |topping|
+    my_statements << "I love #{topping} on my burgers!"
+  end
+  my_statements
+end
+
+ -but really, if you want each return value, use #map 
+
+**blocks return values up multiple layers**
+
+  def all_holidays_with_bbq(holiday_hash)
+    holiday_hash.map do |season, holidays|
+      holidays.map do |holiday, supplies|
+        holiday if supplies.include?("BBQ")
+      end
+    end.flatten.compact
+  end
+
+ -the above code is a method to check if an array two hashes
+  down contains "bbq" as a value, and then return the 2nd
+  layer hash key in the form of an array 
+ -what's interesting to note is that by using map to return
+  each true value, the values get carried up throught each
+  #map statement 
+ -so the final return value is an array of arrays, 
+  -some of them are arrays with the values we need, others 
+  are just arrays with a single value of nil, so we flatten
+  the arrays together, and then use #compact to get rid
+  of all the nil values 
+ -this can all be done DIRECTLY from the block
+ -this shows a good use of dot notation to manipulate 
+  variables from within blocks, as .flatten just goes on the 
+  last "end" keyword
+  
+
+
+
+
+
+==============================================================
+22SSS    Sorting in depth  #sort, #sort_by
+==============================================================
+**comparing strings**
+ -if you use the < > operators on strings, they will sort
+  them alphabetically, with later letters in the alphabet
+  being greater than eariler (eg 1 is like a, 26 is like z)
+
+    "zoo" > "apple" 
+    true
+    "ab" > "a"
+    %w( a ab ac abb abc).sort
+    => ["a", "ab", "abb", "abc", "ac"]
+ 
+ -strings are sorted like the real world, with shorter words
+  coming before longer words, as if each missing letter was
+  a value of 0
+ -capital letters come before lowercase letters, so keep this
+  in mind
+ -it sorts numbers smallest to largest, ints and floats 
+  together are fine
+
+**#sort under the hood**
+ -ruby's #sort is an enumerable method that passes two values,
+  the two values next to each other in a collection 
+ -they are then compared in this maner: 
+
+    array.sort do |a, b|
+      if a == b
+        0
+      elsif a < b
+        -1
+      elsif a > b
+        1
+      end
+    end
+ 
+ -this is how #sort undestands how each value compares to 
+  those in the array, by getting 1,0,-1
+ -if a is smaller than b, they are not swapped, if a is 
+  bigger, they are. If they are equal, they are not.
+ -actually, it's not quite that simple, since #sort uses
+  quicksort algorithm, but the fundamental idea is that's how
+  it gets the values, how it optimizes is irrelevant at the 
+  moment
+ -#sort does not need a block to work, the above code does
+  not change the behavior, however, providing a block will
+  allow you to override it 
+
+**spaceship operator <=>**
+ -to do this in a single line of code, use the <=>
+ -the <=> operator takes two values, and if the first is
+  smaller than the second, it = -1, if larger, it's 1, 
+  if the same, 0
+ -the above 7 lines of code can be replaces with:
+
+    a <=> b
+
+ -using the spaceship operator allows for much easier 
+  changing of the sort method
+
+**other #sort modes**
+ -the simplest is reversing it: 
+
+    array.sort {|a, b| b <=> a}
+
+ -by swapping a and b in the spaceship (but not the | |)
+  the order will now reverse alphebet, and largest to 
+  smallest
+ -you can use other aspects than just
+  their value or alphabet, here we sort words by length: 
+
+    array.sort {|a, b| a.length <=> b.length}
+    # smallest length to largest 
+    array.sort {|a, b| b.length <=> a.length}
+    # largest length to smallest 
+
+ -HOWEVER if you want to sort hashes, you need the 
+  #sort_by method: 
+
+**#sort_by**
+ -sort_by allows you to sort by a specific code
+  block, which is useful when you need to sort by something
+  like the index of the value in another array (see the alpha
+  esperanto example down below) or just the value of a hash:
+
+    metrics = {"sitea.com" => 745, 
+      "siteb.com" => 9, 
+      "sitec.com" => 10 
+      }
+    metrics.sort_by {|_key, value| value}
+      # ==> [["siteb.com", 9], 
+              ["sitec.com", 10], 
+              ["sitea.com", 745]]
+     
+ -if the value is a hash or multidimensional, just use
+  brackets connected to the value bareword
+ -as you can see, sort_by returns an array of arrays, the 
+  second layer of which is [key,value] 
+ -so to access say, the key assosciated with the largest 
+  value tested, you would do 
+  
+  #{Kobe:{shoe:14,points:104...},lebron:{shoe:15,...
+    nba_players_stats.sort_by do |_key, value| 
+      value[:points]
+    end[-1][0].to_s
+
+ -so that will return "Kobe", since that is the first value 
+  in the last array 
+
+**reversing #sort_by**
+ -the fastest way to reverse a sot_by array is to simply
+  reverse it using .reverse 
+
+
+**sorting arrays in arrays**
+ -if you have an array of arrays 
+
+  arr = [[1,2],[3,4],[1,3],[1,1]]
+
+ -arr.sort sorts them like so
+
+    [[1,1],[1,2],[1,3],[3,4]]
+
+ -this means that sort and sort_by compare each array and each index
+  to each other, and the shorter ones go in front, just like you do
+  when you compare similar words alphabetically
+ -here, we use a new alphabet to sort phrases 
+
+ESPERANTO_ALPHABET = " abcĉdefgĝhĥijĵklmnoprsŝtuŭvz"
+
+def alphabetize(arr)
+  arr.sort_by { |a| a.split("").map{ |char| ESPERANTO_ALPHABET.index(char) } }
+end
+
+
+==============================================================
+insSSS        Interlude #inspect
+==============================================================
+**inspect**
+ -use the inspect method to make an object a human 
+  readable string 
+
+  [ 1, 2, 3..4, 'five' ].inspect   
+    #=> "[1, 2, 3..4, \"five\"]"
+  Time.new.inspect                 
+    #=> "2008-03-08 19:43:39 +0900"
+
+  class Foo
+  end
+  Foo.new.inspect                  
+    #=> "#<Foo:0x0300c868>"
+
+ -this is useful for puts and arrays, 
+
+    puts arr.inspect
+
+ -now instead of getting each value on its own line,
+  you get one nice string
+
+//////////////////////////////////////////////////////////////
+      HASHES 
+**what are hashes**
+ -they are the key value pair data structure of Ruby, 
+  sometimes referred to as dictionaries
+
+**creating a hash
+ -make a new instance of the hash class, or use the literal
+  method 
+
+   new_hash = Hash.new
+   newer_hash = {}
+
+**adding values/keys**
+ -the keys and values can be any data type and should be 
+  separated by a =>, and each key/value is separated by a 
+  comma (that => is called a "hash rocket" becuase it kind
+  of looks like one)
+
+  pets = {"cat" => "maru", 
+      "dog" => "pluto", 
+      "total pets" => 2
+    }
+  # this is how you do multi line hashes 
+
+ -after an array is created, you can add pairs like so: 
+
+   new_value["new key"] = "new value"
+
+**modifying values**
+ -just assign the old key a new value: 
+
+    pets["cat"] = "Hobbes"
+ -this is why keys MUST be unique since if you try to 
+  "add" a new key that already exists, ruby will just 
+  overwrite the original value of the key with the new value
+ -if the value is a number, you can use the += *= -=, etc
+  operators 
+
+  shipping_manifest = { "whale bone corsets" => 5, }
+  shipping_manifest["whale bone corsets"] += 4
+  # now there are nine corsets
+ 
+**accessing values**
+ -to get the value:
+   -use bracket notation, but inside it just put the key: 
+ -to get the key: 
+   -use the #key method and pass the value as an argument
+
+      pets["dog"]
+      # Pluto
+      pets.key("Pluto")
+      # dog
+      pets.key("xorblua")
+      # nil
+      # if the value isn't found, #key reutrns nil
+      
+**#delete keys**
+ -simple, just use the delete method, like an array, but 
+  give the key instead of index or value:
+
+        hash = {"key"=>"val"}
+        hash.delete("key")
+        # => returns value of key, "val"
+        hash
+        #=> {}
+
+
+**hashes are unordered**
+ -the data inside is associated only by key, not order
+ -this is why we use the []= to add new items, not <<
+  since that adds item to the "end" of a list, but hashes
+  don't really have beginnings or endings in that sense
+
+//////////////////////////////////////////////////////////////
+              SYMBOLS
+**what are sybols**
+ -symbols are a special class of object they are essentially
+  immutable strings, with a non changing object id
+ -they look like strings behind colons
+
+    :symbol
+
+**immutability and size**
+ -because every string can change, Ruby creates a new memory
+  location for every string so that even if it changes, it 
+  will point to the same place
+ -so two strings called "steven" will have different object 
+  ids to account for this ability to change 
+  
+  "steven".object_id == "steven".object_id 
+  # false 
+
+ -symbols can't change, and therefore two identical symbols 
+  will literally be the same object 
+
+    puts :steven.object_id
+    puts :steven.object_id
+    puts :steven.object_id
+     
+    # > 1093988
+    # > 1093988
+    # > 1093988
+ 
+ -so if you know a string never needs to change, it improves
+  performance to use symbols 
+
+**symbols are perfect hash keys**
+ -since all hash keys must be unique and can't change, they
+  are literally perfect use cases for symbols: 
+
+  flatiron_school = {:instructor => "Isaac Newton"}
+
+ -in fact, symbols are so perfect, there's even a great 
+  shorthand for it that forgoes the rocket ship: 
+
+    flatiron_school = {instructor: "Isaac Newton"}
+    # => {:instructor=>"Isaac Newton"}
+
+
+//////////////////////////////////////////////////////////////
+        NESTED HASHES 
+**arrays and hashes can store any kind of data**
+ -you can store hashes in an array, arrays in hashes, 
+  and multi dimensional as far down as you feel like 
+ -to access each level, use either either index or 
+  keys depending on the level
+
+  teachers = {
+    grade_4: ["mr. bob", "mrs. sally", "ms. jeane"],
+    grade_5: ["ms. kane", "mrs. mill", "mr. jeane"],
+    grade_6: ["mrs. spa", "ms. rachel", "mrs. joe"],
+    faculty: {admin: ["mr. bill", "ms. knots"],
+              principals: ["mrs. sarah", "mr. carr"],
+              janitor: "mr. don"
+              }
+  }
+
+  teachers[:grade_4][0]
+  => "mr. bob"
+  teachers[:faculty][:principals][0]
+  => "mrs. sarah"
+
+  # remember, each step of nest returns the object, 
+  # so here we have an array object, so we can << to it 
+  teachers[:grade_4] << "mr. dascomb"
+
+**chrome extension**
+ -get a json viewer to save time trying to read nested tables
+    
+
+
+//////////////////////////////////////////////////////////////
+              HASH ITERATION-EACH/COLLECT
+**#each iteration over hashes**
+ -basically the same, but now we have key and value:
+
+    hash = {key1: "value1", key2: "value2"}
+     
+    hash.each do |key, value|
+      puts "#{key}: #{value}"
+    end
+
+ -the return value is the original COLLECTION, so it will 
+  be the original hash in this case, not an array
+
+**#map/#collect on hashes**
+ -same as each, HOWEVER it still returns an array of new
+  returned values, not a hash like you might expect
+
+    birthday_kids = {
+        "Timmy" => 9, 
+        "Sarah" => 6, 
+        "Amanda" => 27
+    }
+     
+    birthday_kids.map do |kids_name, age|
+        age
+    end
+     
+    # => [9, 6, 27]
+
+# prereqs: iterators, hashes, conditional logic
+# Given a hash with numeric values, return the key for the smallest value
+
+def key_for_min_value(name_hash)
+  min_value = Float::INFINITY
+  name_hash.each do |key,value|
+    min_value = value if value < min_value
+  end
+  return name_hash.key(min_value)
+end
+# ikea = {:chair => 25, :table => 85, :mattress => 450}
+# key_for_min_value(ikea)
+
+//////////////////////////////////////////////////////////////
+        MORE HASH STUFF 
+
+
+  Hash methods to check out 
+    #key
+    #keys
+    #values
+    #min
+    #sort_by
+    #min_by
+    #compact  -removes nil values 
+
+
+**#fetch**
+ -the fetch method works just like [] for indexed arrays,
+  but it does have some differnces with hashes
+
+    fetch(key_name): get the value if the key exists, 
+      raise a KeyError if it doesn't
+    fetch(key_name, default_value): get the value if the 
+      key exists, return default_value otherwise
+    fetch(key_name) { |key| "default" }: get the value 
+      if the key exists, otherwise run the supplied block 
+      and return the value
+
+ -the default value and key error are the two largest changes
+  using brackets does not allow for default if no value is 
+  found, and if no key is found, then it returns nil, instead
+  of raising an error 
+
+
+**using #find with hashes**
+ -as you know, find returns the value when the test was true:
+
+  [1, 3, 5, 7].find do |num|
+      num.odd?
+    end
+      => 1
+ 
+ -but when you use it on a hash it will return the key and 
+  value of the iteration it stopped at inside an array, with
+  the key value at index 0, and the value at index 1
+ -so if you can rememer, this code is from learn.co where 
+  there was a hash game_hash that had two keys, :home and 
+  :away, here was a common use of #find to return  
+ 
+def find_team(team)
+  game_hash.find do |location,details|
+    game_hash[location][:team_name] == team
+  end
+end
+
+find_team("Brooklyn Nets")
+#=> [:home,
+     {:team_name=>"Brooklyn Nets",
+      :colors=>["Black", "White"],
+      :players=>
+       {"Alan Anderson"=>
+         {:number=>0,
+          :shoe=>16,
+          :points=>22,
+          :rebounds=>12,
+          :assists=>12,
+          :steals=>3,
+          :blocks=>1,
+          :slam_dunks=>1},
+        "Reggie Evans"=>
+         {:number=>30,
+          :shoe=>14,
+          :points=>12,
+          :rebounds=>12,
+          :assists=>12,
+          :steals=>12,
+          :blocks=>12,
+          :slam_dunks=>7},
+      "Jason Terry"=>
+         {:number=>31,
+          :shoe=>15,
+          :points=>19,
+          :rebounds=>2,
+          :assists=>2,
+          :steals=>4,
+          :blocks=>11,
+          :slam_dunks=>1}}}]
+
+ -now, if you don't want the array, just specify which 
+  index you want, the key or the value, after the last 
+  end block
+ -useful in this case, since we want to chain methods that
+  apply to the hash, not the key: 
+
+ def find_team(team)
+    game_hash.find do |location,details|
+      game_hash[location][:team_name] == team
+    end[1]
+  end
+
+//////////////////////////////////////////////////////////////
+   SHORT CIRCUITING, ||=, &&=
+
+**what is logical short circuiting?**
+ -if the first value in a || is true, 
+ -if the first value in a && is false,
+  then the second value does not get evaluated, 
+  since it doesn't matter what it is, the statement is already
+  set (|| can't be false, since the first val is true, 
+  && can't be true since the first is false) 
+
+**short circutiing is useful for assigning variables**
+ -if you are looping or setting up a new hash and aren't sure
+  if a hash has been set for this iteration already, using the
+  ||= is a great way to assign a value if it hasn't been yet,
+  or leave it alone if it has 
+
+**a ||= b** 
+ -what the ||= means is that if a is set to false or nil, 
+  then set it to be equal to b, otherwise, set it to be 
+  equal to itself 
+ -expanded out, this is what it behaves like: 
+
+    a || a = b 
+ 
+ -it's short circuiting, since if a is truthy (anything but
+  nil or false in Ruby), the second expression isn't 
+  evaluted, so its value is set
+ 
+**a &&=b**
+ -is the reverse, if a variable is false or nil, it will 
+  remain in that state, but if it is anything other than 
+  that, it is overwritten 
+ -not sure the application for this 
+
+
+
+//////////////////////////////////////////////////////////////
+        RUBY SPLAT OPERATOR 
+
+**the *splat operator**
+ -put the splat operator in front a parameter in a method 
+  assingment and it will turn that parameter into an array
+  that can accept 1..any arguments. primarily used when an
+  unknown number of args will be passed
+
+    def say(what, *people)
+      people.each{|person| puts "#{person}: #{what}"}
+    end
+     
+    say "Hello!", "Alice", "Bob", "Carl"
+    # Alice: Hello!
+    # Bob: Hello!
+    # Carl: Hello!
+
+ -unlike the rest operator though, it does not have to 
+  come at the end:
+
+    def say(*people, what)
+      people.each{|person| puts "#{person}: #{what}"}
+    end
+     
+    say "Alice", "Bob", "Carl", "Hello!"
+    # Alice: Hello!
+    # Bob: Hello!
+    # Carl: Hello!
+
+ -ruby just knows to essentially say "ok, everything is in
+  the splat array EXCEPT the last parameter"
+ -it can also go in the middle, and ruby will figure it out
+ -you can use as many parameters as you like, but only one
+  splat per assignment 
+
+**passing in arrays**
+ -you don't need to pass in separate values, if you pass in
+  an array, ruby will just use the values of the array: 
+
+    people = ["Rudy", "Sarah", "Thomas"]
+    say "Howdy!", *people
+    # Rudy: Howdy!
+    # Sarah: Howdy!
+    # Thomas: Howdy!
+
+ -just be sure to use the splat operator in front of the 
+  array you want to splat 
+ -however, since all the splat operator does to an array is 
+  take out and pass individual values, you don't need to use 
+  a splat operator in the original method parameter, IF your
+  array has the same number of values as the method needs: 
+
+    def add(a,b)
+      a + b
+    end
+     
+    pair = [3,7]
+    add(*pair)
+    # 7
+
+**array destructuring** 
+ -first, be aware of these tricks you can use to assign 
+  variables:
+
+    a,b = 1,2               # Assign 2 values at once
+    a,b = b,a               # Assign values in parallel
+    puts "#{a} and #{b}"
+    # 2 and 1
+ 
+ -the comma allows for multiple assignments in a single line 
+  on opposite side of the =
+ -with that in mind: 
+
+    first, *list = [1,2,3,4]          
+    # first= 1, list= [2,3,4]
+    *list, last  = [1,2,3,4]          
+    # list= [1,2,3], last= 4
+    first, *center, last = [1,2,3,4]  
+    # first= 1, center= [2,3], last=4
+ 
+    # Unquote a String (don't do this)
+    _, *unquoted, _ = '"quoted"'.split(//)
+    puts unquoted.join
+    # quoted
+
+**Array coercion**
+ -a useful way to turn strings into arrays in variable 
+  assignments, or a simple shorthand when .to_a is too long: 
+
+    "Hello".to_a      #=> error
+    *"Hello"          #=> error
+    a = "Hello".to_a  #=> error
+    a = *"Hello"      #=> ["Hello"]
+    a = *(1..3)       #=> [1, 2, 3]
+    a = *[1,2,3]      #=> [1, 2, 3]
+//////////////////////////////////////////////////////////////
+          MONKEY PATCHING 
+**altering/adding methods to Ruby classes**
+ -monkey patching is when you go into a base Ruby class
+  like Array, Hash, String etc, and either add your own 
+  methods or alter the behavior of builtin ones 
+ -GENERALLY, it is avoided, especially altering methods,
+  but you can just add your own utility methods if they
+  have no weird side effects without trouble 
+ -this is considered best practice since altering methods 
+  makes it much harder for others to collab
+ -here is an example of adding a new method 
+
+class Hash
+  # when passed a value, it will return an array of all keys 
+  # associated with that value 
+  def keys_of(*arguments)
+    keys = arguments.map do |argument|
+      self.map {|k,v| k if v == argument}.compact
+    end.flatten
+    return keys.length != 0 ? keys : nil 
+    # just to be nice, a nil value if no keys are found
+  end
+end
+
+# and here it is in action
+animals = {"sugar glider"=>"Australia","aye-aye"=> "Madagascar","red-footed tortoise"=>"Panama","kangaroo"=> "Australia","tomato frog"=>"Madagascar","koala"=>"Australia"}
+
+animals.keys_of("Australia")
+# => ["sugar glider", "kangaroo", "koala"]
+animals.keys_of("Aulia")
+# => nil
+
+https://hackhands.com/three-golden-rules-understand-self-ruby/
+
+
+
+
+
+//////////////////////////////////////////////////////////////
+        CLI Programs 
+**using a bin file**
+ -if you hvae an executable file, it does not need to 
+  have the .rb extension, in fact, it is good practice to 
+  leave it off 
+ -however at the start of the file, you MUST include: 
+
+  #!/usr/bin/env ruby
+
+ -or wherever your ruby file is
+ -this is called a shebang, and it tell BASH where to look 
+  for ruby in order to run the file 
+ -you can then use ruby code, like a  require_relative: 
+
+    require_relative "../lib/jukebox"
+ 
+ -which links to the actual ruby file with the code, and then
+  just use a simple runner method 
+
+    run(songs)
+
+ -to run the command 
+ -kinda seems dumb on a small scale when you can just alias 
+  the file ot a command but whatever 
+
+
+//////////////////////////////////////////////////////////////
+          STUBBING MORE IN DEPTH WITH RSPEC 
+**stubbing is required for testing**
+ -since RSpec can't get user input, it has to fake it : 
+
+
+it "can use a full song name to find a song" do
+  allow(self).to receive(:gets).and_return("Phoenix - 1901")
+  expect{ play(songs) }.to output(/Phoenix - 1901/).to_stdout
+end
+
+ -we are telling "self" (the method we are testing) to recieve
+  a fake "gets" call, and then artificially return an input
+  of "Phoenix..." 
+ -now, when we call the play method, when it gets to the 
+  gets.chomp line, it will look back and see "Phoe.." is the
+  output, which allows the test to continue 
+
+**classes stubbing with gets**
+ -that above example uses loose functions, which is why
+  self recieves gets 
+ -HOWEVER if you have a class that needs to accept gets,  
+  then use the class name, not this
+ -here we have an instance of Encoder called machine, and 
+  it requires a single get value:  
+
+  context "run test" do
+    it "should take a gets" do
+      machine = Encoder.new
+      expect(machine).to receive(:gets).and_return("abc")
+      expect{machine.encode}.to output(/[a-z]{3}\s+cipher: \d*/).to_stdout
+    end
+  end
+
+ -in fact, #encode itself calls another method #get_user_msg
+  which takes the #gets, so you can see that the the #recieve
+  method really does just store a gets value until it is 
+  needed
+
+
+**output matches** 
+ -NOTE: this may be a learn exclusive 
+ -basically what it does is replace Ruby's $stdout with a 
+  given value 
+ -this allows us to test expected output 
+
+
+ 
+
+//////////////////////////////////////////////////////////////
+            JSON
+ -JSON is a multilangauge file even though it is called 
+  Javascript Object Notation
+ -it basically stores lists and hashes for you to use 
+  and save from program to program
+
+    require 'json'
+tempHash = {
+    "key_a" => "val_a",
+    "key_b" => "val_b"
+}
+
+
+File.open("test.json","w") do |f|
+  f.write(tempHash.to_json)
+end
+
+
+file = File.read('test.json')
+data_hash = JSON.parse(file)
+puts data_hash.keys
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////
+        YAML
+ -YAML is recursive for "YAML aint markup language"
+ -it's basically just a more human readable format 
+ -it's a superset of JSON, so YAML can read JSON, JSON can't
+  read YAML
+ -here is an array 
+
+    # fruits.yml
+    - Apple
+    - Orange
+    - Strawberry
+    - Mango
+
+ -here is a hash
+
+    # government.yml
+    president: Barack Obama
+    vice president: Joe Biden
+    secretary of state: John Kerry
+    secretary of the treasury: Jacob Lew
+
+ -using it in ruby: 
+
+    #rubyfile
+    require "yaml"
+    gov = YAML.load_file('government.yml')
+     
+    gov
+    # => 
+    # {
+    #   "president" => "Barack Obama",
+    #   "vice president" => "Joe Biden",
+    #   "secretary of state" => "John Kerry",
+    #   "secretary of the treasury" => "Jacob Lew"
+    # }
+
+ here is the YAML docs if it ever becomes relevant 
+  http://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html
+(be sure that is wide enough to take up one line)
+ 
+
+
+//////////////////////////////////////////////////////////////
+      BENCHMARKING 
+**see if your program is faster**
+ -benchmarking is critical to understand how efficient your
+  program is 
+
+**setup/code**
+ -here's the basic setup 
+
+      
+    require 'benchmark'
+
+    # ruby code and stuff here 
+
+    puts Benchmark.measure { method_to_test }
+
+ -now that benchmark will output this to the console
+
+    0.310000   0.040000   0.350000 (  0.339958)
+    
+ -user cpu, system cpu, user+system, literal clock time 
+ -generally people are only concerned with the last one
+ 
+**much better way with bm** 
+ -the bm method method lets you test an entire block
+ -it also lets you test multiple ways and see them side by
+  side 
+ -and since it's a block, you can set it to to run a number
+  of times 
+ -to keep track of each test, the report method can take 
+  a string argument descriptor 
+ -here's the syntax, and below is actual code: 
+
+  Benchmark.bm do |bm| # the bm method passes the benchmark
+
+  bm.report('desctiption') do
+      #code to test 
+  end
+
+ -and here is an actual example and what it outputs 
+    require 'benchmark'
+
+    # ruby code and stuff here 
+
+    iterations = 100000
+
+    Benchmark.bm do |bm| # the bm method passes the benchmark
+    # joining an array of strings
+    bm.report('Concatenation method') do
+      iterations.times do
+        ["The", "current", "time", "is", Time.now].join(" ")
+      end
+    end
+
+    # using string interpolation
+    bm.report('Interpolation') do
+      iterations.times do
+        "The current time is #{Time.now}"
+      end
+    end
+
+
+# this is what it will be outputting to the console
+                            user   system    total       real
+Concatenation method    0.540000 0.010000 0.550000 ( 0.556572)
+Interpolation           0.410000 0.010000 0.420000 ( 0.413467)
+
+
+**bmbm method**
+ -sometimes tests can slowed down because ruby has to create 
+  a lot of objects, and then the memory allocation and 
+  garbage collecting procedures can skew the results 
+ -if this is the case, then use the benchmark#bmbm method 
+  essentially runs a practice to make sure the test is ready
+  first 
+
+require 'benchmark'
+
+array = Array(1..10_000_000)
+
+Benchmark.bmbm(7) do |bm|
+  bm.report('reverse') do
+    array.dup.reverse
+  end
+
+  bm.report('reverse!') do
+    array.dup.reverse!
+  end
+end
+
+
+
+============================================================
+
+                      RUBY CLASSES
+
+============================================================
+////////////////////////////////////////////////////////////
+MAIN STRUCTURE
+SSSSSSSSSSSS%
+class Baby   
+  @@all = []  
+  attr_accessor :name, :weight, :eye_color 
+  attr_reader :birthday #4 
+
+def initialize(name) #5 # "Hook /callback/lifecycle event
+    @name = name
+    @birthday = Time.now
+    @@all << self 
+    cry
+  end
+
+  def self.all # Class Method (Class Reader)
+    @@all
+  end 
+
+  # Instance Method -represents and objects ability to have logic
+  def cry 
+    puts "WAAAAAAA"
+  end
+
+  def weight=(weight)    #writer
+    @weight = weight 
+  end
+
+  def weight             # reader
+    @weight
+  end
+
+  def self.find_baby(name)
+    @@all.find {|baby| baby.name == name}
+  end
+end
+
+**Classes overview**
+ -some things to know is that Ruby is "pure" OO, so by default
+  all data inside them is private, and can only be accessed  
+  with methods
+ -this is part of the principle of encapsulation
+
+**what is "main" and implicit/explicit methods, and self**
+ -when you just leave a method out of nowhere like "puts",
+  how does that work? it's a method, so where is its object? 
+
+      puts "hello there"
+      # where is object like: 
+      "hello".capitalize
+      # the string is clearly what the method operates on
+
+ -when you just put a word, Ruby first checks to see if it is 
+  a variable, if it doesn't come up with anything, it assumes
+  it's a method operating implicitely on the "self" object 
+  
+    puts 
+    # implicit reciever of self 
+    self.puts 
+    # explicit reciever of self 
+    # both of these are exactly the same 
+
+ -so if your outside of a class, the scope we call main is
+  actually an object, and that's why it's called the 
+  main object, so it's the main scope
+ -inside a class it refers to the class itself, if it's 
+  inside a method, it will refer to the new object 
+
+    def initialize
+      self.cry
+    end
+    # self here refers to the instance of baby
+    # its the same as lil_joe.cry
+
+    def cry 
+      puts "WAAAA"
+    end
+
+    def self.all=(all)
+      @@all = all
+    end
+    # this self refets to the Baby class itself 
+    # here, the self refers to the actual instance of Baby
+
+**when to use self**
+ -look at the two lines below 
+
+    ...
+      name = "this is my name"
+      self.name = "what about this?"
+    ...
+
+ -so, if you just saw name, is it a local variable called
+  name or is it calling the method weight=? 
+ -because of this ambiguity, it is best in most cases to
+  refer to methods with explicit recievers so they do not
+  look like local variables 
+ -and while self.name and @name are largely the same, we
+  will get into it later why methods should use self. and 
+  instance variables @
+
+**more on self**
+ https://hackhands.com/three-golden-rules-understand-self-ruby/
+
+
+////////////////////////////////////////////////////////////
+        MAIN STRUCTURE BREAKDOWN
+**creating a class**
+ -use the lowecase class keyword to create a new class
+  
+    class Baby 
+     # code 
+    end
+
+ -then to instantiate a new object, use the "new" keyword
+
+    sam = Baby.new("sammy")
+
+
+**class variables**
+ -three types : local, instance, constant, class: 
+    local: a local variable available only in its scope,  
+           so within its method or in the class, but not
+           the methods 
+    @instance: instance variables star with an @, which 
+               refers to the object, they are available
+               anywhere within each object, an objects 
+               methods all have access to them, but only  
+               each individual object 
+    Constants: same rules as always 
+    @@class: @@class variables are available to the entire
+             class of objects, for instance, a common use
+             is to add each newly created method to an array
+             so each object knows how many there are.
+             @@class variables are declared at the top of a
+             class 
+
+ -in ruby, these variables are called "attributes" when in
+  a class, other langs call the properties 
+
+**initializing a class**
+ -#initialize is a built in method that gets called each time
+  a new object is created 
+ -it can take areguments and then pass them into instance
+  class and local variables 
+
+      def initialize(name) 
+          @name = name
+          @birthday = Time.now
+          @@all << self 
+          self.cry
+      end
+
+ -notice how a bareword is stored as an instance variable,
+  an instance variable is set a value not reliant on a 
+  parameter (@birthday), a class variable (which was an 
+  array), and a method is called and run 
+ -the #initialize method is often called a hook,callback
+  or lifecycle event becuase it often calls other methods
+  inside it (any method that does that is also called those
+  things)
+ -initializing is not required, it is only needed if you 
+  want to extend its functionality, it is NOT mandatory
+
+**instance methods**
+ -classes encapsulate methods, these are defined just like
+  standalone methods 
+ -you can create your own methods, but there are also 
+  a lot of built in instance methods that all objects 
+  automatically respond to 
+ -see them with #methods 
+
+    fido = Dog.new
+    fido.methods
+    # big list
+
+**readers and writers**
+ -readers are getters and writers are setters, it's just
+  a different terminology
+
+      def weight=(weight)    #writer
+        @weight = weight 
+      end
+
+      def weight             # reader
+        return @weight
+      end
+
+ -the only weird thing to note is that it's weight=, that 
+  is because when you call for instance 
+  
+    lil_baby.weight = 10
+
+ -you are TECHNICALLY calling the .= method on lil_baby
+  instance, it's just syntactical sugar 
+ -this is reflected in the name of the writers, they must 
+  end in =, and there is no space between the parens()
+
+      name=(fine)
+      name= parens-omitted-also-works-one-space
+
+ -readers are the main way of getting data out, and writers
+  and initialize getting data in
+
+
+**writer/reader shorthand: attr_**
+ -if your reader and writers are as simple as: 
+
+    def weight=(weight)    #writer
+      @weight = weight 
+    end
+
+    def weight             # reader
+      return @weight
+    end
+
+ -then there's a great shorthand that goes at the top of 
+  the class: 
+
+  attr_accessor :weight 
+
+ -that single line means your code acts as if you wrote 
+  the previos 6
+ -better yet, you can do several: 
+  
+    attr_accessor :name, :weight, :eye_color 
+
+ -even though they are symbols, still use regular dot
+  notation in your code 
+
+    lil_baby.weight = 12
+    puts lil_baby.weight 
+
+ -if you only need the writer or, more commonly, the reader
+  then use attr_writer and attr_reader 
+
+    attr_writer :name, age
+    attr_reader :hair, height 
+
+ -those now only have their writer or reader functions, as
+  specified
+ -these only work for @vars not @@vars, you have to write out
+  each @@var read and write function 
+**setting @variables with a method**
+ -now, there is a Ruby method that just sets a @var: 
+
+    kanye.instance_variable_set(:@name, "Yeezy")
+
+ -and here's the one for getters: 
+
+    kanye.instance_variable_get(:@name)
+
+ -however this is ugly, no one uses it, they call it 
+  syntactic vinegar 
+
+
+**scope accessor :: **
+ -the scope accessor is how you get access to class level 
+  scope variables
+ 
+    Baby::all
+    # array of all baby objects 
+
+ -if you find yourself pulling data a lot this way, you 
+  should restructure your class so that it is a proper 
+  method 
+
+**ruby reads class body once**
+ -consider: 
+
+    class foo
+      puts "hello"
+    end
+
+    puts "start"
+    foo.new
+    foo.new
+    foo.new
+    foo.new
+    puts "end"
+
+    # => "hello start end" 
+
+ -ruby only reads and executes the class body once and 
+  immediately when it comes across it, any arbitrary code 
+  in your class body will be executed as if it were in 
+  the main scope 
+ -if code is inside a method or initialize, it is only 
+  run when .new is used or the method is called on the object
+
+**methods vs variables** 
+ -it is considered best practice to try to deal with 
+  methods that set and get values, vs putting everything 
+  as refering to the variables themselves
+ 
+**defining methods in main scope** 
+ -like JS, you can define new methods on individual objects in
+  the main scope, as well as the entire new class: 
+
+    #single object 
+  
+    sam = Baby.new("sam")
+    pete = Baby.new("pete")
+    
+    def sam.eat
+      puts "munch munch"
+    end 
+
+    sam.eat 
+    # will put "munch munch" 
+    pete.eat 
+    # nomethoderror 
+
+ -so if you define the method using the object itself and then
+  the method you want with dot notation, that specific object
+  and only that object will have the new method  
+
+  #entire class
+
+  def Baby.snooze
+    puts "zzz"
+  end
+
+  Baby.snooze 
+  # zzz
+
+  sam.snooze 
+  # nomethoderror, it's jsut for the Baby class
+
+ -so the same logic, but even less applicable 
+ -altering the baby class to give it methods will not affect
+  the indeividual objects, UNLESS that new methods affect 
+  the class variables, and there is another instance method 
+  that has access to those class variables
+ -but that is not common nor good practice
+    
+
+
+
+
+
+
+////////////////////////////////////////////////////////////
+    PROCEDURAL VS OO
+*what;'s procedural**
+ -procedural code is when you have data and then procedures
+  for interacting with that data 
+ -data and the instructions for it are treated as 2 separate
+  things 
+ -OO on the other hand has units of code called "objects"
+  that both store and manipulate the data 
+
+**main issues with procedural**
+ -all functions need to take in arguments, the same args, 
+  to function, which can lead to breaking if arguments are
+  changed, renamed, or altered in some unexpected way 
+ -OO can instead rely on internal state of the object so 
+  that is is a much cleaner approach without so many 
+  args being passed over and over 
+ -it also allows you to instantiate as many new objects as 
+  you want, instead of somehow duplicating all your data 
+  tables 
+ -functional (or procedural) programming has it's uses, 
+  but if you are mimicking objects, use OO 
+
+**moving from procedural to OO**
+ -here are some common things to look for: 
+
+  1. find any data your object needs and put it into 
+     #initialize
+  2. find commonly passed around arguments and put them
+     into instance variables 
+  3. place loose code into a method and then refactor as 
+     many times as needed so each method really only does 
+     one thing 
+
+ -anything procedural can work OO, it just needs adjusting
+
+////////////////////////////////////////////////////////////
+        INHERITANCE, SUBCLASSES, SUPERCLASSES 
+**what is inheritance**
+ -consider a main class, thing, that inits a name and weight
+  of an item. Then you have another class treasure, that 
+  initializes a name, weight, and values, and THEN you have
+  a class called ship that does name, weight, and speed, 
+  it makes sense to have those two be children of thing: 
+
+    class Treasure < Thing 
+
+ -that is how you tell Ruby to use all the Thing methods 
+  in your new class 
+
+**initializing a sub class**
+ -so name and weight are initialized in thing, but when 
+  we call a new Ship, we can't also call a new Thing: 
+
+    maria = Ship.new("Maria", "10 tons", "5 knots")
+ 
+ -you have to send the initialized values up to the 
+  super class Thing: 
+
+  # This passes a, b, c to the superclass 
+  def initialize( a, b, c, d, e, f ) 
+    super( a, b, c ) 
+  end 
+  
+  # This passes a, b, c to the superclass 
+    def initialize( a, b, c ) super 
+  end 
+  
+  # This passes no arguments to the superclass 
+  def initialize( a, b, c) 
+    super() 
+  end
+
+**subclass and superclass methods** 
+ -if you call a mehtod on a subclass, and ruby can't find 
+  a method on that subclass that matches, it will then
+  search the parent 
+ -this is the powerful reason for sub classes, you can just
+  borrow methods, even #initialize 
+
+**#superclass and #instanceof?##
+ -check if an object is an instance of a class with 
+    
+      thing.instanceof?(OtherThing)
+
+ -check to see what the parent class of an object is 
+
+    obj.superclass 
+  
+ -the Ruby Main object has not superclass, it will return
+  nil
+
+
+**scope operator to call class in a class**
+
+  class X 
+    A = 10 
+    class Y 
+    end 
+  end
+
+ -so if you ever LITERALLY sub a class, remember that since
+  class names are capitals, they are constants, so you 
+  could create a new subclass like: 
+
+    ob = X::Y.new
+
+ -NOTE: ordinarily, subclasses are not IN their parents
+
+**Partial Classes**
+ -classes do not have to be defined all in one place: 
+
+class A 
+  def a 
+    puts( "a" ) 
+  end 
+end
+ 
+class B < A 
+  def ba1 
+    puts( "ba1" ) 
+  end 
+end 
+
+class A 
+  def b 
+    puts( "b" ) 
+  end 
+end 
+ 
+class B < A 
+  def ba2 
+    puts( "ba2" ) 
+  end 
+end
+
+ -this is perfectly legal and all methods will be available
+  no matter what part of the class they were defined in: 
+
+  ob = B.new 
+  ob.a 
+  ob.b 
+  ob.ba1 
+  ob.ba2
+
+ -this is actually how monkey patching works, since the 
+  main class, Array, for instacne, is defined elsewhere
+  but you can add to it on your own like this: 
+
+    class Array
+      def gribbit
+        puts( "gribbit" ) 
+      end 
+    end
+
+    [1,2,3].gribbit
+
+ 
+
+////////////////////////////////////////////////////////////
+      WARNING
+-when iterating and making hashes, always lean to 
+    cart[w_c] ||= {}
+    instead of 
+
+    cart[w_c] = {}
+so you don't overwrite anything accidentally 
+==============================================================
+SSS            Regular expressions
+==============================================================
+**ruby differences** 
+ -see the main regex-notes file for the basics of regex, here
+  is just the major differences or techniques of using regex
+  with ruby
+
+**all main options and characters**
+ -check out http://rubular.com/ for a nice test suite for
+  ruby regex 
+     
+    [abc]	A single character of: a, b, or c
+    [^abc]	Any single character except: a, b, or c
+    [a-z]	Any single character in the range a-z
+    [a-zA-Z]	Any single character in the range a-z or A-Z
+
+    ^	Start of line
+    $	End of line
+    \A	Start of string
+    \z	End of string
+
+    .	Any single character
+    \s	Any whitespace character
+    \S	Any non-whitespace character
+    \d	Any digit
+    \D	Any non-digit
+    \w	Any word character (letter, number, underscore)
+    \W	Any non-word character
+    \b	Any word boundary
+
+    (...)	Capture everything enclosed
+    (a|b)	a or b
+    (?:a) non-capture group 
+
+    a?	Zero or one of a
+    a*	Zero or more of a
+    a+	One or more of a
+    a{3}	Exactly 3 of a
+    a{3,}	3 or more of a
+    a{3,6}	Between 3 and 6 of a
+    
+    options: 
+    i case insensitive 
+    m make dot match newlines 
+    x ignore whitespace in regex 
+    o perform #{...} substitutions only once
+
+**match shorthand** 
+ - the =~ returns the index of the first instance of a 
+  matched regex to a subject, or nil if no match is found: 
+
+    "cat" =~ /a/
+    # => 1
+
+    ("dog" =~ /g/) == 2 ? "it's at 2" : "it's not"
+    # => "it's at 2" 
+
+ -this comes in handy for truthy checks, since an int is 
+  returned or nil:
+
+    line1 = "Cats are smarter than dogs";
+    line2 = "Dogs also like meat";
+
+    if ( line1 =~ /Cats(.*)/ )
+       puts "Line1 contains Cats"
+    end
+    if ( line2 =~ /Cats(.*)/ )
+       puts "Line2 contains  Dogs"
+    end
+    # Line1 contains Cats   is the return 
+
+**delimeters** 
+ -%r is how you can choose to show your regex, but // is much
+  more common: 
+
+  %r|/| # notice though, the / does not need escaping 
+  /\//  
+
+**the #match method** 
+ -this method convers strings args to regex (or uses regex 
+  if they already are) to find a match in a subject string
+ -if no match is found, it returns nil
+ -if you specify the index to start looking, instead of 
+  returning <match data "match" ...> it will just 
+  return the matching string section: 
+
+  'hello'.match('(.)\1')      #=> #<MatchData "ll" 1:"l">
+  'hello'.match('(.)\1')[0]   #=> "ll"
+  'hello'.match(/(.)\1/)[0]   #=> "ll"
+  'hello'.match('xx')         #=> nil 
+
+ -if you provide a block, it will invoke it and run the code
+  if a match is found: 
+
+    str.match(pat) {|match| ...}
+
+ -this is easier than: 
+
+    if m = str.match(pat)
+      ...
+    end
+**\1**
+ -an escaped integer refers to that number in the catchgroup
+ -here is an example: 
+
+  /[csh](..) [csh]\1 in/.match("The cat sat in the hat")
+    #=> #<MatchData "cat sat in" 1:"at">
+
+ -the capture group is only (..) but since it is refered to
+  again later with \1, that means the exact same characters
+  from (..) must appear again
+ -this is a method of finding multiple double letters in a 
+  string, without having to specify what double you are 
+  looking for 
+
+**#sub**
+ -takes two arguments, the value to be replaced, and the 
+  value to replace it with
+ -these can be strings or regular expressions
+ -#sub replaces only the first instance, to alter every match
+  use #gsub, and to permanently alter use #sub! or #gsub!
+ -regex makes this way more powerful than strings alone: 
+
+    phone = "2004-959-559 #This is Phone Number"
+
+    # Delete Ruby-style comments
+    phone = phone.sub!(/#.*$/, "")   
+    puts "Phone Num : #{phone}"
+
+    # Remove anything other than digits
+    phone = phone.gsub!(/\D/, "")    
+    puts "Phone Num : #{phone}"
+
+ which returns: 
+
+    Phone Num : 2004-959-559
+    Phone Num : 2004959559
+
+**#scan**
+ -Both forms iterate through str, matching the pattern 
+  (which may be a Regexp or a String). 
+ -For each match, a result is generated and either added to 
+  the result array or passed to the block. 
+ -If the pattern contains no groups, each individual result 
+  consists of the matched string, $&. 
+ -If the pattern contains groups, each individual result is 
+  itself an array containing one entry per group.
+
+    a = "cruel world"
+    a.scan(/\w+/)        #=> ["cruel", "world"]
+    a.scan(/.../)        #=> ["cru", "el ", "wor"]
+    a.scan(/(...)/)      #=> [["cru"], ["el "], ["wor"]]
+    a.scan(/(..)(..)/)   #=> [["cr", "ue"], ["l ", "wo"]]
+    a.scan(/(...)/).flatten      #=> ["cru", "el ", "wor"]
+    # flattening scan returns capture groups into a single
+    # array
+
+ -here is the block form: 
+
+    a.scan(/\w+/) {|w| print "<<#{w}>> " }
+    print "\n"
+    a.scan(/(.)(.)/) {|x,y| print y, x }
+    print "\n"
+
+    <<cruel>> <<world>>
+    rceu lowlr
+
+**capture groups**
+ -here is the syntax for capture groups, you use the 
+  #match method and .captures, which returns an array
+  of captures: 
+
+  string = "RyanOnRails: This is a test"
+
+  if match = string.match(/(^.*)(:)(.*)/i)
+    one, two, three = match.captures
+  end  
+
+  p one   #=> "RyanOnRails"
+  p two   #=> ":"
+  p three #=> " This is a test"
+
+ -you could also assign to an array or anything else,
+  just note the #captures method 
+ 
+
+**more info**
+ -these are just some basic cases and uses see: 
+
+  https://www.tutorialspoint.com/ruby/ruby_regular_expressions.htm
+
+
+
+
