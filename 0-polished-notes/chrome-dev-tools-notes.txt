@@ -1,40 +1,51 @@
 DEV TOOLS NOTES 
 TABLE OF CONTENTS 
-1SSS   Basic HTML editing
-2SSS   Basic CSS editing
-3SSS   Console
-4SSS   Network Panel
-5SSS   Application Panel
+1SSSS  Basic HTML editing
+2SSSS  Basic CSS editing
+3SSSS  Sources panel
+4SSSS  Console
+5SSSS  Network Panel
+6SSSS  Application Panel
 
 
 
 
 
 ==============================================================
-1SSS        Basic HTML editing
+1SSSS       Basic HTML editing
 ==============================================================
 **useful moves**
  -shift + cmd + C opens the dev tools 
  -in the elements window: 
-  -hovering over the html will highlight the section on the 
-   page
-  -hovering over the elements on the page highlights the
-   html
-  -click an html/element on page to bring up its css 
-  -right click an element on the page to bring up the dev tools
-   if it isn't open already 
-  -right click the html to add/edit an html attribute 
-  -left html text to edit it as well
-  -or right click then select "edit as html" to just edit 
-   both attributes and content 
-  -changing anything in the html will immediately show up on
-   the page for you to see 
-  -delete an element by selecting it then hitting backspace
-  -move an element's position by clicking and dragging 
+ -hovering over the html will highlight the section on the 
+  page
+ -hovering over the elements on the page highlights the
+  html
+ -click an html/element on page to bring up its css 
+ -right click an element on the page to bring up the dev tools
+  if it isn't open already 
+ -right click the html to add/edit an html attribute 
+ -left html text to edit it as well
+ -or right click then select "edit as html" to just edit 
+  both attributes and content 
+ -changing anything in the html will immediately show up on
+  the page for you to see 
+ -delete an element by selecting it then hitting backspace
+ -move an element's position by clicking and dragging 
+ -on the dev tools pane, next to "elements" there is an arrow
+  icon, click that so that as your cursor scrolls over the
+  "content pane" the html on the side it corresponds to pops
+  up 
+ -stick "view-source:" before https in a browser to see 
+  the source 
+
+
+
+
 
 
 ==============================================================
-2SSS        Basic CSS editing
+2SSSS       Basic CSS editing
 ==============================================================
 **useful moves** 
  -the css shows up in the elements panel to the right 
@@ -69,7 +80,7 @@ TABLE OF CONTENTS
 
 
 ==============================================================
-erSSS        sources panel
+3SSSS       sources panel
 ==============================================================
 **sources panel**
  -shows all files in a basic editor 
@@ -134,12 +145,16 @@ erSSS        sources panel
 
 
 ==============================================================
-3SSS      console
+4SSSS     console
 ==============================================================
 **log/CLI** 
  -the console will log to the console, or allow you to interact
   with JS like a CLI 
-
+ -in the console, the clear() method clears out 
+  the console of the wraning and text. HOWEVER it still
+  retains all the values entered in that session, it just 
+  keeps them behind the scenes. to start fresh, refresh.
+    -the shorcut is cmd + k, or ctl + L
 **call it up in other panels** 
  -in the dev tools top right corner, next to the "X" there is 
   a "..." icon, click this and select "show console drawer"
@@ -186,7 +201,7 @@ erSSS        sources panel
     $(".classExample")[0]
 
 ==============================================================
-4SSS   Network Panel
+5SSSS  Network Panel
 ==============================================================
 **measure speed** 
  -the network panel will show you when files were called 
@@ -207,7 +222,7 @@ erSSS        sources panel
 
 
 ==============================================================
-5SSS    Application Panel
+6SSSS   Application Panel
 ==============================================================
 **all sites resources** 
  -this tab shows you everything that your site has access to 
@@ -219,3 +234,9 @@ erSSS        sources panel
 
 **database access**
  -you can also see your databases
+
+
+
+
+
+

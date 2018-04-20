@@ -1,0 +1,262 @@
+
+TABLE OF CONTENTS
+1SSSS    General
+2SSSS    Spell Checking
+3SSSS    Search, Jump
+4SSSS    Editing
+
+
+
+
+==============================================================
+0SSSS    Intro
+==============================================================
+**full cheat sheet**
+ -below are just some of the more basic commands, 
+  to see the full cheat sheet this came from: 
+
+https://gist.github.com/awidegreen/3854277#file-vim_cheatsheet-md
+
+ -that cheat sheet has lots of helpful links to other 
+  resources as well
+
+
+
+
+
+==============================================================
+1SSSS    General
+==============================================================
+**shorthand explanations**
+C-a  =means= Ctrl-a
+C-ab =means= Ctrl-a then hit b
+M-a  =means= Alt-a
+#    =means= any number 
+<leader> =means= \
+
+:q        close
+:w        write/saves
+:wa[!]    write/save all windows [force]
+:wq       write/save and close
+:x        save and quit, same as wq
+:q!       force close if file has changed and not save changes
+v         Enter visual mode for selection of LINES
+C-v       Enter visual mode for selection of BLOCKS
+y         Yank/copy selected region
+yy        Yank/copy entire line
+"<reg>y   Yank/copy marked region into register <reg> 
+             (register from a-z)
+ 
+c         Cut selection
+p         Paste yanked content
+"<reg>p   Paste yanked content in register <reg> (from a-z)
+P         Paste yanked content BEFORE
+u         Undo
+C-r       Redo
+:!<cmd>   Execute shell command <cmd>
+C-z       send vim to background (fg brings it to front again)
+
+<<    move line over two spaces left
+>>    move line over two space right
+.     repeat whatever last command was 
+
+
+//////////////////////////////////////////////////////////////
+  Navigation 
+
+h        cursor left
+j        cursor down
+l        cursor right
+k        cursor up
+
+H        Jump to TOP of screen
+M        Jump to MIDDLE of screen
+L        Jump to BOTTOM of screen
+C-b      Move back one full screen (page up)
+C-f      Move forward one full screen (page down)
+C-d      Move forward 1/2 screen; half page down
+C-u      Move back (up) 1/2 screen; half page up
+
+w        jump by start of words (punctuation considered words)
+W        jump by words (spaces separate words)
+e        jump to end of words (punctuation considered words)
+E        jump to end of words (no punctuation)
+b        jump backward by words (punctuation considered words)
+B        jump backward by words (no punctuation)
+0 (zero) start of line
+^        first non-blank character of line
+$        end of line
+G        bottom of file
+#G       goto line #
+gg       top of file
+#gg      goto line #
+
+
+
+//////////////////////////////////////////////////////////////
+  Entering insert mode
+
+a        Append text after the cursor
+A        Append text at the end of the line
+i        Insert text before the cursor
+I        Insert text before the first non-blank in the line
+o        Begin a new line BELOW the cursor and insert text
+O        Begin a new line ABOVE the cursor and insert text 
+s        Erase the current letter under the cursor,
+           set insert-mode
+S        Erase the whole line, set insert-mode
+cc       Delete the current line, set insert-mode
+cw       Delete word, set insert-mode
+dd       Delete line under curser
+
+
+//////////////////////////////////////////////////////////////
+  Multi window controls
+C-ws     Split current window horizontally (alternative :split)
+C-wv     Split current window vertically (alternative :vsplit)
+C-ww     Jump to the next window
+C-wARROW Jump to window left/right/top/bottom (arrow keys) 
+           to the current (or use hjkl keys)
+C-w#<    Shrink/resize current window from the right by # 
+           (default 1) 
+C-w#>    Increase/resize current window to the right by # 
+           (default 1) 
+C-w=     make all windows eaqual size 
+C-wr     switch actual window locations
+C-wK     go from vertical to horizontal spit (or C-wt)
+C-wH     go from horizontal to vertical spit (or C-wt)
+
+
+//////////////////////////////////////////////////////////////
+  misc 
+
+
+
+
+
+
+==============================================================
+2SSSS    Spell Checking
+==============================================================
+**setup**
+ -See vimcast #19 as an introduction: 
+  http://vimcasts.org/episodes/spell-checking/
+
+ -Assuming that you have the following in .vimrc:
+
+    nnoremap <silent> <leader>s :set spell!<cr>
+ 
+  the following commands will work: 
+
+<leader>s Toggle Spelling
+]s       Next spelling mistake
+[s       Previous spelling mistake
+z=       Give Suggestions (prepent 1, use first suggestions automatically)
+zg       Add misspelled to spellfile
+zug      Remove word from spellfile
+
+ -see http://vimdoc.sourceforge.net/htmldoc/spell.html
+
+
+
+
+==============================================================
+3SSSS    Search, Jump
+==============================================================
+consider consulting :help [ and :help g
+
+*        search for word under cursor (forward) and highlight 
+            occurrence (see incsearch, hlsearch below)
+%        jump from open/close ( / #if / ( / { to 
+            corresponding ) / #endif / } 
+[{       jump to start of current code block
+]}       jump to end of current code block
+gd       jump to var declaration (see incsearch, hlsearch 
+            below)
+f<c>     Find char <c> from cursor position -- forwards
+F<c>     Find char <c> from cursor position -- backwards
+,        Repeat previous f<c> or F<c> in opposite direction
+;        Repeat previous f<c> or F<c> in same direction
+'.       jump back to last edited line.
+g;       jump back to last edited position.
+[m       jump to start of funtion body
+[i       show first declartion/use of the word under cursor
+[I       show all occurrences of word under cursor in current 
+            file
+[/       cursor to N previous start of a C comment
+
+
+
+
+==============================================================
+4SSSS    Editing
+==============================================================
+x        Delete char UNDER cursor
+X        Delete char BEFORE cursor
+#x       Delete the next # chars. starting from char under 
+            cursor
+dw       Delete next word
+dW       Delete UP TO the next word
+d^       Delete up unto the beginning of the line
+d$       Delete until end of the line 
+D        See d$, delete until end of the line  
+dd       Delete whole line
+dib      Delete contents in parenthesis '(' ')' block (e.g. 
+            function args)
+diB      Delete inner '{' '}' block
+daB      Delete a '{' '}' block
+das      Delete a senctence
+diw      Delete word under cursor
+df<c>    Delete until next occurence of <c> (char) found 
+            (including <c>) [in single line]
+dt<c>    Delete until next occurence of <c> (char) found 
+            (without <c>!!!) [in single line]
+
+ciw      Change word under cursor 
+ciB      Change inner '{' '}' block
+cf<c>    See "df<c>" but change instead of delete
+ct<c>    See "dt<c>" but change instead of delete
+
+#J       Merge # number of lines together
+
+gqq      format current line according to line-width
+#gqq     format next #-lines  
+gq       (in visual-mode) format selected text according to 
+            line-width
+
+
+C-n      Keyword completion
+Tab      Keyword completion (SuperTab plugin)
+r<c>     Replace char <c>
+#r<c>    Replace follow # chars with <c>, : csock, cursor 
+            on s, 3re ceeek
+
+
+:s/xxx/yyy/    Replace xxx with yyy at the first occurrence
+:s/xxx/yyy/g   Replace xxx with yyy first occurrence, 
+                  global (whole sentence)
+:s/xxx/yyy/gc  Replace xxx with yyy global with confirm
+:%s/xxx/yyy/g  Replace xxx with yyy global in the whole file
+
+u        Convert selection (visual mode) to lowercase
+U        Convert selection (visual mode) to uppercase
+
+:g/^#/d  Delete all lines that begins with #
+:g/^$/d  Delete all lines that are empty
+
+
+
+//////////////////////////////////////////////////////////////
+  Abbreviations 
+-in .vimrc use the abbr <wrong-word> <correct-word> to
+  fix frequent mess ups:
+ -set unique fixes per sessiong with :abbr <wrong> <right>
+ -put these in vimrc:
+
+    abbr linux Linux
+    abbr ruby Ruby
+    abbr javascript JavaScript
+    abbr jquery jQuery 
+    
+    abbr hte the
+    abbr jsut just

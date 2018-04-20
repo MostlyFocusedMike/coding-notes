@@ -1,6 +1,25 @@
-////////////////////////////////////////////////
-        0.WHAT IS SASS?
+TABLE OF CONTENTS 
+0SSSS    What is SASS?
+1SSSS    Install on Linux and Mac    
+2SSSS    Use SASS
+3SSSS    Variables
+4SSSS    Nesting
+5SSSS    Mixins
+6SSSS    The & Character
+7SSSS    Lists and Maps as vars
+8SSSS    String Interpolation
+9SSSS    SASSY Functions
+10SSSS     Arithmetic
+11SSSS     Loops
+12SSSS     Conditionals
+13SSSS     SASS file structure
+14SSSS     Extend
+15SSSS     %placeholders
 
+
+==============================================================
+0SSSS    What is SASS?
+==============================================================
     Sass is a css preprocessor. That means you
 write out Sass enhanced css in a .scss file and 
 then compile it into a .css file.
@@ -12,10 +31,9 @@ could read.
 
 
 
-
-////////////////////////////////////////////////
-        1. INSTALL ON LINUX AND MAC
-
+==============================================================
+1SSSS    Install on Linux and Mac    
+==============================================================
     In both cases, you need to install Ruby 
 first, since Sass is a Ruby gem.
 
@@ -36,9 +54,9 @@ to check the version and see that it's there
 
 
 
-////////////////////////////////////////////////
-        2. USE SASS
-
+==============================================================
+2SSSS    Use SASS
+==============================================================
     Super simple, to convert a Sass file (.scss)
 into a .css file, go into command line in the 
 folder with the .scss file and:
@@ -69,8 +87,11 @@ you are in VIM you will need to have the
 process going in a separate shell.
 
 
-////////////////////////////////////////////////
-                3. VARIABLES
+
+
+==============================================================
+3SSSS    Variables
+==============================================================
     Sass allows you to use variables like real
 code. In the .scss file:
 
@@ -121,9 +142,9 @@ NOTE: LISTS START AT 1 NOT 0!!
 
 
 
-/////////////////////////////////////////////////
-                  4. NESTING
-
+==============================================================
+4SSSS    Nesting
+==============================================================
     css is hard to read because it doesn't match
 the DOM heirarchy visually. Sass puts nesting
 into css:
@@ -160,10 +181,9 @@ nav li a {
 
 
 
-
-///////////////////////////////////////////////
-            5.MIXINS
-
+==============================================================
+5SSSS    Mixins
+==============================================================
     A mixin is a repeated code block that should
 accept a variable. That way, you write the main 
 block once, then use the argument to change it 
@@ -249,10 +269,10 @@ div { // out of order but explicitly defined
 
 
 
+==============================================================
+6SSSS    The & Character
+==============================================================
 
-
-///////////////////////////////////////////////
-        6. THE & CHARACTER 
 
     The & selector is a sass constructor. 
 It's basically sass's version of 'this' and
@@ -282,9 +302,9 @@ much more efficient, just don't forget the :
 
 
 
-///////////////////////////////////////////////
-        7. LISTS AND MAPS AS VARIABLES
-
+==============================================================
+7SSSS    Lists and Maps as vars
+==============================================================
      Sass allows you to pass maps and lists as
 variables:  
 -------------------------------------- .scss - 
@@ -320,9 +340,9 @@ It's very simple, just don't forget to add the
 
 
 
-///////////////////////////////////////////////
-            8. STRING INTERPOLATION
-
+==============================================================
+8SSSS    String Interpolation
+==============================================================
     String concatenation isn't the only way to
 add a variable to a string, you can also use 
 interpolation: 
@@ -347,10 +367,11 @@ css what the jpg file name is.
 
 
 
-///////////////////////////////////////////////
-            9.SASSY FUNCTIONS
-    Sass can use functions, and if you ever learn
-Ruby, you can even write your own. Here are a few
+==============================================================
+9SSSS    SASSY Functions
+==============================================================
+    Sass can use functions, and if you know Ruby,
+you can even write your own. Here are a few
 built in functions you can use: 
 
 -fade-out  
@@ -376,8 +397,11 @@ $color2: fade-in($color, $amount);
 
 
         
-/////////////////////////////////////////////////
-            10. ARITHMATIC
+
+==============================================================
+10SSSS     Arithmetic
+==============================================================
+
 Sass also allows us to perform mathematical 
 functions to compute measurements— including 
 colors.
@@ -404,7 +428,7 @@ division /
 modulo %
 
 -NOTE: 10px, em, rem all units are ignored. Sass
-would take that 10px as just 10 for arithmatic
+would take that 10px as just 10 for arithmetic
 
 DIVISION IS WEIRD
 In CSS the / character can be used as a separator.
@@ -434,8 +458,10 @@ Here are some actual examples of that:
 
 
 
-/////////////////////////////////////////////////
-            11. LOOPS
+==============================================================
+11SSSS     Loops
+==============================================================
+
 
     Sass lets you use loops with your css:
 
@@ -575,8 +601,13 @@ Here's the compiled css
 -------------------------------------------------
 As you can see, this saves a ton of space.
 
-/////////////////////////////////////////////////
-            12. CONDITIONALS
+
+
+
+==============================================================
+12SSSS     Conditionals
+==============================================================
+
 
     You can also use conditionals with Sass
 
@@ -609,9 +640,9 @@ Mixins are good for condtionals
 
 
 
-///////////////////////////////////////////////////////
-            13. SASS FILE STRUCTURE
-
+==============================================================
+13SSSS     SASS file structure
+==============================================================
     Here's a typical file system for sass
 
 /sass
@@ -692,9 +723,10 @@ would save the trouble of redefining them each time.
 
 
 
-////////////////////////////////////////////////
-                14. @EXTEND
 
+==============================================================
+14SSSS     Extend
+==============================================================
     @extend is basically Sass's version of inheritance.
 Here it is: 
 .lemonade {
@@ -721,8 +753,10 @@ standalone class? Use a % placeholder.
 
 
 
-///////////////////////////////////////////////
-                15. %PLACEHOLDERS
+==============================================================
+15SSSS     %placeholders
+==============================================================
+
 
     %placeholders are used for groups of rules
 that are used in other classes, but never as a 
@@ -818,13 +852,6 @@ As a general rule of thumb, you should
     Always look at your CSS output to make sure 
     your extend is behaving as you intended.
 
-
-
-
-
-////////////////////////////////////////////////
-END OF CODE ACADEMY BASICS 
-////////////////////////////////////////////////:
 
 
 

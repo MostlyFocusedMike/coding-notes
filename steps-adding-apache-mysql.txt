@@ -20,18 +20,7 @@ https://ole.michelsen.dk/blog/setup-local-web-server-apache-php-osx-yosemite.htm
  which keeps you from needing to sudo everything in the /Library/WebServer folder 
 
 
-XAMPP
--this seems to be an app used more by linux and windows users since mac has the above 
-	built in apache 
--start the program, start the stuff, volumes tab then hit mount, then explore and then
- copy whatever file you want to run on the server into htdocs 
--now to access do localhost:8080/your-directory-name
--if you just do localhost:8080 it goes to the index already in there, which is an xampp
- help page, but you could delete it 
-
 LOADING MYSQL THE RIGHT WAY
-
-
 brew install mysql
 // let it do it’s thing and download 
 // then do
@@ -63,15 +52,7 @@ Directions from the youtube video
 
 
 
-this was your temporary password
-Gw_n!pVKn8oq
-as of this writing it has been changed to the best one you know at 11/6/17
-
-
 here are all the sites you used when messing around:
-
-https://www.youtube.com/watch?v=b_6g_5S_bVo
--main video you used, except you downloaded xampp instead of phpadmin
 
 https://jason.pureconcepts.net/2015/10/install-apache-php-mysql-mac-os-x-el-capitan/
 -helped get apache going 
