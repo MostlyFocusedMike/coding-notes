@@ -23,13 +23,19 @@ TABLE OF CONTENTS
 14%%   RSpec hooks/putting a program to sleep
 15%%   Blackjack CLI and CLI apps    
 16%%   Arrays 
-17%%      common array methods
-18%%      Enumerators introduction
+17%%   common array methods
+18%%   Enumerators introduction
+19%%   Understanding Yield and Blocks 
+20%%   blocks part 2
+21%%   blocks vs procs vs lambdas 
+22%%   Sorting in depth  #sort, #sort_by
 
 INTERLUDES
-time%%    Time class interlude
-gets%%    Interlude: getting values from the command line 
-w_ob%%    Interlude: #with_object
+time%% Time class interlude
+gets%% Interlude: getting values from the command line 
+w_ob%% Interlude: #with_object
+do%%   {} vs do..end when sing puts**
+rv%%   interlude: More return values 
 
 
 
@@ -2177,7 +2183,38 @@ NOTE: some of these methods are enumerators, which we will
   along first, then index, no matter what you call them
  -also, the return value is still the original array 
 
+**#map, #map!, and #map.with_index**
+ -the #map method will go through a list as well, however,
+  the return value is an array of the values evauated 
+  from the code block: 
+
+  a = [ "a", "b", "c" ]
+  a.map {|x| "#{x}!!" }
+  #=> [ "a!!", "b!!", "c!!" ]
+  a
+  #=>[ "a", "b", "c" ]
  
+ -it returns a new list without altering the original
+ -if you want to permanently alter the original array, 
+  use map!
+ 
+      a = [ "a", "b", "c" ]
+      a.map! {|x| "#{x}!!" }
+      #=> [ "a!!", "b!!", "c!!" ]
+      a
+      #=> [ "a!!", "b!!", "c!!" ]
+
+ -you can also use #map and #with_index together to get 
+  the value and index of the array
+    -it's not map_with_index, it's two methods chained 
+     together
+
+      a = [ "a", "b", "c" ]
+      a.map.with_index {|val,index| "{val} is at #{index}"}
+      #=> ["a is at 0", "1 is at 1", "c is at 2"]
+
+ -to permanently alter it use #map!.with_index
+
 **include? - see if an array has a value**
  -as stated the include? method returns true or false if 
   the value is in an array 
@@ -2350,7 +2387,6 @@ NOTE: some of these methods are enumerators, which we will
 ==============================================================
 18%%      Enumerators introduction
 ==============================================================
-
 **enumerators**
  -enumerators allow for iterative actions over data structures
   like arrays and hashes
@@ -2472,8 +2508,6 @@ w_ob%%    Interlude: #with_object
     hash.each_with_object
     hash.each.with_object
  
- -below is specifically just using each_with_object, 
-  until working with arrays 
 
  -this means the return value is a new object like map, 
   but it allows the relative freedom of each, since each
@@ -2521,53 +2555,16 @@ w_ob%%    Interlude: #with_object
  -the array is interesting though, since there is no 
   counter 
 
-//////////////////////////////////////////////////////////////
-        UNDERSTANDING YIELD AND BLOCKS 
+==============================================================
+19%%        Understanding Yield and Blocks 
+==============================================================
 **what are blocks**
  -as we saw with enumerables, they all need to take a block
   of code
  -blocks of code are defined by curly braces{} or being 
   inside the "do" and "end" keywords
 
-**side note: {} vs do..end when sing puts**
- -consider the following code: 
 
-  # from learn.co lab where you had to write a function to
-  # replace words in a tweet with substitutes in a dictionary
-  # method 
-  puts tweet.split.map { |word| 
-    dictionary.keys.include?(word) ? dictionary[word] : word 
-  }.join(" ")
-  # puts out the tweet correctly
-
-  puts tweet.split.map do |word| 
-    dictionary.keys.include?(word) ? dictionary[word] : word 
-  end.join(" ")
-  # <Enumerator:0x0000000147eef0>
-  # tweet_shortener.rb:19:in `word_substituter': undefined 
-  # method `join' for nil:NilClass (NoMethodError)
-  # from tweet_shortener.rb:24:in `<main>'
- 
- -while mostly the same, when using puts without braces to
-  define what it will pass, you can run into issues with 
-  do..end
- -the reason for this is that {} have a slightly high priority
-  so puts wont treat the space after the first line as the 
-  end of the argument, Ruby knows that's in the middle of a 
-  block, so it will pass the whole block, no matter the space
- -however, with do..end it isn't quite as clear where the 
-  block is apparently  
- -of course, both {} and do..end will work fine if you 
-  use () with puts, since the interpreter now knows exactly
-  where the argument of the block ends 
-  
-  puts(tweet.split.map do |word| 
-    dictionary.keys.include?(word) ? dictionary[word] : word 
-  end.join(" "))
-
- -if you returned the value, instead of printing it, both
-  do..end and {} work exactl as intended 
- 
 **enumerables and blocks**
  -the enumerable methods all manage to "yeild" a value from
   a collection into a block, they do that under the hood
@@ -2592,13 +2589,13 @@ w_ob%%    Interlude: #with_object
     # and returns back to the original method: 
 
     def yielding
-      puts "the program is executing the code inside the method"
+      puts "the program is executing code inside the method"
       yield
       puts "now we are back in the method"
     end
 
     yielding {puts "the method has yielded to the block!"}
-    # > the program is executing the code inside the method
+    # > the program is executing code inside the method
         the method has yielded to the block!
         now we are back in the method
 
@@ -2606,7 +2603,7 @@ w_ob%%    Interlude: #with_object
     # back to the method? 
 
 **making an enumerable method with yeild and an array**
-  -we can work with an array and yield as well
+ -we can work with an array and yield as well
  -below is a function that will work through an array
   and do whatever we want with each index value 
 
@@ -2718,6 +2715,52 @@ w_ob%%    Interlude: #with_object
  -this permanently changes the value of each index in the 
   original array, and then returns is 
 
+==============================================================
+do%%      interlude: {} vs do..end when sing puts**
+==============================================================
+ -generally {} are for single line blocks and do..end are 
+  for multi line blocks
+ -but, consider the following code: 
+
+  # from learn.co lab where you had to write a function to
+  # replace words in a tweet with substitutes in a dictionary
+  # method 
+  puts tweet.split.map { |word| 
+    dictionary.keys.include?(word) ? dictionary[word] : word 
+  }.join(" ")
+  # puts out the tweet correctly
+
+  puts tweet.split.map do |word| 
+    dictionary.keys.include?(word) ? dictionary[word] : word 
+  end.join(" ")
+  # <Enumerator:0x0000000147eef0>
+  # tweet_shortener.rb:19:in `word_substituter': undefined 
+  # method `join' for nil:NilClass (NoMethodError)
+  # from tweet_shortener.rb:24:in `<main>'
+ 
+ -while mostly the same, when using puts without braces to
+  define what it will pass, you can run into issues with 
+  do..end
+ -the reason for this is that {} have a slightly high priority
+  so puts wont treat the space after the first line as the 
+  end of the argument, Ruby knows that's in the middle of a 
+  block, so it will pass the whole block, no matter the space
+ -however, with do..end it isn't quite as clear where the 
+  block is apparently  
+ -of course, both {} and do..end will work fine if you 
+  use () with puts, since the interpreter now knows exactly
+  where the argument of the block ends 
+  
+  puts(tweet.split.map do |word| 
+    dictionary.keys.include?(word) ? dictionary[word] : word 
+  end.join(" "))
+
+ -if you returned the value, instead of printing it, both
+  do..end and {} work exactl as intended 
+ 
+==============================================================
+20%%      blocks part 2
+==============================================================
 **dealing with missing blocks**
  -ruby has the method #block_given? which can tell if a block
   has been provided or not 
@@ -2783,7 +2826,7 @@ w_ob%%    Interlude: #with_object
  -syntactically, there isn't actually a difference. They do 
   produce different error messages, but they are basically the
   same. Learn.co seems to favor using call in proc and lambda
-  situations anf &parametes, however replacing .call with 
+  situations and &parametes, however replacing .call with 
   .yield will produce the same effects so far as I can tell
 
 **How does .map(&:something) work?**
@@ -2864,9 +2907,9 @@ end
  -they are anonymous functions that get executed when called
   and can take values into them using #call or #yield
 
-
-//////////////////////////////////////////////////////////////
-              BLOCKS VS PROCS VS LAMBDAS 
+==============================================================
+21%%              blocks vs procs vs lambdas 
+==============================================================
 **first up, closures**
  -a "closure" is a block of functional code with variables
   that are bound to the environment the closure is called in
@@ -2964,6 +3007,25 @@ end
 
 
 
+
+==============================================================
+rv%%    interlude: More return values 
+==============================================================
+
+**#each does not return new values**
+ -but you can modify using the same pattern you did when you
+  wrote your own enumerable function: 
+
+def hamburger(toppings)
+  my_statements = []
+  toppings.each do |topping|
+    my_statements << "I love #{topping} on my burgers!"
+  end
+  my_statements
+end
+
+ -but really, if you want each return value, use #map 
+
 **blocks return values up multiple layers**
 
   def all_holidays_with_bbq(holiday_hash)
@@ -2989,27 +3051,15 @@ end
  -this shows a good use of dot notation to manipulate 
   variables from within blocks, as .flatten just goes on the 
   last "end" keyword
-
-/////////////////////////////////////////////////////////////
-        COLLECT AND RETURN VALUES 
-
-**#each does not return new values**
- -but you can modify using the same pattern you did when you
-  wrote your own enumerable function: 
-
-def hamburger(toppings)
-  my_statements = []
-  toppings.each do |topping|
-    my_statements << "I love #{topping} on my burgers!"
-  end
-  my_statements
-end
-
- -but really, if you want each return value, use #map 
-
   
-/////////////////////////////////////////////////////////////
-    SORTING  #sort, #sort_by
+
+
+
+
+
+==============================================================
+22%%    Sorting in depth  #sort, #sort_by
+==============================================================
 **comparing strings**
  -if you use the < > operators on strings, they will sort
   them alphabetically, with later letters in the alphabet
@@ -3043,7 +3093,9 @@ end
         1
       end
     end
-
+ 
+ -this is how #sort undestands how each value compares to 
+  those in the array, by getting 1,0,-1
  -if a is smaller than b, they are not swapped, if a is 
   bigger, they are. If they are equal, they are not.
  -actually, it's not quite that simple, since #sort uses
