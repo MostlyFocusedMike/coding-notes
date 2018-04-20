@@ -1,0 +1,221 @@
+DEV TOOLS NOTES 
+TABLE OF CONTENTS 
+1SSS   Basic HTML editing
+2SSS   Basic CSS editing
+3SSS   Console
+4SSS   Network Panel
+5SSS   Application Panel
+
+
+
+
+
+==============================================================
+1SSS        Basic HTML editing
+==============================================================
+**useful moves**
+ -shift + cmd + C opens the dev tools 
+ -in the elements window: 
+  -hovering over the html will highlight the section on the 
+   page
+  -hovering over the elements on the page highlights the
+   html
+  -click an html/element on page to bring up its css 
+  -right click an element on the page to bring up the dev tools
+   if it isn't open already 
+  -right click the html to add/edit an html attribute 
+  -left html text to edit it as well
+  -or right click then select "edit as html" to just edit 
+   both attributes and content 
+  -changing anything in the html will immediately show up on
+   the page for you to see 
+  -delete an element by selecting it then hitting backspace
+  -move an element's position by clicking and dragging 
+
+
+==============================================================
+2SSS        Basic CSS editing
+==============================================================
+**useful moves** 
+ -the css shows up in the elements panel to the right 
+ -check or uncheck boxes to add or temp remove a style rule
+ -double click style values to edit them 
+ -delete elements by clicking and deleting
+ -to add a style: 
+   -click the "+" icon in the top right corner
+   -the default is to create a new id or class based on 
+    whatever html element you have highlighted, but you can
+    just edit this to apply any style you want
+ -if dev tools finds a color, it puts a little square in front,
+  click this to open up a color swatch. click the color swatch
+  to change the color 
+ -the ".cls" icon lets you add a class to the selected html
+  element (an alternative to right click edit attribute)
+
+**using pseudo elements**
+ -click the ":hov" icon next to the "+" icon in the top left
+  to alter the state of selected elements (hover,active,focus
+  visited)
+ -this is how you test pseudoclasses without moving your mouse
+  back and forth
+ -you can check and uncheck the states to see how your code 
+  works 
+
+**finding the css source**
+ -next to each css rule, dev tools lists the file it came from,
+  click it to open up the source panel and see the actual code
+  in the context of its file
+
+
+
+==============================================================
+erSSS        sources panel
+==============================================================
+**sources panel**
+ -shows all files in a basic editor 
+ -if you make a change in the sources panel, the file will 
+  have a star next to it 
+ -hit cmd + s to save it to the browser
+ -css changes are reflected immediately, JS changes need to 
+  be saved (saving in sources does not re run any scripts, 
+  it just updates them)
+ -make sure you are editing the CSS and not the SCSS, since
+  any SCSS changes do not live update
+  
+**revisions**
+ -to see all modifications to a file, go down to the console
+  window, and click the "changes" tab
+  -if the changes tab is not there, click the 3 dots, and then
+    from the drop down menu, click changes
+ -this shows a list of timestamps, and if you click one you
+  will see the differences you edited (like git dif)
+ -the removals will be in red, the additions in green, click
+  the green to go to that point in th file  
+ -you can cut and copy code from this section to add it back in
+  to your main file if you want
+ -there is a small arrow below the window next to the number
+  of insertions and deletions, click this to undo all revisions
+
+**saving file to computer**
+ -all saved work in sources gets lost with a refresh
+ -to save changes from the browser to the source file, 
+  right click save as and then select and overwrite the 
+  original file on your computer
+ -to see this new file in your browser, you may need to 
+  shift + cmd + R refresh, which force reloads the page to 
+  reupload all files from the server instead of using a chache
+
+**pause on exceptions** 
+ -in the left side of the sources section, there's a debugger
+  panel
+ -at the top of this is a stop sign, click that to stop on
+  JS exceptions 
+  -if you don't check the "pause on caught exceptions", 
+   it will ignore caught exceptions (which pop up in Jquery)
+   and instead pause on uncaught exceptions that fire when 
+   your own code messes up 
+ -on a pause, you can hover over JS variables to see their 
+  values 
+
+**breakpoints** 
+ -in a JS file, you can click the line number to create a 
+  breakpoint 
+ -when chrome hits this line it will pause, and you can 
+  hover over variables and objects and whatnot to get their
+  current value
+ -press the play icon at the top of the debugger panel to 
+  continue to the next breakpoint  
+
+**pretty formatting**
+ -if chrome comes across a minified file, click the brackets in
+  the lower left corner of the file editor to expand the min
+  file back into a human readable format 
+
+
+
+==============================================================
+3SSS      console
+==============================================================
+**log/CLI** 
+ -the console will log to the console, or allow you to interact
+  with JS like a CLI 
+
+**call it up in other panels** 
+ -in the dev tools top right corner, next to the "X" there is 
+  a "..." icon, click this and select "show console drawer"
+ -the escape key is the toggle for this to show and hide it 
+ 
+**console.log**
+ -log your objects and variables to see what their value 
+  outputs to 
+ 
+**console.assert** 
+
+  console.assert( 1 == 1)
+
+ -this allows you to check values, if the stuff in the () is 
+  true, nothing happens, but if it is false, you get an
+  assertion error with a red traceback to the flaw in your 
+  code, this is handy for quick checks 
+
+**the $ bling selector shortcut** 
+ -the $() is a shorthand to select elements on your page: 
+
+    document.getElementById("ham")
+    $("#ham") 
+ 
+ -this will return the dom element
+ -the console also remembers the last dom element you clicked
+  on and saves it as $0
+ -the second to las is $1, third to last $3 etc etc 
+
+**inpect method**
+ -use inpect() with a dom node to select that element inside
+  the elements panel: 
+
+  inspect($(#ham))
+
+**overriding the bling selector**
+ -many JS librarys and frameworks make use of the $ selector
+ -if you load any of these, their functionality overrides the
+  console $ selector function
+ -in jQuery though, it will just return a node list, so to 
+  match the console's functionality, just use brackets to 
+  select the first node: 
+
+    $(".classExample")[0]
+
+==============================================================
+4SSS   Network Panel
+==============================================================
+**measure speed** 
+ -the network panel will show you when files were called 
+  (the start of the bar) the lag time before they start to load
+  (the transparent part of the bar), started loading 
+  (the solid part of the bar) and finished (the end of the bar)
+ -they will show the name of the file, the http status, 
+  the type of file, the initiator (what called it), the
+  size, and the total load time 
+
+**headers** 
+ -you can google all these, but the common ones are: 
+    
+    200 = loaded from server no problem 
+    404 = file not found 
+    304 = loaded from cache
+    500 = internal server error
+
+
+==============================================================
+5SSS    Application Panel
+==============================================================
+**all sites resources** 
+ -this tab shows you everything that your site has access to 
+
+**localStorage**
+ -on the sidebar you can access all your localStorage variables
+  and even edit them
+ -these changes will load on refresh 
+
+**database access**
+ -you can also see your databases
