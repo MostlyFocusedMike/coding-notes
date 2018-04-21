@@ -1,8 +1,36 @@
-RSPEC NOTES
+  _____   _____                 
+ |  __ \ / ____|                
+ | |__) | (___  _ __   ___  ___ 
+ |  _  / \___ \| '_ \ / _ \/ __|
+ | | \ \ ____) | |_) |  __/ (__ 
+ |_|  \_\_____/| .__/ \___|\___|
+ | \ | |     | | |              
+ |  \| | ___ | |_|___  ___      
+ | . ` |/ _ \| __/ _ \/ __|     
+ | |\  | (_) | ||  __/\__ \     
+ |_| \_|\___/ \__\___||___/     
+
 TABLE OF CONTENTS 
+1SSSS    intro
+2SSSS    new section
+3SSSS    Basic syntax
+4SSSS    Writing Specs
+5SSSS    Matchers
+6SSSS    Test doubles (mocks)
+7SSSS    Stubbing
+8SSSS    Hooks 
+9SSSS    Tags 
+10SSSS    Subjects 
+11SSSS    helpers
+12SSSS    metadata
+13SSSS    Filtering
+14SSSS    Expectations 
+15SSSS    Testing random stuff 
+
+
 
 ==============================================================
-1SSS     intro
+1SSSS     intro
 ==============================================================
 **What is RSpec?**
  -RSpec is a unit test framework for the Ruby programming 
@@ -14,7 +42,7 @@ TABLE OF CONTENTS
 
 
 ==============================================================
-12SSS    new section
+2SSSS    new section
 ==============================================================
 
 
@@ -72,7 +100,7 @@ TABLE OF CONTENTS
 
 
 ==============================================================
-                Basic syntax
+3SSSS    Basic syntax
 ==============================================================
  -Here is the RSpec code again −
 
@@ -163,20 +191,13 @@ context “testing corner cases with the foobar() method”
   and consequently different Matchers in RSpec. 
 
 
-/
-/
-/
-/
-/
-/
-/
-/
-/
-/
-/
+
+
+
+
 
 ==============================================================
-                Writing Specs
+4SSSS    Writing Specs
 ==============================================================
 **testing a separate file**
  -here's the code example in a different file, it returns true
@@ -335,14 +356,13 @@ Option/flag & Description
 
 
 
-/
-/
-/
-/
-/
-/
-/ 
-MATCHERS 
+
+
+
+
+==============================================================
+5SSSS    Matchers
+==============================================================
  -here are some of the matchers (the part that tests whether
   or not the value from .expect is equal)
 
@@ -512,7 +532,7 @@ end
 
  
 ==============================================================
-            test doubles (mocks)
+6SSSS    Test doubles (mocks)
 ==============================================================
 **a test double is essentially a dummy class** 
  -lets say we have a ClassRoom class, that accecpts student
@@ -576,7 +596,7 @@ end
 
     
 ==============================================================
-            Stubbing
+7SSSS    Stubbing
 ==============================================================
 **stubbing basics**
  -stubbing (or method stub) as it is called, is a special type
@@ -733,8 +753,11 @@ end
 
 
 
+
+
+
 ==============================================================
-            Hooks 
+8SSSS    Hooks 
 ==============================================================
 **setup and teardown** 
  -it may be helpful for certain code to execute before all
@@ -842,7 +865,7 @@ end
 
 
 ==============================================================
-        tags 
+9SSSS    Tags 
 ==============================================================
 **sort your tests with tags** 
  -tags are a great way to get specific with your testing 
@@ -884,7 +907,7 @@ end
 
 
 ==============================================================
-            Subjects 
+10SSSS    Subjects 
 ==============================================================
 **declutter code by moving it into the describe line**
  -you can move object instantiation into the describe line 
@@ -930,8 +953,12 @@ end
 
 
 
+
+
+
+
 ==============================================================
-              helpers
+11SSSS    helpers
 ==============================================================
 **reusing code**
  -rspec uses "helpers" (which are just methods) to recycle 
@@ -1013,8 +1040,14 @@ end
  -"helpers" are just regular ruby methods that you can call to
   make your code succinct 
 
+
+
+
+
+
+
 ==============================================================
-          metadata
+12SSSS    metadata
 ==============================================================
 **Meta data** 
  -RSpec gives you access to the meta data: 
@@ -1141,7 +1174,7 @@ Finished in 0.004 seconds (files took 0.11101 seconds to load)
 
 
 ==============================================================
-      Filtering
+13SSSS    Filtering
 ==============================================================
 **positive and negative** 
  -it seems that functional tests are refered to as positive 
@@ -1170,7 +1203,7 @@ end
 
 
 ==============================================================
-        Expectations 
+14SSSS    Expectations 
 ==============================================================
 **basics of expect** 
  -two main things to keep in mind about expectations: 
@@ -1218,9 +1251,27 @@ Finished in 0.001 seconds (files took 0.11201 seconds to load)
  -unless you have to use the old way, don't.
 
 ==============================================================
-      Testing random stuff 
+15SSSS    Testing random stuff 
 ==============================================================
-**you stub for random things**
+**either use Regex** 
+ -if you know that only a certain part of your code will be 
+  random, say a random number in a string, you can use regex
+  with the #match method: 
+
+  # this is from a cryptography program, which scrambles a
+  # message. Meaning, I know that the message will be a 
+  # certain length of alpha characters, but not what. I also
+  # know there will be a digit of a cipher, but not which
+  # regex handles this easily and checks the output:  
+  context "run test" do
+    it "should take a gets" do
+      machine = Encoder.new
+      expect(machine).to receive(:gets).and_return("abc")
+      expect{machine.encode_user_msg}.to output(/[a-z]{3}\s+cipher: \d*/).to_stdout
+    end
+  end
+
+**or you stub for random things**
  -testing random output is tricky, if a method produces a
   random output, you have to stub it
  -in this example, the Airport class generates a random number
@@ -1232,39 +1283,44 @@ Finished in 0.001 seconds (files took 0.11201 seconds to load)
   or not it raises an error (bad weather raises an error in
   the ruby code) 
   
- it 'a plane cannot take off when there is a storm brewing' do
-    airport = Airport.new [plane]
-    airport.allow(:weather_rand).and_return(5)
-    # a 5 is a storm 
-    expect(lambda { airport.plane_take_off(plane) }).to raise_error(RuntimeError) 
-end 
-
-here is the actual code: 
+   it 'shouldn't take off when there's a storm brewing' do
+      airport = Airport.new [plane]
+      airport.expect(:weather_rand).and_return(5)
+      # a 5 is a storm 
+      expect(lambda { airport.plane_take_off(plane) }).to raise_error(RuntimeError) 
+  end 
+ 
+ -it tells the airport object to expect that it will recieve
+  the weather_rand method, and when it does, to return a val
+  of 5, this allows for the various outcomes to be tested when
+  airport.plane_take_off is run 
+ 
+ -here is the actual code: 
 
   def weather_rand
-  rand(100)
-end
+    rand(100)
+  end
 
-def plane_land plane
-  raise "Too Stormy!" if weather_ran <= 20
-  permission_to_land plane
-end
+  def plane_land plane
+    raise "Too Stormy!" if weather_ran <= 20
+    permission_to_land plane
+  end
 
-def permission_to_land plane
-  raise "Airport is full" if full?
-  @planes << plane
-  plane.land!
-end
+  def permission_to_land plane
+    raise "Airport is full" if full?
+    @planes << plane
+    plane.land!
+  end
 
-def plane_take_off plane
-  raise "Too Stormy!" if weather_ran <= 20
-  permission_to_take_off plane
-end
+  def plane_take_off plane
+    raise "Too Stormy!" if weather_ran <= 20
+    permission_to_take_off plane
+  end
 
-def permission_to_take_off plane
-  plane_taking_off = @planes.delete_if {|taking_off| taking_off == plane }
-  plane.take_off!
-end
+  def permission_to_take_off plane
+    plane_taking_off = @planes.delete_if {|taking_off| taking_off == plane }
+    plane.take_off!
+  end
 
  -and here is the stackoverflow link: 
 

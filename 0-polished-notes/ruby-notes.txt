@@ -1,49 +1,73 @@
-this is just a test
-////////////////////////////////////////////////////////////
-/
-/
-/             SECTION START: "INTRO TO RUBY" 
-/
-/
-/////////////////////////////////////////////////////////////
+  _____       _            
+ |  __ \     | |           
+ | |__) |   _| |__  _   _  
+ |  _  / | | | '_ \| | | | 
+ | | \ \ |_| | |_) | |_| | 
+ |_|  \_\__,_|_.__/ \__, | 
+ | \ | |     | |     __/ | 
+ |  \| | ___ | |_ __|___/_ 
+ | . ` |/ _ \| __/ _ \/ __|
+ | |\  | (_) | ||  __/\__ \
+ |_| \_|\___/ \__\___||___/
+
 TABLE OF CONTENTS
-1SSS      Introduction
-2SSS      Ruby Data types 
-3SSS      error messages 
-4SSS      intro to tests, rspec, and learn
-5SSS      Variables and Methods
-5_1SSS    scope 
-6SSS      string evaluation, ',",`, and puts v print, indexing
-7SSS      Defining methods
-8SSS      Return values
-9SSS      Debugging with pry
-10SSS     Ranges 
-11SSS     Random numbers/Math in ruby 
-12SSS     Booleans and truthiness 
-13SSS     Intro to loops (assignment operators) 
-14SSS     RSpec hooks/putting a program to sleep
-15SSS     Blackjack CLI and CLI apps   
-16SSS     Arrays 
-17SSS     common array methods
-18SSS     Enumerators introduction
-19SSS     Understanding Yield and Blocks 
-20SSS     blocks part 2
-21SSS     blocks vs procs vs lambdas 
-22SSS     Sorting in depth  #sort, #sort_by
+1SSSS      Introduction
+2SSSS      Ruby Data types 
+3SSSS      error messages 
+4SSSS      intro to tests, rspec, and learn
+5SSSS      Variables and Methods
+5_1SSSS    scope 
+6SSSS      string evaluation ',",`, and puts v print, indexing
+7SSSS      Defining methods
+8SSSS      Return values
+9SSSS      Debugging with pry
+10SSSS     Ranges 
+11SSSS     Random numbers/Math in ruby 
+12SSSS     Booleans and truthiness 
+13SSSS     Intro to loops (assignment operators) 
+14SSSS     RSpec hooks/putting a program to sleep
+15SSSS     Blackjack CLI and CLI apps   
+16SSSS     Arrays 
+17SSSS     common array methods
+18SSSS     Enumerators introduction
+19SSSS     Hashes
+20SSSS     Symbols
+21SSSS     Hash iteration and methods
+22SSSS     Understanding Yield and Blocks 
+23SSSS     blocks part 2
+24SSSS     blocks vs procs vs lambdas 
+25SSSS     Sorting in depth  #sort, #sort_by
+26SSSS     Short circuiting, ||=, &&=
+27SSSS     Ruby splat operator
+28SSSS     JSON and YAML
+29SSSS     Benchmarking
+30SSSS     Ruby Classes Intro
+31SSSS     Creating a class
+32SSSS     Main and self
+33SSSS     Class methods
+34SSSS     Class Advanced
+35SSSS     Inheritance, sub and super classes
+36SSSS     Regular expressions
+
+
+
 
 INTERLUDES
-timeSSS   Time class interlude
-getsSSS   Interlude: getting values from the command line 
-w_obSSS   Interlude: #with_object
-doSSS     {} vs do..end when sing puts**
-rvSSS     interlude: More return values 
-insSSS        Interlude #inspect
-
+timeSSSS   interlude: Time class 
+getsSSSS   Interlude: getting values from the command line 
+w_obSSSS   Interlude: #with_object
+doSSSS     Interlude: {} vs do..end when sing puts**
+rvSSSS     interlude: More return values 
+insSSSS    Interlude: #inspect
+moSSSS     Interlude: Monkey Patching
+clSSSS     Interlude: runner files for CLI Programs
+sbSSSS     Interlude: Stubbing more in depth with RSpec
+ooSSSS     Interlude: Procedural vs. OO
 
 
 
 =============================================================
-1SSS                   Introduction
+1SSSS                  Introduction
 =============================================================
 **MINSWAN**
   Basically, Ruby's philosophy is "natural, but not simple"
@@ -149,7 +173,7 @@ insSSS        Interlude #inspect
 
 
 ============================================================
-2SSS              Ruby Data types 
+2SSSS             Ruby Data types 
 =============================================================
 /////////////////////////////////////////////////////////////
 
@@ -388,7 +412,7 @@ insSSS        Interlude #inspect
 
 
 =============================================================
-3SSS             error messages 
+3SSSS            error messages 
 =============================================================
 
 **3 basic parts**
@@ -491,7 +515,7 @@ https://learn.co/tracks/web-development-fundamentals/intro-to-ruby/introduction/
 
 
 ==============================================================
-4SSS          intro to tests, rspec, and learn
+4SSSS         intro to tests, rspec, and learn
 ==============================================================
 
 **what's TDD**
@@ -585,7 +609,7 @@ end
 
 
 =============================================================
-timeSSS          Time class interlude
+timeSSSS         Time class interlude
 =============================================================
  -lots of examples use an instance of the Time class
  -more on this later, but for now know 
@@ -612,7 +636,7 @@ t.dst?      # => false (was it daylight savings time?)
 
 
 =============================================================
-5SSS            Variables and Methods
+5SSSS           Variables and Methods
 =============================================================
 **about variable assignment**
  -Here is how you assign variables in Ruby: 
@@ -805,7 +829,7 @@ boolean	          value
 
 
 ==============================================================
-5_1SSS             scope 
+5_1SSSS            scope 
 ==============================================================
 **scopes**
  -variables named outside a method can't be accessed inside 
@@ -901,7 +925,7 @@ boolean	          value
 
 
 ==============================================================
-6SSS    string evaluation, ',",`,  and puts v print
+6SSSS   string evaluation, ',",`,  and puts v print
 ==============================================================
 **single vs double quotes**
  -double quotes allow for string evaluation, or interpolation
@@ -1050,7 +1074,7 @@ boolean	          value
 
 
 ==============================================================
-7SSS               Defining methods
+7SSSS              Defining methods
 ==============================================================
 **method definitions**
  -here is an example method: 
@@ -1175,7 +1199,7 @@ boolean	          value
 
 
 ==============================================================
-8SSS                  Return values
+8SSSS                 Return values
 ==============================================================
  -Everything has a return value 
   look at this table to see examples of return values: 
@@ -1256,7 +1280,7 @@ boolean	          value
 
 
 ==============================================================
-9SSS                Debugging with pry
+9SSSS               Debugging with pry
 ==============================================================
 **What is Pry?**
  -Pry is another Ruby REPL that lets you pause your program
@@ -1309,7 +1333,7 @@ boolean	          value
 
 
 ==============================================================
-10SSS            Ranges AND random numbers 
+10SSSS           Ranges AND random numbers 
 ==============================================================
 **Ranges**
  -A range is a set of values with a beginning and end
@@ -1440,7 +1464,7 @@ boolean	          value
 
 
 ==============================================================
-11SSS           Random numbers/Math in ruby 
+11SSSS          Random numbers/Math in ruby 
 ==============================================================
 **random number generation**
  -ranges are great for quickly doing integer randoms: 
@@ -1498,7 +1522,7 @@ boolean	          value
 
 
 ==============================================================
-getsSSS    Interlude: getting values from the command line 
+getsSSSS   Interlude: getting values from the command line 
 ==============================================================
 
 **user interaction**
@@ -1527,7 +1551,7 @@ getsSSS    Interlude: getting values from the command line
 
 
 ==============================================================
-12SSS        Booleans and truthiness 
+12SSSS       Booleans and truthiness 
 ==============================================================
 **booleans**
  -in ruby, booleans are just true and false, no capitals 
@@ -1743,7 +1767,7 @@ getsSSS    Interlude: getting values from the command line
 
 
 ==============================================================
-13SSS      Intro to loops (assignment operators) 
+13SSSS     Intro to loops (assignment operators) 
 ==============================================================
 **times iterator**
  -one of the simplest ways to loop is using the times
@@ -1880,7 +1904,7 @@ getsSSS    Interlude: getting values from the command line
 
 
 ==============================================================
-14SSS     RSpec hooks/putting a program to sleep
+14SSSS    RSpec hooks/putting a program to sleep
 ==============================================================
 **the before hook**
  -you might notice in some tests this pattern: 
@@ -1926,7 +1950,7 @@ getsSSS    Interlude: getting values from the command line
     figure out which, if it comes up in a project, find it
 
 ==============================================================
-15SSS  Blackjack CLI and CLI apps    
+15SSSS Blackjack CLI and CLI apps    
 ==============================================================
 **puts, print and $stdout**
  -both puts and prints router their arguments into the 
@@ -2013,7 +2037,7 @@ expect(self).to receive(:get_user_input).and_return("s")
  -stubbing will be explained in greater detail later
 
 ==============================================================
-16SSS        Arrays 
+16SSSS       Arrays 
 ==============================================================
 **creating a new array** 
 
@@ -2149,14 +2173,14 @@ expect(self).to receive(:get_user_input).and_return("s")
 
 
 ==============================================================
-17SSS      common array methods
+17SSSS     common array methods
 ==============================================================
 NOTE: some of these methods are enumerators, which we will
   talk more about later in the hash section, for now, just
   know that they work by going through each array index like
   it was single for loop
 
-**randomize the order**
+**randomize the order with #shuffle**
  -shuffle and shuffle! randomize the order of elements, 
   shuffle just a copy, and shuffle! on the array itself
 
@@ -2263,6 +2287,14 @@ NOTE: some of these methods are enumerators, which we will
     arr.reverse 
 
  -reverse! does permanent change to the array
+
+
+**#min and #max** 
+ -find the max and min
+  
+    arr =[1,2,3,4]
+    arr.max #=> 4
+    arr.min #=> 1
 
 **print vs puts an array**
  -it should be noted it you just puts an array, each value 
@@ -2384,7 +2416,7 @@ NOTE: some of these methods are enumerators, which we will
 
 
 ==============================================================
-18SSS      Enumerators introduction
+18SSSS     Enumerators introduction
 ==============================================================
 **enumerators**
  -enumerators allow for iterative actions over data structures
@@ -2393,6 +2425,9 @@ NOTE: some of these methods are enumerators, which we will
   things 
  -the common ones are #each, #map (#collect), #select, #find,
   #delete_if, #include?, #any? #none? 
+ -many of those array methods were enumerators, and most
+  enumerators can be used on hashes (which is in the next 
+  section)
 
 **#map vs #collect**
  -map is just an alias for collect, they both return a new
@@ -2494,8 +2529,326 @@ NOTE: some of these methods are enumerators, which we will
 
   http://ruby-doc.org/core-2.2.2/Enumerable.html
 
+
+
+
+
+
 ==============================================================
-w_obSSS    Interlude: #with_object
+19SSSS   Hashes
+==============================================================
+**what are hashes**
+ -they are the key value pair data structure of Ruby, 
+  sometimes referred to as dictionaries
+
+**creating a hash
+ -make a new instance of the hash class, or use the literal
+  method 
+
+   new_hash = Hash.new
+   newer_hash = {}
+
+**adding values/keys**
+ -the keys and values can be any data type and should be 
+  separated by a =>, and each key/value is separated by a 
+  comma (that => is called a "hash rocket" becuase it kind
+  of looks like one)
+
+  pets = {"cat" => "maru", 
+      "dog" => "pluto", 
+      "total pets" => 2
+    }
+  # this is how you do multi line hashes 
+
+ -after an array is created, you can add pairs like so: 
+
+   new_value["new key"] = "new value"
+
+**modifying values**
+ -just assign the old key a new value: 
+
+    pets["cat"] = "Hobbes"
+ -this is why keys MUST be unique since if you try to 
+  "add" a new key that already exists, ruby will just 
+  overwrite the original value of the key with the new value
+ -if the value is a number, you can use the += *= -=, etc
+  operators 
+
+  shipping_manifest = { "whale bone corsets" => 5, }
+  shipping_manifest["whale bone corsets"] += 4
+  # now there are nine corsets
+ 
+**accessing values**
+ -to get the value:
+   -use bracket notation, but inside it just put the key: 
+ -to get the key: 
+   -use the #key method and pass the value as an argument
+
+      pets["dog"]
+      # Pluto
+      pets.key("Pluto")
+      # dog
+      pets.key("xorblua")
+      # nil
+      # if the value isn't found, #key reutrns nil
+      
+**#delete keys**
+ -simple, just use the delete method, like an array, but 
+  give the key instead of index or value:
+
+        hash = {"key"=>"val"}
+        hash.delete("key")
+        # => returns value of key, "val"
+        hash
+        #=> {}
+
+
+**hashes are unordered**
+ -the data inside is associated only by key, not order
+ -this is why we use the []= to add new items, not <<
+  since that adds item to the "end" of a list, but hashes
+  don't really have beginnings or endings in that sense
+
+//////////////////////////////////////////////////////////////
+  Nested hashes 
+**arrays and hashes can store any kind of data**
+ -you can store hashes in an array, arrays in hashes, 
+  and multi dimensional as far down as you feel like 
+ -to access each level, use either either index or 
+  keys depending on the level
+
+  teachers = {
+    grade_4: ["mr. bob", "mrs. sally", "ms. jeane"],
+    grade_5: ["ms. kane", "mrs. mill", "mr. jeane"],
+    grade_6: ["mrs. spa", "ms. rachel", "mrs. joe"],
+    faculty: {admin: ["mr. bill", "ms. knots"],
+              principals: ["mrs. sarah", "mr. carr"],
+              janitor: "mr. don"
+              }
+  }
+
+  teachers[:grade_4][0]
+  => "mr. bob"
+  teachers[:faculty][:principals][0]
+  => "mrs. sarah"
+
+  # remember, each step of nest returns the object, 
+  # so here we have an array object, so we can << to it 
+  teachers[:grade_4] << "mr. dascomb"
+
+**chrome extension**
+ -get a json viewer to save time trying to read nested tables
+ 
+
+
+
+
+
+==============================================================
+20SSSS     Symbols
+==============================================================
+**what are sybols**
+ -symbols are a special class of object they are essentially
+  immutable strings, with a non changing object id
+ -they look like strings behind colons
+
+    :symbol
+
+**immutability and size**
+ -because every string can change, Ruby creates a new memory
+  location for every string so that even if it changes, it 
+  will point to the same place
+ -so two strings called "steven" will have different object 
+  ids to account for this ability to change 
+  
+  "steven".object_id == "steven".object_id 
+  # false 
+
+ -symbols can't change, and therefore two identical symbols 
+  will literally be the same object 
+
+    puts :steven.object_id
+    puts :steven.object_id
+    puts :steven.object_id
+     
+    # > 1093988
+    # > 1093988
+    # > 1093988
+ 
+ -so if you know a string never needs to change, it improves
+  performance to use symbols 
+
+**symbols are perfect hash keys**
+ -since all hash keys must be unique and can't change, they
+  are literally perfect use cases for symbols: 
+
+  flatiron_school = {:instructor => "Isaac Newton"}
+
+ -in fact, symbols are so perfect, there's even a great 
+  shorthand for it that forgoes the rocket ship: 
+
+    flatiron_school = {instructor: "Isaac Newton"}
+    # => {:instructor=>"Isaac Newton"}
+
+
+   
+
+
+
+
+==============================================================
+21SSSS     Hash iteration and methods
+==============================================================
+**#each iteration over hashes**
+ -basically the same, but now we have key and value:
+
+    hash = {key1: "value1", key2: "value2"}
+     
+    hash.each do |key, value|
+      puts "#{key}: #{value}"
+    end
+
+ -the return value is the original COLLECTION, so it will 
+  be the original hash in this case, not an array
+
+**#map/#collect on hashes**
+ -same as each, HOWEVER it still returns an array of new
+  returned values, not a hash like you might expect
+
+    birthday_kids = {
+        "Timmy" => 9, 
+        "Sarah" => 6, 
+        "Amanda" => 27
+    }
+     
+    birthday_kids.map do |kids_name, age|
+        age
+    end
+     
+    # => [9, 6, 27]
+
+# prereqs: iterators, hashes, conditional logic
+# Given a hash with numeric values, return the key for the smallest value
+
+def key_for_min_value(name_hash)
+  min_value = Float::INFINITY
+  name_hash.each do |key,value|
+    min_value = value if value < min_value
+  end
+  return name_hash.key(min_value)
+end
+# ikea = {:chair => 25, :table => 85, :mattress => 450}
+# key_for_min_value(ikea)
+
+**other enumerators that are common with hashes**
+ -the main difference between hash enumerators and array 
+  enumeratos is just that hashes pass the key and value 
+  so: 
+    #select, #find, #any?, #none?, #all?, #delete_if, ... 
+  
+  and more work on hashes just like arrays
+ -exept instead of working on a single value, you can use 
+  the key or value
+
+//////////////////////////////////////////////////////////////
+  Some more hash methods
+
+**#keys, #values**
+ -use the #keys method to get an array of the hash's keys, and
+  #values method to get an array of hash's values: 
+
+  h = { "a" => 100, "b" => 200, "c" => 300, "d" => 400 }
+  h.keys   #=> ["a", "b", "c", "d"]
+  h,values #=> [100, 200, 300, 400]
+
+
+**#fetch**
+ -the fetch method works just like [] for indexed arrays,
+  but it does have some differnces with hashes
+
+    fetch(key_name): get the value if the key exists, 
+      raise a KeyError if it doesn't
+    fetch(key_name, default_value): get the value if the 
+      key exists, return default_value otherwise
+    fetch(key_name) { |key| "default" }: get the value 
+      if the key exists, otherwise run the supplied block 
+      and return the value
+
+ -the default value and key error are the two largest changes
+  using brackets does not allow for default if no value is 
+  found, and if no key is found, then it returns nil, instead
+  of raising an error 
+
+
+**using #find with hashes**
+ -as you know, find returns the value when the test was true:
+
+  [1, 3, 5, 7].find do |num|
+      num.odd?
+    end
+      => 1
+ 
+ -but when you use it on a hash it will return the key and 
+  value of the iteration it stopped at inside an array, with
+  the key value at index 0, and the value at index 1
+ -so if you can rememer, this code is from learn.co where 
+  there was a hash game_hash that had two keys, :home and 
+  :away, here was a common use of #find to return  
+ 
+    def find_team(team)
+      game_hash.find do |location,details|
+        game_hash[location][:team_name] == team
+      end
+    end
+
+    find_team("Brooklyn Nets")
+    #=> [:home,
+         {:team_name=>"Brooklyn Nets",
+          :colors=>["Black", "White"],
+          :players=>
+           {"Alan Anderson"=>
+             {:number=>0,
+              :shoe=>16,
+              :points=>22,
+              :rebounds=>12,
+              :assists=>12,
+              :steals=>3,
+              :blocks=>1,
+              :slam_dunks=>1},
+            "Reggie Evans"=>
+             {:number=>30,
+              :shoe=>14,
+              :points=>12,
+              :rebounds=>12,
+              :assists=>12,
+              :steals=>12,
+              :blocks=>12,
+              :slam_dunks=>7},
+          "Jason Terry"=>
+             {:number=>31,
+              :shoe=>15,
+              :points=>19,
+              :rebounds=>2,
+              :assists=>2,
+              :steals=>4,
+              :blocks=>11,
+              :slam_dunks=>1}}}]
+
+ -now, if you don't want the array, just specify which 
+  index you want, the key or the value, after the last 
+  end block
+ -useful in this case, since we want to chain methods that
+  apply to the hash, not the key: 
+
+ def find_team(team)
+    game_hash.find do |location,details|
+      game_hash[location][:team_name] == team
+    end[1]
+  end
+
+
+==============================================================
+w_obSSSS   Interlude: #with_object
 ==============================================================
 **#.with_object**
  -#with_object is very powerful, it allows you to 
@@ -2555,7 +2908,7 @@ w_obSSS    Interlude: #with_object
   counter 
 
 ==============================================================
-19SSS        Understanding Yield and Blocks 
+22SSSS       Understanding Yield and Blocks 
 ==============================================================
 **what are blocks**
  -as we saw with enumerables, they all need to take a block
@@ -2715,7 +3068,7 @@ w_obSSS    Interlude: #with_object
   original array, and then returns is 
 
 ==============================================================
-doSSS      interlude: {} vs do..end when sing puts**
+doSSSS     interlude: {} vs do..end when sing puts**
 ==============================================================
  -generally {} are for single line blocks and do..end are 
   for multi line blocks
@@ -2758,7 +3111,7 @@ doSSS      interlude: {} vs do..end when sing puts**
   do..end and {} work exactl as intended 
  
 ==============================================================
-20SSS      blocks part 2
+23SSSS     blocks part 2
 ==============================================================
 **dealing with missing blocks**
  -ruby has the method #block_given? which can tell if a block
@@ -2907,7 +3260,7 @@ end
   and can take values into them using #call or #yield
 
 ==============================================================
-21SSS              blocks vs procs vs lambdas 
+24SSSS             blocks vs procs vs lambdas 
 ==============================================================
 **first up, closures**
  -a "closure" is a block of functional code with variables
@@ -3008,7 +3361,7 @@ end
 
 
 ==============================================================
-rvSSS    interlude: More return values 
+rvSSSS   interlude: More return values 
 ==============================================================
 
 **#each does not return new values**
@@ -3057,7 +3410,7 @@ end
 
 
 ==============================================================
-22SSS    Sorting in depth  #sort, #sort_by
+25SSSS   Sorting in depth  #sort, #sort_by
 ==============================================================
 **comparing strings**
  -if you use the < > operators on strings, they will sort
@@ -3185,15 +3538,19 @@ end
   when you compare similar words alphabetically
  -here, we use a new alphabet to sort phrases 
 
-ESPERANTO_ALPHABET = " abcĉdefgĝhĥijĵklmnoprsŝtuŭvz"
+    ESPERANTO_ALPHABET = " abcĉdefgĝhĥijĵklmnoprsŝtuŭvz"
 
-def alphabetize(arr)
-  arr.sort_by { |a| a.split("").map{ |char| ESPERANTO_ALPHABET.index(char) } }
-end
+    def alphabetize(arr)
+      arr.sort_by do |a| 
+        a.split("").map do |char| 
+          ESPERANTO_ALPHABET.index(char) 
+        end 
+      end
+    end
 
 
 ==============================================================
-insSSS        Interlude #inspect
+insSSSS       Interlude #inspect
 ==============================================================
 **inspect**
  -use the inspect method to make an object a human 
@@ -3216,305 +3573,19 @@ insSSS        Interlude #inspect
  -now instead of getting each value on its own line,
   you get one nice string
 
-//////////////////////////////////////////////////////////////
-      HASHES 
-**what are hashes**
- -they are the key value pair data structure of Ruby, 
-  sometimes referred to as dictionaries
-
-**creating a hash
- -make a new instance of the hash class, or use the literal
-  method 
-
-   new_hash = Hash.new
-   newer_hash = {}
-
-**adding values/keys**
- -the keys and values can be any data type and should be 
-  separated by a =>, and each key/value is separated by a 
-  comma (that => is called a "hash rocket" becuase it kind
-  of looks like one)
-
-  pets = {"cat" => "maru", 
-      "dog" => "pluto", 
-      "total pets" => 2
-    }
-  # this is how you do multi line hashes 
-
- -after an array is created, you can add pairs like so: 
-
-   new_value["new key"] = "new value"
-
-**modifying values**
- -just assign the old key a new value: 
-
-    pets["cat"] = "Hobbes"
- -this is why keys MUST be unique since if you try to 
-  "add" a new key that already exists, ruby will just 
-  overwrite the original value of the key with the new value
- -if the value is a number, you can use the += *= -=, etc
-  operators 
-
-  shipping_manifest = { "whale bone corsets" => 5, }
-  shipping_manifest["whale bone corsets"] += 4
-  # now there are nine corsets
- 
-**accessing values**
- -to get the value:
-   -use bracket notation, but inside it just put the key: 
- -to get the key: 
-   -use the #key method and pass the value as an argument
-
-      pets["dog"]
-      # Pluto
-      pets.key("Pluto")
-      # dog
-      pets.key("xorblua")
-      # nil
-      # if the value isn't found, #key reutrns nil
-      
-**#delete keys**
- -simple, just use the delete method, like an array, but 
-  give the key instead of index or value:
-
-        hash = {"key"=>"val"}
-        hash.delete("key")
-        # => returns value of key, "val"
-        hash
-        #=> {}
 
 
-**hashes are unordered**
- -the data inside is associated only by key, not order
- -this is why we use the []= to add new items, not <<
-  since that adds item to the "end" of a list, but hashes
-  don't really have beginnings or endings in that sense
-
-//////////////////////////////////////////////////////////////
-              SYMBOLS
-**what are sybols**
- -symbols are a special class of object they are essentially
-  immutable strings, with a non changing object id
- -they look like strings behind colons
-
-    :symbol
-
-**immutability and size**
- -because every string can change, Ruby creates a new memory
-  location for every string so that even if it changes, it 
-  will point to the same place
- -so two strings called "steven" will have different object 
-  ids to account for this ability to change 
-  
-  "steven".object_id == "steven".object_id 
-  # false 
-
- -symbols can't change, and therefore two identical symbols 
-  will literally be the same object 
-
-    puts :steven.object_id
-    puts :steven.object_id
-    puts :steven.object_id
-     
-    # > 1093988
-    # > 1093988
-    # > 1093988
- 
- -so if you know a string never needs to change, it improves
-  performance to use symbols 
-
-**symbols are perfect hash keys**
- -since all hash keys must be unique and can't change, they
-  are literally perfect use cases for symbols: 
-
-  flatiron_school = {:instructor => "Isaac Newton"}
-
- -in fact, symbols are so perfect, there's even a great 
-  shorthand for it that forgoes the rocket ship: 
-
-    flatiron_school = {instructor: "Isaac Newton"}
-    # => {:instructor=>"Isaac Newton"}
 
 
-//////////////////////////////////////////////////////////////
-        NESTED HASHES 
-**arrays and hashes can store any kind of data**
- -you can store hashes in an array, arrays in hashes, 
-  and multi dimensional as far down as you feel like 
- -to access each level, use either either index or 
-  keys depending on the level
-
-  teachers = {
-    grade_4: ["mr. bob", "mrs. sally", "ms. jeane"],
-    grade_5: ["ms. kane", "mrs. mill", "mr. jeane"],
-    grade_6: ["mrs. spa", "ms. rachel", "mrs. joe"],
-    faculty: {admin: ["mr. bill", "ms. knots"],
-              principals: ["mrs. sarah", "mr. carr"],
-              janitor: "mr. don"
-              }
-  }
-
-  teachers[:grade_4][0]
-  => "mr. bob"
-  teachers[:faculty][:principals][0]
-  => "mrs. sarah"
-
-  # remember, each step of nest returns the object, 
-  # so here we have an array object, so we can << to it 
-  teachers[:grade_4] << "mr. dascomb"
-
-**chrome extension**
- -get a json viewer to save time trying to read nested tables
-    
 
 
-//////////////////////////////////////////////////////////////
-              HASH ITERATION-EACH/COLLECT
-**#each iteration over hashes**
- -basically the same, but now we have key and value:
 
-    hash = {key1: "value1", key2: "value2"}
-     
-    hash.each do |key, value|
-      puts "#{key}: #{value}"
-    end
-
- -the return value is the original COLLECTION, so it will 
-  be the original hash in this case, not an array
-
-**#map/#collect on hashes**
- -same as each, HOWEVER it still returns an array of new
-  returned values, not a hash like you might expect
-
-    birthday_kids = {
-        "Timmy" => 9, 
-        "Sarah" => 6, 
-        "Amanda" => 27
-    }
-     
-    birthday_kids.map do |kids_name, age|
-        age
-    end
-     
-    # => [9, 6, 27]
-
-# prereqs: iterators, hashes, conditional logic
-# Given a hash with numeric values, return the key for the smallest value
-
-def key_for_min_value(name_hash)
-  min_value = Float::INFINITY
-  name_hash.each do |key,value|
-    min_value = value if value < min_value
-  end
-  return name_hash.key(min_value)
-end
-# ikea = {:chair => 25, :table => 85, :mattress => 450}
-# key_for_min_value(ikea)
-
-//////////////////////////////////////////////////////////////
-        MORE HASH STUFF 
-
-
-  Hash methods to check out 
-    #key
-    #keys
-    #values
-    #min
-    #sort_by
-    #min_by
-    #compact  -removes nil values 
-
-
-**#fetch**
- -the fetch method works just like [] for indexed arrays,
-  but it does have some differnces with hashes
-
-    fetch(key_name): get the value if the key exists, 
-      raise a KeyError if it doesn't
-    fetch(key_name, default_value): get the value if the 
-      key exists, return default_value otherwise
-    fetch(key_name) { |key| "default" }: get the value 
-      if the key exists, otherwise run the supplied block 
-      and return the value
-
- -the default value and key error are the two largest changes
-  using brackets does not allow for default if no value is 
-  found, and if no key is found, then it returns nil, instead
-  of raising an error 
-
-
-**using #find with hashes**
- -as you know, find returns the value when the test was true:
-
-  [1, 3, 5, 7].find do |num|
-      num.odd?
-    end
-      => 1
- 
- -but when you use it on a hash it will return the key and 
-  value of the iteration it stopped at inside an array, with
-  the key value at index 0, and the value at index 1
- -so if you can rememer, this code is from learn.co where 
-  there was a hash game_hash that had two keys, :home and 
-  :away, here was a common use of #find to return  
- 
-def find_team(team)
-  game_hash.find do |location,details|
-    game_hash[location][:team_name] == team
-  end
-end
-
-find_team("Brooklyn Nets")
-#=> [:home,
-     {:team_name=>"Brooklyn Nets",
-      :colors=>["Black", "White"],
-      :players=>
-       {"Alan Anderson"=>
-         {:number=>0,
-          :shoe=>16,
-          :points=>22,
-          :rebounds=>12,
-          :assists=>12,
-          :steals=>3,
-          :blocks=>1,
-          :slam_dunks=>1},
-        "Reggie Evans"=>
-         {:number=>30,
-          :shoe=>14,
-          :points=>12,
-          :rebounds=>12,
-          :assists=>12,
-          :steals=>12,
-          :blocks=>12,
-          :slam_dunks=>7},
-      "Jason Terry"=>
-         {:number=>31,
-          :shoe=>15,
-          :points=>19,
-          :rebounds=>2,
-          :assists=>2,
-          :steals=>4,
-          :blocks=>11,
-          :slam_dunks=>1}}}]
-
- -now, if you don't want the array, just specify which 
-  index you want, the key or the value, after the last 
-  end block
- -useful in this case, since we want to chain methods that
-  apply to the hash, not the key: 
-
- def find_team(team)
-    game_hash.find do |location,details|
-      game_hash[location][:team_name] == team
-    end[1]
-  end
-
-//////////////////////////////////////////////////////////////
-   SHORT CIRCUITING, ||=, &&=
-
+==============================================================
+26SSSS     Short circuiting, ||=, &&=
+==============================================================
 **what is logical short circuiting?**
- -if the first value in a || is true, 
- -if the first value in a && is false,
+ -if the first value in a || is true: 
+ -if the first value in a && is false:
   then the second value does not get evaluated, 
   since it doesn't matter what it is, the statement is already
   set (|| can't be false, since the first val is true, 
@@ -3546,9 +3617,12 @@ find_team("Brooklyn Nets")
 
 
 
-//////////////////////////////////////////////////////////////
-        RUBY SPLAT OPERATOR 
 
+
+
+==============================================================
+27SSSS     Ruby splat operator
+==============================================================
 **the *splat operator**
  -put the splat operator in front a parameter in a method 
   assingment and it will turn that parameter into an array
@@ -3564,7 +3638,7 @@ find_team("Brooklyn Nets")
     # Bob: Hello!
     # Carl: Hello!
 
- -unlike the rest operator though, it does not have to 
+ -unlike the JS rest operator though, it does not have to 
   come at the end:
 
     def say(*people, what)
@@ -3584,7 +3658,8 @@ find_team("Brooklyn Nets")
 
 **passing in arrays**
  -you don't need to pass in separate values, if you pass in
-  an array, ruby will just use the values of the array: 
+  an array with the splat operator then ruby will just 
+  use the values of the array: 
 
     people = ["Rudy", "Sarah", "Thomas"]
     say "Howdy!", *people
@@ -3592,12 +3667,9 @@ find_team("Brooklyn Nets")
     # Sarah: Howdy!
     # Thomas: Howdy!
 
- -just be sure to use the splat operator in front of the 
-  array you want to splat 
- -however, since all the splat operator does to an array is 
-  take out and pass individual values, you don't need to use 
-  a splat operator in the original method parameter, IF your
-  array has the same number of values as the method needs: 
+ -you can use an array with a splat operator on a definiton
+  with the same number of parameters as their are values in
+  the array:
 
     def add(a,b)
       a + b
@@ -3642,8 +3714,16 @@ find_team("Brooklyn Nets")
     a = *"Hello"      #=> ["Hello"]
     a = *(1..3)       #=> [1, 2, 3]
     a = *[1,2,3]      #=> [1, 2, 3]
-//////////////////////////////////////////////////////////////
-          MONKEY PATCHING 
+
+
+
+
+
+
+
+==============================================================
+moSSSS    Interlude: Monkey Patching
+==============================================================
 **altering/adding methods to Ruby classes**
  -monkey patching is when you go into a base Ruby class
   like Array, Hash, String etc, and either add your own 
@@ -3675,21 +3755,25 @@ animals.keys_of("Australia")
 animals.keys_of("Aulia")
 # => nil
 
-https://hackhands.com/three-golden-rules-understand-self-ruby/
 
 
 
 
 
-//////////////////////////////////////////////////////////////
-        CLI Programs 
+
+
+
+
+==============================================================
+clSSSS     Interlude: runner files for CLI Programs
+==============================================================
 **using a bin file**
  -if you hvae an executable file, it does not need to 
   have the .rb extension, in fact, it is good practice to 
   leave it off 
  -however at the start of the file, you MUST include: 
 
-  #!/usr/bin/env ruby
+    #!/usr/bin/env ruby
 
  -or wherever your ruby file is
  -this is called a shebang, and it tell BASH where to look 
@@ -3704,15 +3788,16 @@ https://hackhands.com/three-golden-rules-understand-self-ruby/
     run(songs)
 
  -to run the command 
- -kinda seems dumb on a small scale when you can just alias 
-  the file ot a command but whatever 
 
 
-//////////////////////////////////////////////////////////////
-          STUBBING MORE IN DEPTH WITH RSPEC 
+
+
+
+==============================================================
+sbSSSS     Stubbing more in depth with RSpec
+==============================================================
 **stubbing is required for testing**
  -since RSpec can't get user input, it has to fake it : 
-
 
 it "can use a full song name to find a song" do
   allow(self).to receive(:gets).and_return("Phoenix - 1901")
@@ -3757,48 +3842,44 @@ end
 
  
 
-//////////////////////////////////////////////////////////////
-            JSON
- -JSON is a multilangauge file even though it is called 
+
+
+
+==============================================================
+28SSSS     JSON and YAML
+==============================================================
+**JSON**
+ -JSON is a multilangauge file format even though it's called 
   Javascript Object Notation
- -it basically stores lists and hashes for you to use 
+ -it basically stores arrays and hashes for you to use 
   and save from program to program
 
     require 'json'
-tempHash = {
-    "key_a" => "val_a",
-    "key_b" => "val_b"
-}
+    tempHash = {
+        "key_a" => "val_a",
+        "key_b" => "val_b"
+    }
 
+    # this is how your write to a file
+    File.open("file-name.json","w") do |f|
+      f.write(tempHash.to_json)
+    end
 
-File.open("test.json","w") do |f|
-  f.write(tempHash.to_json)
-end
+    # this is how you read a file
+    file = File.read('test.json')
+    data_hash = JSON.parse(file)
+    puts data_hash.keys
 
+ -note that the object File is capitalized, and that you
+  must require the JSON at the top of the file 
+ -all data must be JSON parsed to be read, and use the 
+  method #to_json to be written into a file
+ -if ruby tries to write to a file that does not exist, 
+  it will just create it in the directory of the ruby file
 
-file = File.read('test.json')
-data_hash = JSON.parse(file)
-puts data_hash.keys
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////
-        YAML
- -YAML is recursive for "YAML aint markup language"
+**YAML**
+ -YAML is recursive for "YAML aint markup language" (or it's
+  Yet Another Markup Language)
  -it's basically just a more human readable format 
  -it's a superset of JSON, so YAML can read JSON, JSON can't
   read YAML
@@ -3833,14 +3914,17 @@ puts data_hash.keys
     #   "secretary of the treasury" => "Jacob Lew"
     # }
 
- here is the YAML docs if it ever becomes relevant 
+ here is the YAML docs if you need more info: 
   http://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html
-(be sure that is wide enough to take up one line)
- 
 
 
-//////////////////////////////////////////////////////////////
-      BENCHMARKING 
+
+
+
+
+==============================================================
+29SSSS     Benchmarking
+==============================================================
 **see if your program is faster**
  -benchmarking is critical to understand how efficient your
   program is 
@@ -3859,11 +3943,12 @@ puts data_hash.keys
 
     0.310000   0.040000   0.350000 (  0.339958)
     
- -user cpu, system cpu, user+system, literal clock time 
+ -in order thats; 
+  user cpu, system cpu, user+system, literal clock time 
  -generally people are only concerned with the last one
  
 **much better way with bm** 
- -the bm method method lets you test an entire block
+ -the bm method lets you test an entire block
  -it also lets you test multiple ways and see them side by
   side 
  -and since it's a block, you can set it to to run a number
@@ -3872,20 +3957,21 @@ puts data_hash.keys
   a string argument descriptor 
  -here's the syntax, and below is actual code: 
 
-  Benchmark.bm do |bm| # the bm method passes the benchmark
+    Benchmark.bm do |bm| # the bm method passes the benchmark
 
-  bm.report('desctiption') do
-      #code to test 
-  end
+    bm.report('desctiption') do
+        #code to test 
+    end
 
  -and here is an actual example and what it outputs 
+
     require 'benchmark'
 
     # ruby code and stuff here 
 
     iterations = 100000
 
-    Benchmark.bm do |bm| # the bm method passes the benchmark
+    Benchmark.bm do |bm| 
     # joining an array of strings
     bm.report('Concatenation method') do
       iterations.times do
@@ -3900,150 +3986,99 @@ puts data_hash.keys
       end
     end
 
+ -this is what it will be outputting to the console
 
-# this is what it will be outputting to the console
-                            user   system    total       real
-Concatenation method    0.540000 0.010000 0.550000 ( 0.556572)
-Interpolation           0.410000 0.010000 0.420000 ( 0.413467)
+                       user   system    total       real
+  Concat method    0.540000 0.010000 0.550000 ( 0.556572)
+  Interpolation    0.410000 0.010000 0.420000 ( 0.413467)
 
 
 **bmbm method**
- -sometimes tests can slowed down because ruby has to create 
+ -sometimes tests can slow down because ruby has to create 
   a lot of objects, and then the memory allocation and 
   garbage collecting procedures can skew the results 
- -if this is the case, then use the benchmark#bmbm method 
+ -if this is the case, then use the benchmark #bmbm method 
   essentially runs a practice to make sure the test is ready
   first 
 
-require 'benchmark'
+    require 'benchmark'
 
-array = Array(1..10_000_000)
+    array = Array(1..10_000_000)
 
-Benchmark.bmbm(7) do |bm|
-  bm.report('reverse') do
-    array.dup.reverse
-  end
+    Benchmark.bmbm(7) do |bm|
+      bm.report('reverse') do
+        array.dup.reverse
+      end
 
-  bm.report('reverse!') do
-    array.dup.reverse!
-  end
-end
+      bm.report('reverse!') do
+        array.dup.reverse!
+      end
+    end
 
 
 
-============================================================
 
-                      RUBY CLASSES
 
-============================================================
-////////////////////////////////////////////////////////////
-MAIN STRUCTURE
-SSSSSSSSSSSS%
-class Baby   
-  @@all = []  
-  attr_accessor :name, :weight, :eye_color 
-  attr_reader :birthday #4 
 
-def initialize(name) #5 # "Hook /callback/lifecycle event
-    @name = name
-    @birthday = Time.now
-    @@all << self 
-    cry
-  end
 
-  def self.all # Class Method (Class Reader)
-    @@all
-  end 
+==============================================================
+30SSSS     Ruby Classes Intro
+==============================================================
+**overview** 
+ -here is the standard setup for a class in ruby, it will 
+  be broken down later, but it's helpful just to see what 
+  it will all look like: 
 
-  # Instance Method -represents and objects ability to have logic
-  def cry 
-    puts "WAAAAAAA"
-  end
+  class Baby   
+    @@all = []  
+    attr_accessor :name, :weight, :eye_color 
+    attr_reader :birthday #4 
 
-  def weight=(weight)    #writer
-    @weight = weight 
-  end
+    def initialize(name) #5 # "Hook /callback/lifecycle event
+        @name = name
+        @birthday = Time.now
+        @@all << self 
+        cry
+      end
 
-  def weight             # reader
-    @weight
-  end
+      def self.all # Class Method (Class Reader)
+        @@all
+      end 
 
-  def self.find_baby(name)
-    @@all.find {|baby| baby.name == name}
-  end
-end
+      # Instance Method 
+      # represents and object's ability to have logic
+      def cry 
+        puts "WAAAAAAA"
+      end
 
-**Classes overview**
+      def weight=(weight)    #writer
+        @weight = weight 
+      end
+
+      def weight             # reader
+        @weight
+      end
+
+      def self.find_baby(name)
+        @@all.find {|baby| baby.name == name}
+      end
+    end
+
+**Classes in Ruby**
  -some things to know is that Ruby is "pure" OO, so by default
   all data inside them is private, and can only be accessed  
   with methods
  -this is part of the principle of encapsulation
 
-**what is "main" and implicit/explicit methods, and self**
- -when you just leave a method out of nowhere like "puts",
-  how does that work? it's a method, so where is its object? 
-
-      puts "hello there"
-      # where is object like: 
-      "hello".capitalize
-      # the string is clearly what the method operates on
-
- -when you just put a word, Ruby first checks to see if it is 
-  a variable, if it doesn't come up with anything, it assumes
-  it's a method operating implicitely on the "self" object 
-  
-    puts 
-    # implicit reciever of self 
-    self.puts 
-    # explicit reciever of self 
-    # both of these are exactly the same 
-
- -so if your outside of a class, the scope we call main is
-  actually an object, and that's why it's called the 
-  main object, so it's the main scope
- -inside a class it refers to the class itself, if it's 
-  inside a method, it will refer to the new object 
-
-    def initialize
-      self.cry
-    end
-    # self here refers to the instance of baby
-    # its the same as lil_joe.cry
-
-    def cry 
-      puts "WAAAA"
-    end
-
-    def self.all=(all)
-      @@all = all
-    end
-    # this self refets to the Baby class itself 
-    # here, the self refers to the actual instance of Baby
-
-**when to use self**
- -look at the two lines below 
-
-    ...
-      name = "this is my name"
-      self.name = "what about this?"
-    ...
-
- -so, if you just saw name, is it a local variable called
-  name or is it calling the method weight=? 
- -because of this ambiguity, it is best in most cases to
-  refer to methods with explicit recievers so they do not
-  look like local variables 
- -and while self.name and @name are largely the same, we
-  will get into it later why methods should use self. and 
-  instance variables @
-
-**more on self**
- https://hackhands.com/three-golden-rules-understand-self-ruby/
 
 
-////////////////////////////////////////////////////////////
-        MAIN STRUCTURE BREAKDOWN
-**creating a class**
+
+
+
+==============================================================
+31SSSS     Creating a class
+==============================================================
+**creating a class
  -use the lowecase class keyword to create a new class
   
     class Baby 
@@ -4076,6 +4111,16 @@ end
  -in ruby, these variables are called "attributes" when in
   a class, other langs call the properties 
 
+**class methods**
+  instance methods:
+    these refer to instances of the particular object that is
+    created 
+    (timmy = Baby.new
+     timmy.cry )
+  class methods 
+    these refer to the class itself 
+      (Baby.method_name)
+
 **initializing a class**
  -#initialize is a built in method that gets called each time
   a new object is created 
@@ -4085,10 +4130,14 @@ end
       def initialize(name) 
           @name = name
           @birthday = Time.now
-          @@all << self 
+          @@all << self  # more on self in a second 
           self.cry
       end
-
+    ...more class
+    #outside in the main scope:
+    timmy = Baby.new("timmy") # these are your initialization
+                              # arguments
+    
  -notice how a bareword is stored as an instance variable,
   an instance variable is set a value not reliant on a 
   parameter (@birthday), a class variable (which was an 
@@ -4100,6 +4149,110 @@ end
  -initializing is not required, it is only needed if you 
   want to extend its functionality, it is NOT mandatory
 
+
+==============================================================
+32SSSS     Main and self
+==============================================================
+**what is "main" and self**
+ -classes use the self keyword, but what exactly is it and
+  why do we use it in classes but not in the main scope? 
+ -when you just leave a method out of nowhere like "puts",
+  how does that work? it's a method, so where is its object? 
+
+      puts "hello there"
+      # where is the object puts operates on? 
+      "hello".capitalize
+      # the string is clearly what the method operates on
+
+ -when you just put a word, Ruby first checks to see if it is 
+  a variable, if it doesn't come up with anything, it assumes
+  it's a method operating implicitely on the "self" object 
+ -in a class, the self refers to the object instance or the
+  class, but in main scope, self refers to "main" 
+
+    # in main scope: 
+    self 
+    #=> main
+
+ -so if your outside of a class, the scope we call main is
+  actually an object, the main object, so it's what we're 
+  working with
+    -this is technically an oversimplification, if you try 
+
+        self.puts "he"
+
+     it will fail because the direct class is actual called
+     Kernel
+
+        method(:puts).owner #=> Kernel
+        Kernel.puts "hee"
+        # this works fine
+
+     so the implicit self of puts refers to Kernel, but if
+     you try to explicitly use self, it will fail 
+    -this is advanced its not important
+
+**self in a class**
+ -inside a class method name, it refers to the class itself, 
+
+    def self.all
+      @@all 
+    end
+    # this self refers to the Baby class itself 
+    # it's the same as Baby.all
+
+ -but inside a method, it will refer to the new object 
+  and call on one of the classed methods
+ -it can be implicit or explicit
+
+    def initialize
+      self.cry      # an explicit self
+      cry           # an implicit self  
+
+      @@all << self 
+      # here you are adding the new object to
+      # a list of objects when it is created,
+      #so the class itself stores all of the 
+      #created objects 
+    end
+ 
+    def cry  # an instance method of Baby
+      puts "WAAAA"
+    ends
+
+ -self here refers to the instance of baby, its the same as 
+  lil_joe.cry
+
+**when to use self**
+ -look at the two lines below 
+
+    ...
+      name = "this is my name"
+      self.name = "what about this?"
+    ...
+
+ -so, if you just saw name, is it a local variable called
+  name or is it calling the method name=? 
+ -because of this ambiguity, it is best in most cases to
+  refer to methods with explicit recievers so they do not
+  look like local variables 
+ -and while self.name and @name are largely the same, we
+  will get into it later why methods should use self. and 
+  instance variables @
+
+**more on self**
+ https://hackhands.com/three-golden-rules-understand-self-ruby/
+
+
+
+
+
+
+
+
+==============================================================
+33SSSS     Class methods
+==============================================================
 **instance methods**
  -classes encapsulate methods, these are defined just like
   standalone methods 
@@ -4115,6 +4268,9 @@ end
 **readers and writers**
  -readers are getters and writers are setters, it's just
   a different terminology
+ -these are how you get information into an object after 
+  initialization if it changes, and how you get info out of
+  an object 
 
       def weight=(weight)    #writer
         @weight = weight 
@@ -4130,7 +4286,11 @@ end
     lil_baby.weight = 10
 
  -you are TECHNICALLY calling the .= method on lil_baby
-  instance, it's just syntactical sugar 
+  instance, it's just syntactical sugar that you use a space
+  and not this: 
+
+    lil_baby.weight.=(10)
+
  -this is reflected in the name of the writers, they must 
   end in =, and there is no space between the parens()
 
@@ -4179,8 +4339,10 @@ end
   specified
  -these only work for @vars not @@vars, you have to write out
   each @@var read and write function 
-**setting @variables with a method**
- -now, there is a Ruby method that just sets a @var: 
+
+**setting @variables with a method instead**
+ -now, instead of just using instance.variable,
+  there is a Ruby method that just sets a @var: 
 
     kanye.instance_variable_set(:@name, "Yeezy")
 
@@ -4192,6 +4354,13 @@ end
   syntactic vinegar 
 
 
+
+
+
+
+==============================================================
+34SSSS     Class Advanced
+==============================================================
 **scope accessor :: **
  -the scope accessor is how you get access to class level 
   scope variables
@@ -4203,7 +4372,7 @@ end
   should restructure your class so that it is a proper 
   method 
 
-**ruby reads class body once**
+**ruby reads the class body once**
  -consider: 
 
     class foo
@@ -4217,14 +4386,16 @@ end
     foo.new
     puts "end"
 
-    # => "hello start end" 
+    # =>  hello 
+          start 
+          end 
 
  -ruby only reads and executes the class body once and 
   immediately when it comes across it, any arbitrary code 
   in your class body will be executed as if it were in 
   the main scope 
  -if code is inside a method or initialize, it is only 
-  run when .new is used or the method is called on the object
+  run when .new is used and the method is called on the object
 
 **methods vs variables** 
  -it is considered best practice to try to deal with 
@@ -4277,10 +4448,10 @@ end
 
 
 
-
-////////////////////////////////////////////////////////////
-    PROCEDURAL VS OO
-*what;'s procedural**
+==============================================================
+ooSSSS     Interlude: Procedural vs. OO
+==============================================================
+*what's procedural**
  -procedural code is when you have data and then procedures
   for interacting with that data 
  -data and the instructions for it are treated as 2 separate
@@ -4314,14 +4485,25 @@ end
 
  -anything procedural can work OO, it just needs adjusting
 
-////////////////////////////////////////////////////////////
-        INHERITANCE, SUBCLASSES, SUPERCLASSES 
+
+
+
+
+
+
+==============================================================
+35SSSS     Inheritance, sub and super classes
+==============================================================
 **what is inheritance**
- -consider a main class, thing, that inits a name and weight
-  of an item. Then you have another class treasure, that 
+ -consider a main class, Thing, that inits a name and weight
+  of an item. Then you have another class Treasure, that 
   initializes a name, weight, and values, and THEN you have
-  a class called ship that does name, weight, and speed, 
-  it makes sense to have those two be children of thing: 
+  a class called Ship that does name, weight, and speed, 
+  it makes sense to have those two be children of thing, 
+  to avoid having to repeat code for initializing name and 
+  weight 
+ -you can simply have those classes inherit and be sub classes
+  of Thing: 
 
     class Treasure < Thing 
 
@@ -4335,24 +4517,31 @@ end
     maria = Ship.new("Maria", "10 tons", "5 knots")
  
  -you have to send the initialized values up to the 
-  super class Thing: 
+  super class Thing
+ -in the Ship classes init method, you must use the #super
+  method to decide what arguments will rely on the superclass
+  initialization method
+ -this is one of the only places where leaving off () can 
+  drastically change your code's meaning: 
 
-  # This passes a, b, c to the superclass 
-  def initialize( a, b, c, d, e, f ) 
-    super( a, b, c ) 
-  end 
-  
-  # This passes a, b, c to the superclass 
-    def initialize( a, b, c ) super 
-  end 
-  
-  # This passes no arguments to the superclass 
-  def initialize( a, b, c) 
-    super() 
-  end
+    # This passes a, b, c to the superclass 
+    def initialize( a, b, c, d, e, f ) 
+      super( a, b, c ) 
+      ...code to init d,e,f...
+    end 
+    
+    # This passes ALL arguments to the super class
+    def initialize( a, b, c ) 
+      super 
+    end 
+    
+    # This passes NO arguments to the superclass 
+    def initialize( a, b, c) 
+      super() 
+    end
 
 **subclass and superclass methods** 
- -if you call a mehtod on a subclass, and ruby can't find 
+ -if you call a method on a subclass, and ruby can't find 
   a method on that subclass that matches, it will then
   search the parent 
  -this is the powerful reason for sub classes, you can just
@@ -4390,29 +4579,29 @@ end
 **Partial Classes**
  -classes do not have to be defined all in one place: 
 
-class A 
-  def a 
-    puts( "a" ) 
-  end 
-end
- 
-class B < A 
-  def ba1 
-    puts( "ba1" ) 
-  end 
-end 
+    class A 
+      def a 
+        puts( "a" ) 
+      end 
+    end
+     
+    class B < A 
+      def ba1 
+        puts( "ba1" ) 
+      end 
+    end 
 
-class A 
-  def b 
-    puts( "b" ) 
-  end 
-end 
- 
-class B < A 
-  def ba2 
-    puts( "ba2" ) 
-  end 
-end
+    class A 
+      def b 
+        puts( "b" ) 
+      end 
+    end 
+     
+    class B < A 
+      def ba2 
+        puts( "ba2" ) 
+      end 
+    end
 
  -this is perfectly legal and all methods will be available
   no matter what part of the class they were defined in: 
@@ -4435,22 +4624,18 @@ end
 
     [1,2,3].gribbit
 
- 
 
-////////////////////////////////////////////////////////////
-      WARNING
--when iterating and making hashes, always lean to 
-    cart[w_c] ||= {}
-    instead of 
 
-    cart[w_c] = {}
-so you don't overwrite anything accidentally 
+
+
+
+
 ==============================================================
-SSS            Regular expressions
+36SSSS    Regular expressions
 ==============================================================
 **ruby differences** 
  -see the main regex-notes file for the basics of regex, here
-  is just the major differences or techniques of using regex
+  are just the major differences or techniques of using regex
   with ruby
 
 **all main options and characters**
@@ -4637,6 +4822,4 @@ SSS            Regular expressions
 
   https://www.tutorialspoint.com/ruby/ruby_regular_expressions.htm
 
-
-
-
+ for more info
