@@ -1,5 +1,24 @@
 GIT NOTES 
-///////////////////////////////////////////////////////////////
+
+TABLE OF CONTENTS
+
+
+
+
+
+INTERLUDES
+sshSSSS    SSH Keys
+resSSSS    resources
+
+
+
+
+
+
+
+==============================================================
+resSSSS    resources
+==============================================================
 https://gist.github.com/hofmannsven/6814451
 -the git cheat sheet
 
@@ -8,8 +27,13 @@ Resources to take a look at:
 https://learn.co/tracks/web-development-fundamentals/advanced-bash-and-git/git/git-resources
 
 
-///////////////////////////////////////////////////////////////
-          SSH KEYS 
+
+
+
+
+==============================================================
+sshSSSS    SSH Keys
+==============================================================
 **what are keys for**
  -when pushing and pulling, you can transfer over https or 
   ssh
