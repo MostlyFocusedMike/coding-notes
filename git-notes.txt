@@ -1,6 +1,12 @@
 GIT NOTES 
 
 TABLE OF CONTENTS
+1SSSS    Git basics
+2SSSS    Staging and remotes
+3SSSS    Sharing with remote repositories
+4SSSS    Cloning and Branching
+5SSSS    Collaboration basics
+6SSSS    Remote branches and tags
 
 
 
@@ -16,19 +22,471 @@ resSSSS    resources
 
 
 
+
 ==============================================================
-resSSSS    resources
+1SSSS    Git basics
 ==============================================================
-https://gist.github.com/hofmannsven/6814451
--the git cheat sheet
-
-Resources to take a look at: 
-
-https://learn.co/tracks/web-development-fundamentals/advanced-bash-and-git/git/git-resources
-
-
+**Git is a version control system**
+ -it's distributed (decentralized) repository of your team's 
+  code 
+ -everyone has a complete copy of the repo, which is not how 
+  a centralized repo works, which stores it all in one place
+ -invented by Linus while working on Linux 
 
 
+**git help**
+ use git help to get more info, and git help <topic> to get 
+  more info on that specific topic
+
+**basic git setup**
+ -first install git, on mac it's 
+
+    brew install git 
+
+ -once git is installed, you will need to edit the global
+  confif file to add your name and email
+
+  $ git config --global user.name "Your name"
+  $ git config --global user.email "youremail.com"
+  $ git config --global color.ui true
+
+ -this allows your team members to see what commits are yours
+  and have git show colors in the terminal when it can
+
+ **starting a repo**
+ -make your project file, then initialize it as a local 
+  Git repository: 
+
+    $ mkdir project; cd project 
+    $ git init
+    # message showing location of .git file 
+
+ -that's all it takes, and don't worry about the .git file,
+  you won't need to go in there ever, that's just where
+  all your versions are stored
+    -just be aware of this so you don't accidentally upload
+     your git file to your website server, it's a big heavy
+     useless file 
+
+ **git workflow**
+ -files are created and work on
+ -check the status of your project to see what files need to
+  be staged or committed. You will see all newly created files 
+  are "untracked"
+ -"untracked" files are not in the "staging
+  area" so git isn't paying attention to them at all
+ -add them to the staging area so they are tracked 
+ -then commit the changes, which is like taking a snapshot of
+  the files 
+ -now all your files are tracked, but each time you make a 
+  change in one, they will turn red
+ -you will always need to add changed and untracked files into
+  the staging area so you can make your commit
+
+ **workflow commands in order**
+ -here are the commands as they would be used: 
+
+  $ > READEME.md //create a new file
+  $ vim README.md // edit a file 
+  $ git status // see what files are tracked or have been
+               // changed and need commiting
+  $ git add README.md // this adds it to the staging area,
+                      // it is ready for a commit 
+  $ git commit -m "initial commit"  // always add a descriptive
+                                    // msg to commits 
+  $ git status // this will now say everything is fine 
+
+**git status**
+ -this command tells you lots of information about your local
+  repo compared to the online one, what branch you're on, if
+  any files need to be committed or tracked, 
+
+**branch master, origin/master?**
+ -git projects can have many diverging timelines called 
+  branches, but for now, know that the main one on your 
+  local repo is called master 
+ -also, once you have a remote repository, a repo not on 
+  your own computer, that repo is called "origin" and it's
+  main branch is also called master 
+
+**git add**
+ -this command adds changed files to git's staging area, 
+  you can add each file individually, add all files at once, 
+  add a type of file... 
+ -honestly you'll mainly just do git add .
+
+  git add filename
+  git add file1 file2 ...
+  git add --all //add all files 
+  git add .  // add all files as well
+  git add docs/*.txt  // add all files in docs dir
+  git add "*.txt" add ever txt file in the whole project
+  
+**git commit**
+ -once files are tracked, all changes can be committed 
+ -making a commit is like taking a snapshot of your entire 
+  project at its current state 
+ -you can make a commit using 
+
+    git commit -m "message"
+
+  the m flag just means this commit has a message
+ -however, the -a flag is far more powerful
+ -what that does is take all files that have been tracked but 
+  are not staged for commit, and automatically adds them to
+  the staging area
+ -this means you only need to do 
+
+    git add .
+ 
+  when you create a new file.
+ -even if you already did "git add ." it's fine to use the -a 
+  flag anyway, it won't hurt.
+ -of course, combine the a and m flags like so: 
+
+    git commit -am "message" 
+
+ -when writing commit messages, don't use past tense
+
+    "added file" NO    "add file" YES 
+ 
+ -this is because you want to say what adding the commit is 
+  doing, not what it did
+
+**tracked vs staged**
+ -untracked means git doesn't know anything about a file,
+  it knows it exists, but it's not keeping track of it in
+  it's commits 
+ -use git add to start tracking it, so git will add it in 
+  with each commit 
+ -to actually make commits, git needs files to be in the 
+  staging area, once they are in there, git can process and 
+  save their status 
+ -each time you make a change in a file, it is unstaged, 
+  meaning if you don't put it back on the stage for the next 
+  commit, it's changes will be ignored 
+ -here's a way to look at it: 
+
+    creat new file "file1" : untracked, unstaged
+    git add .              :tracked, staged 
+    git commit             tracked, staged, committed 
+    change file "file1     :tracked, unstaged 
+    git commit -am         :tracked, staged, committed  
+
+ 
+
+
+
+
+
+
+
+==============================================================
+2SSSS    Staging and remotes
+==============================================================
+**git diff**
+ -to see all changes in an unstaged file, use 
+    
+    $ git diff
+
+  this will show all new lines in green with a +, and all 
+  removed lines in red with a - 
+
+    -capture Bill
+    +free Willie
+
+ -once you stage a file, if you run "git diff", nothing will
+  print, since all changes are staged and ready for commit
+ -to see any differences in the stagins area just use: 
+
+    git diff --staged
+
+**git log** 
+ -you can see a record of all your commits with the git log
+  command 
+ -this will show you a lot of info on the commits, so if you
+  only want to see the name, time, message, and ID of a 
+  commit use 
+
+    git log --pretty=oneline
+
+ -this is far easier to read and has all the info you'd likely
+  need anyway 
+ -in fact, you can set this mode as the default for the 
+  project with
+
+  git config format.pretty oneline
+
+ -or set it as the global setting so ALL projects have it: 
+
+  git config --global format.pretty oneline
+
+ -you can always edit your global and local configs if you
+  ever change your mind: 
+
+  ~/.gitconfig  is global
+  project/.git/config  is the local per project
+
+**unstaging things** 
+ -sometimes you want to unstage files from a commit, like a 
+  file you are still working on and isn't ready for others to
+  see or work on 
+ -to unstage a file use 
+
+  git reset HEAD <filename> 
+
+ -now if you run git status it will say that there will still 
+  be changes after the commit 
+
+**discard changes** 
+ -what if you want to reset a file to remove all the changes 
+  since the last commit? 
+ -use: 
+
+    $ git checkout --<filename>
+
+ -running git status will show this file as having no changes 
+
+**undo a previous commit** 
+ -to undo the most recent commit there are three options: 
+  soft, mixed, and hard 
+
+  $ git reset --soft HEAD^
+ -this sends you back to the moment right before you made 
+  your previous commit, all the files are staged and ready to 
+  go
+
+  $ git reset --mixed HEAD^
+ -this goes back to the moment right before you staged all your
+  files. all the changes are still there, you just need to
+  add them to the staging area 
+
+ $git reset --hard HEAD^
+ -this completely destroys the last commit and all changes to
+  all files. this command will take you back to the moment 
+  right after you made your second to last commit
+
+**what's HEAD?** 
+ -git is a time line, and HEAD is the furthest position from
+  your initial commit 
+ -so HEAD^ essentially says "go back to the previous HEAD 
+  position, one point up." 
+ -and HEAD^^ is the previous two, and so on 
+
+**going more than 2 or 3 commits back** 
+ -adding ^ can get tedious, so you can use the HEAD id number 
+  to go back to that specific commit: 
+
+    git checkout 4f4d1c
+    # ID numbers are long, but you only need to use  the 
+    # first six digits 
+
+ -this will put you in "detached head state" which will let 
+  you look around at your code was right after you made 
+  that particular commit (it takes you to AFTER that commit ID,
+  not before)
+ -to get back to the current head use 
+
+    git checkout - 
+    OR
+    git checkout master 
+
+ -now you can use that id for your reset command: 
+
+    git reset --hard 4f4d1c
+
+ -we will talk more about the git checkout command and all you
+  can do with it later in the branches section
+
+**git commit --amend**
+ -what if you don't want to destroy your previous commit, 
+  you just realized you forgot to add a file? 
+ -to ammend a previous commit, just do 
+
+    git add forgoten-new-file
+    git commit --amend -m "this will now be the message"
+
+ -that lets you add any files you forgot to add to the 
+  staging area and write a new commit message as well
+ -you must leave a new message, since the old one will be 
+  erased
+
+**reseting to right after previous commit**
+ -you liked your last commit, but all the changes since then
+  suck
+ -in this case, do: 
+
+    git reset --hard HEAD     # notice no carrot
+
+ -this will remove all changes since your last commit 
+
+
+  Sharing with remote repositories 
+
+
+
+
+==============================================================
+3SSSS    Sharing with remote repositories
+==============================================================
+
+**pushing, pulling**
+ -think about it like a stream, you push your local code 
+  upstream to the remote repository, and you pull code 
+  down from the remote repo
+ 
+**access management** 
+ -who has access to git files is not something git can take 
+  care of on its own, this is where github comes in
+ -github will store all your files and let you decide who 
+  has access to them 
+
+**creating a github remote repo**
+ -go to github and click the plus icon next to your profile 
+  pic, then click "new repository**
+ -it will then ask you to create a repo with a name and
+  description
+ -it will also ask if you want to initialize repo with a 
+  README.md file
+  -skip this step if you already made one in your local repo
+ -you can also add a license and a .gitignore file
+ -click the green button at the bottom of the page to create
+  the repo
+ 
+//////////////////////////////////////////////////////////////
+**gitignore**
+ -the hidden file .gitignore goes in your main project folder 
+  and all it contains are files that git will permanently 
+  ignore: 
+
+  # gitignore file
+  *.swo
+  *.swp
+  .DS_Store
+  *.ps
+  *.ai 
+
+ -you can also set up a global gitignore file by creating the
+  file ~/.gitignore 
+ -here is a good one to copy into your global file from
+  github itself: 
+
+  # Compiled source #
+      ###################
+      *.com
+      *.class
+      *.dll
+      *.exe
+      *.o
+      *.so
+
+      # Packages #
+      ############
+      # it's better to unpack these files and commit the raw source
+      # git has its own built in compression methods
+      *.7z
+      *.dmg
+      *.gz
+      *.iso
+      *.jar
+      *.rar
+      *.tar
+      *.zip
+
+      # Logs and databases #
+      ######################
+      *.log
+      *.sql
+      *.sqlite
+
+      # OS generated files #
+      ######################
+      .DS_Store
+      .DS_Store?
+      ._*
+      .Spotlight-V100
+      .Trashes
+      ehthumbs.db
+      Thumbs.db
+     
+ -here is more info on creating gitignore files: 
+  https://help.github.com/articles/ignoring-files/
+
+**README.md** 
+ -this is file that github will automatically display
+ -it is to let other people know about your project
+ -here is the syntax for the .md format: 
+  https://confluence.atlassian.com/bitbucketserver/markdown-syntax-guide-776639995.html
+
+OK BACK TO MAKING THE REPO:
+
+//////////////////////////////////////////////////////////////
+**working with your local repo**
+ -github gives you several options of integrating this remote
+  repo to your local maching
+
+**linking your local repo with github**
+ -the most likely option will be pushing your local up to 
+  github, if you create a repo on github first and want it 
+  on you machine, then see the next section 
+    "cloning and branching"
+
+ -here is the code to put in your terminal while you are in 
+  your project directory: 
+
+  git remote add origin https://github.com/USERNAME/REPO.git
+
+ -this line sets up the github repo as a remote repo called
+  "origin"
+ -"origin" is the typical name for your main remote repo, but
+  you can have multiple repos, like one for production or 
+  another for testing 
+ -to add a remote repo just do: 
+
+  git remote add <repo name> <https or SSH link>
+
+ -you can see what your remote repos are and if they are HTTPS
+  or SSH using this:  
+
+    $ git remote -v 
+
+ -this just sets up the link, it doesn't move any data, to 
+  actually get your stuff onto github do: 
+
+    $ git push -u origin master 
+
+ -git push's destination is the first repo, origin, and its
+  coming from your local branch, master
+ -the -u flag means "upstream" and use that to set a repo 
+  as your upstream repo, meaning if you just do: 
+
+    $ git push 
+
+ -it will know to push to origin, in this case 
+ -you can set any repo as upstream at any time, and switch it
+  back and forth, it's not permanent
+
+**pulling**
+ -to pull down any new changes, just do 
+
+  git pull
+
+ to pull down any new changes from the upstream remote
+
+**github interface**
+ -now that you are linked on github, you can see all the 
+  command line info in a much more visual way, click the user
+  name above your code to see your git log, click files to 
+  see what changes with each commit, there's lots to do, 
+  click around 
+
+**HTTPS or SSH?**
+ -there are two ways to get data to and from github, ssh and 
+  https
+ -github recommends HTTPS, especially since macs will log
+  your username and password in the keychain so pushing 
+  and pulling is seamless
+ -but if you need to set up SSH keys, here is how: 
 
 
 ==============================================================
@@ -37,10 +495,9 @@ sshSSSS    SSH Keys
 **what are keys for**
  -when pushing and pulling, you can transfer over https or 
   ssh
- -https will require a password, but by having a key on 
+ -https requires a name and password, but by having a key on 
   your github that matches your computer, you don't have to 
-  do that 
- -it's also...safer? yeah? whatever, learn wants to use it 
+  do that, you just enter a ingle password
 
 **checking for current keys**
   https://help.github.com/articles/checking-for-existing-ssh-keys/
@@ -159,3 +616,264 @@ https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-s
 
  -so with your directory reset to ssh, now when you push up to
   it, you just need to enter your passphrase for the key 
+
+
+
+
+
+
+
+==============================================================
+4SSSS    Cloning and Branching
+==============================================================
+**cloning**
+ -cloning a github project is how to create a copy of the
+  project on your machine. This is NOT the same thing as 
+  "forking" which DOES have a connection, but more 
+  on that later
+ -here is how you clone: 
+
+    $ git clone <HTTPS or SSH link>
+
+ -get that link from the repo's github github page under 
+  the "clone" button in the corner 
+ -this creates a copy of the file on your computer with the
+  same name, to change the name, add one in the initial clone:
+    
+    $ git clone <link> new-name 
+
+ -git clone duplicates the files and takes care of setting 
+  the original github repo as origin
+ -if you clone a repo from your account, you can push to it,
+  if you clone from someone elses account, they must set you
+  as a contributor for this to work 
+    -this is github's access control in action 
+ -cloning is common to do within your own account if you want
+  to work on a project on multiple computers, like your main
+  computer, your work computer, and your Pi, for instance
+
+**branching**
+ -so the main timeline is called "master", but it's not the
+  only one, we can create other branches independent of master:
+
+    $ git branch new-feature 
+    $ git branch
+      new-feature
+     *master 
+    $ git checkout new-feature 
+
+ -so here we created a new branch called "new-feature", used
+  the branch command without an argument to get a list of our
+  branches, which showed us we were still on master, and then
+  used the checkout command to move to the new feature branch
+    (you don't have to check what branch you are before moving,
+      that was just for demonstration)
+
+ -a shortcut to create a new branch and then move to it is: 
+
+    $ git checkout -b new-feature 
+
+ **on a new branch** 
+ -when you are on a new branch, it's like no other branches 
+  exist
+ -any commits you make or files you create or change in one 
+  branch will have no effect on the other branches 
+ -check this by doing git log, or ls, you will see that after
+  the point of divergence, it's like master doesn't exist 
+
+   $ echo "hey" > new-file.txt 
+   $ git add . 
+   $ git commit -am "add new file"
+   $ get checkout master 
+    # there will be no record of that commit and the file won't
+    # be there
+    # you must return to the new-feature branch to see it 
+
+
+**merging**
+ -to bring a branch back into master, go back to the master
+  branch, then use the merge command: 
+
+    $ git checkout master 
+    $ git merge new-feature
+
+ -if you made no changes on master while you were working on
+  new-feature, then this is called a "fast forward" merge
+ -since it's like you just had master jump forward to catch up
+  with the branch's changes 
+ -once a branch has been merged, you can safely delete it: 
+
+    $ git branch -d new-feature
+    $ git branch
+      *master 
+
+ -use branch -d to delete, and then you can see that you have
+  deleted it using git branch again 
+
+**recursive merge** 
+ -but what if you edited unrelated files on master while 
+  you were making changes on new feature? technically, master
+  has changes that new-feature doesn't have, it's not a simple
+  game of catchup anymore
+ -this is called a "recursive merge" and it's terrifying the 
+  first time it happens becuase git kicks you into VI to 
+  alert you to this and create a new merge commit message
+ -this is just like a regular commit message, it's just
+  git  sets vi as the default editor instead of nano
+    -if you need to actually add text to this, type "i" then
+    type your message, then hit escape. if you have nothing
+    to commend, just leave it alone and save and quit
+    -to save your changes and get out of vi type 
+      :wq
+ -when you do that, git will then be able to create the 
+  commit and finish the merge 
+  (no file was changed with the commit, git just auto leaves 
+  a commit message for every recursive merge)
+ -git then puts out some data and lets you know it did a 
+  recursive merge
+ -since the merge is done now, you can safely delete the branch
+  just like you did before
+
+
+
+
+
+==============================================================
+5SSSS    Collaboration basics
+==============================================================
+**not always so smooth** 
+ -recursive merges and fast forwards are more common on solo,
+  when working with a team things can and will be clunkier 
+
+**falling behind** 
+ -if your working on a repo and you don't pull enough, your 
+  local repo will fall behind the origin and you won't be able
+  to push up to it 
+ -you will get
+
+  ! [rejected] **error stuff**
+ 
+ -to solve this, simply pull down the remote changes, then 
+  push back up your changes 
+
+**pull in detail**
+ -what is pull actually doing? 
+ -pull is really two commands: 
+
+    $ git fetch 
+    $ git merge origin/master 
+
+ -so pull actually does something called fetch, and then it 
+  merges an unseen branch called "origin/master" 
+ 
+**git fetch and origin/master** 
+ -on your local machine there is a copy of the remote repo
+  origin called origin/master.
+ -you can see all your local copies of remotes by doing 
+
+    $ git branch --all
+
+ -so git fetch pulls the code from the remote repo and puts
+  it in the local branch origin/master 
+ -if you do a git fetch alone (and many do) this is all it
+  does, it is up to you to merge this new code when you want 
+
+**merge origin/master**
+ -however, git pull automatically does another command, it 
+  merges origin/master with master: 
+
+  $ git merge origin/master 
+
+ -and if this is anyting other than a fast forward merge,
+  you will get tossed into vi to write a merge commit 
+
+**merge commit pollution**
+ -some people hate them because when there are a lot of 
+  collaborators, the log can fill up quickly
+ -one way to get around this is with git rebase, which
+  we will learn about later 
+
+
+**merge conflicts**
+ -but what if two branches edited the same file and they
+  no longer match when you try to merge? that can't be 
+  handled by a recursive merge, instead you will get a 
+  "merge conflict"
+ -when you try to pull down with a merge conflict, git will
+  stop you with a warning of "CONFLICT" and then tells you
+  which files 
+ -you must manually change those files, make an new commit 
+  and then push the files up
+
+**finding the differences** 
+ -git will point out each different section like this: 
+
+  <<<<<<<<< HEAD 
+  puts("hello there")
+  ==========
+  print("General Kenobi")
+  >>>>>>>>
+  23h24jk12h41kj3ouas0j4p9r02394203jlkf48b
+
+ -your local version is the top under head, and the remote
+  one is below with the commit id 
+ -manually remove all that extra stuff and the wrong lines
+   and put in whatever line is correct 
+ -do this for every section where there is a conflict, search
+  HEAD to find them all quicker 
+ -save and exit but then do: 
+
+    $ git commit -a 
+
+ -leave off the message because git will boot you into vi again
+  to write a merge commit message with info about the merge
+  and files already added. You can add more to this if you want
+ -finally, push up to the remote repo and all is well
+
+
+
+
+
+
+
+==============================================================
+6SSSS    Remote branches and tags
+==============================================================
+**remote branches** 
+ -you can back up loca
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+==============================================================
+resSSSS    resources
+==============================================================
+https://gist.github.com/hofmannsven/6814451
+-the git cheat sheet
+
+Resources to take a look at: 
+
+https://learn.co/tracks/web-development-fundamentals/advanced-bash-and-git/git/git-resources
+
+
+
+
+
+
