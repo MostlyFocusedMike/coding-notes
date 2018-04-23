@@ -1,0 +1,472 @@
+   _____  ____  _          
+  / ____|/ __ \| |         
+ | (___ | |  | | |         
+  \___ \| |  | | |         
+  ____) | |__| | |____     
+ |_____/ \___\_\______|    
+ | \ | |     | |           
+ |  \| | ___ | |_ ___  ___ 
+ | . ` |/ _ \| __/ _ \/ __|
+ | |\  | (_) | ||  __/\__ \
+ |_| \_|\___/ \__\___||___/
+
+TABLE OF CONTENTS 
+1SSSS    Intro to SQL
+2SSSS    SQL programming language basics
+3SSSS    Data Criteria
+4SSSS    Adding Data
+5SSSS    Change Existing Data
+6SSSS    Remove Data
+7SSSS    Database Tables
+8SSSS    Manipulate Tables
+
+
+
+INTERLUDES 
+
+
+
+
+
+
+
+==============================================================
+1SSSS    Intro to SQL
+==============================================================
+**what is SQL?**
+ -SQL is a programming language that allows you to communicate
+  with databases and organize them
+ -SQL code is sent from a client to a database to request and
+  organize information, which is then sent back to the client
+ -it does this by organizing it into tables with columns and 
+  rows 
+ -just like a spreadsheet basically 
+
+**basic structure** 
+ -a database can be made up of one or more tables 
+ -tables are made up of rows and columns of cells 
+ -columns are named 
+    -the first one is almost always 'id' which is used to
+     order the rows 
+    -it is known as the primary key, which has a special 
+     meaning
+
+      id        title       genre     duration 
+      1       Moon          sci-fi    120
+      2       Her           sci-fi    132
+      3       The Kid       comedy    79
+      4       Iron Man      action    113
+
+**moving through tables**
+ -You need to specify the type of data, and then to data itself
+ -so you are looking for the title of Her
+ -SQL will search through the column names for a match of the
+  data type, then go down the rows of that column looking
+  for the data match
+
+**MySQL, postgreSQL and SQLite**
+ -SQL itself has different flavors that are implemented in 
+  different ways. SQLite for instance doesn't need any extra
+  stuff to run and just sits in your code with all your other 
+  work
+ -all these different styles have slightly different commands,
+  so this file contains the basic SQL syntax and ideas, see
+  individual files for the specific version 
+
+
+
+
+
+
+==============================================================
+2SSSS    SQL programming language basics
+==============================================================
+**SQL recipes**
+ -SQL commands are refered to as recipes 
+ -here is the basic format (assume we are using the following
+  table: 
+
+      table: movies
+      id        title       genre     duration 
+      ----    ----------    --------  -------
+      1       Moon          sci-fi    120
+      2       Her           sci-fi    132
+      3       The Kid       comedy    79
+      4       Iron Man      action    113
+
+ SELECT ________ # the columns to be searched 
+ FROM __________;# the table the data is in
+                 # all SQL commands end in a ; 
+           # you can break up the command with newlines or not
+
+ -this will select and return all rows from the title column:
+
+    SELECT title
+    FROM movies;
+  
+  would return: 
+
+      title    
+    ---------- 
+    Moon       
+    Her                      
+    The Kid    
+    Iron Man   
+
+ -you can also specify multiple columns: 
+
+  SELECT title, genre
+  FROM movies;
+
+ -you can return an entire table using the * wildcard: 
+
+  SELECT *
+  FROM movies;
+
+**returning specific cells**
+ -add a WHERE clause: 
+
+  SELECT title
+  FROM mocies
+  WHERE id = 2;
+
+ returns: 
+
+     title      
+   ---------- 
+     Moon       
+
+ -SQL will return all matches it finds, meaning that SQL will
+  search firs the column names, find the title match, then it
+  will search through all rows of title where the associated 
+  ID row is equal to 2
+ -we can search with strings as well: 
+
+  SELCT title
+  FROM movies
+  WHERE title = 'Iron Man';
+
+    title
+    ----------
+    Iron Man
+
+ -Notice that we are using ' ' single quotes, this is the 
+  standard way in SQL, and it's best to use them across
+  languages beucase "" mean different things than you may want
+
+**capital keywords?**
+ -capitalizing keywords like SELECT is not required, it just
+  makes it clearer what's a keyword and what isn't. It's 
+  considered good practice to write keywords like this 
+
+
+
+
+==============================================================
+3SSSS    Data Criteria
+==============================================================
+**sorting search results with ORDER BY**
+ -you can add adding ORDER BY: 
+
+  SELECT title
+  FROM movies 
+  ORDER BY duration;
+
+     title
+    ----------
+    The Kid
+    Iron Man
+    Moon
+    Her 
+
+ -as you can see ORDER BY sorts in ascending order the duration
+  of each title, it doesn't actually return the duration
+ -ascending is the default, but you can also do DESC(ending) 
+  order where the lowest number comes first: 
+
+  
+     
+  SELECT title
+  FROM movies 
+  ORDER BY duration;
+
+      title
+    ----------
+    Her
+    Moon
+    Iron Man
+    The Kid
+
+**using comparisons** 
+ -you can use comparison operators with WHERE keywords: 
+
+  SELECT *              # = are technically comparisons
+  FROM movies
+  WHERE duration = 100;
+
+  SELECT *
+  from movies 
+  WHERE duration <= 100;
+
+    id          title       genre       duration
+    ----------  ----------  ----------  ----------
+    3           The Kid     comedy      79 
+
+ -other comparisons are <, <=, >, >= and <> (this means "not
+  equal) as in: 
+
+    WHERE genre <> "action"
+
+**using multiple conditions** 
+ -using the AND keyword to string together conditionals: 
+
+    SELECT *
+    from movies
+    WHERE duration <= 100
+    AND title = 'The Kid';
+  
+  -that will only return a row where both those statements 
+  are true, you can also use the OR keyword: 
+
+    SELECT *
+    from movies
+    WHERE duration <= 100
+    OR title = 'Moon';
+ 
+       id          title       genre       duration
+      ----------  ----------  ----------  ----------
+      1           Moon        sci-fi      120
+      3           The Kid     comedy      79   
+
+ -you can use as many AND and OR operators as you want: 
+
+    SELECT *
+    from movies
+    WHERE duration <= 100
+    AND id = 3
+    AND title = 'The Kid';
+
+
+**NOT keyword** 
+ -you can also use the NOT keyword to specify the opposite of
+  something: 
+
+    SELECT *
+    FROM movies
+    WHERE NOT id = 2;
+
+ -this returns all rows where id is not 2
+
+
+
+==============================================================
+4SSSS    Adding Data
+==============================================================
+**putting data into a table**
+
+  INSERT INTO specific-table (columns, here)
+  VALUES (data, here);
+
+ -be sure that your data and column names match: 
+
+  INSERT INTO movies (id, title, genre, duration)
+  VALUES (5, 'Bingo', 'comedy', 78);
+ 
+ -the order of the column data listed doesn't matter as long 
+  as the actual column data matches: 
+
+  INSERT INTO movies (id, genre, duration, title)
+  VALUES (5, 'comedy', 78, 'Bingo');
+
+**shorthand**
+ -you don'at actually have to specify the columns, SQL will
+  add data into table columns in the order they are given: 
+
+  INSERT INTO movies 
+  VALUES (5, 'Bingo', 'comedy', 78);
+
+ -just be SURE if you do this that your data matches your 
+  column order and you provide all data for all columns
+
+**filling in only some cells** 
+ -you don't have to populate every cell with data, (unless
+  your SQL version requires it when using the above shorthand)
+  but if you skip a column, you must put the column names to 
+  get the right order: 
+
+  INSERT INTO movies (title, duration)
+  VALUES ('The Fly', 80);
+
+id          title       genre       duration
+----------  ----------  ----------  ----------
+1           Moon        sci-fi      120
+2           Her         sci-fi      132
+3           The Kid     comedy      79
+4           Iron Man    action      113
+5           Bingo       comedy      78
+6           The Fly                 80
+
+ -notice there's just a blank space for the cell you skipped 
+    -that blank is technically a value of NULL
+ -BUT WAIT, you didn't specify an id, so how did it know it 
+  was 6? 
+
+**primary keys**
+ -primary keys are special in SQL, they can never be empty and
+  will always be unique
+ -if your primary key is an int, SQL will automatically 
+  generate a new key the next number up
+ -so if you add new rows in order, you don't have to worry 
+  about adding a column name for your primary key (in this case
+  and usually "id") because SQL will generate one for you
+
+
+
+
+
+==============================================================
+5SSSS    Change Existing Data
+==============================================================
+**editing data**
+ -use the update keyword to update existing data in your table
+
+    UPDATE table-name 
+    SET column-name = new-value 
+    (WHERE column-name = existing-value-to-check)
+
+ -if you do not provide a WHERE keyword, then the change of 
+  data will be applied to all values in a column
+ -here it is in action:
+
+    UPDATE movies 
+    SET genre = 'Adventure'
+    WHERE title = 'Iron Man';
+
+ -check your table to see the change: 
+
+    id          title       genre       duration
+    ----------  ----------  ----------  ----------
+    1           Moon        sci-fi      120
+    2           Her         sci-fi      132
+    3           The Kid     comedy      79
+    4           Iron Man    Adventure   113
+    5           Bingo       comedy      78
+    6           The Fly                 80
+
+ -the where statement can also use OR AND keywords: 
+
+    UPDATE movies 
+    SET genre = 'Adventure'
+    WHERE title = 'Iron Man'
+    OR genre IS NULL;
+
+**IS NULL**
+ -this is just how you tell if a space is NULL or not
+ -you can also use IS NOT NULL as well
+ -the IS replaces the =
+
+
+
+
+
+
+==============================================================
+6SSSS    Remove Data
+==============================================================
+**DELETE FROM**
+ -here are the keywords used to delete data:
+
+  DELETE FROM table
+  (WHERE clause);
+
+ -the delete will delete rows only when matched by the where 
+  clause 
+ -if you leave OFF that where clause...you would've deleted 
+  the entire table 
+ -as usual, the WHERE clasue can use comparison operators and
+  AND OR NOT keywords: 
+
+    DELETE FROM movies 
+    WHERE id < 3
+    AND genre = "sci-fi";
+
+
+
+
+
+
+==============================================================
+7SSSS    Database Tables
+==============================================================
+**creating a database**
+ -it's just this this:
+
+    CREATE DATABASE database-name;
+
+**deleting a database**
+
+    DROP DATABASE database-name;
+
+ -you can't undo this, so be careful
+
+**create a table** 
+
+  CREATE TABLE table-name
+  (
+  column-name1 datatype,
+  column-name2 datatype,
+  ...more columns...
+  column-name3 datatype
+  );
+
+ -the datatype is separated from the column name by only a 
+  space 
+ -the data type options are: 
+    int primary key, #auto incremented numbers
+    int, # a whole number
+    float, # a decimal
+    char, #text
+    varchar(#), #text but with a number of char limit 
+     
+ -those are just some basic options, check your SQL variant for
+  more options 
+ -also, there are numerous ways to set a primary key, this is 
+  just one way  
+
+
+**deleting a table**
+
+  DROP TABLE table-name;
+  
+ -again, you can't undo this, be careful
+
+
+
+
+
+
+==============================================================
+8SSSS    Manipulate Tables
+==============================================================
+**add/move/change table column**
+ -the basic keywords are ALTER TABLE table name, and then
+  using another clause to specify what you want 
+ -so to add, use: 
+
+    ALTER TABLE movies 
+    ADD COLUMN ratings int;
+
+ -the ADD COLUMN clause just takes the column name and data 
+  type
+ -new column values will be filled with NULL, you must update
+  their values to add data 
+ -to drop a column:
+
+    ALTER TABLE movies 
+    DROP COLUMN ratings;
+
+ -just specify the column name to delete it 
+
+
+
+
