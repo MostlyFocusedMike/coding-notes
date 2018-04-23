@@ -97,7 +97,7 @@ w        jump by start of words (punctuation considered words)
 W        jump by words (spaces separate words)
 e        jump to end of words (punctuation considered words)
 E        jump to end of words (no punctuation)
-b        jump backward by words (punctuation considered words)
+        jump backward by words (punctuation considered words)
 B        jump backward by words (no punctuation)
 0 (zero) start of line
 ^        first non-blank character of line

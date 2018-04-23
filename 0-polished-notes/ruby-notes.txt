@@ -4710,13 +4710,14 @@ ooSSSS     Interlude: Procedural vs. OO
   /\//  
 
 **the #match method** 
- -this method convers strings args to regex (or uses regex 
+ -this method converts strings args to regex (or uses regex 
   if they already are) to find a match in a subject string
+ -it returns an array of all found matches 
  -if no match is found, it returns nil
- -if you specify the index to start looking, instead of 
-  returning <match data "match" ...> it will just 
-  return the matching string section: 
-
+ -you can also provide an argument of an index number as 
+  a place to start looking
+   # that \1 isn't the index, it's refering to the capture
+  # group, check regex-notes for capture group doubles
   'hello'.match('(.)\1')      #=> #<MatchData "ll" 1:"l">
   'hello'.match('(.)\1')[0]   #=> "ll"
   'hello'.match(/(.)\1/)[0]   #=> "ll"

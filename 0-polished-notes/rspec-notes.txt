@@ -530,6 +530,11 @@ end
     with the message “error message”	
   expect {block}.to raise_error(ErrorClass,“error message”)
 
+ -NOTE: when using an error matcher it is CRUCIAL that you
+  use {} with expect, not  (), because an actual error will
+  be raised. if that error gets raised outside of the 
+  expect block, raise_error won't catch it and your actual 
+  code will not run properly because it experiences an error
  
 ==============================================================
 6SSSS    Test doubles (mocks)
