@@ -1,0 +1,38 @@
+TABLE OF CONTENTS 
+
+
+1SSSS    DAY 1 NOTES 
+
+
+==============================================================
+1SSSS    DAY 1 NOTES 
+==============================================================
+**video lectures** 
+ -lectures are recorded and can be accessed later 
+
+
+**sandwhich pattern** 
+ -do not do this 
+
+    def method 
+      result = nil
+      
+      # a bunch of code 
+
+      result
+    end 
+
+
+**red,green,refactor**
+ -when writing code with rspec, firs you want to turn 
+  the red fail lines into green passing lines, and only 
+  then do you worry about refactoring for elegance
+
+TODOS
+ [CHECK] -RSPEC --fail-fast 
+ [CHECK] -using * with strings 
+ [CHECK] - def between select and find_all
+ [CHECK] - #respond_to?
+
+
+

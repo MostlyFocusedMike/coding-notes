@@ -322,7 +322,8 @@ Option/flag & Description
   With this option, rspec will stop running specs after the 
   first Example fails. By default, rspec runs all specified 
   spec files, no matter how many failures there are.
-
+  THIS IS VERY VERY USEFUL FOR TDD 
+ -this is a good candidate for aliasing for speed
 
 -o, --out FILE
 

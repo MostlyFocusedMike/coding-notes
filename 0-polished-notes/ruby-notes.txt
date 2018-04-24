@@ -176,8 +176,7 @@ ooSSSS     Interlude: Procedural vs. OO
 2SSSS             Ruby Data types 
 =============================================================
 /////////////////////////////////////////////////////////////
-
-                    STRINGS
+  STRINGS
 
 **Strings**
  -surrounded by quotes, can contain characters and numerals
@@ -401,12 +400,14 @@ ooSSSS     Interlude: Procedural vs. OO
 
 **checking data types/classes**
  -the #kind_of? method tests if an objectis a certain kind of
-  data type, it takes the class as an argument
+  data type, it takes the class as an argument, #is_a? seems
+  to do the exact same thing, it's just an alias
 
     arr = "not an array"
     arr.kind_of?(Array)
     # => false
-
+    arr.is_a?(Array)
+    # => false
 
 
 
@@ -793,7 +794,7 @@ t.dst?      # => false (was it daylight savings time?)
   you will see these methods frequently
 
  -NOTE: you can check what class an object comes from by
-  using the .class method, which is handy to tell whether
+  using the #class method, which is handy to tell whether
   it uses pass-by-value or pass-by-reference by default
   
     "hello".class 
@@ -994,10 +995,17 @@ boolean	          value
     s = "Hello " + "world" 
     s = "Hello " "world"   
 
- -it hsould be noted that the << lets you append Fixnum
+ -it should be noted that the << lets you append Fixnum
   integers (0 to 255) directly into the string, no to_s 
   needed 
  -spaces and + do not allow for this 
+
+** what's the * do?**
+ -the * essentially repeats a string a number of times:
+
+  puts "alright " * 3
+  alright alright alright
+  # => nil
 
 **what are commas?**
   s4 = "This " , "is" , " not a string!", 10
@@ -1308,7 +1316,32 @@ boolean	          value
  -now when you run your program, it will freeze at that point
   specified and show you the lines around binding.pry, and
   then let you see variable values, and even change variable
-  values 
+  values:
+
+      28: def pry_test
+      29:   hash = {a: 1, b: 2, c: 3}
+      30:   hash.each do |k,v|
+      31:     foo = k
+      32:     binding.pry
+   => 33:     foo = v
+      34:     puts "hello"
+      35:   end
+      36:
+      37: end
+
+      [1] pry(main)>
+
+ -it will show you the code surrounding the binding.pry
+  command 
+ -to see this context again just enter 
+
+      [1] pry(main)> whereami
+      
+      [1] pry(main)> whereami 20 # show the next 20 lines
+
+ -the > line is where you type in your code for testing 
+ -you can type a variable name to get a value, or write
+  entirely new code to test out the method 
  -once you type "exit" to get out of the shell, 
   the program will continue, and if you changed 
   anything, it will then work with whatever you gave it
@@ -1326,6 +1359,48 @@ boolean	          value
  -be careful of return staments coming before pry, you won't
   ever get to it! 
 
+**pry and looping**
+ -if you put a binding.pry command into a looping structure
+  in your code, it will stop at every iteration 
+ -to get out of one loop just type "exit" into the pry shell
+ -to get out of all loops at once use exit! or !!!
+
+
+**pry-nav, more control**
+ -install the following gems: 
+
+    gem install pry-remote  # this has some dependencies for
+                            # pry-nav
+    gem install pry-nav
+
+ -then in your code use:
+
+    require 'pry-nav' # use pry-nav instead of pry
+
+ -this new gem adds "step" "next" and "continue" to pry
+ -continue
+    use this to go to the next iteration of a loop
+ -next 
+    use this to execute the next line 
+    (the arrow indicates the line ABOUT to be executed
+     so the line it is on has not yet been executed)
+ -step 
+    step into the next function call 
+
+
+**~/.pryrc file**
+ -the hidden file .pryrc file allows you to configure
+  your pry settings, 
+ -you must create this file in some cases, but once 
+  created, pry will automatically check it each time
+ -here are some good ones to start:
+
+    Pry.commands.alias_command 'c', 'continue'
+    Pry.commands.alias_command 's', 'step'
+    Pry.commands.alias_command 'n', 'next'
+    Pry.commands.alias_command 'e', 'exit'
+    
+ -copy those exactly into the file 
 
 
 
@@ -1616,6 +1691,19 @@ getsSSSS   Interlude: getting values from the command line
 
     "hello".class == String    # not "String" 
       #=> true
+
+**check if type responds**
+ -the #responds_to? method takes a symbol or string of a 
+  method, and returns true if the data type can work with
+  that method, and false if not: 
+
+  h = {a: "bar"}
+  h.respond_to?(:each)  # using symbol is preferred
+   => true
+  h.respond_to?("each")
+   => true
+  "hello".respond_to?(:each)
+   => false
 
 /////////////////////////////////////////////////////////////
       RUBY CONDITIONALS (IF, ELSIF, ELSE)
@@ -2463,6 +2551,24 @@ NOTE: some of these methods are enumerators, which we will
     arr.count {|x| x.even?}
     # 2
 
+**#find_all**
+ -there is a similar function to #select called #find_all,
+  with a very subtle difference, when iterating over a hash
+  it will return an array of values while #select returns a
+  hash: 
+
+  a = [1, 2, 3, 4, 5, 6]
+  h = {a: 1, b: 2, c: 3, d: 4, e: 5, f: 6}
+
+  a.select{|x| x.even?}       # => [2, 4, 6]
+  a.find_all{|x| x.even?}     # => [2, 4, 6]
+
+  h.select{|k,v| v.even?}     # => {:b=>2, :d=>4, :f=>6}
+  h.find_all{|k,v| v.even?}   # => [[:b, 2], [:d, 4], [:f, 6]] 
+
+ -when it comes to arrays and ranges, #select and #find_all 
+  are the same, but with hashes, #select will now return a
+  hash, while #find_all returns an array of arrays
 
 **#reject**
  -the opposite of #select, it will return an array of items 
@@ -2788,9 +2894,9 @@ end
     end
       => 1
  
- -but when you use it on a hash it will return the key and 
-  value of the iteration it stopped at inside an array, with
-  the key value at index 0, and the value at index 1
+ -but when you use it on a hash it will return an array, with 
+  the key and value of the iteration it stopped at inside an array, 
+  with the key value at index 0, and the value at index 1
  -so if you can rememer, this code is from learn.co where 
   there was a hash game_hash that had two keys, :home and 
   :away, here was a common use of #find to return  
