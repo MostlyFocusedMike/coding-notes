@@ -2,6 +2,7 @@ TABLE OF CONTENTS
 
 
 1SSSS    DAY 1 NOTES 
+2SSSS    DAY 2 NOTES 
 
 
 ==============================================================
@@ -35,4 +36,41 @@ TODOS
  [CHECK] - #respond_to?
 
 
+**resources** 
+https://learn.co/tracks/web-development-immersive-2-0-module-one/introduction/logistics/campus-reference-materials
+ -here are several new resources 
 
+ -here is a series on product management
+  https://www.youtube.com/playlist?list=PLJqijKi-heknXOAeVAy6w18LRmZtZUsgn
+ 
+ -here are all the recorded guest lectures:
+  https://www.youtube.com/playlist?list=PLJqijKi-hekkiQeHO0U1B-B_0ipApHI1c
+
+ -and here are several women in tech playlists
+  https://www.youtube.com/playlist?list=PLJqijKi-hekk7_lrwzaMHdZLpOxpEjSwv
+  https://www.youtube.com/playlist?list=PLJqijKi-hekmciERuRcHJR507HMAEWAMH
+
+
+
+
+==============================================================
+2SSSS    DAY 2 NOTES 
+==============================================================
+**what are gems?**
+ -the good gems to use are 
+  
+    rest-client
+    JSON
+
+ -to look up gems, do rubygems.org
+
+**learn schedule**
+ -your learnco homepage has the week's schedule and in the c
+  curriculum tab should have the day's schedule
+
+TODO 
+ -brief lookup of RESTful APIs  
+ -google books api lookup
+ -using ranges to get slices of arrays 
+ -put a blank value at the end of the 
+ -download slack app on phone

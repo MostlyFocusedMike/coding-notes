@@ -48,6 +48,7 @@ TABLE OF CONTENTS
 34SSSS     Class Advanced
 35SSSS     Inheritance, sub and super classes
 36SSSS     Regular expressions
+37SSSS     Code Design Principles
 
 
 
@@ -2709,7 +2710,22 @@ NOTE: some of these methods are enumerators, which we will
         #=> {}
 
 
-**hashes are unordered**
+**hashes are ordered now**
+ -as of ruby 1.9, hashes are ordered by default 
+ -so that means you can order them like: 
+
+    hash = {d: 4, a: 1, c: 3, b:2}
+     => {:d=>4, :a=>1, :c=>3, :b=>2}
+    2.3.3 :002 > hash.sort
+    => [[:a, 1], [:b, 2], [:c, 3], [:d, 4]]
+
+ -sort returns an array of arrays when working on
+  a hash though, so if you need to return a hash again, use:
+
+    hash.sort.to_h
+     => {:a=>1, :b=>2, :c=>3, :d=>4}
+
+  you're just using 
  -the data inside is associated only by key, not order
  -this is why we use the []= to add new items, not <<
   since that adds item to the "end" of a list, but hashes
@@ -3957,6 +3973,8 @@ end
 **JSON**
  -JSON is a multilangauge file format even though it's called 
   Javascript Object Notation
+ -it is one of the standard methods of transferring data 
+  across the internet
  -it basically stores arrays and hashes for you to use 
   and save from program to program
 
@@ -4196,8 +4214,11 @@ end
     sam = Baby.new("sammy")
 
 
-**class variables**
- -three types : local, instance, constant, class: 
+**object properties**
+ -when talking about a class, variables are typically 
+  refered to as "properties", just a heads up, I slip up
+  and call them variables 
+ -types : local, instance, constant, class: 
     local: a local variable available only in its scope,  
            so within its method or in the class, but not
            the methods 
@@ -4206,7 +4227,10 @@ end
                anywhere within each object, an objects 
                methods all have access to them, but only  
                each individual object 
-    Constants: same rules as always 
+    Constants: constants follow all the regular rules as 
+               they usually do, except that they get the bonus
+               of being accessible to all instances of the 
+               object like the class variables
     @@class: @@class variables are available to the entire
              class of objects, for instance, a common use
              is to add each newly created method to an array
@@ -4214,8 +4238,8 @@ end
              @@class variables are declared at the top of a
              class 
 
- -in ruby, these variables are called "attributes" when in
-  a class, other langs call the properties 
+ -object properties are also refered to as object attributes 
+  as well
 
 **class methods**
   instance methods:
@@ -4423,8 +4447,11 @@ end
 
   attr_accessor :weight 
 
+ -these are called "macros" and they are a concept in 
+  ruby where it's just like a macro key, it essentially 
+  "expands" 
  -that single line means your code acts as if you wrote 
-  the previos 6
+  the previous 6
  -better yet, you can do several: 
   
     attr_accessor :name, :weight, :eye_color 
@@ -4477,6 +4504,19 @@ end
  -if you find yourself pulling data a lot this way, you 
   should restructure your class so that it is a proper 
   method 
+
+**:: extended** 
+ -when you see a :: it indicates "name spacing": 
+
+    Baby::all 
+ 
+ -that indicates that the thing on the right (all) was 
+  defined in the scope of the thing on the left (Baby)
+
+**class constants**
+ -class constants are like class variables in that a 
+  class constant can be accessed by al instances of the 
+  object
 
 **ruby reads the class body once**
  -consider: 
@@ -4549,6 +4589,16 @@ end
   that has access to those class variables
  -but that is not common nor good practice
     
+
+**Domain Model**
+ -A domain model is a representation of real-world concepts 
+  in software
+ -so a Person class is modeled after people, and a CarFactory
+  is modeled after a real world car factory 
+ -a class is really just a template for the objects it will
+  create 
+  -ie a Person class is a template for an individual, 
+  like a guy named Steve
 
 
 
@@ -4930,3 +4980,12 @@ ooSSSS     Interlude: Procedural vs. OO
   https://www.tutorialspoint.com/ruby/ruby_regular_expressions.htm
 
  for more info
+
+
+
+
+==============================================================
+37SSSS     Code Design Principles
+==============================================================
+
+
