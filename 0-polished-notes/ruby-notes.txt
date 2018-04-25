@@ -48,7 +48,7 @@ TABLE OF CONTENTS
 34SSSS     Class Advanced
 35SSSS     Inheritance, sub and super classes
 36SSSS     Object Relationships
-37SSSS     Regular expressions
+
 
 
 
@@ -64,7 +64,7 @@ moSSSS     Interlude: Monkey Patching
 clSSSS     Interlude: runner files for CLI Programs
 sbSSSS     Interlude: Stubbing more in depth with RSpec
 ooSSSS     Interlude: Procedural vs. OO
-desSSS     Code Design Principles
+regSSSS    Regular expressions
 
 
 
@@ -1405,6 +1405,9 @@ boolean	          value
  -copy those exactly into the file 
 
 
+**clear the pry console**
+ -use cmd + k to clear the console screen
+
 
 
 
@@ -2711,22 +2714,7 @@ NOTE: some of these methods are enumerators, which we will
         #=> {}
 
 
-**hashes are ordered now**
- -as of ruby 1.9, hashes are ordered by default 
- -so that means you can order them like: 
-
-    hash = {d: 4, a: 1, c: 3, b:2}
-     => {:d=>4, :a=>1, :c=>3, :b=>2}
-    2.3.3 :002 > hash.sort
-    => [[:a, 1], [:b, 2], [:c, 3], [:d, 4]]
-
- -sort returns an array of arrays when working on
-  a hash though, so if you need to return a hash again, use:
-
-    hash.sort.to_h
-     => {:a=>1, :b=>2, :c=>3, :d=>4}
-
-  you're just using 
+**hashes are unordered**
  -the data inside is associated only by key, not order
  -this is why we use the []= to add new items, not <<
   since that adds item to the "end" of a list, but hashes
@@ -4215,11 +4203,8 @@ end
     sam = Baby.new("sammy")
 
 
-**object properties**
- -when talking about a class, variables are typically 
-  refered to as "properties", just a heads up, I slip up
-  and call them variables 
- -types : local, instance, constant, class: 
+**class variables**
+ -three types : local, instance, constant, class: 
     local: a local variable available only in its scope,  
            so within its method or in the class, but not
            the methods 
@@ -4228,10 +4213,7 @@ end
                anywhere within each object, an objects 
                methods all have access to them, but only  
                each individual object 
-    Constants: constants follow all the regular rules as 
-               they usually do, except that they get the bonus
-               of being accessible to all instances of the 
-               object like the class variables
+    Constants: same rules as always 
     @@class: @@class variables are available to the entire
              class of objects, for instance, a common use
              is to add each newly created method to an array
@@ -4239,8 +4221,8 @@ end
              @@class variables are declared at the top of a
              class 
 
- -object properties are also refered to as object attributes 
-  as well
+ -in ruby, these variables are called "attributes" when in
+  a class, other langs call the properties 
 
 **class methods**
   instance methods:
@@ -4274,12 +4256,25 @@ end
   parameter (@birthday), a class variable (which was an 
   array), and a method is called and run 
  -the #initialize method is often called a hook,callback
-  or lifecycle event becuase it often calls other methods
-  inside it (any method that does that is also called those
-  things)
+  or lifecycle event(or lifecycle method) becuase it is 
+  called when the object is "born" when its life cycle starts,
+  and methods that call other methods are refered to as 
+  "hooks" becuase they call other methods, essentially 
+  one method "hooks" another as it "runs" by
+  -those hooks can then hook other methods as well, creating
+   a long chain of methods
+ -initialize is often a hook method, since at an object's 
+  initialization it usually calls other methods to setup
+  other aspects of the object
  -initializing is not required, it is only needed if you 
   want to extend its functionality, it is NOT mandatory
 
+**encapsulation**
+ -encapsultion is the idea that data should be encapsulated
+  inside of methods and classes for privacy control and 
+  cleanliness of code
+TODO 
+  -write a nicer definition
 
 ==============================================================
 32SSSS     Main and self
@@ -4374,7 +4369,46 @@ end
 **more on self**
  https://hackhands.com/three-golden-rules-understand-self-ruby/
 
+**class methods and self**
+  you can do an interesting thing 
 
+    class BankAccount 
+      @@name = "savings"
+      @@balance = 0.0
+      attr_accessor :name, :balance
+      def initialize(name, balance)
+        @name = name 
+        @balance = balance
+      end 
+
+      def self.create_new_savings_account
+        # here self refers to BankAcount 
+        self.new(@@name, @@balance)
+      end
+    end
+
+ -this would allow the BankAccount class to quickly create 
+  several accounts
+    
+    #main_scope
+
+    natalie_account = BankAcount.create_new_account  
+ 
+ -now natalie gets an almost recursive function, where 
+  BankAccount calls a class method, create new 
+  savings account, and inside that method, it uses self 
+  (which again, refers to the entire class, not an instance) 
+ -and on that self, we call new, which creates a new 
+  instance of BankAccount,
+ -however, the passed in arguments for new are actually
+  the class variables "savings" and "0.00"
+ -so the natalie account is a new instance of 
+  BankAccount with a preset balance and account type
+ -BUT if you want to create a different account and 
+  balance, say checking and 10000, you can still just
+  use the regular: 
+
+    check_account = BankAccount.new("Checking", 1000.00)
 
 
 
@@ -4448,11 +4482,8 @@ end
 
   attr_accessor :weight 
 
- -these are called "macros" and they are a concept in 
-  ruby where it's just like a macro key, it essentially 
-  "expands" 
  -that single line means your code acts as if you wrote 
-  the previous 6
+  the previos 6
  -better yet, you can do several: 
   
     attr_accessor :name, :weight, :eye_color 
@@ -4475,8 +4506,10 @@ end
   each @@var read and write function 
 
 **setting @variables with a method instead**
- -now, instead of just using instance.variable,
-  there is a Ruby method that just sets a @var: 
+ -while ordinarily you NEED readers and writers, there is a 
+  way to get and set instance variables without readers 
+  and writers
+ -here's the way to set them: 
 
     kanye.instance_variable_set(:@name, "Yeezy")
 
@@ -4486,9 +4519,24 @@ end
 
  -however this is ugly, no one uses it, they call it 
   syntactic vinegar 
+ -it's also just terrible in general
+ -don't use them, just know them
 
+**messages**
+ -it's another way to call a method in ruby: 
 
+    lil_tommy = Baby.new
+    lil_tommy.send(:hair=, "blonde")
 
+ -so the #send method is actually what happens behind the 
+  scenes for ALL method calls, like this is the exact
+  same thing: 
+
+    lil_tommy.hair = "blonde"
+
+ -this is useful for ruby metaprogramming 
+ -full disclosure: i have no idea what ruby metaprogramming 
+  is yet 
 
 
 
@@ -4505,19 +4553,6 @@ end
  -if you find yourself pulling data a lot this way, you 
   should restructure your class so that it is a proper 
   method 
-
-**:: extended** 
- -when you see a :: it indicates "name spacing": 
-
-    Baby::all 
- 
- -that indicates that the thing on the right (all) was 
-  defined in the scope of the thing on the left (Baby)
-
-**class constants**
- -class constants are like class variables in that a 
-  class constant can be accessed by al instances of the 
-  object
 
 **ruby reads the class body once**
  -consider: 
@@ -4590,16 +4625,6 @@ end
   that has access to those class variables
  -but that is not common nor good practice
     
-
-**Domain Model**
- -A domain model is a representation of real-world concepts 
-  in software
- -so a Person class is modeled after people, and a CarFactory
-  is modeled after a real world car factory 
- -a class is really just a template for the objects it will
-  create 
-  -ie a Person class is a template for an individual, 
-  like a guy named Steve
 
 
 
@@ -4788,20 +4813,21 @@ ooSSSS     Interlude: Procedural vs. OO
 
 
 
+
+
 ==============================================================
 36SSSS     Object Relationships
-==============================================================
-**sub and super aren't only relationships**
- -objects can incorporate other objects in a more "lateral" 
-  way
- -think about a school object that is able to store student
-  objects 
- -from within your instance of the School object you will
-  be able to use and work with each student object: 
- -or, like this great medium article shows, trainers and 
-  pokemon: 
+==============================================================     
+**objects initialized with other objects**
+ -Sub and super are not the only relationships classes can 
+  have, objects can also store other objects inside them 
+ -to see the original article this is from go to: 
 
   https://medium.com/@tpstar/object-relationships-in-ruby-explained-by-relationships-in-pokemons-8dd64c8af773
+
+ -copy the code below to play around with this section: 
+
+    require 'pry'
 
     class Trainer
       attr_accessor :name, :pokemons
@@ -4842,66 +4868,67 @@ ooSSSS     Interlude: Procedural vs. OO
       end
     end 
 
-    ash = Trainer.new("Ash")
-    electric = Type.new("electric") 
-    earth = Type.new("earth") 
-    pikachu = Pokemon.new("Pikachu", ash, electric)
-    bulbasaur = Pokemon.new("Bulbasaur", ash, earth)
+      ash = Trainer.new("Ash")
+      electric = Type.new("electric") 
+      earth = Type.new("earth") 
+      pikachu = Pokemon.new("Pikachu", ash, electric)
+      bulbasaur = Pokemon.new("Bulbasaur", ash, earth)
+      binding.pry
 
-**breakdown**
- -son in the Trainer class, we initialize an empty array 
-  of pokemons. This will be filled up with all the 
-  different instances of the Pokemon object 
- -a Type onject also initializes, and depending on what that
-  initialization value is, will determine what kind of attack
-  that those kinds of pokemon will be able to use 
-    -ie electric type pokemon will use lightning strike
- -and in the Pokemon class, each pokemon will initialize with
-  a trainer, and then push themselves into that trainer's
-  pokemons array, then they will check get a type, and 
-  depending on that types #attack method, their attack
-  will be set 
+**breakdown** 
+ -so inside the Trainer class, we initialize the new trainer
+  "ash" with an empty list of pokemon, we will then put 
+  instances of pokemon inside it.
+ -and we create a Pokemon class and initialize each pokemon
+  to have an instance variable that equals an instance of 
+  the Trainer class (in this case "ash" again)
+ -to get extra crazy, we have a Type class, which determines
+  what type of attack the pokemon can do 
 
-**interaction**
- -so here's a crazy thing: 
+**calling objects from other objects** 
+ -consider this crazy line: 
 
     ash.pokemons[0].attack
-    # Pikachu used lightning strike! 
-    #=> nil
+    # => pikachu used lightning strike!
 
- -from the instance ash of the trainer class, we called up
-  the instance pikachu from the Pokemon class, and had it
-  use the #attack method, whose value was decided by 
-  the Type class
- -here is each step broken down by dot or bracket
+ -to break that down, this works becuase we used actual 
+  objects inside other objects so that behind the 
+  scenese it's this: 
 
-    ash  = the Trainer instannce "ash"
-    .pokemons  = an array of Pokemon objects
-    [0]   = the first index of pokemons, returs pikachu obj
-    .attack  = pikachu's method, whose value is 
-             determined by the Type class instance "electric"
-
- -unlike sub and super classes, none of these classes inherit
-  from anyone else, they all just have their various methods
-  determined by various aspects of other objects in their
-  same scope 
- -here's another example:
-
-  pikachu.trainer.pokemons[1].type
-  #=> earth
-
- -from the pikachu object, we link up to pikachu's trainer
-  ash, then call his pokemon array, find the first index
-  which is bulbasaur, and then look up their type, which 
-  is earth
+    ash = this is just an instance of the Trainer class
+  
+    ash.pokemons = this is the instance variable of 
+                   the array of pokemons 
+    ash.pokemons[0] = pikachu
+       -so now, becuase in the Pokemon class, we added
+        self to the trainer.pokemons array, not just like
+        a string value of the pokemon's name (in this case
+        pikachu), that self refers to the entire object of
+        pikachu so that's what it returns, 
+       -so now, all the methods afterwards are refering 
+        to the pikachu object
+    ash.pokemons[0].attack == pikachu.attack 
+       -so now we are using the attack instance method defined
+        in the Pokemon class 
+       -and attack is defined using the instance electric of
+        the Type class
 
 
+ -here's another fun example, see if you can figure out 
+  why it works, where are the objects at each step? 
 
- 
+    pikachu.trainer.pokemons[1].type
+    #=> earth
 
-
+ ANSWER 
+    pikachu.trainer = ash
+    pikachu.trainer.pokemons = ash.pokemons (an array) 
+    pikachu.trainer.pokemons[1] = bulbasaur
+    pikachu.trainer.pokemons[1].type = earth
+    
+    
 ==============================================================
-37SSSS    Regular expressions
+regSSSS    Regular expressions
 ==============================================================
 **ruby differences** 
  -see the main regex-notes file for the basics of regex, here
@@ -5094,37 +5121,3 @@ ooSSSS     Interlude: Procedural vs. OO
   https://www.tutorialspoint.com/ruby/ruby_regular_expressions.htm
 
  for more info
-
-
-
-
-==============================================================
-desSSS     Code Design Principles
-==============================================================
-**the how not just the what**
- -as your code grows in complexity, it will become more and 
-  more important to not just focus on what your code does,
-  but also HOW it does it. 
- -it's not only about finding what works, it's about finding
-  what works in the most maintainable, efficient way 
- -think about the choices you make, was that data structure
-  the best for the job? Are you using one method when 
-  breaking it into two would be clearer? 
-
-**The single Responsibility Principle**
- -sometimes also refered to as separation of concerns 
- -the idea that to keep things clean and maintainable every
-  method and class should really focus on one thing 
- -if a method starts to get too long, that means it's doing
-  too many things, break it down into more 
- -it's a soft guideline that methods should be no longer
-  than 5 lines and classes 100
-
-**DRY**
- -Don't Repeat Yourself is a a mantra of many coders, 
-  having DRY code means that it doesn't have much, if any
-  repetative lines of code 
- -if you find yourself cut and copying a lot of code around  
-  within your program, consider it smelly and try to DRY
-  it out by adding variables 
-

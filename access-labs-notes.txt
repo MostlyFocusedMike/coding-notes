@@ -69,8 +69,7 @@ https://learn.co/tracks/web-development-immersive-2-0-module-one/introduction/lo
   curriculum tab should have the day's schedule
 
 TODO 
- -brief lookup of RESTful APIs  
- -google books api lookup
- -using ranges to get slices of arrays 
- -put a blank value at the end of the 
- -download slack app on phone
+ [ ] -brief lookup of RESTful APIs  
+ [ ] -google books api lookup
+ [ ] -using ranges to get slices of arrays 
+ [ ] -download slack app on phone
