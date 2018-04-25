@@ -47,8 +47,8 @@ TABLE OF CONTENTS
 33SSSS     Class methods
 34SSSS     Class Advanced
 35SSSS     Inheritance, sub and super classes
-36SSSS     Regular expressions
-37SSSS     Code Design Principles
+36SSSS     Object Relationships
+37SSSS     Regular expressions
 
 
 
@@ -64,6 +64,7 @@ moSSSS     Interlude: Monkey Patching
 clSSSS     Interlude: runner files for CLI Programs
 sbSSSS     Interlude: Stubbing more in depth with RSpec
 ooSSSS     Interlude: Procedural vs. OO
+desSSS     Code Design Principles
 
 
 
@@ -4786,8 +4787,121 @@ ooSSSS     Interlude: Procedural vs. OO
 
 
 
+
 ==============================================================
-36SSSS    Regular expressions
+36SSSS     Object Relationships
+==============================================================
+**sub and super aren't only relationships**
+ -objects can incorporate other objects in a more "lateral" 
+  way
+ -think about a school object that is able to store student
+  objects 
+ -from within your instance of the School object you will
+  be able to use and work with each student object: 
+ -or, like this great medium article shows, trainers and 
+  pokemon: 
+
+  https://medium.com/@tpstar/object-relationships-in-ruby-explained-by-relationships-in-pokemons-8dd64c8af773
+
+    class Trainer
+      attr_accessor :name, :pokemons
+      def initialize(name)
+        @name = name 
+        # this will be filled with instances of pokemon
+        @pokemons = []
+      end
+    end 
+
+    class Pokemon
+      attr_accessor :name, :trainer, :type
+      def initialize(name, trainer, type)
+        @name = name 
+        
+        # this will be an instance of Trainer  
+        @trainer = trainer 
+        @type = type.type
+        @attack = type.attack_option
+        trainer.pokemons << self 
+      end 
+      def attack
+        puts "#{@name} used #{@attack}!"
+      end 
+    end
+
+    class Type 
+      attr_accessor :type
+      def initialize(type)
+        @type = type 
+      end
+      
+      def attack_option
+        return "fire smash" if @type == "fire"
+        return "lightning strike" if @type == "electric"
+        return "hydro cannon" if @type == "water"
+        return "earthquake" if @type == "earth"
+      end
+    end 
+
+    ash = Trainer.new("Ash")
+    electric = Type.new("electric") 
+    earth = Type.new("earth") 
+    pikachu = Pokemon.new("Pikachu", ash, electric)
+    bulbasaur = Pokemon.new("Bulbasaur", ash, earth)
+
+**breakdown**
+ -son in the Trainer class, we initialize an empty array 
+  of pokemons. This will be filled up with all the 
+  different instances of the Pokemon object 
+ -a Type onject also initializes, and depending on what that
+  initialization value is, will determine what kind of attack
+  that those kinds of pokemon will be able to use 
+    -ie electric type pokemon will use lightning strike
+ -and in the Pokemon class, each pokemon will initialize with
+  a trainer, and then push themselves into that trainer's
+  pokemons array, then they will check get a type, and 
+  depending on that types #attack method, their attack
+  will be set 
+
+**interaction**
+ -so here's a crazy thing: 
+
+    ash.pokemons[0].attack
+    # Pikachu used lightning strike! 
+    #=> nil
+
+ -from the instance ash of the trainer class, we called up
+  the instance pikachu from the Pokemon class, and had it
+  use the #attack method, whose value was decided by 
+  the Type class
+ -here is each step broken down by dot or bracket
+
+    ash  = the Trainer instannce "ash"
+    .pokemons  = an array of Pokemon objects
+    [0]   = the first index of pokemons, returs pikachu obj
+    .attack  = pikachu's method, whose value is 
+             determined by the Type class instance "electric"
+
+ -unlike sub and super classes, none of these classes inherit
+  from anyone else, they all just have their various methods
+  determined by various aspects of other objects in their
+  same scope 
+ -here's another example:
+
+  pikachu.trainer.pokemons[1].type
+  #=> earth
+
+ -from the pikachu object, we link up to pikachu's trainer
+  ash, then call his pokemon array, find the first index
+  which is bulbasaur, and then look up their type, which 
+  is earth
+
+
+
+ 
+
+
+==============================================================
+37SSSS    Regular expressions
 ==============================================================
 **ruby differences** 
  -see the main regex-notes file for the basics of regex, here
@@ -4985,7 +5099,32 @@ ooSSSS     Interlude: Procedural vs. OO
 
 
 ==============================================================
-37SSSS     Code Design Principles
+desSSS     Code Design Principles
 ==============================================================
+**the how not just the what**
+ -as your code grows in complexity, it will become more and 
+  more important to not just focus on what your code does,
+  but also HOW it does it. 
+ -it's not only about finding what works, it's about finding
+  what works in the most maintainable, efficient way 
+ -think about the choices you make, was that data structure
+  the best for the job? Are you using one method when 
+  breaking it into two would be clearer? 
 
+**The single Responsibility Principle**
+ -sometimes also refered to as separation of concerns 
+ -the idea that to keep things clean and maintainable every
+  method and class should really focus on one thing 
+ -if a method starts to get too long, that means it's doing
+  too many things, break it down into more 
+ -it's a soft guideline that methods should be no longer
+  than 5 lines and classes 100
+
+**DRY**
+ -Don't Repeat Yourself is a a mantra of many coders, 
+  having DRY code means that it doesn't have much, if any
+  repetative lines of code 
+ -if you find yourself cut and copying a lot of code around  
+  within your program, consider it smelly and try to DRY
+  it out by adding variables 
 
