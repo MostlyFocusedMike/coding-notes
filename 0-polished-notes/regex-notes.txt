@@ -402,3 +402,10 @@ mSSSS    main sets and characters in regex
  -these match groups can be set to variables or values in 
   arrays or hashes 
  -it's a useful feature for collecting and storing data
+
+**be aware of caputure groups adding to arrays**
+ -if you are for instance using a split method and you
+  use a regex as your argument, when it comes across 
+  a capture group, it will add it into the final array
+ -so if you want to use () to group things, make sure 
+  every one of them is a non returning capture group
