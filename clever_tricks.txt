@@ -1,0 +1,49 @@
+
+TABLE OF CONTENTS 
+
+1_0SSSS    Ruby Tricks
+
+
+
+
+
+
+==============================================================
+1_0SSSS    Ruby Tricks
+==============================================================
+**always keep a value between a max and min**
+ CONTEXT 
+ -you want to add to a value, but it has a max and min
+ -if you add too much, you want to let it hit max but no
+  higher, and if you subtract too much then it will hit min
+  but no lower: 
+
+    bill.happy_gauge = 5
+    bill.happy_gauge += 50
+    # what we want it to be is 
+    bill.happy_gauge
+    #=> 10
+
+ ANSWER 
+ -use the following setter: 
+
+    class Person
+    ....
+
+    def happy_gauge=(num)
+      @happy_gauge = num
+      @happy_gauge = [@happy_gauge,0,10].sort[1]
+    end
+
+ -so what that does is set happy_gauge to be the number,
+  but then it runs a sort of check on the value
+ -if happy gauge is over ten, when the array is sorted, it
+  will go to index 2, and 10 goes in the middle. #sort then
+  returns the index 1, which is 10,
+ -if happy gauge is between 1 and 10, #sort returns the middle
+  index, so it just stays the same value 
+ -and if happy guage is LOWER than 0, then it will go into 
+  index 0, and the value 0 is now at the middle index, 
+  so that's what sort[1] returns 
+    
+

@@ -3,6 +3,7 @@ TABLE OF CONTENTS
 
 1SSSS    DAY 1 NOTES 
 2SSSS    DAY 2 NOTES 
+3SSSS    DAY 3 NOTES
 
 
 ==============================================================
@@ -69,7 +70,17 @@ https://learn.co/tracks/web-development-immersive-2-0-module-one/introduction/lo
   curriculum tab should have the day's schedule
 
 TODO 
- [ ] -brief lookup of RESTful APIs  
- [ ] -google books api lookup
- [ ] -using ranges to get slices of arrays 
- [ ] -download slack app on phone
+[ ] -brief lookup of RESTful APIs  
+[ ] -google books api lookup
+[ ]-using ranges to get slices of arrays 
+[X]-download slack app on phone
+
+
+
+
+==============================================================
+3SSSS    DAY 3 NOTES
+==============================================================
+TODO 
+ -explain how += works with setters in objects 
+ -explain private methods

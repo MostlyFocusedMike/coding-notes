@@ -48,6 +48,7 @@ TABLE OF CONTENTS
 34SSSS     Class Advanced
 35SSSS     Inheritance, sub and super classes
 36SSSS     Object Relationships
+37SSSS     Object relationships part 2
 
 
 
@@ -4158,6 +4159,10 @@ end
         @@all
       end 
 
+      def self.all=(foo)  # class method(class writer)
+        @@all = foo
+      end
+
       # Instance Method 
       # represents and object's ability to have logic
       def cry 
@@ -4219,7 +4224,8 @@ end
              is to add each newly created method to an array
              so each object knows how many there are.
              @@class variables are declared at the top of a
-             class 
+             class usually, but they can be defined in 
+             instance methods as well
 
  -in ruby, these variables are called "attributes" when in
   a class, other langs call the properties 
@@ -4505,7 +4511,7 @@ TODO
  -these only work for @vars not @@vars, you have to write out
   each @@var read and write function 
 
-**setting @variables with a method instead**
+**read/write @variables with a method instead**
  -while ordinarily you NEED readers and writers, there is a 
   way to get and set instance variables without readers 
   and writers
@@ -4522,6 +4528,26 @@ TODO
  -it's also just terrible in general
  -don't use them, just know them
 
+**read/write @@variables with a method**
+ -same idea: 
+    kanye.instance_variable_set(:@name, "Yeezy")
+    kanye.instance_variable_get(:@name)
+ 
+ -unless you have a class variable reader/writer
+  like this:
+
+    def self.all=(all)
+      @@all = all
+    end 
+    def self.all 
+      @@all
+    end 
+ 
+ -these two methods are THE ONLY WAY to access 
+  class variables, 
+ -the :: cannot get access to them unless there's a reader
+  or writer
+  
 **messages**
  -it's another way to call a method in ruby: 
 
@@ -4543,16 +4569,30 @@ TODO
 ==============================================================
 34SSSS     Class Advanced
 ==============================================================
-**scope accessor :: **
- -the scope accessor is how you get access to class level 
-  scope variables
- 
-    Baby::all
-    # array of all baby objects 
+**the :: name space resolution operator**
+ -The :: is a unary operator that allows: constants, 
+  instance methods and class methods defined within a 
+  class or module, to be accessed from anywhere outside 
+  the class or module.
+ -what that means is the thing on the right of the :: is 
+  defined in the namespace (scope) of the thing on the left
+ -so taking this code: 
 
- -if you find yourself pulling data a lot this way, you 
-  should restructure your class so that it is a proper 
-  method 
+    module SomeModule
+        module InnerModule
+            class MyClass
+                CONSTANT = 4
+            end
+        end
+    end
+
+ -from the main space, we could get access using this: 
+
+    SomeModule::InnerModule::MyClass::CONSTANT
+
+ -just a reminder, the :: works with constants,
+  instance methods, and class METHODS, but not class VARIABLES
+
 
 **ruby reads the class body once**
  -consider: 
@@ -4817,7 +4857,7 @@ ooSSSS     Interlude: Procedural vs. OO
 
 ==============================================================
 36SSSS     Object Relationships
-==============================================================     
+==============================================================
 **objects initialized with other objects**
  -Sub and super are not the only relationships classes can 
   have, objects can also store other objects inside them 
@@ -4925,8 +4965,63 @@ ooSSSS     Interlude: Procedural vs. OO
     pikachu.trainer.pokemons = ash.pokemons (an array) 
     pikachu.trainer.pokemons[1] = bulbasaur
     pikachu.trainer.pokemons[1].type = earth
+
+**object reciprocity**
+ -so both ash and pokemon can get access to the other,
+  you can start with pikachu and get to the ash object,
+  and you can start on ash and get to the pikachu object
+ -since both have access to the other, this is a reciprocal
+  relationship
+
+**has_many and belongs_to**
+ -so in the above code, ash "has_many" instances of pokemon
+  and each instance of pokemon "belongs_to" an instance of
+  trainer (in this case, they all belong to ash)
+ -so ash "has many" pokemon, for classes that are the owner
+  in the "has many" relationship, it is important that they
+  have a method that returns all the objects they have
+ -in this case it's:
+    
+    ash.pokemon
+    #=> array of Pokemon objects 
+
+ -if there isn't at least one place where they are all stored
+  they will be more difficult to access in your code 
+    -like don't only have 4 lists and separate out the pokemon
+     by type, have that IN ADDITION to a master list
+ -this practice of showing all the objects is called 
+  "exposing the collection"
+
+**building helper methods**
     
     
+
+
+
+
+==============================================================
+37SSSS     Object relationships part 2
+==============================================================
+**creating an instance of a class inside another class**
+ -up until now, pokemon had to be created in the main scope,
+  but what if there was a method IN trainer class that created
+  (or in the metaphor "caught") the pokemon? 
+ -it would look something like this: 
+
+    class Trainer
+      attr_accessor :name, :pokemons
+      def initialize(name)
+        @name = name 
+        # this will be filled with instances of pokemon
+        @pokemons = []
+      end
+      
+      def catch_pokemon(name, type)
+        pokemon = Pokemon.new("Pikachu",  
+      end 
+    end    
+
+
 ==============================================================
 regSSSS    Regular expressions
 ==============================================================
