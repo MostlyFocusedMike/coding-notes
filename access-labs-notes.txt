@@ -84,3 +84,17 @@ TODO
 TODO 
  -explain how += works with setters in objects 
  -explain private methods
+
+
+
+
+==============================================================
+4SSSS   DAY 4 NOTES 
+==============================================================
+TODO
+[ ] -research exactly how gems works and the bundle install gem
+[ ] -play with a class method that modifes all instances 
+[ ] -what is ruby static variables
+[ ] -how to initialize an object has_many belongs to relations
+
+
