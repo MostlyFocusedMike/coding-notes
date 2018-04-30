@@ -4,6 +4,8 @@ TABLE OF CONTENTS
 1SSSS    DAY 1 NOTES 
 2SSSS    DAY 2 NOTES 
 3SSSS    DAY 3 NOTES
+5SSSS    DAY 5 NOTES
+6SSSS    1st weekend hw
 
 
 ==============================================================
@@ -72,7 +74,7 @@ https://learn.co/tracks/web-development-immersive-2-0-module-one/introduction/lo
 TODO 
 [ ] -brief lookup of RESTful APIs  
 [ ] -google books api lookup
-[ ]-using ranges to get slices of arrays 
+[x]-using ranges to get slices of arrays 
 [X]-download slack app on phone
 
 
@@ -82,8 +84,7 @@ TODO
 3SSSS    DAY 3 NOTES
 ==============================================================
 TODO 
- -explain how += works with setters in objects 
- -explain private methods
+[X] -explain private methods
 
 
 
@@ -97,4 +98,46 @@ TODO
 [ ] -what is ruby static variables
 [ ] -how to initialize an object has_many belongs to relations
 
+
+
+
+
+
+==============================================================
+5SSSS    DAY 5 NOTES
+==============================================================
+TODO
+[ ] -check main notes for TODOs
+[ ] -ensure that you have single source notes in many object 
+[ ] -notes on the many to many relationship
+[ ] -update section on the importance of runners and how they
+     link up many files into one space 
+[ ] -fix it so that you say initializing a belongs to object 
+     with the has many object in it is the better way to do it
+[ ] -class constants vs class variables, the constants add an
+     extra layer of protection to prevent reassignment, the 
+     scope and instance objects access and everything else are
+     the same value 
+[ ] -constants are available anywhere within their SUB scopes
+     so in the main scope, all methods have access to it 
+     but in each methods constants can't be accessed from the 
+     main scope (one scope up) 
+[ ] -look up memoization
+
+-find and select default to truthiness in the block if no
+  comparison operator is given
+[ ] -adding default variables using hashes and fetch 
+
+
+
+
+
+==============================================================
+6SSSS    1st weekend hw
+==============================================================
+NOTES: 
+ -sql GROUP BY defaults to ascending order of the thing it is
+  grouping by, so if it's text, it's alpha, ints is numerical
+ -GROUP BY ... HAVING was invented becuase WHERE statements 
+  can't support aggregate functions like COUNT
 

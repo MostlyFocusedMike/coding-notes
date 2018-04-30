@@ -49,6 +49,7 @@ TABLE OF CONTENTS
 35SSSS     Inheritance, sub and super classes
 36SSSS     Object Relationships
 37SSSS     Object relationships part 2
+37_1SSSS   Many to Many relationships
 38SSSS     Modules
 
 
@@ -1583,6 +1584,16 @@ boolean	          value
       # false, no eval
     end 
 
+**ranges as index slices** 
+ -you can use ranges to select a slice of a string:
+  
+  "hello there"[1..5]
+   => "ello "
+ 
+ -or slices of arrays: 
+  
+    [1,2,3,4,5,6,7,8,9][1..5]
+    => [2,3,4,5,6]
 
 
 
@@ -3668,7 +3679,13 @@ end
       # ==> [["siteb.com", 9], 
               ["sitec.com", 10], 
               ["sitea.com", 745]]
-     
+ 
+    # it works with arrays by the same principle, just only
+    # using the value and not a key and value 
+    ["ham", "hood", "hinder"].sort_by do |value|
+        value.length
+    end 
+    
  -if the value is a hash or multidimensional, just use
   brackets connected to the value bareword
  -as you can see, sort_by returns an array of arrays, the 
@@ -4566,6 +4583,7 @@ TODO
  -these only work for @vars not @@vars, you have to write out
   each @@var read and write function 
 
+//////////////////////////////////////////////////////////////
 **read/write @variables with a method instead**
  -while ordinarily you NEED readers and writers, there is a 
   way to get and set instance variables without readers 
@@ -4610,7 +4628,52 @@ TODO
     ClassName.class_variables  #=> [@@...]
     ClassName.instance_variables  #=> [@...]
     
-    
+
+**get access to a class from an instance with self** 
+ -remember #class? which shows the class of an object? 
+ -using #class allows you to use self to gain access to
+  the class level: 
+
+  def instance_method_example
+    self  # this refers to the instance of a class
+    self.class # this returns the class itself 
+
+ -you would use this when you are making modules and need 
+  an instance method to be able to refer to it's unique class:
+
+    # Musician class .all class method 
+      def self.all
+        @@songs 
+      end 
+
+    #Painter class .all method
+      def self.all
+        @@paintings 
+      end 
+      
+    # Singer class .all method 
+      def self.all
+        @@concerts 
+      end 
+     
+ -so the first step is wrapping those different @@variables 
+  into a method name that is the same, so we can call one 
+  class method to get access to differently named class vars
+ -meaning, all we need to do is run Musician.all, Painter.all,
+  and Singer.all 
+ -so to access the class itslef from an instance method, do:  
+  
+    module MusicianPainterOrSinger
+      module InstanceMethods 
+        def show_all_work
+          self.class.all
+        end
+      end
+    end
+ 
+  -this allows us to access both the class and instance level
+ -this seems like a contrived example, but it's important just
+  to be aware of the class mechanics like this 
   
 **messages**
  -it's another way to call a method in ruby: 
@@ -4921,9 +4984,77 @@ ooSSSS     Interlude: Procedural vs. OO
     [1,2,3].gribbit
 
 
+**public, private, protected**
+ -so far, all methods have been public, but there are other 
+  types 
+ -private: these methods are available ONLY within the 
+  class itself. They cannot recieve an explicit controller,
+  they can only be called by self, the class where they
+  were created 
+ -protected: these methods can be called from either the 
+  class that created them, or any child classes
+ -the syntax is simple, just use the protected or private
+  keyword, and then put your methods. the order is 
+  public methods, then private, then protected 
 
+    class Bartender
+      attr_accessor :name
+     
+      BARTENDERS = []
+     
+      def initialize(name)
+        @name = name
+        BARTENDERS << self
+      end
+     
+      def self.all
+        BARTENDERS
+      end
+     
+      def intro
+        "Hello, my name is #{name}!"
+      end
+     
+      def make_drink
+        @cocktail_ingredients = []
+        choose_liquor
+        choose_mixer
+        choose_garnish
+        return "Your drink contains #{@cocktail_ingredients}"
+      end
+     
+      private
+     
+      def choose_liquor
+        @cocktail_ingredients.push("whiskey")
+      end
+     
+      def choose_mixer
+        @cocktail_ingredients.push("vermouth")
+      end
+     
+      def choose_garnish
+        @cocktail_ingredients.push("olives")
+      end
+  
+      protected 
 
+      def train_bartender 
+        puts "good luck buddy"
+      end
+     
+    end
+    
+  
+    phil.choose_liquor
+    # => no method error 
+    phil.make_drink
+    #=>Your drink contains ["whiskey", "vermouth", "olives"]
 
+ -notice that the public methods can easily hook private 
+  ones, this is because in their context inside the method
+  itself where they are actually run, the reciever is self
+  not phil
 
 
 
@@ -4953,6 +5084,10 @@ ooSSSS     Interlude: Procedural vs. OO
     end 
 
     class Pokemon
+    # TODO 
+    # this would let ash in his catch_pokemon method
+    # just pass "self" as trainer and it is best 
+
       attr_accessor :name, :trainer, :type
       def initialize(name, trainer, type)
         @name = name 
@@ -5105,7 +5240,8 @@ ooSSSS     Interlude: Procedural vs. OO
         # this will be filled with instances of pokemon
         @pokemons = []
       end
-      
+   
+
       def catch_pokemon(name, trainer, type)
         pokemon = Pokemon.new(name, trainer, type)
       end 
@@ -5191,6 +5327,9 @@ ooSSSS     Interlude: Procedural vs. OO
  -so now you can't remove any pokemon from ash, you must 
   change the trainer attribute for the pokemon, which will
   properly sever the link
+ -single source of truth means we don't store our information
+  in one place, it means we only store each thing once 
+  in any place, and tell everyone where to look 
 
 **linking objects with methods, not initialize**
  -so to save time before, we added the instance of trainer to
@@ -5314,6 +5453,126 @@ end**ash catching a pokemon following single source of truth**
 
 
 
+
+
+
+==============================================================
+37_1SSSS     Many to Many relationships
+==============================================================
+**objects recap**
+ -Everything in ruby is an obj
+ -objs have attributes 
+    -encasulate data
+    -encapsulate bahavior 
+ 
+**good vocab to know**
+ -a "domain" is the subject matter of the problem or 
+  application 
+ -a "model" is a class whose responsibility is to ecapsulate
+  data
+ -a domain model is like this 
+
+  belongs to              has many 
+
+  pictur -------------\
+  pic    --------------  User 
+  pic    -------------/
+
+
+ -it can also be a "many" to "many" object model
+
+  many      belongsto    has many
+  
+
+  patient --apointment-- doctor 
+
+ -so a patient could have many doctors, and a doctor 
+  has many patients, but they BOTH only have a one to one 
+  link with "apointment" 
+ -so the apointment has a belongs to relationship to patient
+  and doctor, the apointment only knows about that patient
+  and that doctor 
+ -but doctors "have many" apointments, and patients "have many
+  appointments, but as far as each single appointment knows,
+  there's only one doctor and one patient
+
+**an example of this many to many**
+ -a painter has many paintings, a painting has many painters 
+ -so what's a gallery? 
+ -a gallerty has many painters and paintings, so the belongs
+  to in this case becomes the painting itself 
+ -the painter is linked to the gallery by the painting, 
+  and the gallery is linked to the painter by the painting 
+ -and there can be many paintings by the painter in the same 
+  gallery, and an artist can have paintings in many gallerys
+
+
+  many           belongs to            many 
+  painter  ----- painting  --------- gallery
+  painter  ----- painting  --------- gallery
+  painter  ----- painting  --------- gallery
+  painter  ----- painting  --------- gallery
+  painter  ----- painting  --------- gallery
+  painter  ----- painting  --------- gallery
+  painter  ----- painting  --------- gallery
+
+**adding a painting to the gallery 
+ -so in the Gallery class, you'd have a 
+
+  def recieve_painting(painting)
+    painting.gallery = self 
+    painting.painter.gallery = self 
+  end 
+
+ ((we can do that becuse you can always get to the has many 
+  from the belongs to and vice versa if you set up the single
+  source of truth)) 
+
+ and now in the painter class to show all the galleries: 
+
+  def show_all_paintings 
+    Painter.all_paintings.select do |painting|
+      painting.painter == self
+    end 
+  end 
+
+  def show_all_galleries 
+    show_all_paintings.map |painting|
+      painting.gallery
+    end.compact.uniq
+  end
+
+ -so here we narrowed down to only the paintings we knew the 
+  painter made, so that means every single painting is 
+  already his, so we just want to collect the galleries 
+  attribute
+ -that compact is to remove any nil values, since if a 
+  painting hasn't been assigned to a gallery, its gallery 
+  attribute will be a nil value, and there may be multiple
+  entries of the same gallery, so uniq knocks those out
+
+  end 
+
+
+TODO 
+  def paintings
+    Painting.all.select do |painting| 
+      painting.gallery == self
+    end
+  end
+
+  def painters
+    self.paintings.map do |painting|
+      paintings.gallery
+    end.compact.uniq
+  end
+
+coy this pattern as a single source of truth module for 
+  returning all of a belongs to objects, and then all of 
+  a certain trait in those objects 
+
+    
+ 
 ==============================================================
 38SSSS     Modules
 ==============================================================

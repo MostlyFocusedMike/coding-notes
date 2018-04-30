@@ -19,6 +19,8 @@ TABLE OF CONTENTS
 6SSSS    Remove Data
 7SSSS    Database Tables
 8SSSS    Manipulate Tables
+9SSSS    Standard statements
+10SSSS     Aggregate functions
 
 
 
@@ -416,17 +418,17 @@ id          title       genre       duration
   column-name1 datatype,
   column-name2 datatype,
   ...more columns...
-  column-name3 datatype
+  column-name3 datatype # there won't be a comma after the last
   );
 
  -the datatype is separated from the column name by only a 
   space 
  -the data type options are: 
     int primary key, #auto incremented numbers
-    int, # a whole number
-    float, # a decimal
-    char, #text
-    varchar(#), #text but with a number of char limit 
+    INTEGER, # a whole number
+    FLOAT, # a decimal
+    CHAR, #text
+    VARCHAR(#) #text but with a number of char limit 
      
  -those are just some basic options, check your SQL variant for
   more options 
@@ -470,3 +472,164 @@ id          title       genre       duration
 
 
 
+
+
+
+
+==============================================================
+9SSSS    Standard statements
+==============================================================
+Here are some of the most common operations you will do: 
+
+**LIMIT**
+ -use limit to return only a certain number of rows from the
+  top
+
+      LIMIT 1
+
+ -a common use is to order by DESC and then use LIMIT 1 to 
+  return the largest of something:
+
+    SELECT * 
+    FROM cats 
+    ORDER BY age DESC 
+    LIMIT 1;
+ 
+ -this selects the oldest cat
+
+
+**BETWEEN**
+ -this is used like a boolean to return values found between
+  (exclusion on both) two values: 
+
+    SELECT name 
+    FROM cats 
+    WHERE age 
+    BETWEEN 1 AND 3;
+
+**AS**
+ -use this to set aliases for long or confusing column names.
+ -after the initial definition, you can refer to the alias
+  instead of the column name: 
+
+    SELECT cars.name AS 'car_model', owner.name AS 'owner_name'
+    FROM Cars; 
+
+**DISTINCT**
+ -it is common for there to be multiple identical values in
+  a return, so use DISTINCT to remove them: 
+  
+    SELECT DISTINCT Customer 
+    FROM Orders WHERE 
+    Customer LIKE 'B%';
+
+**LIKE**
+ -use the LIKE operator with WHERE clauses to search for a pattern, like 
+  regex only simpler.
+ -here are two wildcards used with LIKE
+
+    % - zero, one, or multiple characters
+    _ - any single character
+
+    SELECT DISTINCT Customer 
+    FROM Orders WHERE 
+    Customer LIKE 'B%';
+
+
+
+
+
+
+==============================================================
+10SSSS     Aggregate functions
+==============================================================
+**carry out multiple functions at once**
+ -aggregate functions can do things like add up all values,
+  find averages, or create groups from repeating cells 
+
+**MIN/MAX/SUM**
+ -these do exactly what you think, they apply a math function
+  to an entire column of data: 
+
+  SELECT MAX(cars.price)
+  FROM cars;
+  SELECT MIN(cars.price)
+  FROM cars;
+  SELECT SUM(cars.price)
+  FROM cars;
+  SELECT AVG(cars.price)
+  FROM cars;
+
+**LENGTH**
+ -you can also find the length of a piece of a string: 
+
+  SELECT LENGTH(car.model)
+  FROM cars 
+  WHERE car.model = 'mercury villager'; 
+ 
+to help you understand these next two, use this table: 
+
+  id   name        age     breed          owner_id  
+------ ----------  ------- -------------  --------
+1      Maru        3       Scottish Fold  1         
+2      Hana        1       Tabby          1         
+3      Lil\' Bub   5       American Shor            
+4      Moe         10      Tabby                    
+5      Patches     2       Calico                   
+6                          Tabby    
+
+**COUNT**
+ -COUNT will count up how many times a specific piece of 
+  data pops up and return it: 
+
+  SELECT breed, COUNT(breed) 
+  FROM cats 
+  GROUP BY breed;
+
+  # returns: 
+  breed               COUNT(breed)
+  ------------------  ------------
+  American Shorthair  1           
+  Calico              1           
+  Scottish Fold       1           
+  Tabby               3    
+
+**GROUP BY** 
+ -so as you see, GROUP BY naturally goes well with COUNT 
+ -it combines rows where the cell data is the same 
+ -so in this case it grouped by breed
+ -keep in mind that when using group by, if you try to 
+  return something other than the count or group by check,
+  it will return a misleading result of the last value it
+  happened to find, it doesn't mean anything: 
+
+    id    name                  motto       species     
+    ----  --------------------  ----------  ---------- 
+    1     Lady                  Woof Woof   direwolf    
+    2     Tyrion Lannister      A Lanniste  human       
+    3     Daenerys Targaryen    If I look   human       
+    4     Eddard Stark          Winter is   human       
+    5     Character One         motto one   cylon       
+    6     Character Two         motto two   human       
+    7     Character Three       motto thre  cylon       
+    8     Character Four        motto four  cylon       
+
+    SELECT characters.name, characters.species, COUNT(characters.species)
+    FROM characters
+    GROUP BY characters.species;
+   
+    name                  species     COUNT...
+    --------------------  ----------  -----
+    Character Four        cylon       4
+    Lady                  direwolf    1
+    Character Two         human       3
+
+ -you can also use ORDER BY and LIMIT with GROUP BY
+
+   SELECT characters.species, COUNT(characters.species) AS cs
+   FROM characters
+   GROUP BY characters.species
+   ORDER BY cs DESC
+   LIMIT 1;
+
+ 
