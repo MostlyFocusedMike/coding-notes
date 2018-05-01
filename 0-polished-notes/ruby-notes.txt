@@ -5505,6 +5505,8 @@ end**ash catching a pokemon following single source of truth**
   and the gallery is linked to the painter by the painting 
  -and there can be many paintings by the painter in the same 
   gallery, and an artist can have paintings in many gallerys
+ -the the galleries have many painters, painters have many 
+  galleries, both have this relationship through paintings
 
 
   many           belongs to            many 

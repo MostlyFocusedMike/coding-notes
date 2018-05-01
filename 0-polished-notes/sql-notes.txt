@@ -21,6 +21,7 @@ TABLE OF CONTENTS
 8SSSS    Manipulate Tables
 9SSSS    Standard statements
 10SSSS     Aggregate functions
+11SSSS     JOIN and join tables 
 
 
 
@@ -28,7 +29,8 @@ INTERLUDES
 
 
 
-
+UNGROUPED 
+uSSSS 
 
 
 
@@ -632,4 +634,103 @@ to help you understand these next two, use this table:
    ORDER BY cs DESC
    LIMIT 1;
 
+
+
+
+
+
+
+==============================================================
+11SSSS     JOIN and join tables 
+==============================================================
+**JOIN**
+ -you can tell sql to return a combination of two tables using
+  the JOIN statement
+ -SQL has 4 basic types of joins,
+  -INNER JOIN- returns only rows where there is a match from
+   both tables 
+  -LEFT OUTER JOIN- returns all rows from left table, all
+   matching rows from the right table, and leaves gaps where
+   the right table has no matches 
+  -FULL JOIN- all rows are joined together with any null values
+   just left in place
+  -RIGHT OUTER JOIN- the same process as LEFT OUTER JOIN but 
+   with the opposite side
  
+ -Tthe OUTER and INNER join statements are optional, they just
+  add some readability
+ -NOTE: sqlite is incapable of doing RIGHT and FULL joins, 
+  some other SQL versions have differences to
+
+**JOIN IN ACTION** 
+  SELECT cats.name, owners.name 
+  FROM cats
+  INNER JOIN owners 
+  ON cats.owner_id = owners.id 
+
+ -so first we select what we'd like to return 
+ -then we choose our left side table (the first table) but then
+  we specify the typ of join and what table we'd like to join
+ -then the ON statement tells us on which rows will the join
+  happen on, in this case it's when the cats.owner_id 
+  (the foreign key) matches up with the owners.id (that 
+  table's key)
+ -it's a little clearer if we show the full joined table:
+ 
+ 
+  SELECT *
+  FROM cats
+  INNER JOIN owners 
+  ON cats.owner_id = owners.id 
+
+ id 
+ 
+
+
+
+
+==============================================================
+???SSSS  notes
+==============================================================
+-CRUD create, read, update, delete 
+
+*define SQL
+*sqlite vs sqlite3
+*explore data with sqlite3 
+*perform CRUD actions on table 
+*perform CRUD across tables
+
+**
+
+
+
+
+
+uSSSS
+
+**DEFAULT/NOT NULL** 
+ -DEFAULT and NOT NULL are two different ways to deal with 
+  no information being inserted into a row 
+ -NOT NULL will require a cell to always have data entered into
+  it, otherwise it will reject the insert and act like you 
+  hadn't made the INSERT query at all
+ -DEFUALT simply takes a blank value and turns it into a 
+  previously specified default value, just like default 
+  variables  
+
+
+    CREATE TABLE Persons (
+        ID INTEGER PRIMARY KEY,
+        LastName varchar(255) NOT NULL,
+        FirstName varchar(255),
+        Age int,
+        City varchar(255) DEFAULT 'Sandnes'
+    );
+ 
+ -so if city is blank, then it will default to sanders, but
+  if no value is given to last name (so that means it defaults
+  to NULL) the row won't be inserted or updated
+ -DEFAULT lets you leave a row blank, and instead of getting a 
+  value of NULL put in, you can specify the value 
+ -NOT NULL simply won't allow you to leave the entry blank, it 
+  will reject the insert 

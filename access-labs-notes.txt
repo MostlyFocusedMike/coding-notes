@@ -141,3 +141,116 @@ NOTES:
  -GROUP BY ... HAVING was invented becuase WHERE statements 
   can't support aggregate functions like COUNT
 
+==============================================================
+???SSSS  notes
+==============================================================
+-CRUD create, read, update, delete 
+ -create is reate table and insert 
+ -read is gonna be like select
+ -update is update 
+ -and delete is delete from and drop
+ -these four functions are basically what every application
+  does ever 
+
+*define SQL
+*sqlite vs sqlite3
+*explore data with sqlite3 
+*perform CRUD actions on table 
+*perform CRUD across tables
+
+DAYNOTE
+TODO
+ -ruby file paths know to look for files? 
+ -learn how to integrate sql and ruby
+ -SQL how treats white space is that it just ignores it 
+  until it hits another word 
+ -ruby sql ; is optional if one statment, it is required
+  if you do more than one
+ -ruby will create new db if not created already
+ -sqlite3 foriegn key an no delete thing
+ -are table names case sensitive YES
+
+
+
+
+==============================================================
+gems2SSSS    bundle install and gem files
+==============================================================
+
+**gemfile**
+ -tells ruby what dependencies the project has
+
+    source "http://rubygems.org"
+
+    gem "sqlite3"
+    gem "pry"
+
+ -that's a very simple gem file 
+ -that source is the ruby gem main repo and tells ruby
+  where to get the gems
+  -that site also has al the docs and bug trackers 
+ -now the bundle install looks for this file, then downloads
+  any of the gems (or specific versions of gems) to your
+  computer so the files will run
+   -the source can be links to other places like github 
+ -then it will resolve the dependencies
+  -each gem might depend on another unlisted gem, so if 
+   that is the case, bundle will install them as well
+  -bundle info GEM-NAME will show you where it was installed
+   and all gems are installed globally
+ -when it is done, bundle install creates a gemlock file, 
+  which shows you where each gem came from and what, if any
+  dependencies it also loaded
+ -you do have to actually gem install bundler if you don't 
+  have it, think of it like a package manager
+ -include it in all your github code for eas of use
+ -TODO
+  -is Gemfile.rb case sensitive
+ 
+
+
+
+
+==============================================================
+folSSSS    Folder structure 
+==============================================================
+**basic structure**
+ bin/
+  -run.rb
+config/
+  -environment.rb
+db/
+  -music.rb
+lib/
+ **main program files here**
+Gemfile.rb
+Gemfile.lock
+README.md
+ 
+ -our bin/ will contain our runner file and anything else 
+  needed ot actually run the file 
+ -config/ is environment.rb contains and matches all 
+  the require relatives and file loading that we need for
+  our program, this file is then required in our runner
+ -inside environment.rb: 
+
+    reurie 'bundler'
+    Bundler.require
+ 
+ -what Bundler.require does is save us from having to do 
+    
+    require 'each-individual-gem'
+
+ -so it's a time saver   
+ -and lib is where your program files are stored
+
+
+
+
+==============================================================
+22SSSS     DAY 2 WEEK 2 
+==============================================================
+TODO
+ -mass assignment 
+ 
+ -responds_to?

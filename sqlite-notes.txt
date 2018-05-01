@@ -1,0 +1,198 @@
+
+
+
+
+
+==============================================================
+0SSSS    basics 
+==============================================================
+**SQL vs sqlite**
+ -sqlite is the imprlentation and program of the language 
+  SQL(specifically sqlite3)
+**gui for sqlite**
+ -DB browser for SQLite
+ -this will allow you to edit outside of just the cli
+ -for the most part we will be dealing with CLI and ruby
+  interfaces
+
+**.tables and .schema**
+ -use .tables to see all tables, and .schema to see the 
+  tables and their makeup
+
+**basic nice setup**
+ .mode columns 
+ .width auto
+ .headers on 
+ 
+ -and this will display all your stuff real nice like
+
+
+
+
+
+
+
+==============================================================
+ruby\SSSS    ruby and sqlite
+==============================================================
+**basic setup in environment** 
+ -inside the environement file, we'll set up a constant 
+  to gain access to our Database: 
+
+   DB = {
+      name: "music database"
+      conn: SQLite3::Database.new('db/music.rb')
+    }
+   
+    DB[:conn].results_as_hash = true
+
+ -then, to access our table we do a pattern like this: 
+    class Song
+ 
+      attr_accessor :name, :album, :id
+     
+      def initialize(name, album, id=nil)
+        @id = id
+        @name = name
+        @album = album
+      end
+     
+      def self.create_table
+        sql =  <<-SQL 
+          CREATE TABLE IF NOT EXISTS songs (
+            id INTEGER PRIMARY KEY, 
+            name TEXT, 
+            album TEXT
+            )
+            SQL
+        DB[:conn].execute(sql) 
+      end
+     
+    end
+  
+ -the important like is: 
+
+        DB[:conn].execute(sql) 
+
+ -which is referencing that hash in our environment file 
+ -and what that all does is lets us connect to our database 
+  and 
+ -the results_as_hash = true line is just a builtin setting 
+  that lets us return our hash queries as a hash instead of an
+  array
+ -without the hash thing it returns an array of arrays, so you
+  don't get to see the column names as part of the return hash
+ -with hash thing on, you get an array of hashes, which is just 
+  a little easier for humans to read
+
+    no hash
+    [[1,"punk"]]
+    hash
+    [{"id"=>1, "name"=>"punk", 0=>1, 1="punk"}]
+    # ignore that 0 and 1, those are how you would access it 
+    # as if it were an array, we'll typically use hash keys
+
+ -also be aware that in irb or pry each sql command will return
+  a value of an empty array, ignore this, it's a quirk of ruby
+  that has no impact on your sql code (you did not somehow
+  always delete your table into an empty array) 
+ -it's also important to note that 
+ 
+
+**DB.execute(sql-code-here)**
+ -table names are lowercase snake 
+
+ -here is how you would use a class to deal with a genre table:
+
+  class Genre
+ 
+    def self.create_table
+      #self is the class, .name returns a class name
+      table_name = self.name.downcase + 's'
+      puts table_name
+    end
+
+    def self.table_name 
+      sql = "CREATE TABLE #{self.table_name} )
+             id INTEGER PRIMARY KEY 
+             name TEXT;"
+      DB[:conn].execute(sql)
+    end 
+    
+    def self.insert(name)
+      sql = "INSERT INTO #{self.table_name} VALUES name
+      ('#{name}');"
+     # THOSE ' are super important, otherwise it will 
+     interpolate sql command with the values not in
+     a string format 
+      DB[:conn].execute(sql)
+    end 
+    
+    def self.update(id,name)
+      sql = "UPDATE #{self.table_name}
+             SET name = #{new_name}
+             WHERE 
+             
+
+      DB[:conn].execute(sql)
+    end
+  end 
+
+
+**save structure** 
+  def save
+    # if instatance is not in db ((not persisted)) then:
+    if @id.is_nil?
+      sql = <<-SQL
+        INSERT INTO #{@@table_name} (name, grade) 
+        VALUES (?, ?)
+      SQL
+   
+      DB[:conn].execute(sql, self.name, self.grade)
+   
+      @id = DB[:conn].execute("SELECT last_insert_rowid() FROM #{@@table_name}")[0][0]
+    # that [0][0] is because EVERY row in sql has a 
+     # last_insert_row key, so we only need the first instance,
+     # since every row reports that the last row id is the same
+     # thing, because there's always only one last row
+
+    else # id is not nil, it's been assigned an id from table
+      # use the update 
+
+  end
+
+ -so id is initialized as nil on new objects, once they are 
+
+
+**delete structure** 
+INSTANCE VERSION 
+ -delete it from table, then set the id to nil, which
+  shows this, since in ruby you can still call the 
+  object, we just want to know that object is not connected
+  to the DB in any way anymore 
+CLASS VERSION 
+ -o
+
+
+
+**find** 
+ -the find method searches through the db and then creates 
+  a new instance in your ruby 
+ -find is how you take something from the db and then putting 
+  it into ruby 
+ -if it finds nothing in the db, it should handle it by
+  returning nil
+
+sql = ""
+  results DB[:con].e(sq)
+ if results.empty? # if no match is found it will return an 
+                   # arr, but now it will be empty since there
+                   # there were no row matches  
+   return nil # use stament modifier later 
+ else 
+  genre.new(results[0]
+ end
+
+
+**heredocs**
+ -  the "--" at the end is commenting out the code
