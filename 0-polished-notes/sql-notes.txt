@@ -29,8 +29,8 @@ INTERLUDES
 
 
 
-UNGROUPED 
-uSSSS 
+TO BE SORTED 
+uSSSS   To Be Sorted 
 
 
 
@@ -343,8 +343,8 @@ id          title       genre       duration
  -here it is in action:
 
     UPDATE movies 
-    SET genre = 'Adventure'
-    WHERE title = 'Iron Man';
+    SET genre = 'Adventure', title = "IRON MAN"
+    WHERE id = 4;
 
  -check your table to see the change: 
 
@@ -353,7 +353,7 @@ id          title       genre       duration
     1           Moon        sci-fi      120
     2           Her         sci-fi      132
     3           The Kid     comedy      79
-    4           Iron Man    Adventure   113
+    4           IRON MAN    Adventure   113
     5           Bingo       comedy      78
     6           The Fly                 80
 
@@ -368,9 +368,6 @@ id          title       genre       duration
  -this is just how you tell if a space is NULL or not
  -you can also use IS NOT NULL as well
  -the IS replaces the =
-
-
-
 
 
 
@@ -683,30 +680,19 @@ to help you understand these next two, use this table:
   INNER JOIN owners 
   ON cats.owner_id = owners.id 
 
- id 
  
 
 
 
 
+
+
+
 ==============================================================
-???SSSS  notes
+uSSSS    To be sorted
 ==============================================================
+
 -CRUD create, read, update, delete 
-
-*define SQL
-*sqlite vs sqlite3
-*explore data with sqlite3 
-*perform CRUD actions on table 
-*perform CRUD across tables
-
-**
-
-
-
-
-
-uSSSS
 
 **DEFAULT/NOT NULL** 
  -DEFAULT and NOT NULL are two different ways to deal with 

@@ -194,5 +194,35 @@ sql = ""
  end
 
 
+**? interpolations** 
+ -sqlite3 just treats the ? as positional arguments for the 
+  values placed after the sql statment in execute:
+
+    "SELECT * FROM table WHERE id = ?"
+    DB[:conn].execute(sql, 4)
+
+    so it will use the 4 where the ? is 
+ -this is sqlite's first line of defense with validating user
+  input 
+
 **heredocs**
- -  the "--" at the end is commenting out the code
+ sql = <<-SQL
+    SELECT * FROM table 
+ SQL
+
+ -heredocs are string delimiters and the cool thing about them
+  with modern editors is that they will use syntax highlighting
+  if the editor recognizes the language 
+ -they can also do this confusing sytnax: 
+
+    thing(<<-SQL, other_arg)
+      this is the rest
+      of the sql query
+      down here 
+    SQL
+
+ -this looks strange but it basically just puts the whole 
+  sql statment inside the first part of the heredoc and then 
+  pretends like the whole thing is in there
+ -super strange syntax, beyond rare
+ 

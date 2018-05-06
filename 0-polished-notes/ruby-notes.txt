@@ -68,6 +68,8 @@ clSSSS     Interlude: runner files for CLI Programs
 sbSSSS     Interlude: Stubbing more in depth with RSpec
 ooSSSS     Interlude: Procedural vs. OO
 regSSSS    Regular expressions
+maSSSS     Ruby mass assignment with hashes
+
 
 
 
@@ -5084,10 +5086,6 @@ ooSSSS     Interlude: Procedural vs. OO
     end 
 
     class Pokemon
-    # TODO 
-    # this would let ash in his catch_pokemon method
-    # just pass "self" as trainer and it is best 
-
       attr_accessor :name, :trainer, :type
       def initialize(name, trainer, type)
         @name = name 
@@ -5194,16 +5192,9 @@ ooSSSS     Interlude: Procedural vs. OO
     ash.pokemon
     #=> array of Pokemon objects 
 
- -if there isn't at least one place where they are all stored
-  they will be more difficult to access in your code 
-    -like don't only have 4 lists and separate out the pokemon
-     by type, have that IN ADDITION to a master list
  -this practice of showing all the objects is called 
   "exposing the collection"
 
-**hooking so the belongs to and has many know each other**
-  TODO 
-   link without initializing 
 
 **building helper methods**
  -so keeping in mind that we don't have to do full chains
@@ -5221,12 +5212,6 @@ ooSSSS     Interlude: Procedural vs. OO
 
     ash.main_attack 
     
-
-
-
-==============================================================
-37SSSS     Object relationships part 2
-==============================================================
 **creating an instance of a class inside another class**
  -up until now, pokemon had to be created in the main scope,
   but what if there was a method IN trainer class that created
@@ -5250,22 +5235,19 @@ ooSSSS     Interlude: Procedural vs. OO
 
     #now out in the main scope:  
     ash = Trainer.new("ash")
-    ash.catch_pokemon("pikachu", ash, electric) 
+    pika2 = ash.catch_pokemon("pikachu", ash, electric) 
 
- -you can call the classes inside other classes, just be 
-  aware that now there is no outside instance of Pokemon
-  called pikachu, there is only an instance of Pokemon
-  called pokemon with a name of "pikachu" and it is only
-  accessible from ash: 
-
-    ash.pokemons[0]  # only way to get to "pikachu"
-   
  -(of course, you could still initialize another pikachu 
   from the Pokemon class, but the point is now ash can
   create instances of pokemons from within his own object)
 
 
+==============================================================
+37SSSS     Object relationships part 2
+==============================================================
 **single source of truth**
+ -while quick and easy, there is a gigantic problem with doing
+  reltionships like the above example
  -consider this: 
 
   lame_pokemon = ash.pokemons[1]
@@ -5284,138 +5266,111 @@ ooSSSS     Interlude: Procedural vs. OO
  -the way to do this is to remove the list of objects from
   the has many class (so remove the list of pokemon from
   ash)
- -instead you would want a method in trainer called 
+ -here is the proper layout that keeps this problem from
+  happening: 
 
-  def pokemon
-    Pokemon.trainers.select do |pokemon|
-       pokemon.trainer == self 
-    end
-  end 
+  class Pokemon 
+    attr_accessor :name, :type, :trainer
 
- -and in pokemon you would have a class variable that 
-  stores all the pokemon with their trainers 
- -so trainer would read this Pokemon class variable and 
-  return all the pokemon with a trainer that matches the
-  instance of Trainer that searched
- -but since it isn't actually IN the Trainer class anymore,
-  if a pokemon is removed or changes trainers, then it will
-  no longer be accessible via array to ash
- -so to make that work, here is how the Pokemon class would
-  need to be written
-
-  Pokemon
-    attr_accessor ...stuff :trainer 
     @@all = []
- 
-    def initialize(stuf stuff) 
-      ...stuff
-      @@all << self
+    
+    def initialize(name,type,trainer=nil)
+      @name = name 
+      @type = type # for simplicity, this is just a string 
+      @trainer = trainer
+      @@all << self 
     end 
- 
+
     def self.all
       @@all
     end 
 
     def got_caught(trainer)
-      # here is where the trainer instance gets passe in
-      @trainer = trainer 
+      @trainer = trainer
     end 
+
+    def escape
+      self.trainer = nil
+    end 
+
+  end 
+
+  class Trainer 
+    attr_accessor :name, :pokemon
+
+    @@all = []
+    
+    def initialize(name)
+      @name = name 
+      @@all << self
+    end 
+
+    def catch_pokemon(pokemon)
+      pokemon.trainer = self 
+      return pokemon
+    end 
+
+    def find_new_pokemon(name,type)
+      Pokemon.new(name,type,self)
+    end
+
+    def all_caught_pokemon
+      Pokemon.all.select do |pokemon|
+         pokemon.trainer == self 
+      end
+    end 
+
+    def release(pokemon)
+      pokemon.trainer = nil
+    end 
+
+  end 
+
+ BREAKDOWN 
+ -so now all our pokemon get added to a class level variable,
+  @@all, this allows for easy iteration 
+ -pokemon can be initialized with a trainer instance or not, 
+  but we have a read/write method for that attribute so it can
+  be changed at any time 
+   -so "wild" uncaught pokemon are simply initialized with 
+    just a name and type, and their trainer will default to
+    nil, which means they have no trainer 
+ -the #got_caught method is another way to change the trainer 
+  value as well(it's a little more imaginative, 
+  but pokemon.trainer= does the same thing 
  
- -so we always add all pokemon to the @@all_pokemon array,
-  but only if it's caught to we change the trainer value 
-  to an instance of a Trainer
- -so now you can't remove any pokemon from ash, you must 
-  change the trainer attribute for the pokemon, which will
-  properly sever the link
+**single source of truth reader**
+ -the biggest change is that the Trainer class only stores 
+  instances of itself in an array, not any pokemon
+ -instead, if a trainer wants to see what pokemon they have 
+  caught, they will sort through Pokemon.all and get an 
+  array of any pokemon with their trainer attribute set to
+  the object of the trainer: 
+
+    def all_caught_pokemon
+      Pokemon.all.select do |pokemon|
+         pokemon.trainer == self 
+      end
+    end 
+
+ -so now if a pokemon's trainer attribute is changed, they
+  will no longer show up as a pokemon belonging to that 
+  trainer 
+    -this is demonstrated with the #release and #escape 
+     methods on Trainer and Pokemon respectively, it simply
+     sets the trainer attribute to nil, so that pokemon
+     will no longer appear in any Trainer array 
+ -However, if a pokemon's does belong to that trainer, their 
+  object will still appear in the #all_caught_pokemon array
+  just like the previous version, so there is still a link
+ -it's just that now once it is severed, both classes will
+  know 
  -single source of truth means we don't store our information
   in one place, it means we only store each thing once 
   in any place, and tell everyone where to look 
 
-**linking objects with methods, not initialize**
- -so to save time before, we added the instance of trainer to
-  the pokemon initialization step, however it's also perfectly
-  fine to not do that and instead have a method in pokemon
-  that sets up the relationship (and in this case, we are 
-  using single source of truth, so there's no link in ash
-  to any pokemon) 
- -so instead of having each pokemon initialize with a trainer,
-  we put a #got_caught method into the Pokemon class which
-  sets it's trainer value to an instance of Trainer
- -and then so the trainer gets access to those pokemon that 
-  they caught, there's now a method in Trainer that searches
-  thought the Pokemon.all_pokemon array, and returns any
-  object whose trainer attribute is equal to the 
-  trainer themself
- -remember, we are serching a list so that if a pokemon 
-  changes trainers or is removed from the list, Trainer won't
-  be able to find it.
- -also for simplicity, lets ignore Type as a class and just 
-  set it to be a string 
- -here's how the #got_caught looks in context
 
-    class Pokemon
-      
-      attr_accessor :name, :type, :attack
-
-      @@all_pokemon = []
-      def initialize(name,type)
-        @name = name 
-        @type = type 
-        @@all_pokemon << self
-      end 
-
-      def got_caught(trainer)
-        # here is where the trainer instance gets passe in
-        @trainer = trainer 
-      end 
-
-      def attack
-        return "#{@name} used lightning" if @type == "electric"
-        return "#{@name} used pound" if @type == "electric"
-        # honestly more here in a better way, this is quick
-      end 
-    end 
-
-
-    class Trainer 
-      attr_accessor :name
-
-      def initialize(name)
-        @name = name 
-      end 
-
-      def pokemons
-        Pokemon.all_pokemon.select do |pokemon|
-          pokemon.trainer == self 
-        end 
-      end
-    end
-
-end**ash catching a pokemon following single source of truth**
- -so ash used to be able to catch pokemon, but now he can't
- -that's lame. he must aquire them all. 
- -how would ash's #catch_a_pokemon method work? 
-
-    ...Trainer class...
-    def catch_a_pokemon(pokemon_obj)
-      pokemon_obj.trainer = self 
-    end 
-    ...more class...
-
- -so that would take an already instantiated pokemon and then
-  set the trainer to be ash
- -and here is the new way the Trainer class would create a
-  new pokemon object: 
-
-    ...Trainer class...
-  def create_new_pokemon(name,type)
-    pokemon = Pokemon.new(name,type)
-    pokemon.trainer = self 
-    return pokemon
-  end     ...more class...
- 
- -this is an intersting thing because
- -and in the main scope it would be:
+**code in action**
 
     ash = Trainer.new("ash")
     
@@ -5426,12 +5381,12 @@ end**ash catching a pokemon following single source of truth**
 
     # a pokemon getting caught 
     # the "belongs to" obj initiating the relationship
-    bulbasaur = Pokemon.new("pikachu","electric")
+    bulbasaur = Pokemon.new("bulbasaur","earth")
     bulbasaur.got_caught(ash)
 
     # ash creating a pokemon somehow...
     # the "have many" literally creating the "belongs to" 
-    charmander = ash.create_new_pokemon("charmander","fire")
+    charmander = ash.find_new_pokemon("charmander","fire")
 
     # so here's how the two types would have access to the 
     # ash obj
@@ -5440,15 +5395,25 @@ end**ash catching a pokemon following single source of truth**
     charmander.trainer # the ash object
     # it winds up being the same! 
 
-    
 
     # here's how to see all the pokemon ash caught,
     # regardless of how he caught them:
-    ash.pokemons  # [<pik... obj>, <bul... obj>, <cha... obj>]
+    ash.all_caught_pokemon
+    # [<pik... obj>, <bul... obj>, <cha... obj>]
 
-    
-      
+    # severing the link
+    pikachu.escape
+    ash.release(bulbasaur)
 
+    # now they do not link to ash 
+    ash.all_caught_pokemon
+    # => [<char...obj]
+
+ -as you can see, linking according to single source of 
+  truth is much better to manage 
+ -this is all just a baby step towards databases, so making 
+  sure that all your data matches in every location is 
+  extremely important. EXTREMELY IMPORTANT
 
 
 
@@ -5459,12 +5424,6 @@ end**ash catching a pokemon following single source of truth**
 ==============================================================
 37_1SSSS     Many to Many relationships
 ==============================================================
-**objects recap**
- -Everything in ruby is an obj
- -objs have attributes 
-    -encasulate data
-    -encapsulate bahavior 
- 
 **good vocab to know**
  -a "domain" is the subject matter of the problem or 
   application 
@@ -5472,19 +5431,20 @@ end**ash catching a pokemon following single source of truth**
   data
  -a domain model is like this 
 
-  belongs to              has many 
+      belongs to                 has many 
 
-  pictur -------------\
-  pic    --------------  User 
-  pic    -------------/
+      pikacu      -------------\
+      charmander  --------------  Ash
+      bulbasaur   -------------/
 
 
- -it can also be a "many" to "many" object model
+ -however, we can also have a "many to many" relationship
+ -let's model this with a patient, a doctor and an apointment
 
-  many      belongsto    has many
-  
+      many      belongsto    has many
+      
 
-  patient --apointment-- doctor 
+      patient --apointment-- doctor 
 
  -so a patient could have many doctors, and a doctor 
   has many patients, but they BOTH only have a one to one 
@@ -5518,63 +5478,211 @@ end**ash catching a pokemon following single source of truth**
   painter  ----- painting  --------- gallery
   painter  ----- painting  --------- gallery
 
-**adding a painting to the gallery 
- -so in the Gallery class, you'd have a 
+**code out many to many**
+ -for this section lets build a StandUp, Show, and Club class
+ -the StandUp and Club classes are our "has many" classes, 
+  and Show is our "belongs to" link: 
+ -let's look at the Show class 
 
-  def recieve_painting(painting)
-    painting.gallery = self 
-    painting.painter.gallery = self 
-  end 
+    class Show
 
- ((we can do that becuse you can always get to the has many 
-  from the belongs to and vice versa if you set up the single
-  source of truth)) 
+      attr_accessor :date, :stand_up, :club
 
- and now in the painter class to show all the galleries: 
+      @@all = []
 
-  def show_all_paintings 
-    Painter.all_paintings.select do |painting|
-      painting.painter == self
-    end 
-  end 
+      def initialize(show_name, date, stand_up, club)
+        @show_name = show_name
+        @date = date
+        @stand_up = stand_up
+        @club = club
+        @@all << self
+      end
 
-  def show_all_galleries 
-    show_all_paintings.map |painting|
-      painting.gallery
-    end.compact.uniq
-  end
+      def self.all
+        @@all
+      end
 
- -so here we narrowed down to only the paintings we knew the 
-  painter made, so that means every single painting is 
-  already his, so we just want to collect the galleries 
-  attribute
- -that compact is to remove any nil values, since if a 
-  painting hasn't been assigned to a gallery, its gallery 
-  attribute will be a nil value, and there may be multiple
-  entries of the same gallery, so uniq knocks those out
+      def hometown_show?
+        self.club.city == self.stand_up.hometown
+      end
 
-  end 
+      def introduction
+        if self.hometown_show?
+          puts "My name is #{stand_up.name} and it's great to be home in #{club.city}!"
+        else
+          puts "My name is #{stand_up.name} and #{club.city} is so much better than where I grew up."
+        end
+      end
+      
+      def cancelled
+        self.stand_up = self.club = nil
+        self.date = "CANCELLED"
+      end
 
-
-TODO 
-  def paintings
-    Painting.all.select do |painting| 
-      painting.gallery == self
     end
-  end
 
-  def painters
-    self.paintings.map do |painting|
-      paintings.gallery
-    end.compact.uniq
-  end
+ -so it initializes with both an instance of a StandUp  and 
+  an instance of Club, this is important since it is our
+  linking class. 
+ -it also has some basic methods to add some functionality, 
+  but only pay attention to #cancelled for now 
+ -what this method does is set both the stand_up and club
+  attributes to nil, severing the link between our instances
+ -there is still the @@all method that allows us to easily 
+  iterate over all our show instances for sorting later 
+ -now lets look at our has many classes
 
-coy this pattern as a single source of truth module for 
-  returning all of a belongs to objects, and then all of 
-  a certain trait in those objects 
+**has many classes**
+ -helpful blog post I wrote about this: 
 
-    
- 
+  https://medium.com/@mikecronin92/5-steps-that-set-up-a-many-to-many-relationship-1594d4ce3b53
+ -they are more bare bones just to ensure you can see the
+  two most critical methods, the one that makes an array
+  of all the shows, and the one that makes an array of 
+  all the stand ups/clubs 
+ -in other words, the method that shows all the "belongs to"
+  objects that link to the instance, and the one that shows 
+  all the other "has many" instances
+ -take a look: 
+
+    class Club
+
+      attr_accessor :club_name
+      attr_reader :city
+
+      @@all = []
+
+      def initialize(club_name, city)
+        @club_name = club_name
+        @city = city
+        @@all << self
+      end
+
+      def self.all
+        @@all
+      end
+
+      def new_show(date, stand_up)
+        Show.new(date, stand_up, self)
+      end
+
+      def all_shows_at_club
+        Show.all.select do |show|
+          show.club == self
+        end
+      end
+
+      def all_stand_ups
+        self.all_shows_at_club.map do |show|
+          show.stand_up
+        end
+      end
+    end
+
+    class StandUp
+
+      attr_accessor :name
+      attr_reader :hometown
+
+      @@all = []
+
+      def initialize(name, hometown)
+        @name = name
+        @hometown = hometown
+        @@all << self
+      end
+
+      def self.all
+        @@all
+      end
+
+      def new_show(date, club)
+        Show.new(date, self, club)
+      end
+
+      def all_shows_performed
+        Show.all.select do |show|
+          show.stand_up == self
+        end
+      end
+
+      def all_clubs
+        self.all_shows_performed.map do |show|
+          show.club
+        end.uniq
+      end
+    end
+        
+ -these two array making methods are crucial, but simple
+ -they always follow a pattern like this: 
+
+    class BelongsToClass
+      # accessors and whatnot
+      @@all = []
+      def initialize(has_many_class_a_obj, has_many_class_b_obj)
+        @has_many_class_a_obj = has_many_class_a_obj
+        @has_many_class_b_obj = has_many_class_b_obj
+      end
+      def self.all
+        @@all
+      end
+    end
+
+    class HasManyClassA
+    # ...initializations and whatnot
+      def all_belongs_to_objects 
+        BelongsToClass.all.select do |belongs_to_obj|
+          belongs_to_obj.has_many_a_obj == self 
+        end
+      end 
+      
+      def all_has_many_class_b_objects
+        self.all_belongs_to_objects.map do |belongs_to_obj|
+          belongs_to_obj.has_many_b_obj
+        end
+      end
+    end
+
+    class HasManyClassB
+      # reverse the _a_'s for _b_'s from above to get this class
+    end
+
+ -basically, the #all_belongs_to_objects just selects all 
+  relevant belongs to objects to that class, and then the 
+  #all_has_many_b_objects just lists out all the 
+  has_many_b_obj into an array
+ -compare this pattern to the above StandUp and Club classes 
+  and you will see a perfect match 
+ -it is not uncommon to apply #compact and #uniq to the
+  #all_has_many_class_objs methods to remove any unassigned 
+  or duplicate values, but I left it off here for simplicity
+
+**creating new links**
+ -back up in StandUp/Club you will see this method: 
+
+     def new_show(date, stand_up)
+        Show.new(date, stand_up, self)
+      end
+  
+ -as you can guess, that's the Club version, and all it is 
+  doing is creating a new link by passing an instance of 
+  stand up and itself into a new instance of Show 
+ -the only difference between the two versions is where the 
+  self is being used, on the club instance or the standup 
+  instance 
+
+**actual uses for many to many**
+ -as we move closer to databases, the many to many 
+  relationship basically functions as something called a 
+  "join table" which is a specific table that only links 
+  two other tables together 
+ -this is called relational database structure, and you can
+  learn more about it by looking at SQL, soon this
+  relationship will be explored more in the Object Relational
+  Mapping (ORM) section
+ -ORM deals with matching your class structure to your 
+  database structure 
+
 ==============================================================
 38SSSS     Modules
 ==============================================================
@@ -5684,7 +5792,13 @@ end
  -it is a convention that modules used across classes are 
   stored in a folder called concerns 
 
-
+**prepend**
+ -ordinarily, if a method appears on both the module and 
+	class, Ruby will refer to the class version. However,
+	if you use prepend, Ruby will defer to the module's 
+	version of the method 
+ -it's still treaded like an include keyword, but it is 
+	
 
 
 
@@ -5892,4 +6006,34 @@ gemSSSS    ruby gems
 ==============================================================
 **check for gems with code**
 `gem install pry` unless `gem list`.include?("pry")
+
+
+
+
+
+==============================================================
+maSSSS     Ruby mass assignment with hashes
+==============================================================
+**hashes as arguments** 
+ -this is 
+http://blog.flatironschool.com/ruby-patterns-mass-assignment/
+http://thirtysixthspan.com/posts/instantiate-a-ruby-object
+
+ -so another bonus is when you pass in the hash, if you 
+  use this, instead of duing this: 
+
+    initialize(hash)
+      @user_name = hash["name"]
+      @user_id = hash["id"]
+    end
+
+ -you can do this: 
+
+  initalize(hash)
+    @user_name = name 
+    @user_id = id
+  end
+
+ -
+
 

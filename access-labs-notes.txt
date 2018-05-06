@@ -234,7 +234,7 @@ README.md
   our program, this file is then required in our runner
  -inside environment.rb: 
 
-    reurie 'bundler'
+    requrie 'bundler'
     Bundler.require
  
  -what Bundler.require does is save us from having to do 
@@ -254,3 +254,82 @@ TODO
  -mass assignment 
  
  -responds_to?
+
+
+
+
+==============================================================
+23SSSS     DAY 3 WEEK 2
+==============================================================
+TODO
+ -inheritance class constants allows for overwriting
+ -class variables however would be overwritten for ALL 
+  classes everywhere at once whenever it is reset in any 
+  level of the class
+
+ ORM conventions: 
+    -new = make object in memory
+    -save = put object in database 
+    -create = put object in memory and db at once 
+
+ the parent class in ORM with all the standard actions 
+ is generally called generic_model.rb 
+ -it is in a module now, but it could simply be inherited from 
+  a class, not always a class in a module 
+
+    module GenericRecord 
+      class Base 
+        def self.table_name 
+            # create new table name from class 
+        end 
+        
+        def self.delete(id)
+          # delete the thing from the table  
+        end 
+    
+        def self.all
+          # return a list of memory objects based of table
+          # rows 
+        end 
+
+        def self.column_name
+          # return all the table columns 
+          # TODO PRAGMA is a sqlite3 meta data
+          # this is how you get instance column names at the 
+          # class level
+          sql = "PRAGMA table_info(#{table_name})
+          # this returns a lot of stuf "pk" is primary key
+          results = DB[:conn].execute(sql)
+          # this is an array of hashes, each hash is a column
+          results.map do |column|
+            column.name
+          end
+        end 
+
+        def self.primary_key
+          sql = "PRAGMA table_info(#{table_name})
+          results = DB[:conn].execute(sql)
+          results.find do |columns|
+            column.pk == 1 
+          end["name"]
+
+        end
+
+        def initialize(attributes)
+          # set up any method possible
+          key = self.primary_key.to_sym # we're storing them
+                                        # as symbols, but we
+                                        # could use str, whic
+                                        # wouldn't need 
+                                        # conversion
+          val = attributes[key]
+          self.instance_variable_set("@{key}".to_sym, val)
+        end
+
+        private 
+
+        def mass_assign_attributes(attributes)
+            # create mass assignments
+        end 
+      end 
+    end
