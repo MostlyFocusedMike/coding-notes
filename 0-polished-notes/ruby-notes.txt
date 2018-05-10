@@ -5920,6 +5920,15 @@ regSSSS    Regular expressions
   string, without having to specify what double you are 
   looking for 
 
+**match and capture groups** 
+  foo = "Steve Urkel always says: Did I do that?"
+  foo.match(/.+says:\s(.+)/).captures[0]
+  #=> "Did I do that?"
+ 
+ -using the captures method chained onto the end of match, it
+  will return an array of all the element capture groups. 
+ -just use the index of the group you want
+
 **#sub**
  -takes two arguments, the value to be replaced, and the 
   value to replace it with
@@ -6034,6 +6043,280 @@ http://thirtysixthspan.com/posts/instantiate-a-ruby-object
     @user_id = id
   end
 
+ -this works because ruby will look for the keys that are 
+  called name and id
+
+TODO CLEAN NOTES 
+
+rakefile 
+ 
+-rake is ruby code, it just doesn't use the .rb extension 
+
+task :greet do 
+  puts "hello"
+end 
+
+ -then you call it like this: 
+
+    $ rake greet
+    #=> hello 
+
+ -you can use "raise" to raise an error: 
+
+    task: greet do 
+      raise "test error" 
+      puts "hello"
+    end 
+
+ -you can add descriptions 
+    desc "greet user" 
+    task :greet do 
+      puts "hello"
+    end 
+
+ -then you can do rake -T to see all tasks with a description 
+
+**dependencies** 
+ -you can have tasks run before others to fulfill dependencies 
+ 
+
+**sinatra/activerecord/rake**
+ -sinatra has a bunch of builtin db tasks for us to use, but you must 
+  require them 
+ -db:version is just how many times you have run migrations, it is like 
+  version control
+
+ rake db:create_migration NAME=create_users 
+
+ -so what that does is create the RUBRIC file (and db folder i
+  if not existed) and the file will have a time stamp 
+ -that NAME=create_users is what the file will be called, 
+  and it has to be used to create the table users 
+
+**active record**
+ -a gem that creates objects from rows in a table 
+ -one of it's best features is migration, and tracking the db with each change
+  of migrations 
+ -migrations are structural changes for the database 
  -
+
+  class CreateBeverages < ActiveREcord::igration[5.1]
+    def change 
+      # this programatically undoes and redoes things for you 
+      # you don't have to spell it out 
+      create_table :beverages do |t| #t is a table builder object and it can be called anything  
+        # it auto generates the primary key :id 
+        t.string :name 
+        t.string :person_id 
+        t.boolean :is_cold 
+        t.timestamps 
+        # this will create a time stamp 
+      end 
+    end 
+    def up 
+      # this is the forward 
+    end 
+    def down 
+      # this is how you would reverse things 
+    end 
+  end 
+
+NOTE
+ -when doing Learn, sometimes the [5.1] will break it, 
+  sometimes it will need it, wait for an error message to 
+  tell you what, but the default is to leave it off
+
+ -you must call these rake tasks specific things like 
+  CreateUsers which will make a users table, link to a 
+  User class, and the file name is 
+
+    <timestamp of some kind>_create_beverages.rb 
+
+ -so it will look for CreateUsers class given that filename, 
+  and if that isn't the exact name of the class inside the 
+  file, it will fail 
+ -sinatra will automatically generate the class name 
+ -active record is convention over configuration
+ -class is singluar of the plural table name 
+  
+  User = table of users
+  CreateUsers = rake task class that makes the users table 
+
+ -to get accurate time stamps use t.timestamp 
+ -you can then use sqlite3 development.sqlite
+  (that is the database that happened to be created)
+ -you control the name of the db when you do 
+
+  ActiveRecord::Base.establishliknkaasdf r
+      TODO FIND STUFF 
+
+  from your environment file. This is what it will 
+  autogenerate 
+ 
+ -then to actually create this table, run rake db:migrate
+ -this will run all the tasks in the migrate folder 
+
+ -after the table is created, you need to create a class 
+  to deal with this table 
+ -this class does not have to match the rake migrate filename,
+  but it does need to match the table you created (if you 
+  create multiple tables in a single migration file you can't
+  match that with a single class for example) 
+ -the class must ingereit from ActiveRecord::Base 
+
+  class User < ActiveRecord::Base 
+  end 
+ 
+ -now this class has access to the multitude of default
+  methods like .create .find .destroy etc 
+ -these are allllll the methods we hand built in ORM that 
+  are now done for us and much much more 
+ -you HAVE TO KEEP the names consistent, Active Record focuses
+  on naming conventions
+ -Class is singular for the plural table 
+  
+    Hamster = hamsters 
+    Cookie = cookies # active record is good at pluralize
+ 
+ -this is called the Model class, it's the "ideal" that 
+  creates the instancs of User 
+  model = table + class 
+ -by inheriting, you will gain access to the thing 
+
+  User.new
+ 
+ -you don't actually need to provide any arguments because 
+  active record doesn't initilize classes with required
+  arguments 
+
+  User.new(name: "Carl", age: 19) 
+  # User.id = nil
+    User.name = "Carl" 
+    User.age = 19 
+    User.created_at: nil
+    User.updated_at: mil
+  
+ -you must pass things in with hashes, that's how we can do
+ -This is MASS ASSIGNMENT 
+ -the convention of never manually assigning id until it is 
+  saved into the db and is assigned by that way holds true 
+  here 
+ -you can pass in 1 and 0 for boolean values, or just 
+  true and false
+ -by default you will get a setter and getter for each non
+  primary key column
+ -you will also get the keys created/updated if you added 
+  a timestamp to the table, these are autogenerated
+ -and they are updated after each update/save 
+
+**saving** 
+ User.create(name: "Matt", age: 22)
+
+ user = User.new(name: "tom", age: 40)
+ user.save 
+ 
+
+**altering save data** 
+ user = User.find_by(name: "Matt")
+ user.name = "phil"
+ user.save  
+
+ OR 
+  
+ User.update(name: 'Arizona Iced Tea')
+
+
+**deleting** 
+ -when items are deleted, the id stays whatever it was 
+  assigned, so deleting doesn't set it to nil like our 
+  version did
+ -this is because it DOES delete that row from the DB, but 
+  if you ever want to work with it again, it will be available
+  in memory
+ -once an object is deleted you can't save it back into it 
+  easily becuase active record DOES somehow keep track of 
+  objects that are deleted from db but still in 
+  
+  user2.deleted dddddd
+
+ -destory and delete are not quite the same thing, one of 
+  them has extra lifecycle events in place, it's destroy that 
+  has the extra events, and you can have code run on these 
+  specific things
+
+  Beverage::ActiveRecord_relation is what you get back from 
+  an active record query and it is an array like object 
+ -it allows you to chaing other active record methods on it
+  
+
+    Users.sum(:age)
+
+ api.rubyonrails.ord/classes/ActiveRecord/Base.html
+ -the docs for active record 
+
+
+**Association macros** 
+ -a macro expands out into full code without having to type
+  it all out 
+ -macros are code that writes code
+
+ the schema.rb file is how you take a look at your tbales 
+  and structure in your database 
+ -dont edit it, it is autogenerated
+
+**rollback**
+ rake db:rollback is how you "roll" back your db into it's previous state 
+ -so roll back your migrations, and THEN go back and edit 
+  your rake migrations, then run the migrations again with
+  the new edits 
+ -rollback doesn't alter anything exept the schema file, 
+ and inside the schema you can tell what version you are 
+  in by the migration version matching the file name of the 
+  migration
+
+
+
+**belongs_to**
+ -this will always be singular o
+ -look up pluralize library in ruby for setting up special 
+  cases for breaking conventions 
+
+ to find the parent "has many" just look for the foreign key
+ id 
+ to make a connection from the parent to the child" belongs to
+  " you need to shovel it 
+ -shovelling is the prefered way, since it sets 
+  the child's foregin key id up on it's own
+ -if you' don't use the parent way, but do the child first , 
+  you have to save it as another step, but the save is taken
+  care of automatically if you << 
+ -the << is a metaphor, it isn't actually adding it to an 
+  array on the class (maybe behind the scenes or something) 
+  but it's just changing the foreign key on the belongs to
+ -it still finds belongs to by making a query on the db and
+  return all items with a matching foreign key, it's single
+  source of truth compliant, we didn't take a step back
+
+
+ -you may need to relaod to get over a chaching issue when
+  adding the belongs to to the has many from the child side
+
+
+to see the sql: 
+
+ActiveRecord::Base.logger = Logger.new(STDOUT)
+Pry.start 
+
+.build creates a new instance in memory, you would have to 
+  save it to actually store this new object in the db
+
+ -check out the rails association basics
+
+
+
+
+
+
+
 
 
