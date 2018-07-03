@@ -312,12 +312,10 @@ class TaskCollection() {
 
   
   function applyDiscount(cost, discount = defaultDisc()) {
-    // now if no dsicount is given, it defaults to a .10 value
     return cost * discount; 
   }
   
   function applyDiscount(cost, discount = {}) {
-    // now if no dsicount is given, it defaults to a .10 value
     return cost * discount; 
   }
 
@@ -357,6 +355,60 @@ sum(1,2,2,3,4,5,4)
  -the two of these operators are companions, the rest 
   operator works on parameters, and the spread operator 
   works on arguments 
+
+**spread operator in arrays**
+ -if you use the spread operator in an array, it will spread
+  our the array into individual indexes of the new array: 
+
+  let arr = [0,1,2,3,4];
+
+  let otherArr = [...arr,5,6,7];
+
+  otherArr
+  // [0,1,2,3,4,5,6,7
+
+  let failArr = [arr,5,6,7];
+  failArr;
+  // [Array(5),5,6,7] 
+
+ -you can use this technique with that slice() to 
+  non destructively create edited copies of arrays: 
+
+const menu = ['Jalapeno Poppers', 
+    'Cheeseburger', 
+    'Fish and Chips', 
+    'French Fries', 
+    'Onion Rings'];
+ 
+const newMenu = [...menu.slice(0, 1), 
+    'Veggie Burger', 
+    'House Salad', 
+    'Teriyaki Tofu', 
+    ...menu.slice(3)];
+
+menu;
+// => ["Jalapeno Poppers", 
+      "Cheeseburger", 
+      "Fish and Chips", 
+      "French Fries", 
+      "Onion Rings"]
+
+newMenu;
+// ["Jalapeno Poppers", 
+    "Veggie Burger", 
+    "House Salad", 
+    "Teriyaki Tofu", 
+    "French Fries", "Onion Rings"]
+
+**spread operator with objects** 
+ -just like using a spread operator inside an array expands 
+ to fill out the indexes, an object will spread out to fit
+  keys: 
+
+    const obj = {a: "b", c: "d"};
+    const newObj = {...obj};
+    newObj;
+    // {a: "b", c: "d"};
 
 /////////////////////////////////////////////////////////////
       **TEMPLATE STRINGS**

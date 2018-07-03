@@ -8,6 +8,7 @@ TABLE OF CONTENTS
 6SSSS    1st weekend hw
 
 
+mod21SSSS    Mod 2 day 1
 ==============================================================
 1SSSS    DAY 1 NOTES 
 ==============================================================
@@ -333,3 +334,455 @@ TODO
         end 
       end 
     end
+
+
+
+
+
+
+
+
+
+==============================================================
+mod21SSSS    Mod 2 day 1
+==============================================================
+
+**CRUD in relation to the web**
+
+**web stuff** 
+ -recieve request (controller + model)
+process request (contoler + model)
+build response  (view) + model)
+send response (view) + model)
+
+
+**postman**
+ -download it 
+https://www.getpostman.com/
+
+ -useful for testing 
+ -this program is useful for sending out get/post requests for
+  testing by seeing your response in a few different ways 
+ 
+**server and Rack**
+ -it opens up our computer to listen to requests 
+ -get the Rack gem 
+ -shotgun is useful for not always reloading 
+ -you also need a controller class ussually called Application
+  or App
+ -the only imortant thing is that it will have a call method 
+ -the call must return a status code, headers, and a body
+ -it will be assembled into an array 
+ -you will also need another file called config.ru, which 
+  is essentially the runner file of Rack
+
+ -if you wanted to build your own Rack, you would use 
+  WebBrick 
+ -bakc in the terminal, you can see your server log, which
+  will relay to you all the requests made to your site
+
+ -we really don't do anything with rack other than to see that 
+  it basically sets up a server 
+ -it is useful to see the environment hash 
+
+ -how was the user agent developed? BLOG POST IDEA TODO
+
+ -you can use binding.pry to see stuff in the environment 
+  however the page itself will never load 
+
+**ReST**
+ -REpresentational State Transfer is just a convention 
+  or pattern that says certain URL's should always do certin 
+  things
+
+ -a familiar but older pattern is SOAP, and there's now one 
+  called GraphQL
+ -they are all just patterns to ask a web server
+ -here are the 7 things that REST does (the default actions)
+ 
+  index 
+  show 
+  new 
+  create
+  edit 
+  update
+  delete 
+  
+ -and it will map these actions into CRUD functionality
+ -like this : 
+
+ index - read - it's like listing out all resources 
+ show - read - it's the find, and it says one specific thing 
+               from index 
+ new - read  - this will let users get to a new form to 
+ create - create - a new instance in the database 
+ edit - read - in memory edit with a for before you...
+ update - update - update the actual item in the db 
+ delete - delete - delete it from the db 
+ 
+
+ so these would be mapped to urls like: 
+  
+  actions | urls 
+----------------------------------------------------
+  index : | root/users 
+  show :  | root/users/1 (the user id in the db 
+  new :   | root/users/new (the sign up form 
+  create  | root/ (post requests do not alter urls)
+  edit :  | root/users/1/edit (edit a user) 
+  update  | root/users/1
+  destroy | root/users/1 (a read vs a write 
+
+  
+ http verbs 
+ POST        create
+ GET         read 
+ PUT/PATCH   update (it should be PATCH in most edit cases)
+ DELETE      delete 
+
+ PATCH vs PUT 
+ -patch takes something that already exists 
+ -put will give the whole thing but an updated version
+
+
+**Sinatra setup**
+ 
+ app -
+  adapters -
+   google_dogs_api.rb
+   # adapters are programs that engage with the outside world
+   # like when you made the starwars api thing
+  controllers - 
+  models - 
+    dog.rb 
+  views - 
+
+
+ -puts for debugging is useful because it will log it o
+ -in the get "/" block of sinatra, don't use return, it's not
+  a method 
+
+ to get access to your posted/or any sent information 
+ you can use params.class
+
+**post sinatra**
+ -
+
+ # app.rb 
+
+  post '/books' do 
+    book = Book.create(params) 
+    redirect '/books/book.id'
+  end 
+
+  get '/books/:id' do
+      
+  end 
+    
+  
+  end 
+
+  in the form, you can send the action to '/books' it does not
+  have to literally be the name of the file 
+ -params is the parameters that get sent over from a form 
+ -it's a type of "super" hash that is made up of the "name" and
+  "value" from the form inputs
+ -the "params" hash is from rack, and it will only show you
+  the inputs that have a name value 
+ -
+**post and postman**
+ -postman is useful for testing without needing to see the  
+  browser 
+ -it will let you send various ways, but forma data is the 
+  easiest to start 
+ -this is gret for testing the data you want before figuring
+  out how to format the form 
+
+**dynamic routing** 
+  /books/:id 
+ 
+ -that :id is going to pass whatever comes there in the url
+  as a key and value 
+
+    /books/30 
+
+   {"id" => "30"} 
+
+ -that's what that turns it into
+
+**redirect** 
+ -use the redirect method to tell it to go to abother page 
+ -all it takes is an argument 
+ -the redirect will make a new request 
+ -redirect is by default a get method
+
+
+
+
+**instance variables**
+ -the reason for these is to pass them into erb files, because
+  erb does a metaprogramy thing where it looks for all the 
+  instance variables
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==============================================================
+22SSSS     Mod 2 day 2 
+==============================================================
+**
+where do you put code that doesnt go with at database?
+ -typically, it goes into a lib folder, since models are 
+  for classes that respond to the db 
+
+-http is "stateless" it cannot remember anything about its 
+ session 
+
+
+folder 
+
+  app-
+    adapter-
+      starwarsapi.rb
+    lib-
+      codestuff.rb
+    models-
+    controllers-
+    views- 
+  config-
+  db-
+
+ -to set your views, config.ru should be in the root, then
+  tell sinatra where your views is in relation to that 
+ -so app and config.ru are on the same level most cases, all
+  we have to do is put this in our application controller.rb
+  (which is in /app/controllers/ file) 
+
+    set :views, "app/views"
+
+ things to note: 
+
+  instance variables to get them into erb files
+
+ -controllers (get '/' stuff) should do two things: 
+    grab information from db 
+    render or redirect a view 
+ 
+ -NOT actually build any html 
+
+ http only knows GET and POST 
+ -to get more meaningful versb like PATCH or DELETE 
+ -you do this with :method_override 
+
+ -sinatra.com/configuration.html
+   this is where you can see this 
+
+ -so to do this use a hidden input 
+
+  <input type="hidden" name="_method" value="patch">
+ 
+ -now you can use 
+
+ patch '/books/:id' do 
+
+  end
+
+  in your controller 
+
+ -#dup method creates a duplicate of an object 
+
+ -GETS controllers are the only one that should render a view,
+  all others should redirect to a get path (like a POST should
+  redirect to a get path )
+
+ -dynamic routes should ALWAYS come after non dynamic: 
+
+    /recipes/new 
+
+    /recipes/:id 
+
+ -if you don't it will try to put 'new' as the key to :id
+ -now, it will check new first, then hit new, and if it get s 
+  1, it will rightfully skip over new and land on the 
+  dynamic route
+
+
+
+
+
+
+==============================================================
+23SSSS     mod2 day 3
+==============================================================
+
+ -creating a new migration the name convention is 
+  
+    rake db:create_migration NAME=create_authors 
+
+    which makes the class CreateAuthors
+    which will then create the table authors 
+
+ -it's fine in the new table migration and then alter other
+  tables that refer 
+ -so in create_authors, you could add_column to books 
+  and that column is author_id  
+ -if they are logically linked it's fine
+
+**creating multiple controllers** 
+ -make the files like so 
+
+  controllers-
+    app.rb 
+    books_controller.rb 
+    authors_controller.rb 
+
+ -so our bas controller class ApplicationController in app.rb
+  inherits from Sinatra::Base, but in our 
+  class BooksController it inherits from ApplicationController
+ -authors_controller will also inherit fro mApplicationController
+  as will any other controllers 
+ -now, to make sure that our oup knows about this in fonfig.ru
+
+  use BooksController 
+  use AuthorsController 
+  run ApplicationController 
+
+ -that tells sinatra what controllers to use, and always 
+  end with the running of the main controller, since this 
+  technically starts the server 
+ -TECHNICALLY you can have all sub controllers from Sinatra::
+  Base, but it's repetative and blah blah 
+ 
+**views folders**
+ -next 
+
+  #authors controller 
+
+  set :views. "app/views/autors" 
+  ...
+  get '/authors' do
+    erb :index.html
+  end 
+ OR 
+
+  get '/authors' do 
+    erb :'authors/index.html'
+  end 
+
+ -the top one tells Sinatra where this controllers views root
+  is 
+
+
+ -using nested hashes is a good way to "sanitze" your data so
+  that the hash you want is ALL you want, no "_method" or "id"
+  which will get passed to params, but not params[:author]
+
+ -titlecase is an acive record mehtod that capitalizes every
+  word in the string 
+
+  "ok friend let's go".titlecase 
+  => Ok Friend Let's Go
+
+ -NOTE: look up the 
+    has_many_obj.belongs_to_array << belongs_to_obj
+
+ -this will set the author_id on that row in books to 
+
+**select input** 
+ <select name="author_id">
+   <option value="1">Jon Gable</option>
+    TODO dynamic
+   <option value="<%= author.id
+
+ </select> 
+
+generate rails migration 
+
+ bin/rails generate migration MigrationClassName
+
+
+rails g model Cheese name:string age:integer smelliness:integer
+
+-that is the basic way to generate a model, migration file and
+  
+
+ class CreateCheeses < yeadadadadad
+   def change 
+    create_table :cheeses |t|
+      t.string :name 
+      t.integer :age 
+      t.integer :smelliness
+
+      t.timestamps
+    end 
+  end  
+
+rails g controller cheeses
+
+class CheesesController < ApplicationRecord 
+
+end 
+
+ inside rails c, the way you see your routes is with "app."
+ so here we aliased curds instead of cheeses: 
+
+ app.curds_path 
+  "/cheeses"
+ app.curds_url
+  "http://www.example.com/cheeses" 
+
+ byebug is a rails gem that works pretty much exctly like 
+  pry
+
+form_for and form_tag are the two main options for building 
+  forms 
+
+
+ -you can't use mass assignment without creating a permit
+  function to essentially tell rails it's ok to add only these 
+  specific databases
+
+
+REVIEW NOTES MAY 22 for rails 
+
+  resources 'brews', except: [index]
+  vim: command control arrow keys how to 
+
+
+
+
+
+
+THINGS TO UNDERSTAND 
+ -text_field(_tag)
+ -lable_field(_tag)
+ -select 
+ -options 
+
+ -check buttons 
+ -.build, create, << make sure you understand these 3 
+ -generate controller, model, 
+ -basic formats for indexing all items 
+ -basic format for 7 rest routes 
+ -resources only and except 
+ -radio buttons 
+
+apirubyonrails/classe/aactiverecord/associations/classes 
+
+

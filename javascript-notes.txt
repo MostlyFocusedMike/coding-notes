@@ -117,6 +117,25 @@ METHODS: functions that are defined in an object
  // common
 
 
+
+
+
+==============================================================
+              Semi Colons 
+==============================================================
+**sometimes needed sometimes not**
+ -js "auto inserts" semicolons after most of the lines that 
+  need them, most of the time. Here's a handy resource 
+  about when they are required: 
+  https://news.codecademy.com/your-guide-to-semicolons-in-javascript/
+
+ -this file hasn't been fully edited for style (or 100% working
+  code, so sometimes i use semicolons, other times, I don't
+ -take the coe in here with a grain of salt and always check
+  that it works before copying it in. It should work, but 
+  I'm not perfect so I bet there are little syntax errors 
+  here and there
+
 ============================================================
                   data types 
 ============================================================
@@ -595,6 +614,15 @@ METHODS: functions that are defined in an object
   return 4 < 10 && 0 == "0" ? "neat" : "what? false?"
   ... more code 
 
+ -ternarys can be chained, so that if something is false, another
+  ternary is evaluated: 
+
+  return age >= 10 ? "10+" : age > 5 ? "5+" : "0+"
+ 
+ -so we have 3 conditionals, age is greater than or equal to 10,
+  ager is less than 10 but greater than five, and age is less 
+  than 5. 
+
 //////////////////////////////////////////////////////////////
 **truthy and falsey** 
  look at this 
@@ -737,6 +765,23 @@ function switchAge(age) {
  -this is saying if the value of age is 13 to 19, it will 
   return you are a teenager 
 
+ -ordinarily switches don't like conditionals in the case, 
+  but if you have the switch set to true, then it will behave
+  essentially just like an if else block: 
+
+  function switchAge(age) {
+    switch(true) {
+    case (age < 13):
+      return "Life is good";
+      break;
+    case (age === 13):
+      return "it's stressful now";
+      break;
+    case (age > 13): 
+      return "It's all downhill from here";
+      break;
+    }
+  }
 
 //////////////////////////////////////////////////////////////
 **a quick word on return vs break** 

@@ -51,6 +51,7 @@ TABLE OF CONTENTS
 37SSSS     Object relationships part 2
 37_1SSSS   Many to Many relationships
 38SSSS     Modules
+39SSSS     ORMs (hand made) 
 
 
 
@@ -667,7 +668,10 @@ t.year      # => 1993
 t.dst?      # => false (was it daylight savings time?) 
 
 
-
+ here is the syntax for formatting strftime: 
+http://ruby-doc.org/core-1.9.3/Time.html#method-i-strftime
+ -that is all the stuff that will let you format your outputs
+  nicely
 
 
 
@@ -6046,6 +6050,18 @@ http://thirtysixthspan.com/posts/instantiate-a-ruby-object
  -this works because ruby will look for the keys that are 
   called name and id
 
+
+
+
+
+
+
+
+
+
+
+
+
 TODO CLEAN NOTES 
 
 rakefile 
@@ -6320,3 +6336,104 @@ Pry.start
 
 
 
+==============================================================
+39SSSS     ORMs (hand made) 
+==============================================================
+**Object Relational mapping** 
+ -like we mentioned before, object relationships come into 
+  play when you are working with a database 
+ -right now we have been using: 
+
+    @@all = [] 
+
+ -as a sort of loose "baby database" to store things 
+ -getting our code to work with a real database is simple with
+  Object Relational Mapping
+ -this is just using classes to work with our tables 
+ -so now our models will correspond to tables 
+ -lets take, painter painting and gallery: 
+
+  class Painter 
+  
+ -the class is singular capitalized 
+ -but it will refer to and work with our table 
+
+  painters 
+
+ -lowercase and plural, the others would be 
+    class Painting  to paintings 
+    class Gallery   to galleries 
+
+ -this is a common convention that keeps everything clear 
+
+**handmade vs framework** 
+ -no one on any large scale project hand builds their ORM
+  they just use a framework (this series will use the Ruby
+  framework Active Record with sqlite3)
+ -the reason we are "handmaking one" is so that we will be 
+  deeply aware of the underlying mechanics that the AR uses
+ -we will actually build the under the hood versions of the 
+  AR methods 
+
+
+
+
+
+
+
+
+
+==============================================================
+REST SSSS
+==============================================================
+HTTP VERB
+ROUTE
+Action
+Used For
+
+index 
+  GET
+  ‘/posts’
+  index page to display all posts
+
+new  
+  GET    
+  ‘/posts/new’      
+  displays create post form                        
+
+create 
+  POST
+  ‘/posts’  
+  creates one blog post
+
+show  
+  GET    
+  ‘/posts/:id’
+  displays one blog post based on ID in the url
+
+edit 
+  GET
+  ‘/posts/:id/edit’
+  displays edit form based on ID in the url
+
+edit 
+  PATCH
+  ‘/posts/:id’
+  edits an existing blog post based on ID in the url
+
+update 
+  GET    
+  ‘/posts/:id/update’
+  displays update form blog post based on ID in the url
+
+update 
+  PUT
+  ‘/posts/:id’
+  replaces an existing blog post based on ID in the url
+
+delete 
+  DELETE
+  ‘/posts/:id/delete’
+  deletes one blog post based on ID in the url
+
+rails g scaffold DON'T USE IT DOES TOO MUCH FOR YOU
