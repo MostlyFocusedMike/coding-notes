@@ -1,0 +1,83 @@
+ANGULARJS NOTES
+
+TABLE OF CONTENTS 
+1SSSS    Basics
+
+
+
+
+==============================================================
+1SSSS    Basics
+==============================================================
+**AngularJS basics** 
+ -AngularJS (any version of Angular 1.*) uses MVC convention
+ -A module contains the different components of an 
+  AngularJS app
+ -here we define a module called app in our app.js file: 
+  
+    // app.js 
+    const app = angular.module("myApp", []);
+
+ -to get this to play with our html, we use things called 
+  "directives" which are special attributes placed into the 
+  html.
+ -you know what these are because they are prefeced by 
+  ng-
+
+    <body ng-app="myApp"> 
+
+ -the ng-app is a built in directive, you can make custom
+  ones, but for now, unless noted, assume the directives 
+  mentioned are specific built in ones
+ -everything inside of <body> will fall within the "scope" 
+  of the application 
+ 
+
+ **controllers** 
+ -views and controllers are connected via $scope. 
+ -here is a very basic controller: 
+
+  app.controller('MainController', ['$scope',
+    function($scope) { 
+      $scope.text = 'Hello There'; 
+    }
+  ]);
+
+ -since app is an angular module, we can use the controller()
+  method to assign it controllers 
+ -the first argument is the name of the controller, and the 
+  second is an array of dependencies 
+ -for the most basic, you just pass the first index as the 
+  $scope, and the last index as a function that assigns keys
+  and values to scope 
+ -in the above example, we assigned the key of text to have
+  the value of "hello there" 
+ -to access the $scope data, just use binding like this in
+  the html: 
+
+      <body>
+        <div ng-controller="MainController">
+          {{title}}
+        </div>
+      </body>
+    
+ -notice how you don't need to put $scope in the html, 
+  that's becuase it's only for that controller so it is 
+  implied 
+ 
+
+**ng-model**
+ -it's possible to get info from html as well using the 
+  ng-model directive, most commonly used with inputs 
+
+    <input ng-model="myInput" />
+    <p>{{myInput}}</p>
+
+ -on the controller side, you would now have access to the 
+  value as $scope.myInput 
+ -ng-model is a two way street, you can set its initial value
+  in the controller as well 
+
+    $scope.myInput = "this is the starting value 
+
+ -this is also useful for things like checkboxes 
