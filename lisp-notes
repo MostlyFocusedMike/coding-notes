@@ -1,0 +1,48 @@
+# Lisp Notes 
+These notes are coming from the free Lisp book http://www.gigamonkeys.com/book/
+
+# Chapter 2 
+This book is hella out of date and the software for lisp-in-a-box no longer seems to work, use https://portacle.github.io/ instead (it's a pain to open with macs the first time, but once you finally get it onto your dock and open it from there, it will work. (copy the file from the .dmg into your applications folder as well) 
+
+## Emacs 
+In order to get the SLIME (Superior Lisp Interaction Mode for Emacs) working you will need to use Emacs. Here are some handy key bindings 
+
+The little line at the bottom where the meta commands go is called the
+"mini-buffer"
+C-g C-g   abandon meta commands
+
+NAVIGATION
+C-v       Page down
+M-v       Page up
+C-l       that's the L key, and it makes it scrolls up/down so centered of screen
+
+			  Previous line, C-p
+				  :
+				  :
+   Backward, C-b .... Current cursor position .... Forward, C-f
+				  :
+				  :
+			    Next line, C-n
+
+M-f       Move forward by word
+M-b       Move backward by word 
+C-a       Move to start of line
+C-e       Move to end of line
+
+C-w       Cut  (Kill-region)
+M-w       Copy (Kill-ring-save)
+C-y       Paste (yank)
+M-y       Paster older things
+C-/       Undo
+
+
+C-x C-c   Quit emacs
+C-x C-s   Save file
+
+WINDOW CONTROLS
+C-x b     Switch Current window's buffer (look up ido-mode)
+C-x o     Move to other window
+C-x 2     Split window -----
+C-x 3     Split Window |
+C-x 0     Get rid of current window
+C-x 1     Get rid of other windows 
