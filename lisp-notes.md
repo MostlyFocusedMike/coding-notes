@@ -66,4 +66,36 @@ C-x 1     Get rid of other windows
 
 ```lisp
 (+ 1 1 )
+; returns 2
+```
+### Lists in Lisp
+- Anything in lisp is is a list, and the first element in a list is evaluated as a function
+- In this case `+` is a function which adds everything in the list together
+- There are other ways to evaluated a list expression, more on that later
+
+## "Hello, World" Lisp Style
+- Super easy to do
+
+```lisp
+>> "Hello, World"
+"Hello, World"
+```
+
+- Strings, like numbers, are self-evaluating objects
+- To do this as a program and not just a `value`, you can run a function `FORMAT` which returns `NIL` but outputs value to the screen as a side effect
+
+```lisp
+>> (format t "Hello, World")
+"Hello, World"
+```
+
+### FORMAT
+- `FORMAT` is covered more in depth in CH. 18
+- Every expression in Lisp evaluated to some result, even if it's just `NIL` which is lisp's `null` value
+
+### Defining a function with DEFUN
+- You define functions in Lisp with the `DEFUN` expression:
+
+```lisp
+>> (defun hello-world () (format t "hello, world"))
 ```
